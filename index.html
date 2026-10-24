@@ -17,11 +17,11 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 2,
+ "VER": 3,
  "COLOR": "#b45309",
  "COLOR_DARK": "#92400e",
  "BG": "#fdf8e7",
- "SYNC_URL": "",
+ "SYNC_URL": "https://script.google.com/macros/s/AKfycbzRUhbiYAxG4SIHGvzEqIGcez5Rj8YQ3wZMERq6tSv_ed_8LI7WO8htQLBiIZtU3CgW/exec",
  "SYNC_CODE": "",
  "SHARE_URL": "https://johankirsten82.github.io/tmc-fuel/",
  "ADMIN_NAME": "JA Kirsten",
@@ -166,6 +166,8 @@ const all=kind=>Object.keys(R).map(k=>R[k]).filter(r=>r.kind===kind&&!r.del).map
 function put(kind,id,data){const k=kind+":"+id,u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:0,data:data};dirty[k]=1;saveR();syncSoon();}
 function remove(kind,id){const k=kind+":"+id,u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:1,data:null};dirty[k]=1;saveR();syncSoon();}
 window.TMC.put=put;window.TMC.remove=remove;window.TMC.all=all;
+/* Join link: #k=<code> (from the private QR) saves the sync code on this phone, then is removed from the address bar. The code is never stored in the public site. */
+try{const m=/[#&]k=([^&]+)/.exec(location.hash);if(m){L.set("sycode",decodeURIComponent(m[1]).trim());L.del("since");history.replaceState(null,"",location.pathname+location.search)}}catch(e){}
 const sUrl=()=>L.get("syurl")||C.SYNC_URL,sCode=()=>L.get("sycode")||C.SYNC_CODE;
 const syncOn=()=>!!(sUrl()&&sCode());
 const pending=()=>Object.keys(dirty).length;
