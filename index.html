@@ -17,7 +17,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 3,
+ "VER": 4,
  "COLOR": "#b45309",
  "COLOR_DARK": "#92400e",
  "BG": "#fdf8e7",
@@ -309,7 +309,7 @@ function viewHTML(u){
    TMC FUEL — diesel fill-ups, tank stock, vehicles, reports.
    Record kinds: v=vehicle, f=fill-up, d=delivery into tank, ph=photo, rp=report rows (for the Sheet),
    x=short notes (kept from the base demo; the base test suite uses it). Never "u".  */
-Object.assign(T.en,{limT:"⚠️ Warning limits",limH:"Change only if needed. Empty = normal value.",usePct:"High use: % over normal",minGapH:"Too soon: hours since last fill",minKm:"Too soon: km since last fill",minHr:"Too soon: hours run since last fill",svcKm:"Service warning: km before service",svcHr:"Service warning: hours before service",limSave:"✅ Save limits",limReset:"↩️ Normal values",limOk:"✅ Limits saved",limBad:"Use numbers 0 or more.",work:"Fuel",fuel:"Fuel",fill:"Fill-up",tank:"Tank stock",veh:"Vehicles",rep:"Reports",notes:"Notes",back:"⬅️ Back",
+Object.assign(T.en,{vType:"Type",phCam:"📷 Take photo",phGal:"🖼️ Choose from gallery",phDel:"🗑️ Remove photo (use icon)",limT:"⚠️ Warning limits",limH:"Change only if needed. Empty = normal value.",usePct:"High use: % over normal",minGapH:"Too soon: hours since last fill",minKm:"Too soon: km since last fill",minHr:"Too soon: hours run since last fill",svcKm:"Service warning: km before service",svcHr:"Service warning: hours before service",limSave:"✅ Save limits",limReset:"↩️ Normal values",limOk:"✅ Limits saved",limBad:"Use numbers 0 or more.",work:"Fill-up",fuel:"Fuel",fill:"Fill-up",tank:"Tank stock",veh:"Vehicles",rep:"Reports",notes:"Notes",back:"⬅️ Back",
  pickV:"Tap the vehicle you are filling",noVeh:"No vehicles yet. The Admin must add them.",stopped:"Stopped",
  step1:"1. Photo of the km / hours meter",step2:"2. Photo of the pump display",takePh:"📷 Take photo",rePh:"📷 Again",meterKm:"Km on meter",meterH:"Hours on meter",litres:"Litres",
  needAll:"Take both photos and type both numbers. Then Save.",saveFill:"✅ Save fill-up",savedFill:"✅ Fill-up saved",last:"Last",
@@ -323,7 +323,7 @@ Object.assign(T.en,{limT:"⚠️ Warning limits",limH:"Change only if needed. Em
  saveV:"✅ Save vehicle",needV:"Type model and ID.",
  byVeh:"Per vehicle",byDrv:"Per driver",byWk:"Per week",fills:"Fills",dist:"Distance / hours",use:"Use",warns:"Warnings",driver:"Driver",week:"Week",noData:"No fill-ups yet.",
  hAgo:"%n h after last",kmAgo:"%n km",hrAgo:"%n h run"});
-Object.assign(T.fr,{limT:"⚠️ Limites des alertes",limH:"Changer seulement si besoin. Vide = valeur normale.",usePct:"Consommation forte : % au-dessus du normal",minGapH:"Trop tôt : heures depuis le dernier plein",minKm:"Trop tôt : km depuis le dernier plein",minHr:"Trop tôt : heures de marche depuis le dernier plein",svcKm:"Alerte entretien : km avant l'entretien",svcHr:"Alerte entretien : heures avant l'entretien",limSave:"✅ Enregistrer les limites",limReset:"↩️ Valeurs normales",limOk:"✅ Limites enregistrées",limBad:"Utilisez des nombres de 0 ou plus.",work:"Carburant",fuel:"Carburant",fill:"Plein",tank:"Stock citerne",veh:"Véhicules",rep:"Rapports",notes:"Notes",back:"⬅️ Retour",
+Object.assign(T.fr,{vType:"Type",phCam:"📷 Prendre une photo",phGal:"🖼️ Choisir dans la galerie",phDel:"🗑️ Enlever la photo (icône)",limT:"⚠️ Limites des alertes",limH:"Changer seulement si besoin. Vide = valeur normale.",usePct:"Consommation forte : % au-dessus du normal",minGapH:"Trop tôt : heures depuis le dernier plein",minKm:"Trop tôt : km depuis le dernier plein",minHr:"Trop tôt : heures de marche depuis le dernier plein",svcKm:"Alerte entretien : km avant l'entretien",svcHr:"Alerte entretien : heures avant l'entretien",limSave:"✅ Enregistrer les limites",limReset:"↩️ Valeurs normales",limOk:"✅ Limites enregistrées",limBad:"Utilisez des nombres de 0 ou plus.",work:"Plein",fuel:"Carburant",fill:"Plein",tank:"Stock citerne",veh:"Véhicules",rep:"Rapports",notes:"Notes",back:"⬅️ Retour",
  pickV:"Touchez le véhicule à remplir",noVeh:"Pas encore de véhicules. L'Admin doit les ajouter.",stopped:"Arrêté",
  step1:"1. Photo du compteur km / heures",step2:"2. Photo de l'écran de la pompe",takePh:"📷 Prendre la photo",rePh:"📷 Refaire",meterKm:"Km au compteur",meterH:"Heures au compteur",litres:"Litres",
  needAll:"Prenez les deux photos et tapez les deux chiffres. Puis Enregistrer.",saveFill:"✅ Enregistrer le plein",savedFill:"✅ Plein enregistré",last:"Dernier",
@@ -337,7 +337,7 @@ Object.assign(T.fr,{limT:"⚠️ Limites des alertes",limH:"Changer seulement si
  saveV:"✅ Enregistrer le véhicule",needV:"Tapez le modèle et l'ID.",
  byVeh:"Par véhicule",byDrv:"Par chauffeur",byWk:"Par semaine",fills:"Pleins",dist:"Distance / heures",use:"Conso.",warns:"Alertes",driver:"Chauffeur",week:"Semaine",noData:"Pas encore de pleins.",
  hAgo:"%n h après le dernier",kmAgo:"%n km",hrAgo:"%n h de marche"});
-Object.assign(T.ar,{limT:"⚠️ حدود التنبيهات",limH:"غيّر فقط عند الحاجة. فارغ = القيمة العادية.",usePct:"استهلاك كبير: % فوق العادي",minGapH:"مبكر جدا: ساعات منذ آخر تعبئة",minKm:"مبكر جدا: كم منذ آخر تعبئة",minHr:"مبكر جدا: ساعات تشغيل منذ آخر تعبئة",svcKm:"تنبيه الصيانة: كم قبل الصيانة",svcHr:"تنبيه الصيانة: ساعات قبل الصيانة",limSave:"✅ حفظ الحدود",limReset:"↩️ القيم العادية",limOk:"✅ تم حفظ الحدود",limBad:"استخدم أرقاما 0 أو أكثر.",work:"الوقود",fuel:"الوقود",fill:"تعبئة",tank:"مخزون الخزان",veh:"المركبات",rep:"التقارير",notes:"ملاحظات",back:"➡️ رجوع",
+Object.assign(T.ar,{vType:"النوع",phCam:"📷 التقاط صورة",phGal:"🖼️ اختيار من المعرض",phDel:"🗑️ حذف الصورة (استخدام الرمز)",limT:"⚠️ حدود التنبيهات",limH:"غيّر فقط عند الحاجة. فارغ = القيمة العادية.",usePct:"استهلاك كبير: % فوق العادي",minGapH:"مبكر جدا: ساعات منذ آخر تعبئة",minKm:"مبكر جدا: كم منذ آخر تعبئة",minHr:"مبكر جدا: ساعات تشغيل منذ آخر تعبئة",svcKm:"تنبيه الصيانة: كم قبل الصيانة",svcHr:"تنبيه الصيانة: ساعات قبل الصيانة",limSave:"✅ حفظ الحدود",limReset:"↩️ القيم العادية",limOk:"✅ تم حفظ الحدود",limBad:"استخدم أرقاما 0 أو أكثر.",work:"تعبئة",fuel:"الوقود",fill:"تعبئة",tank:"مخزون الخزان",veh:"المركبات",rep:"التقارير",notes:"ملاحظات",back:"➡️ رجوع",
  pickV:"اضغط على المركبة التي تعبئها",noVeh:"لا توجد مركبات بعد. يجب أن يضيفها المسؤول.",stopped:"متوقفة",
  step1:"1. صورة عداد الكيلومترات / الساعات",step2:"2. صورة شاشة المضخة",takePh:"📷 التقط صورة",rePh:"📷 مرة أخرى",meterKm:"الكيلومترات في العداد",meterH:"الساعات في العداد",litres:"لترات",
  needAll:"التقط الصورتين واكتب الرقمين. ثم احفظ.",saveFill:"✅ حفظ التعبئة",savedFill:"✅ تم حفظ التعبئة",last:"آخر",
@@ -354,7 +354,7 @@ Object.assign(T.ar,{limT:"⚠️ حدود التنبيهات",limH:"غيّر ف�
 (function(){const s=document.createElement("style");s.textContent=`
 button:disabled{opacity:.35;cursor:not-allowed}
 .vgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.vt{margin:0;min-height:150px;padding:6px;background:#fff;color:#0f172a;border:3px solid #cbd5e1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start}
-.vt img,.vt .ni{width:100%;height:96px;object-fit:cover;border-radius:10px;background:#f1f5f9;font-size:56px;display:flex;align-items:center;justify-content:center}.vt b{font-size:22px;margin-top:4px}.vt small{font-size:14px;font-weight:500}.vt.off{opacity:.5}
+.vt img,.vt .ni{width:100%;height:96px;object-fit:cover;border-radius:10px;background:#f1f5f9;font-size:56px;display:flex;align-items:center;justify-content:center}.vt b{font-size:22px;margin-top:4px}.vt small{font-size:14px;font-weight:500}.vt.off{opacity:.5}.vt svg.vic{width:100%;height:96px;background:#f1f5f9;border-radius:10px}.typ{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.typ button{margin:0;padding:4px;min-height:70px;background:#fff;border:3px solid #cbd5e1}.typ button.on{border-color:#f59e0b;outline:3px solid #f59e0b;background:#fffbeb}.typ svg{width:100%;height:46px}.phrow{display:flex;gap:8px}.phrow label{flex:1}
 .prow{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center}.pbtn{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:120px;border:4px dashed #f59e0b;border-radius:14px;background:#fffbeb;font-weight:800;font-size:19px;cursor:pointer;overflow:hidden;text-align:center}
 .pbtn.ok{border:4px solid #16a34a;background:#f0fdf4}.pbtn img{width:100%;height:110px;object-fit:cover}.pbtn input{display:none}
 .num{font-size:30px;font-weight:800;text-align:center}
@@ -447,7 +447,7 @@ const SEED_V=[
  ["Generator PERKINS Pi 150P 2 PP83576 150KW","094768K","U094768K","h",4.2,""]];
 function seedVehicles(){if(L.get("seedV")||L.get("noSeed"))return 0;let n=0;
   SEED_V.forEach(a=>{const id="s_"+a[1].replace(/[^A-Za-z0-9]/g,""),k="v:"+id;if(R[k])return;
-    R[k]={kind:"v",id:id,u:1,del:0,data:{id:id,model:a[0],fleet:a[1],vin:a[2],plate:"",mt:a[3],m0:a[4],tank:null,exp:null,dept:"",svc:null,active:true,note:a[5],seed:1}};dirty[k]=1;n++});
+    R[k]={kind:"v",id:id,u:1,del:0,data:{id:id,type:guessType({model:a[0],note:a[5]}),model:a[0],fleet:a[1],vin:a[2],plate:"",mt:a[3],m0:a[4],tank:null,exp:null,dept:"",svc:null,active:true,note:a[5],seed:1}};dirty[k]=1;n++});
   L.set("seedV","1");saveR();return n}
 seedVehicles();
 window.TMC.fuel={fuelWarn:fuelWarn,canSave:canSave,tankBalance:tankBalance,tankMoves:tankMoves,reports:reports,lastFill:lastFill,isoWeek:isoWeek,limits:limits,LIM0:LIM0,SEED_V:SEED_V,seedVehicles:seedVehicles,pushReports:pushReports};
@@ -463,9 +463,15 @@ const back=()=>`<button type="button" class="sec" data-fv="menu">${esc(t("back")
 function fuelTiles(u){return `<div class="tiles" style="margin-bottom:10px">
   <button type="button" class="tile" data-fv="pick" style="grid-column:1/-1;min-height:130px;font-size:26px"><b>⛽</b>${esc(t("fill"))}</button>
   <button type="button" class="tile" data-fv="tank"><b>🛢️</b>${esc(t("tank"))}</button>
+  <button type="button" class="tile" data-fv="daily"><b>📏</b>${esc(t("dly"))}</button>
   ${u.admin?`<button type="button" class="tile" data-fv="veh"><b>🚜</b>${esc(t("veh"))}</button><button type="button" class="tile" data-fv="rep"><b>📊</b>${esc(t("rep"))}</button>`:""}
 </div>`}
-function vImg(v,P){const s=v.ph&&P[v.ph];return s?`<img src="${esc(s)}" alt="">`:`<span class="ni">🚜</span>`}
+const VTYPES=["car", "tipper", "dropside", "tanker", "crane", "telehandler", "skidsteer", "tlb", "excavator", "pecker", "flowbin", "generator"];
+const VICON={car:'<path d="M14 52 L22 34 Q26 28 34 28 H78 Q86 28 92 34 L102 44 H108 Q112 44 112 50 V58 H8 V54 Z" fill="#16a34a"/><path d="M30 34 H52 V44 H24 Z M58 34 H78 L88 44 H58 Z" fill="#bae6fd"/><rect x="26" y="22" width="56" height="5" rx="2" fill="#374151"/><circle cx="32" cy="58" r="10" fill="#1f2937"/><circle cx="32" cy="58" r="4.0" fill="#d1d5db"/><circle cx="88" cy="58" r="10" fill="#1f2937"/><circle cx="88" cy="58" r="4.0" fill="#d1d5db"/>',tipper:'<path d="M6 22 L66 14 L70 50 H10 Z" fill="#ea580c"/><path d="M74 26 H96 L110 40 V52 H74 Z" fill="#dc2626"/><path d="M80 30 H94 L104 40 H80 Z" fill="#bae6fd"/><rect x="8" y="50" width="104" height="6" fill="#374151"/><circle cx="22" cy="60" r="9" fill="#1f2937"/><circle cx="22" cy="60" r="3.6" fill="#d1d5db"/><circle cx="46" cy="60" r="9" fill="#1f2937"/><circle cx="46" cy="60" r="3.6" fill="#d1d5db"/><circle cx="96" cy="60" r="9" fill="#1f2937"/><circle cx="96" cy="60" r="3.6" fill="#d1d5db"/>',dropside:'<rect x="6" y="30" width="64" height="20" fill="#2563eb"/><path d="M6 30 V24 H70 V30" fill="none" stroke="#1e3a8a" stroke-width="4"/><line x1="28" y1="30" x2="28" y2="50" stroke="#1e3a8a" stroke-width="3"/><line x1="50" y1="30" x2="50" y2="50" stroke="#1e3a8a" stroke-width="3"/><path d="M74 24 H96 L110 38 V52 H74 Z" fill="#0ea5e9"/><path d="M80 28 H94 L104 38 H80 Z" fill="#e0f2fe"/><rect x="6" y="50" width="106" height="6" fill="#374151"/><circle cx="22" cy="60" r="9" fill="#1f2937"/><circle cx="22" cy="60" r="3.6" fill="#d1d5db"/><circle cx="46" cy="60" r="9" fill="#1f2937"/><circle cx="46" cy="60" r="3.6" fill="#d1d5db"/><circle cx="96" cy="60" r="9" fill="#1f2937"/><circle cx="96" cy="60" r="3.6" fill="#d1d5db"/>',tanker:'<rect x="6" y="22" width="66" height="30" rx="15" fill="#e5e7eb" stroke="#6b7280" stroke-width="3"/><rect x="10" y="34" width="58" height="6" fill="#dc2626"/><path d="M76 24 H96 L110 38 V52 H76 Z" fill="#dc2626"/><path d="M82 28 H94 L104 38 H82 Z" fill="#bae6fd"/><rect x="6" y="52" width="106" height="5" fill="#374151"/><circle cx="22" cy="61" r="9" fill="#1f2937"/><circle cx="22" cy="61" r="3.6" fill="#d1d5db"/><circle cx="46" cy="61" r="9" fill="#1f2937"/><circle cx="46" cy="61" r="3.6" fill="#d1d5db"/><circle cx="96" cy="61" r="9" fill="#1f2937"/><circle cx="96" cy="61" r="3.6" fill="#d1d5db"/>',crane:'<rect x="10" y="44" width="100" height="12" rx="3" fill="#facc15"/><rect x="76" y="30" width="22" height="16" fill="#eab308"/><path d="M80 33 H94 V42 H80 Z" fill="#bae6fd"/><path d="M40 44 L98 6 L102 12 L48 46 Z" fill="#f59e0b" stroke="#92400e" stroke-width="2"/><line x1="100" y1="10" x2="100" y2="30" stroke="#111" stroke-width="2"/><rect x="96" y="28" width="8" height="5" fill="#111"/><circle cx="22" cy="60" r="9" fill="#1f2937"/><circle cx="22" cy="60" r="3.6" fill="#d1d5db"/><circle cx="44" cy="60" r="9" fill="#1f2937"/><circle cx="44" cy="60" r="3.6" fill="#d1d5db"/><circle cx="78" cy="60" r="9" fill="#1f2937"/><circle cx="78" cy="60" r="3.6" fill="#d1d5db"/><circle cx="100" cy="60" r="9" fill="#1f2937"/><circle cx="100" cy="60" r="3.6" fill="#d1d5db"/>',telehandler:'<rect x="20" y="40" width="76" height="14" rx="4" fill="#f97316"/><rect x="56" y="22" width="22" height="20" rx="3" fill="#ea580c"/><path d="M60 26 H74 V38 H60 Z" fill="#bae6fd"/><path d="M28 42 L96 16 L100 24 L36 48 Z" fill="#374151"/><path d="M98 18 V30 H112" fill="none" stroke="#111" stroke-width="4"/><circle cx="32" cy="60" r="11" fill="#1f2937"/><circle cx="32" cy="60" r="4.4" fill="#d1d5db"/><circle cx="84" cy="60" r="11" fill="#1f2937"/><circle cx="84" cy="60" r="4.4" fill="#d1d5db"/>',skidsteer:'<rect x="26" y="20" width="44" height="38" rx="6" fill="#facc15"/><rect x="32" y="26" width="26" height="18" fill="#bae6fd"/><path d="M70 30 L96 36 L96 44 L70 42 Z" fill="#374151"/><path d="M94 30 H112 L106 56 H94 Z" fill="#4b5563"/><rect x="18" y="54" width="62" height="14" rx="7" fill="#1f2937"/><circle cx="32" cy="61" r="6" fill="#1f2937"/><circle cx="32" cy="61" r="2.4" fill="#d1d5db"/><circle cx="66" cy="61" r="6" fill="#1f2937"/><circle cx="66" cy="61" r="2.4" fill="#d1d5db"/>',tlb:'<rect x="28" y="34" width="56" height="18" rx="3" fill="#facc15"/><rect x="40" y="16" width="26" height="20" fill="#eab308"/><path d="M44 20 H62 V34 H44 Z" fill="#bae6fd"/><path d="M84 38 L104 40 L106 56 L96 58" fill="none" stroke="#374151" stroke-width="5"/><path d="M28 38 L10 22 L4 34" fill="none" stroke="#374151" stroke-width="5"/><path d="M2 30 L12 36 L6 44 Z" fill="#374151"/><circle cx="40" cy="60" r="11" fill="#1f2937"/><circle cx="40" cy="60" r="4.4" fill="#d1d5db"/><circle cx="78" cy="62" r="7" fill="#1f2937"/><circle cx="78" cy="62" r="2.8" fill="#d1d5db"/>',excavator:'<rect x="14" y="56" width="62" height="12" rx="6" fill="#1f2937"/><rect x="18" y="38" width="54" height="16" rx="3" fill="#f59e0b"/><rect x="48" y="22" width="20" height="18" fill="#d97706"/><path d="M52 26 H64 V36 H52 Z" fill="#bae6fd"/><path d="M66 40 L92 12 L110 30" fill="none" stroke="#f59e0b" stroke-width="7" stroke-linejoin="round"/><path d="M104 28 L116 34 L110 50 L98 44 Z" fill="#374151"/>',pecker:'<rect x="14" y="56" width="62" height="12" rx="6" fill="#1f2937"/><rect x="18" y="38" width="54" height="16" rx="3" fill="#f59e0b"/><rect x="48" y="22" width="20" height="18" fill="#d97706"/><path d="M52 26 H64 V36 H52 Z" fill="#bae6fd"/><path d="M66 40 L92 12 L108 26" fill="none" stroke="#f59e0b" stroke-width="7" stroke-linejoin="round"/><rect x="102" y="26" width="10" height="22" fill="#dc2626"/><path d="M104 48 H110 L107 60 Z" fill="#374151"/><path d="M114 56 l6 -3 M114 62 l6 1" stroke="#111" stroke-width="2"/>',flowbin:'<rect x="12" y="18" width="96" height="42" rx="6" fill="#0891b2"/><rect x="18" y="24" width="84" height="8" fill="#67e8f9"/><rect x="16" y="60" width="10" height="8" fill="#374151"/><rect x="94" y="60" width="10" height="8" fill="#374151"/><circle cx="96" cy="44" r="7" fill="#fbbf24"/><text x="46" y="52" font-size="18" font-weight="900" fill="#fff" font-family="sans-serif">⛽</text>',generator:'<rect x="10" y="18" width="100" height="44" rx="6" fill="#16a34a"/><rect x="16" y="24" width="50" height="32" fill="#15803d"/><path d="M22 28 H60 M22 34 H60 M22 40 H60 M22 46 H60 M22 52 H60" stroke="#86efac" stroke-width="2"/><path d="M88 26 L78 42 H86 L80 56 L96 36 H88 L94 26 Z" fill="#facc15" stroke="#854d0e" stroke-width="1.5"/><rect x="14" y="62" width="12" height="6" fill="#374151"/><rect x="94" y="62" width="12" height="6" fill="#374151"/>'};
+function guessType(v){const m=((v&&v.model)||"")+" "+((v&&v.note)||"");const t=[[/pecker|breaker|marteau/i,"pecker"],[/excavat|pelle/i,"excavator"],[/tipper|benne|howo/i,"tipper"],[/drop ?side|plateau/i,"dropside"],[/tanker|citerne|kouri/i,"tanker"],[/telli|tele/i,"telehandler"],[/crane|grue/i,"crane"],[/skid/i,"skidsteer"],[/tlb|backhoe|retro/i,"tlb"],[/flowbin|bowser|terex/i,"flowbin"],[/generat|groupe|perkins|kw\b/i,"generator"],[/cruiser|toyota|car|4x4|hilux|pick/i,"car"]];for(const a of t)if(a[0].test(m))return a[1];return ""}
+const vType=v=>(v&&VTYPES.includes(v.type))?v.type:guessType(v);
+const vIcon=ty=>VICON[ty]?`<svg class="vic" viewBox="0 0 120 74" role="img" aria-label="${ty}">${VICON[ty]}</svg>`:`<span class="ni">🚜</span>`;
+function vImg(v,P){const s=v.ph&&P[v.ph];return s?`<img src="${esc(s)}" alt="">`:vIcon(vType(v))}
 function warnBox(W){return W.length?`<div class="warn" id="fuWarn"><h3>${esc(t("warnT"))}</h3>${W.map(w=>`<p data-w="${w.k}">${esc(tr(w.k,w.a,w.b))}</p>`).join("")}<small>${esc(t("warnH"))}</small></div>`:`<div id="fuWarn"></div>`}
 function workHTML(u){
   if((fv==="veh"||fv==="vedit"||fv==="rep")&&!u.admin)fv="menu";
@@ -494,7 +500,10 @@ function workHTML(u){
   if(fv==="vedit"){const v=ve||{},P=phMap(),ph=v._ph||(v.ph&&P[v.ph]);
     const f=(id,k,val,im)=>`<label class="fl" for="${id}">${esc(t(k))}</label><input id="${id}" type="text" ${im?`inputmode="decimal" class="num"`:""} autocomplete="off" value="${esc(val==null?"":val)}">`;
     return `<button type="button" class="sec" data-fv="veh">${esc(t("back"))}</button><div class="box"><h2>${esc(t(v.id?"editV":"addV"))}</h2>
-    <label class="pbtn${ph?" ok":""}">${ph?`<img src="${esc(ph)}" alt="">`:esc(t("vPh"))}<input type="file" id="vePh" accept="image/*" capture="environment"></label>
+    <div style="text-align:center">${ph?`<img id="veImg" src="${esc(ph)}" alt="" style="max-width:100%;height:150px;object-fit:cover;border-radius:12px">`:`<div style="height:150px">${vIcon(vType(v))}</div>`}</div>
+    <div class="phrow"><label class="pbtn" style="min-height:64px">${esc(t("phCam"))}<input type="file" id="vePh" accept="image/*" capture="environment"></label><label class="pbtn" style="min-height:64px">${esc(t("phGal"))}<input type="file" id="vePhG" accept="image/*"></label></div>
+    ${ph?`<button type="button" class="sec" id="vePhDel">${esc(t("phDel"))}</button>`:""}
+    <label class="fl">${esc(t("vType"))}</label><div class="typ">${VTYPES.map(k=>`<button type="button" class="${vType(v)===k?"on":""}" data-vty="${k}">${vIcon(k)}</button>`).join("")}</div>
     ${f("veModel","model",v.model)}${f("veFleet","fleet",v.fleet)}${f("vePlate","plate",v.plate)}${f("veVin","vin",v.vin)}
     <label class="fl">${esc(t("mtype"))}</label><div class="seg"><button type="button" class="sec${isH(v)?"":" on"}" data-mt="km">${esc(t("km"))}</button><button type="button" class="sec${isH(v)?" on":""}" data-mt="h">${esc(t("hr"))}</button></div>
     ${f("veTank","tankL",v.tank,1)}<label class="fl" for="veExp">${esc(t("expU"))} (<span id="veU">${esc(unitU(v))}</span>)</label><input id="veExp" type="text" inputmode="decimal" class="num" autocomplete="off" value="${esc(v.exp==null?"":v.exp)}">
@@ -512,8 +521,10 @@ function workHTML(u){
     <div class="box"><h3>📅 ${esc(t("byWk"))}</h3>${tb([[t("week"),"week"],[t("fills"),"fills","r"]].concat(H),r.week.map(dk))}</div>`}
   if(fv==="notes")fv="menu";
   {const notes=all("x").sort((a,b)=>String(b.at).localeCompare(String(a.at)));
-    if(fv==="menu")return fl+fuelTiles(u)+`<div class="box"><h3>📝 ${esc(t("notes"))}</h3><textarea id="exTxt" rows="3" data-draft="exTxt" autocomplete="off" spellcheck="true" autocorrect="on" autocapitalize="sentences"></textarea><p class="hint" id="drNote" style="display:none">${esc(t("draft"))}</p>
-    <button type="button" id="exAdd">${esc(t("exAdd"))}</button>${notes.length?notes.map(n=>`<div class="urow"><span class="n">${esc(n.text)}</span><span class="hint">${esc(n.by)}</span></div>`).join(""):`<p class="hint">${esc(t("exNone"))}</p>`}</div>`}
+    if(fv==="menu"){const P=phMap(),V=vehs().filter(v=>v.active!==false);
+      return fl+`<div class="box"><h2>⛽ ${esc(t("fill"))}: ${esc(t("pickV"))}</h2>${V.length?`<div class="vgrid">${V.map(v=>`<button type="button" class="vt" data-vid="${esc(v.id)}">${vImg(v,P)}<b>${esc(v.fleet)}</b><small>${esc(v.model)}${v.plate?" · "+esc(v.plate):""}</small></button>`).join("")}</div>`:`<p class="hint">${esc(t("noVeh"))}</p>`}</div>
+    <div class="tiles" style="margin-bottom:10px"><button type="button" class="tile" data-fv="tank"><b>🛢️</b>${esc(t("tank"))}</button>${u.admin?`<button type="button" class="tile" data-fv="veh"><b>🚜</b>${esc(t("veh"))}</button><button type="button" class="tile" data-fv="rep"><b>📊</b>${esc(t("rep"))}</button>`:""}</div>`+`<div class="box"><h3>📝 ${esc(t("notes"))}</h3><textarea id="exTxt" rows="3" data-draft="exTxt" autocomplete="off" spellcheck="true" autocorrect="on" autocapitalize="sentences"></textarea><p class="hint" id="drNote" style="display:none">${esc(t("draft"))}</p>
+    <button type="button" id="exAdd">${esc(t("exAdd"))}</button>${notes.length?notes.map(n=>`<div class="urow"><span class="n">${esc(n.text)}</span><span class="hint">${esc(n.by)}</span></div>`).join(""):`<p class="hint">${esc(t("exNone"))}</p>`}</div>`}}
   return fl+fuelTiles(u);
 }
 function curWarn(){const v=vehs().find(x=>x.id===fs.vid);if(!v||!(num(fs.m)>=0))return [];const at=Date.now();return fuelWarn(v,lastFill(v.id,at),{meter:fs.m,litres:fs.l,at:at})}
@@ -521,8 +532,8 @@ function refreshFill(){const b=$("fuSave");if(b)b.disabled=!canSave(fs);const w=
 function bindWork(u){
   const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
   document.querySelectorAll("[data-vid]").forEach(b=>b.onclick=()=>{fs={vid:b.dataset.vid};fv="fill";render();scrollTo(0,0)});
-  const photo=(id,cb)=>{const i=$(id);if(i)i.onchange=async()=>{const f=i.files&&i.files[0];if(!f)return;try{cb(await shrink(f,480))}catch(e){console.warn(e)}render()}};
-  photo("fuP1",d=>fs.p1=d);photo("fuP2",d=>fs.p2=d);photo("dlP",d=>dl.p=d);photo("vePh",d=>{rv();ve._ph=d});
+  const photo=(id,cb)=>{const i=$(id);if(i)i.onchange=async()=>{const f=i.files&&i.files[0];if(!f)return;try{cb(await shrink(f,/^veP/.test(id)?320:480))}catch(e){console.warn(e)}render()}};
+  photo("fuP1",d=>fs.p1=d);photo("fuP2",d=>fs.p2=d);photo("dlP",d=>dl.p=d);photo("vePh",d=>{rv();ve._ph=d});photo("vePhG",d=>{rv();ve._ph=d});
   const inp=(id,k,o)=>{const e=$(id);if(e)e.oninput=()=>{o[k]=e.value;if(o===fs)refreshFill();else{const s=$("dlSave");if(s)s.disabled=!(num(dl.l)>0)}}};
   inp("fuM","m",fs);inp("fuL","l",fs);inp("dlL","l",dl);inp("dlN","n",dl);
   on("fuSave",()=>{if(!canSave(fs))return;const v=vehs().find(x=>x.id===fs.vid),at=Date.now(),pr=lastFill(v.id,at),W=fuelWarn(v,pr,{meter:fs.m,litres:fs.l,at:at});
@@ -536,6 +547,7 @@ function bindWork(u){
   document.querySelectorAll("[data-ve]").forEach(b=>b.onclick=()=>{ve=Object.assign({},vehs().find(x=>x.id===b.dataset.ve));fv="vedit";render()});
   const rv=()=>{if(!ve)return;[["veModel","model"],["veFleet","fleet"],["vePlate","plate"],["veVin","vin"],["veDept","dept"],["veNote","note"]].forEach(a=>{const e=$(a[0]);if(e)ve[a[1]]=clean(e.value)});
     [["veTank","tank"],["veExp","exp"],["veM0","m0"],["veSvc","svc"]].forEach(a=>{const e=$(a[0]);if(e){const n=num(e.value);ve[a[1]]=isFinite(n)?n:null}})};
+  document.querySelectorAll("[data-vty]").forEach(b=>b.onclick=()=>{rv();ve.type=b.dataset.vty;render()});on("vePhDel",()=>{rv();ve._ph=null;ve.ph="";render()});
   document.querySelectorAll("[data-mt]").forEach(b=>b.onclick=()=>{rv();ve.mt=b.dataset.mt;render()});
   document.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>{rv();ve.active=b.dataset.act==="1";render()});
   on("veSave",()=>{rv();if(!ve.model||!ve.fleet)return err(t("needV"));const v=Object.assign({},ve);if(!v.id)v.id="v"+Date.now();
@@ -556,6 +568,111 @@ const baseBind2=bindMain;bindMain=function(u){baseBind2(u);const e=document.getE
   const s=document.getElementById("limSave");if(s)s.onclick=()=>{const o={id:"limits"};for(const k of LIMK){const raw=document.getElementById("lim_"+k).value.trim();const n=raw===""?LIM0[k]:num(raw);if(!isFinite(n)||n<0){e.textContent=t("limBad");return}o[k]=n}
     o.by=u.name;o.at=new Date().toISOString();put("cfg","limits",o);limMsg=t("limOk");render();limMsg=""};
   const r=document.getElementById("limReset");if(r)r.onclick=()=>{put("cfg","limits",Object.assign({id:"limits",by:u.name,at:new Date().toISOString()},LIM0));limMsg=t("limOk");render();limMsg=""}};
+// Daily km / hours: one entry per vehicle per day (kind "dy", id vid_YYYY-MM-DD; editing replaces). Only entered if the vehicle moved/ran.
+Object.assign(T.en,{dlyDate:"Reading date",dlyNotToday:"Not today",dlyHigh:"⚠️ Reading is higher than a later day (%b). Check the date and meter.",dlyLate:"entered %a",dly:"Daily km / hours",dlyPick:"Tap the vehicle that worked today",dlyRead:"Meter reading",dlyPh:"📷 Meter photo (optional)",dlySave:"✅ Save reading",dlySaved:"✅ Reading saved",dlyTab:"📋 Day table",dlyUsed:"Used",dlyBy:"By",dlyNone:"No readings this day.",dlyNot:"Not used: %n",dlyBack:"⚠️ Reading is lower than before (%b). Check the meter.",dlyLast:"Last reading",dlyFill:"from fill-up",dlyToday:"Today"});
+Object.assign(T.fr,{dlyDate:"Date du relevé",dlyNotToday:"Pas aujourd'hui",dlyHigh:"⚠️ Le relevé est plus haut qu'un jour suivant (%b). Vérifiez la date et le compteur.",dlyLate:"saisi le %a",dly:"Km / heures du jour",dlyPick:"Touchez le véhicule qui a travaillé aujourd'hui",dlyRead:"Relevé du compteur",dlyPh:"📷 Photo du compteur (option)",dlySave:"✅ Enregistrer le relevé",dlySaved:"✅ Relevé enregistré",dlyTab:"📋 Tableau du jour",dlyUsed:"Utilisé",dlyBy:"Par",dlyNone:"Aucun relevé ce jour.",dlyNot:"Pas utilisés : %n",dlyBack:"⚠️ Le relevé est plus bas qu'avant (%b). Vérifiez le compteur.",dlyLast:"Dernier relevé",dlyFill:"du plein",dlyToday:"Aujourd'hui"});
+Object.assign(T.ar,{dlyDate:"تاريخ القراءة",dlyNotToday:"ليس اليوم",dlyHigh:"⚠️ القراءة أعلى من يوم لاحق (%b). تحقق من التاريخ والعداد.",dlyLate:"أُدخلت في %a",dly:"الكيلومترات / الساعات اليومية",dlyPick:"اضغط على المركبة التي عملت اليوم",dlyRead:"قراءة العداد",dlyPh:"📷 صورة العداد (اختياري)",dlySave:"✅ حفظ القراءة",dlySaved:"✅ تم حفظ القراءة",dlyTab:"📋 جدول اليوم",dlyUsed:"المستعمل",dlyBy:"بواسطة",dlyNone:"لا قراءات في هذا اليوم.",dlyNot:"غير مستعملة: %n",dlyBack:"⚠️ القراءة أقل من السابقة (%b). تحقق من العداد.",dlyLast:"آخر قراءة",dlyFill:"من التعبئة",dlyToday:"اليوم"});
+const dayKey=ms=>{const d=new Date(ms);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+// All readings of one vehicle by day: daily entries win; else last fill-up of that day if it moved since the previous reading.
+function dayReadings(vid){const v=vehs().find(x=>x.id===vid)||{},o={};
+  all("dy").forEach(e=>{if(e.vid===vid&&isFinite(num(e.meter)))o[e.day]={day:e.day,meter:num(e.meter),by:e.by,at:e.at,ent:e.ent||e.at,bd:e.day<dayKey(e.ent||e.at),src:"d",id:e.id}});
+  const F=fills().filter(f=>f.vid===vid&&isFinite(num(f.meter)));let prev=num(v.m0);
+  F.forEach(f=>{const k=dayKey(f.at),m=num(f.meter);if(o[k]&&o[k].src==="d"){prev=o[k].meter;return}
+    if(isFinite(prev)&&m===prev)return;o[k]={day:k,meter:m,by:f.by,at:f.at,src:"f"};prev=m});
+  const L=Object.keys(o).sort().map(k=>o[k]);let p=num(v.m0);
+  L.forEach(r=>{r.prev=isFinite(p)?p:null;r.used=isFinite(p)?r1(r.meter-p):null;r.back=isFinite(p)&&r.meter<p;p=r.meter});return L}
+function dayTable(day){const V=vehs().filter(v=>v.active!==false),rows=[];let not=0;
+  V.forEach(v=>{const r=dayReadings(v.id).find(x=>x.day===day);if(r)rows.push({vid:v.id,fleet:v.fleet,model:v.model,unit:isH(v)?"h":"km",meter:r.meter,used:r.used,by:r.by,src:r.src,back:r.back,bd:!!r.bd,ent:r.ent});else not++});
+  return {day:day,rows:rows,notUsed:not}}
+function prevReading(vid,day){const L=dayReadings(vid).filter(r=>r.day<day);if(L.length)return L[L.length-1].meter;const v=vehs().find(x=>x.id===vid);return v?num(v.m0):NaN}
+function nextReading(vid,day){const r=dayReadings(vid).find(x=>x.day>day);return r?r.meter:NaN}
+// Check a reading against earlier and later days: "dlyBack" if lower than before, "dlyHigh" if higher than a later day.
+function dailyCheck(vid,day,m){m=num(m);if(!isFinite(m))return null;const p=prevReading(vid,day),n=nextReading(vid,day);
+  if(isFinite(p)&&m<p)return {k:"dlyBack",b:p};if(isFinite(n)&&m>n)return {k:"dlyHigh",b:n};return null}
+// day = reading date "YYYY-MM-DD" (or a time in ms, for tests); ent = when it was typed in. Future dates are refused.
+function saveDaily(vid,meter,by,ph,day,ent){ent=ent||Date.now();if(typeof day==="number")day=dayKey(day);day=day||dayKey(ent);const td=dayKey(Date.now());if(day>td)return null;
+  const id=vid+"_"+day,at=new Date(day+"T12:00:00").getTime();put("dy",id,{id:id,vid:vid,day:day,meter:num(meter),at:at,ent:ent,date:new Date(ent).toISOString(),by:by,ph:ph||""});return id}
+Object.assign(window.TMC.fuel,{dayKey:dayKey,dayReadings:dayReadings,dayTable:dayTable,saveDaily:saveDaily,prevReading:prevReading,nextReading:nextReading,dailyCheck:dailyCheck});
+let dy={},dday=dayKey(Date.now());
+const shiftDay=(k,n)=>{const d=new Date(k+"T12:00:00");d.setDate(d.getDate()+n);return dayKey(d.getTime())};
+const baseWorkD=workHTML;workHTML=function(u){
+  if(fv==="dtab"&&!u.admin)fv="daily";
+  if(fv==="daily"){const fl=flash?`<div class="ok2">${esc(flash)}</div>`:"";flash="";const P=phMap(),V=vehs().filter(v=>v.active!==false),td=dayKey(Date.now());
+    return `${back()}${fl}${u.admin?`<button type="button" data-fv="dtab">${esc(t("dlyTab"))}</button>`:""}<div class="box"><h2>📏 ${esc(t("dlyPick"))}</h2><div class="vgrid">${V.map(v=>{const r=dayReadings(v.id).find(x=>x.day===td);
+      return `<button type="button" class="vt${r?" ok":""}" data-dvid="${esc(v.id)}">${vImg(v,P)}<b>${esc(v.fleet)}</b><small>${esc(v.model)}${r?"<br>✅ "+esc(fmt(r.meter)+" "+unitM(v)):""}</small></button>`}).join("")}</div></div>`}
+  if(fv==="dent"){const v=vehs().find(x=>x.id===dy.vid);if(!v){fv="daily";return workHTML(u)}const P=phMap(),td=dayKey(Date.now()),dd=dy.day||td,pv=prevReading(v.id,dd),m=num(dy.m),ck=dailyCheck(v.id,dd,dy.m);
+    return `<button type="button" class="sec" data-fv="daily">${esc(t("back"))}</button>
+    <div class="box" style="display:flex;gap:10px;align-items:center"><div style="width:90px" class="vt">${vImg(v,P)}</div><div><b style="font-size:24px">${esc(v.fleet)}</b><br>${esc(v.model)}<br><span class="hint">${esc(t("dlyLast"))}: ${isFinite(pv)?esc(fmt(pv)+" "+unitM(v)):"—"}</span></div></div>
+    <div class="box" id="dyDateBox"><label class="fl" for="dyD">📅 ${esc(t("dlyDate"))}</label><div class="seg"><button type="button" class="sec" id="dyDPrev" style="flex:1">⬅️</button><input id="dyD" type="date" max="${td}" value="${dd}" style="flex:2;font-size:24px;font-weight:800;text-align:center;padding:10px;border:2px solid #334155;border-radius:12px;margin:6px 0"><button type="button" class="sec" id="dyDNext" style="flex:1" ${dd>=td?"disabled":""}>➡️</button></div>
+    <p id="dyDayLbl" style="font-size:26px;font-weight:800;text-align:center;margin:6px 0;${dd<td?"color:#b91c1c":""}">${dd<td?"🔴 "+esc(t("dlyNotToday"))+" · ":"✅ "+esc(t("dlyToday"))+" · "}${esc(new Date(dd+"T12:00:00").toLocaleDateString(lang,{weekday:"short",day:"numeric",month:"short"}))}</p></div>
+    <div class="box"><label class="fl" for="dyM">${esc(t("dlyRead"))} (${esc(unitM(v))})</label><input id="dyM" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(dy.m||"")}">
+    <div id="dyWarn">${ck?`<p class="flag">${esc(tr(ck.k,"",fmt(ck.b)))}</p>`:""}</div>
+    <label class="pbtn${dy.p?" ok":""}" id="dyPL" style="min-height:70px;margin-top:8px">${dy.p?`<img src="${esc(dy.p)}" alt="" style="height:70px">`:esc(t("dlyPh"))}<input type="file" id="dyP" accept="image/*" capture="environment"></label>
+    <button type="button" id="dySave" ${m>=0?"":"disabled"} style="min-height:72px;font-size:24px">${esc(t("dlySave"))}</button></div>`}
+  if(fv==="dtab"){const T0=dayTable(dday),td=dayKey(Date.now());
+    return `<button type="button" class="sec" data-fv="daily">${esc(t("back"))}</button><div class="box"><div class="seg"><button type="button" class="sec" id="dyPrev">⬅️</button><b id="dyDay" style="flex:2;text-align:center;font-size:22px;align-self:center">${esc(dday===td?t("dlyToday")+" "+dday:dday)}</b><button type="button" class="sec" id="dyNext" ${dday>=td?"disabled":""}>➡️</button></div>
+    ${T0.rows.length?`<table class="rp" id="dyTab"><tr><th>${esc(t("veh"))}</th><th class="r">${esc(t("dlyRead"))}</th><th class="r">${esc(t("dlyUsed"))}</th><th>${esc(t("dlyBy"))}</th></tr>${T0.rows.map(r=>`<tr data-row="${esc(r.vid)}"><td>${esc(r.fleet)}</td><td class="r">${esc(fmt(r.meter))} ${esc(r.unit==="h"?t("hr"):t("km"))}</td><td class="r${r.back?" flag":""}">${r.used==null?"—":(r.back?"⚠️ ":"")+esc(fmt(r.used))}</td><td>${esc(r.by||"")}${r.src==="f"?` <small class="hint">(${esc(t("dlyFill"))})</small>`:""}${r.bd?` <small class="flag" data-bd="1">📅 ${esc(tr("dlyLate",new Date(r.ent).toLocaleDateString(lang,{day:"numeric",month:"short"}),""))}</small>`:""}</td></tr>`).join("")}</table>`:`<p class="hint">${esc(t("dlyNone"))}</p>`}
+    <p class="hint" id="dyNot">${esc(t("dlyNot").replace("%n",T0.notUsed))}</p></div>`}
+  return baseWorkD(u)};
+const baseBindD=bindWork;bindWork=function(u){baseBindD(u);
+  document.querySelectorAll("[data-dvid]").forEach(b=>b.onclick=()=>{const td=dayKey(Date.now()),r=all("dy").find(e=>e.vid===b.dataset.dvid&&e.day===td);dy={vid:b.dataset.dvid,day:td,m:r?String(r.meter):""};fv="dent";render();scrollTo(0,0)});
+  const m=$("dyM");if(m)m.oninput=()=>{dy.m=m.value;const n=num(dy.m),ck=dailyCheck(dy.vid,dy.day||dayKey(Date.now()),dy.m);$("dySave").disabled=!(n>=0);
+    $("dyWarn").innerHTML=ck?`<p class="flag">${esc(tr(ck.k,"",fmt(ck.b)))}</p>`:""};
+  const setDay=k=>{const td=dayKey(Date.now());if(!/^\d{4}-\d\d-\d\d$/.test(k||""))return;if(k>td)k=td;dy.day=k;const r=all("dy").find(e=>e.vid===dy.vid&&e.day===k);dy.m=r?String(r.meter):"";dy.p=null;render()};
+  const dD=$("dyD");if(dD)dD.onchange=()=>setDay(dD.value);
+  const dP=$("dyDPrev");if(dP)dP.onclick=()=>setDay(shiftDay(dy.day||dayKey(Date.now()),-1));
+  const dN=$("dyDNext");if(dN)dN.onclick=()=>setDay(shiftDay(dy.day||dayKey(Date.now()),1));
+  const pi=$("dyP");if(pi)pi.onchange=async()=>{const f=pi.files&&pi.files[0];if(!f)return;try{dy.p=await shrink(f,480)}catch(e){}render()};
+  const s=$("dySave");if(s)s.onclick=()=>{if(!(num(dy.m)>=0))return;if(!saveDaily(dy.vid,dy.m,u.name,dy.p?savePh(dy.p):"",dy.day))return;dy={};flash=t("dlySaved");fv="daily";render();scrollTo(0,0)};
+  const pr=$("dyPrev");if(pr)pr.onclick=()=>{dday=shiftDay(dday,-1);render()};
+  const nx=$("dyNext");if(nx)nx.onclick=()=>{dday=shiftDay(dday,1);render()};
+  if(fv==="daily"||fv==="dtab")document.querySelectorAll("[data-fv=dtab]").forEach(b=>b.addEventListener("click",()=>{dday=dayKey(Date.now())}))};
+// Period reports (Admin): Day / Week / Month / Year, one vehicle or all. Use = daily readings + fill-up readings (dayReadings); litres = fill-ups in the period.
+Object.assign(T.en,{prD:"Day",prW:"Week",prM:"Month",prY:"Year",prAll:"All vehicles",prTot:"Total",prKmV:"Km vehicles",prHV:"Hours vehicles",prL:"Litres filled",prUsed:"Used",prUse:"Use",prExp:"normal",prF:"Fill-ups",prWn:"Warnings",prCsv:"⬇️ Export / share (CSV)",prNone:"Nothing in this period.",prPer:"Period report"});
+Object.assign(T.fr,{prD:"Jour",prW:"Semaine",prM:"Mois",prY:"Année",prAll:"Tous les véhicules",prTot:"Total",prKmV:"Véhicules au km",prHV:"Véhicules aux heures",prL:"Litres servis",prUsed:"Utilisé",prUse:"Conso.",prExp:"normal",prF:"Pleins",prWn:"Alertes",prCsv:"⬇️ Exporter / partager (CSV)",prNone:"Rien sur cette période.",prPer:"Rapport par période"});
+Object.assign(T.ar,{prD:"يوم",prW:"أسبوع",prM:"شهر",prY:"سنة",prAll:"كل المركبات",prTot:"المجموع",prKmV:"مركبات بالكيلومتر",prHV:"مركبات بالساعات",prL:"اللترات المعبأة",prUsed:"المستعمل",prUse:"الاستهلاك",prExp:"العادي",prF:"التعبئات",prWn:"التنبيهات",prCsv:"⬇️ تصدير / مشاركة (CSV)",prNone:"لا شيء في هذه الفترة.",prPer:"تقرير الفترة"});
+// Range of period p ("d","w","m","y") holding day key k: {a,b} day keys inclusive, plus a label.
+function periodRange(p,k){const d=new Date(k+"T12:00:00");let a,b;
+  if(p==="d"){a=b=k}
+  else if(p==="w"){const s=new Date(d);s.setDate(d.getDate()-(d.getDay()+6)%7);const e=new Date(s);e.setDate(s.getDate()+6);a=dayKey(s.getTime());b=dayKey(e.getTime())}
+  else if(p==="m"){a=k.slice(0,7)+"-01";b=dayKey(new Date(d.getFullYear(),d.getMonth()+1,0,12).getTime())}
+  else{a=k.slice(0,4)+"-01-01";b=k.slice(0,4)+"-12-31"}
+  const lb=p==="d"?new Date(k+"T12:00:00").toLocaleDateString(lang,{weekday:"short",day:"numeric",month:"short",year:"numeric"}):p==="w"?isoWeek(d.getTime()).slice(5)+" · "+a.slice(8)+"/"+a.slice(5,7)+"–"+b.slice(8)+"/"+b.slice(5,7):p==="m"?d.toLocaleDateString(lang,{month:"long",year:"numeric"}):k.slice(0,4);
+  return {a:a,b:b,label:lb}}
+function shiftPeriod(p,k,n){const d=new Date(k+"T12:00:00");if(p==="d")d.setDate(d.getDate()+n);else if(p==="w")d.setDate(d.getDate()+7*n);else if(p==="m"){d.setDate(1);d.setMonth(d.getMonth()+n)}else{d.setMonth(0,1);d.setFullYear(d.getFullYear()+n)}return dayKey(d.getTime())}
+function vehPeriod(v,a,b){const h=isH(v),F=fills().filter(f=>f.vid===v.id&&dayKey(f.at)>=a&&dayKey(f.at)<=b);
+  let used=0;dayReadings(v.id).forEach(r=>{if(r.day>=a&&r.day<=b&&r.used>0)used+=r.used});
+  const l=F.reduce((s,f)=>s+(num(f.litres)||0),0),w=F.reduce((s,f)=>s+(f.warn||[]).length,0),exp=num(v.exp);
+  const use=used>0&&l>0?r1(h?l/used:l/used*100):null;
+  return {vid:v.id,fleet:v.fleet,model:v.model,unit:h?"h":"km",litres:r1(l),used:r1(used),use:use,exp:exp>0?exp:null,high:use!=null&&exp>0&&use>exp*(1+limits().usePct/100),fills:F.length,warnings:w}}
+function periodReport(p,k,vid){const R0=periodRange(p,k),V=vehs().filter(v=>!vid||v.id===vid),rows=V.map(v=>vehPeriod(v,R0.a,R0.b)).filter(r=>vid||r.fills||r.used);
+  const sum=u=>{const S=rows.filter(r=>!u||r.unit===u);const o={litres:r1(S.reduce((s,r)=>s+r.litres,0)),used:r1(S.reduce((s,r)=>s+r.used,0)),fills:S.reduce((s,r)=>s+r.fills,0),warnings:S.reduce((s,r)=>s+r.warnings,0)};
+    if(u){const lu=S.filter(r=>r.used>0).reduce((s,r)=>s+r.litres,0);o.use=o.used>0&&lu>0?r1(u==="h"?lu/o.used:lu/o.used*100):null}return o};
+  return {p:p,a:R0.a,b:R0.b,label:R0.label,rows:rows,total:sum(),km:sum("km"),h:sum("h")}}
+function periodCSV(r){const q=x=>'"'+String(x==null?"":x).replace(/"/g,'""')+'"';
+  return [["period","from","to","fleet","model","unit","litres","used","use","normal","fills","warnings"]].concat(r.rows.map(x=>[r.label,r.a,r.b,x.fleet,x.model,x.unit,x.litres,x.used,x.use,x.exp,x.fills,x.warnings])).map(a=>a.map(q).join(",")).join("\n")}
+Object.assign(window.TMC.fuel,{periodRange:periodRange,shiftPeriod:shiftPeriod,periodReport:periodReport,periodCSV:periodCSV});
+{const st=document.createElement("style");st.textContent=".prs button{flex:1;min-width:0;padding:4px 2px;font-size:20px;min-height:64px}.prlab{flex:2;text-align:center;font-size:22px;font-weight:800;align-self:center}.prbig{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}.prbig div{background:#f1f5f9;border-radius:12px;padding:10px;text-align:center}.prbig b{display:block;font-size:30px}.prbig span{font-size:16px}.prbig .flag b{color:#b91c1c}.vgrid.prv .vt{min-height:110px}.vgrid.prv .vt.on{border-color:#f59e0b;outline:4px solid #f59e0b}";document.head.appendChild(st)}
+let rpS={p:"m",k:dayKey(Date.now()),vid:""};
+function periodHTML(){const r=periodReport(rpS.p,rpS.k,rpS.vid),P=phMap(),V=vehs(),td=dayKey(Date.now()),uu=x=>x==="h"?t("hr"):t("km"),uU=x=>x==="h"?"L/h":"L/100km";
+  const big=(o,u)=>`<div class="prbig"><div><b>${esc(fmt(o.litres))}</b><span>${esc(t("prL"))}</span></div>${u?`<div><b>${esc(fmt(o.used))} ${esc(uu(u))}</b><span>${esc(t("prUsed"))}</span></div><div class="${o.high?"flag":""}"><b>${o.use==null?"—":esc(fmt(o.use))}</b><span>${esc(t("prUse"))} ${esc(uU(u))}${o.exp?" · "+esc(t("prExp"))+" "+esc(fmt(o.exp)):""}</span></div>`:""}<div><b>${o.fills}</b><span>${esc(t("prF"))}</span></div><div class="${o.warnings?"flag":""}"><b>${o.warnings}</b><span>${esc(t("prWn"))}</span></div></div>`;
+  const tab=(u,ttl)=>{const S=r.rows.filter(x=>x.unit===u);if(!S.length)return "";const tt=r[u];
+    return `<h3>${esc(ttl)}</h3><table class="rp prt" data-u="${u}"><tr><th>${esc(t("veh"))}</th><th class="r">${esc(t("prL"))}</th><th class="r">${esc(t("prUsed"))} ${esc(uu(u))}</th><th class="r">${esc(uU(u))}</th><th class="r">${esc(t("prF"))}</th><th class="r">⚠️</th></tr>${S.map(x=>`<tr><td>${esc(x.fleet)}</td><td class="r">${esc(fmt(x.litres))}</td><td class="r">${esc(fmt(x.used))}</td><td class="r${x.high?" flag":""}">${x.use==null?"—":esc(fmt(x.use))}${x.exp?` <small>/${esc(fmt(x.exp))}</small>`:""}</td><td class="r">${x.fills}</td><td class="r${x.warnings?" flag":""}">${x.warnings}</td></tr>`).join("")}<tr><th>${esc(t("prTot"))}</th><th class="r">${esc(fmt(tt.litres))}</th><th class="r">${esc(fmt(tt.used))}</th><th class="r">${tt.use==null?"—":esc(fmt(tt.use))}</th><th class="r">${tt.fills}</th><th class="r">${tt.warnings}</th></tr></table>`};
+  const one=rpS.vid&&r.rows[0],nx=r.b>=td;
+  return `<div class="box" id="prBox"><h2>📊 ${esc(t("prPer"))}</h2><div class="seg prs">${["d","w","m","y"].map(p=>`<button type="button" class="sec${rpS.p===p?" on":""}" data-prp="${p}">${esc(t("pr"+p.toUpperCase()))}</button>`).join("")}</div>
+  <div class="seg"><button type="button" class="sec" id="prPrev">⬅️</button><b class="prlab" id="prLab">${esc(r.label)}</b><button type="button" class="sec" id="prNext" ${nx?"disabled":""}>➡️</button></div>
+  <div class="vgrid prv"><button type="button" class="vt${rpS.vid?"":" on"}" data-prv=""><b style="font-size:40px">🚜🚛</b><b>${esc(t("prAll"))}</b></button>${V.map(v=>`<button type="button" class="vt${rpS.vid===v.id?" on":""}" data-prv="${esc(v.id)}">${vImg(v,P)}<b>${esc(v.fleet)}</b><small>${esc(v.model)}</small></button>`).join("")}</div></div>
+  <div class="box" id="prRes">${one?`<h2>${esc(one.fleet)} · ${esc(one.model)}</h2>${big(one,one.unit)}`:`<h2>${esc(t("prAll"))} · ${esc(t("prTot"))}</h2>${big(r.total)}${r.rows.length?tab("km","🚛 "+t("prKmV"))+tab("h","🚜 "+t("prHV")):`<p class="hint">${esc(t("prNone"))}</p>`}`}
+  <button type="button" class="sec" id="prCsv">${esc(t("prCsv"))}</button></div>`}
+const baseWorkP=workHTML;workHTML=function(u){const h=baseWorkP(u);if(fv!=="rep"||!u.admin)return h;const i=h.indexOf('<div class="box">');return i<0?h:h.slice(0,i)+periodHTML()+h.slice(i)};
+const baseBindP=bindWork;bindWork=function(u){baseBindP(u);if(fv!=="rep")return;
+  document.querySelectorAll("[data-prp]").forEach(b=>b.onclick=()=>{rpS.p=b.dataset.prp;render()});
+  document.querySelectorAll("[data-prv]").forEach(b=>b.onclick=()=>{rpS.vid=b.dataset.prv;render();const e=$("prRes");if(e)e.scrollIntoView({block:"start"})});
+  const pv=$("prPrev");if(pv)pv.onclick=()=>{rpS.k=shiftPeriod(rpS.p,rpS.k,-1);render()};
+  const nx=$("prNext");if(nx)nx.onclick=()=>{const k=shiftPeriod(rpS.p,rpS.k,1),td=dayKey(Date.now());rpS.k=(k>td||periodRange(rpS.p,k).b>=td)?td:k;render()};
+  const c=$("prCsv");if(c)c.onclick=()=>{const r=periodReport(rpS.p,rpS.k,rpS.vid),s=periodCSV(r),fn="tmc-fuel-"+r.a+"_"+r.b+".csv";
+    try{const f=new File([s],fn,{type:"text/csv"});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(()=>{});return}}catch(e){}
+    const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([s],{type:"text/csv"}));a.download=fn;document.body.appendChild(a);a.click();a.remove()}};
 /* ==================== APP FEATURES END ==================== */
 function usersHTML(me_){
   const U=users(),lab={pending:t("pend"),active:t("act"),rejected:t("rej"),blocked:t("blk")};
