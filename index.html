@@ -17,7 +17,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 1,
+ "VER": 2,
  "COLOR": "#b45309",
  "COLOR_DARK": "#92400e",
  "BG": "#fdf8e7",
@@ -70,7 +70,7 @@ nav button b{font-size:28px}nav button.on{color:var(--c);background:#f0fdfa;box-
 .st{font-size:14px;border-radius:8px;padding:2px 8px;background:#e2e8f0}.st.pending{background:#fef3c7}.st.blocked,.st.rejected{background:#fee2e2}.st.active{background:#dcfce7}
 .insB{background:#16a34a;font-size:22px;min-height:66px}.insH{background:#f1f5f9;border-radius:12px;padding:10px;font-weight:600;margin:6px 0}
 .modal{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}
-.qr{width:220px;height:220px;image-rendering:pixelated}
+.qr{width:240px;height:240px;max-width:80vw;max-height:80vw;display:block;margin:8px auto;background:#fff}.hhero{display:flex;align-items:center;gap:14px}.hhero img{border-radius:14px}.hhero h2{margin:0;font-size:21px}
 </style></head><body>
 <div id="app"></div>
 <script>
@@ -541,7 +541,7 @@ function bindWork(u){
   on("exAdd",()=>{const v=$("exTxt").value.trim();if(!v)return;const id="x"+Date.now();put("x",id,{id:id,text:v,by:u.name,at:new Date().toISOString()});draftClear("exTxt");render()});
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
