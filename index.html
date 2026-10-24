@@ -17,7 +17,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 4,
+ "VER": 5,
  "COLOR": "#b45309",
  "COLOR_DARK": "#92400e",
  "BG": "#fdf8e7",
@@ -427,30 +427,35 @@ function reports(){
 function pushReports(){const u=me();if(!u||!u.admin)return;const r=reports(),cur={};all("rp").forEach(x=>cur[x.id]=JSON.stringify(x.rows));
   ["vehicle","driver","week"].forEach(k=>{const s=JSON.stringify(r[k]);if(cur[k]!==s)put("rp",k,{id:k,rows:r[k],at:new Date().toISOString()})})}
 // Starting vehicle list from "1026 Diesel Use GZ.xlsx" (Vehicles + KM HS + Generator sheets, Oct 2026).
-// Added once per device with a very old time (u:1), so any Admin edit or delete always wins. Tank, normal use, site, photo, service stay blank for the Admin.
+// Added once per device with a very old time (u:1), so any Admin edit or delete always wins. Tank + normal use get web-researched defaults (Admin can change); site, photo, service stay blank.
 const SEED_V=[
- ["Toyota Cruiser","B052052","JTFBV71J6NB052052","km",80221,""],
- ["Zoomlion Crane","0450","ZRT700 - 0450","h",83.4,""],
- ["Zoomlion Tellihandler","ZTH4018","ZTH4018","h",85.3,""],
- ["Howo Tipper","D327778","LZZ5EXVDOSD327778","km",1897.6,""],
- ["XCMG Skid Steer","C310111","XUGOSRO7VRC310111","h",56.8,""],
- ["Cat TLB","Z403013","CAT00426PJZ403013","h",267.8,""],
- ["FAW Drop side","1E33608","LFNDRXPS0S1E33608","km",1882,""],
- ["FAW Tanker","1I22938","LFNDRXPS2S1I22938","km",29,""],
- ["XCMG Excavator Bucket","KA00514","XUGA335CHRKA00514","h",533.4,""],
- ["XCMG Excavator Pecker","KA00507","XUGA335CCRKA00507","h",181.3,""],
- ["Flowbin 1","Terex 1","Terex 1","h",null,"Backup"],
- ["Flowbin 2","Terex 2","Terex 2","h",null,"Backup"],
- ["Generator PERKINS P22 GV8340 22KW","938324H","U938324H","h",1122.23,""],
- ["Generator PERKINS Pi 150P MC PP82576 150KW","094847K","U094847K","h",27.36,""],
- ["Generator PERKINS Pi 150P 1 PP82576 150KW","094772K","U094772K","h",4.48,""],
- ["Generator PERKINS Pi 150P 2 PP83576 150KW","094768K","U094768K","h",4.2,""]];
+ ["Toyota Cruiser","B052052","JTFBV71J6NB052052","km",80221,"",130,13],
+ ["Zoomlion Crane","0450","ZRT700 - 0450","h",83.4,"",300,14],
+ ["Zoomlion Tellihandler","ZTH4018","ZTH4018","h",85.3,"",145,6],
+ ["Howo Tipper","D327778","LZZ5EXVDOSD327778","km",1897.6,"",400,42],
+ ["XCMG Skid Steer","C310111","XUGOSRO7VRC310111","h",56.8,"",80,4.5],
+ ["Cat TLB","Z403013","CAT00426PJZ403013","h",267.8,"",160,6],
+ ["FAW Drop side","1E33608","LFNDRXPS0S1E33608","km",1882,"",300,30],
+ ["FAW Tanker","1I22938","LFNDRXPS2S1I22938","km",29,"",400,35],
+ ["XCMG Excavator Bucket","KA00514","XUGA335CHRKA00514","h",533.4,"",630,24],
+ ["XCMG Excavator Pecker","KA00507","XUGA335CCRKA00507","h",181.3,"",630,26],
+ ["Flowbin 1","Terex 1","Terex 1","h",null,"Backup",null,null],
+ ["Flowbin 2","Terex 2","Terex 2","h",null,"Backup",null,null],
+ ["Generator PERKINS P22 GV8340 22KW","938324H","U938324H","h",1122.23,"",65,4.5],
+ ["Generator PERKINS Pi 150P MC PP82576 150KW","094847K","U094847K","h",27.36,"",455,23],
+ ["Generator PERKINS Pi 150P 1 PP82576 150KW","094772K","U094772K","h",4.48,"",455,23],
+ ["Generator PERKINS Pi 150P 2 PP83576 150KW","094768K","U094768K","h",4.2,"",455,23]];
 function seedVehicles(){if(L.get("seedV")||L.get("noSeed"))return 0;let n=0;
   SEED_V.forEach(a=>{const id="s_"+a[1].replace(/[^A-Za-z0-9]/g,""),k="v:"+id;if(R[k])return;
-    R[k]={kind:"v",id:id,u:1,del:0,data:{id:id,type:guessType({model:a[0],note:a[5]}),model:a[0],fleet:a[1],vin:a[2],plate:"",mt:a[3],m0:a[4],tank:null,exp:null,dept:"",svc:null,active:true,note:a[5],seed:1}};dirty[k]=1;n++});
+    R[k]={kind:"v",id:id,u:1,del:0,data:{id:id,type:guessType({model:a[0],note:a[5]}),model:a[0],fleet:a[1],vin:a[2],plate:"",mt:a[3],m0:a[4],tank:a[6],exp:a[7],dept:"",svc:null,active:true,note:a[5],seed:1}};dirty[k]=1;n++});
   L.set("seedV","1");saveR();return n}
 seedVehicles();
-window.TMC.fuel={fuelWarn:fuelWarn,canSave:canSave,tankBalance:tankBalance,tankMoves:tankMoves,reports:reports,lastFill:lastFill,isoWeek:isoWeek,limits:limits,LIM0:LIM0,SEED_V:SEED_V,seedVehicles:seedVehicles,pushReports:pushReports};
+// v5: web-researched defaults (tank L, normal use). Only fills BLANK tank/normal-use on starting vehicles, on this phone only
+// (not pushed, record time unchanged), so any value an Admin typed on any phone always wins.
+function seedDefaults(){let n=0;SEED_V.forEach(a=>{const r=R["v:s_"+a[1].replace(/[^A-Za-z0-9]/g,"")];if(!r||r.del||!r.data)return;const d=r.data;
+  if((d.tank==null||d.tank==="")&&a[6]!=null){d.tank=a[6];n++}if((d.exp==null||d.exp==="")&&a[7]!=null){d.exp=a[7];n++}});if(n)saveR();return n}
+seedDefaults();{const _od=onData;onData=function(){try{seedDefaults()}catch(e){}return _od.apply(this,arguments)}}
+window.TMC.fuel={fuelWarn:fuelWarn,canSave:canSave,tankBalance:tankBalance,tankMoves:tankMoves,reports:reports,lastFill:lastFill,isoWeek:isoWeek,limits:limits,LIM0:LIM0,SEED_V:SEED_V,seedVehicles:seedVehicles,seedDefaults:seedDefaults,pushReports:pushReports};
 
 /* ---- photos: shrink on the phone, store as its own record ---- */
 function shrink(file,max){return new Promise((ok,no)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");
@@ -673,6 +678,19 @@ const baseBindP=bindWork;bindWork=function(u){baseBindP(u);if(fv!=="rep")return;
   const c=$("prCsv");if(c)c.onclick=()=>{const r=periodReport(rpS.p,rpS.k,rpS.vid),s=periodCSV(r),fn="tmc-fuel-"+r.a+"_"+r.b+".csv";
     try{const f=new File([s],fn,{type:"text/csv"});if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f]}).catch(()=>{});return}}catch(e){}
     const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([s],{type:"text/csv"}));a.download=fn;document.body.appendChild(a);a.click();a.remove()}};
+
+// v5 fix: a phone without the team code can never send its sign-up (or get the approval). Show a big
+// "Not connected" box (sign-in screen and inside the app) where the join code or join link can be typed/pasted.
+Object.assign(T.en,{ncT:"⚠️ Not connected",ncH:"This phone is not linked to the team. Scan the join QR code, or type the join code here. Without it the Admin cannot see you.",ncP:"Join code",ncB:"🔗 Connect",ncOk:"✅ Connected",ncBad:"Could not connect. Check the code and the internet."});
+Object.assign(T.fr,{ncT:"⚠️ Pas connecté",ncH:"Ce téléphone n'est pas lié à l'équipe. Scannez le QR d'accès ou tapez le code ici. Sans lui, l'Admin ne vous voit pas.",ncP:"Code d'accès",ncB:"🔗 Connecter",ncOk:"✅ Connecté",ncBad:"Connexion impossible. Vérifiez le code et internet."});
+Object.assign(T.ar,{ncT:"⚠️ غير متصل",ncH:"هذا الهاتف غير مرتبط بالفريق. امسح رمز QR للانضمام أو اكتب رمز الانضمام هنا. بدونه لا يراك المسؤول.",ncP:"رمز الانضمام",ncB:"🔗 اتصال",ncOk:"✅ متصل",ncBad:"تعذر الاتصال. تحقق من الرمز والإنترنت."});
+function joinCode(raw){raw=String(raw||"").trim();const m=/[#&]k=([^&\s]+)/.exec(raw);return m?decodeURIComponent(m[1]).trim():raw}
+{const _r=render;render=function(){_r.apply(this,arguments);if(syncOn())return;const A=$("app");if(!A||$("ncBox"))return;
+  const d=document.createElement("div");d.id="ncBox";d.className="card";d.style.border="3px solid #b91c1c";
+  d.innerHTML=`<h2>${esc(t("ncT"))}</h2><p class="hint">${esc(t("ncH"))}</p><label class="fl" for="ncCode">${esc(t("ncP"))}</label><input id="ncCode" type="text" autocomplete="off" autocapitalize="off"><button type="button" id="ncGo">${esc(t("ncB"))}</button><p id="ncMsg" class="hint"></p>`;
+  A.insertBefore(d,A.firstChild);
+  $("ncGo").onclick=async()=>{const c=joinCode($("ncCode").value);if(!c)return;L.set("sycode",c);L.del("since");$("ncMsg").textContent="…";
+    const ok=await syncNow();if(ok){render()}else{L.del("sycode");$("ncMsg").textContent=t("ncBad")}}}}
 /* ==================== APP FEATURES END ==================== */
 function usersHTML(me_){
   const U=users(),lab={pending:t("pend"),active:t("act"),rejected:t("rej"),blocked:t("blk")};
