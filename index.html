@@ -24,8 +24,9 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER":12,
+ "VER":13,
  "COLOR": "#b45309",
+ "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
  "BG": "#f1f5f9",
  "SYNC_URL": "https://script.google.com/macros/s/AKfycbzRUhbiYAxG4SIHGvzEqIGcez5Rj8YQ3wZMERq6tSv_ed_8LI7WO8htQLBiIZtU3CgW/exec",
@@ -132,6 +133,8 @@ nav.tabs button .ticon{font-size:28px}nav.tabs button.on{color:var(--c);backgrou
 .urow{display:flex;flex-wrap:wrap;align-items:center;gap:4px;border-bottom:1px solid #e2e8f0;padding:8px 0}.urow .n{flex:1;min-width:140px;font-weight:700}
 .st{font-size:14px;border-radius:8px;padding:2px 8px;background:#e2e8f0}.st.pending{background:#fef3c7}.st.blocked,.st.rejected{background:#fee2e2}.st.active{background:#dcfce7}
 .insB{background:#16a34a;font-size:22px;min-height:66px}.insH{background:#f1f5f9;border-radius:12px;padding:10px;font-weight:600;margin:6px 0}
+.phPick{display:flex;gap:8px}.phPick label{flex:1;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center;background:var(--c);color:#fff;border-radius:10px;font-weight:700;font-size:17px;padding:6px;margin:6px 0;cursor:pointer}.phPick label.alt{background:#fff;color:var(--c);border:2px solid var(--c)}.phPick input{display:none}.phPrev{max-width:100%;border-radius:10px;margin-top:6px}
+.rep{width:100%;border-collapse:collapse;font-size:17px;margin:6px 0}.rep th{background:var(--rc);color:#fff;text-align:left;padding:12px 10px}.rep td{padding:12px 10px;border-bottom:1px solid #d1e7d8}.rep tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--rc) 10%,#fff)}.rep tfoot td{background:color-mix(in srgb,var(--rc) 22%,#fff);color:var(--rc);font-weight:800;border-top:3px solid var(--rc)}.repH{background:var(--rc);color:#fff;border-radius:10px;padding:12px;font-weight:800;font-size:19px;margin:6px 0}
 .modal{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}
 .ncW{background:#fee2e2;border:2px solid #dc2626;color:#7f1d1d}
 .signin{position:relative;width:100%;max-width:440px}.signin>.card{margin:0}
@@ -172,7 +175,7 @@ nav.tabs button .ticon{font-size:28px}nav.tabs button.on{color:var(--c);backgrou
 (function(){
 const C=window.CONFIG,P=C.APP_ID+"_";            // every localStorage key starts with APP_ID_
 const CACHE_PREFIX=(C.CACHE_PREFIX||C.APP_ID)+"-v"; // every cache name starts with CACHE_PREFIX-v (default APP_ID)
-document.documentElement.style.setProperty("--c",C.COLOR);document.documentElement.style.setProperty("--cd",C.COLOR_DARK);document.documentElement.style.setProperty("--bg",C.BG);
+document.documentElement.style.setProperty("--c",C.COLOR);document.documentElement.style.setProperty("--cd",C.COLOR_DARK);document.documentElement.style.setProperty("--bg",C.BG);document.documentElement.style.setProperty("--rc",C.REPORT_COLOR||"#1B7F3B");
 const L={get:k=>localStorage.getItem(P+k),set:(k,v)=>localStorage.setItem(P+k,v),del:k=>localStorage.removeItem(P+k),
   j:(k,d)=>{try{const v=localStorage.getItem(P+k);return v==null?d:JSON.parse(v)}catch(e){return d}},sj:(k,v)=>localStorage.setItem(P+k,JSON.stringify(v))};
 window.TMC={P:P,L:L};
@@ -182,7 +185,7 @@ window.TMC={P:P,L:L};
 
 /* ---------------- Texts EN / FR / AR ---------------- */
 const T={en:{
-hello:"Hello",name:"Your name",nameH:"Type your name",go:"Continue",needName:"Please type your name.",
+hello:"Hello",phTake:"📷 Take photo",phPick:"🖼️ Choose from phone",phDemo:"Photo (demo)",rpTot:"Total",rpItem:"Item",rpQty:"Count",name:"Your name",nameH:"Type your name",go:"Continue",needName:"Please type your name.",
 pinT:"Enter your PIN",pin:"PIN",pinWrong:"Wrong PIN. Try again.",pinLock:"Too many wrong PINs. Try again in %m min.",other:"Use a different name",
 setT:"Choose a PIN",setH:"4 to 6 numbers. You will use it every time.",pin2:"Type the PIN again",pinBad:"Use 4 to 6 numbers.",pinDiff:"The two PINs are not the same.",save:"Save",
 setupT:"First Admin setup",setupH:"You are the first user. Choose the Admin PIN.",
@@ -202,7 +205,7 @@ logoutPend:"⚠️ %n change(s) are not sent yet. They stay on this phone and wi
 wipe:"🗑️ Clear this app on this phone",wipeQ:"Delete this app's data on this phone? Other apps are not touched.",wipePend:"⚠️ %n change(s) are NOT sent and will be LOST. Delete anyway?",
 draft:"Your unsaved text was kept.",ncT:"🔴 Not connected",ncH:"The app cannot reach the Sheet. Your work is kept on this phone and sent when it connects.",ncOff:"Sync link missing in this app. Tell the Admin."},
 fr:{
-hello:"Bonjour",name:"Votre nom",nameH:"Écrivez votre nom",go:"Continuer",needName:"Écrivez votre nom.",
+hello:"Bonjour",phTake:"📷 Prendre une photo",phPick:"🖼️ Choisir dans le téléphone",phDemo:"Photo (démo)",rpTot:"Total",rpItem:"Élément",rpQty:"Nombre",name:"Votre nom",nameH:"Écrivez votre nom",go:"Continuer",needName:"Écrivez votre nom.",
 pinT:"Entrez votre PIN",pin:"PIN",pinWrong:"PIN incorrect. Réessayez.",pinLock:"Trop de PIN erronés. Réessayez dans %m min.",other:"Utiliser un autre nom",
 setT:"Choisissez un PIN",setH:"4 à 6 chiffres. Vous l'utiliserez à chaque fois.",pin2:"Retapez le PIN",pinBad:"Utilisez 4 à 6 chiffres.",pinDiff:"Les deux PIN ne sont pas pareils.",save:"Enregistrer",
 setupT:"Configuration de l'Admin",setupH:"Vous êtes le premier utilisateur. Choisissez le PIN Admin.",
@@ -222,7 +225,7 @@ logoutPend:"⚠️ %n modification(s) pas encore envoyée(s). Elles restent sur 
 wipe:"🗑️ Effacer cette app sur ce téléphone",wipeQ:"Effacer les données de cette app sur ce téléphone ? Les autres apps ne sont pas touchées.",wipePend:"⚠️ %n modification(s) NON envoyée(s) seront PERDUES. Effacer quand même ?",
 draft:"Votre texte non enregistré a été gardé.",ncT:"🔴 Pas connecté",ncH:"L'app n'arrive pas à joindre la feuille. Votre travail reste sur ce téléphone et sera envoyé à la connexion.",ncOff:"Lien de synchro absent dans cette app. Prévenez l'Admin."},
 ar:{
-hello:"مرحبا",name:"اسمك",nameH:"اكتب اسمك",go:"متابعة",needName:"من فضلك اكتب اسمك.",
+hello:"مرحبا",phTake:"📷 التقط صورة",phPick:"🖼️ اختر من الهاتف",phDemo:"صورة (تجربة)",rpTot:"المجموع",rpItem:"البند",rpQty:"العدد",name:"اسمك",nameH:"اكتب اسمك",go:"متابعة",needName:"من فضلك اكتب اسمك.",
 pinT:"أدخل رمز PIN",pin:"PIN",pinWrong:"رمز خاطئ. حاول مرة أخرى.",pinLock:"رموز PIN خاطئة كثيرة. حاول مرة أخرى بعد %m دقيقة.",other:"استخدام اسم آخر",
 setT:"اختر رمز PIN",setH:"من 4 إلى 6 أرقام. ستستخدمه كل مرة.",pin2:"اكتب الرمز مرة أخرى",pinBad:"استخدم من 4 إلى 6 أرقام.",pinDiff:"الرمزان غير متطابقين.",save:"حفظ",
 setupT:"إعداد المسؤول الأول",setupH:"أنت أول مستخدم. اختر رمز المسؤول.",
@@ -471,11 +474,20 @@ function viewHTML(u){
    <button type="button" class="tile sec" data-tab="settings"><b>⚙️</b>${esc(t("settings"))}</button>
   </div>${insHTML()}`;
 }
+/* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
+   photoHTML(id) -> HTML; bindPhoto(id, cb) -> cb(dataUrl) after resize/compress (max 1280px, JPEG 0.7). */
+function photoHTML(id){return `<div class="phPick" id="${id}"><label class="phCam"><input type="file" accept="image/*" capture="environment" data-ph="${id}">${esc(t("phTake"))}</label><label class="alt phGal"><input type="file" accept="image/*" data-ph="${id}">${esc(t("phPick"))}</label></div>`}
+function shrinkPhoto(file,max,q){return new Promise((ok,no)=>{const r=new FileReader();r.onerror=no;r.onload=()=>{const im=new Image();im.onerror=no;im.onload=()=>{const k=Math.min(1,(max||1280)/Math.max(im.width,im.height));const c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);ok(c.toDataURL("image/jpeg",q||0.7))};im.src=r.result};r.readAsDataURL(file)})}
+function bindPhoto(id,cb){document.querySelectorAll(`input[data-ph="${id}"]`).forEach(i=>i.onchange=()=>{const f=i.files&&i.files[0];if(!f)return;window.TMC.lastPhotoFrom=i.hasAttribute("capture")?"camera":"phone";shrinkPhoto(f).then(cb).catch(()=>{});i.value=""})}
+window.TMC.photoHTML=photoHTML;window.TMC.bindPhoto=bindPhoto;window.TMC.shrinkPhoto=shrinkPhoto;
+/* ---- REPORT: green company table (CONFIG REPORT_COLOR). rows=[[label,value],...] ---- */
+function reportHTML(title,rows){const tot=rows.reduce((a,r)=>a+(+r[1]||0),0);return `<div class="repH">📊 ${esc(title)}</div><table class="rep"><thead><tr><th>${esc(t("rpItem"))}</th><th>${esc(t("rpQty"))}</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</tbody><tfoot><tr><td>${esc(t("rpTot"))}</td><td>${tot}</td></tr></tfoot></table>`}
+window.TMC.reportHTML=reportHTML;
 /* ==================== APP FEATURES START ====================
    TMC FUEL — diesel fill-ups, tank stock, vehicles, reports.
    Record kinds: v=vehicle, f=fill-up, d=delivery into tank, ph=photo, rp=report rows (for the Sheet),
    x=short notes (kept from the base demo; the base test suite uses it). Never "u".  */
-Object.assign(T.en,{vType:"Type",phCam:"📷 Take photo",phGal:"🖼️ Choose from gallery",phDel:"🗑️ Remove photo (use icon)",limT:"⚠️ Warning limits",limH:"Change only if needed. Empty = normal value.",usePct:"High use: % over normal",minGapH:"Too soon: hours since last fill",minKm:"Too soon: km since last fill",minHr:"Too soon: hours run since last fill",svcKm:"Service warning: km before service",svcHr:"Service warning: hours before service",limSave:"✅ Save limits",limReset:"↩️ Normal values",limOk:"✅ Limits saved",limBad:"Use numbers 0 or more.",work:"Fill-up",fuel:"Fuel",fill:"Fill-up",tank:"Tank stock",veh:"Vehicles",rep:"Reports",notes:"Notes",back:"⬅️ Back",
+Object.assign(T.en,{vType:"Type",phCam:"📷 Take photo",phGal:"🖼️ Choose from phone",phDel:"🗑️ Remove photo (use icon)",limT:"⚠️ Warning limits",limH:"Change only if needed. Empty = normal value.",usePct:"High use: % over normal",minGapH:"Too soon: hours since last fill",minKm:"Too soon: km since last fill",minHr:"Too soon: hours run since last fill",svcKm:"Service warning: km before service",svcHr:"Service warning: hours before service",limSave:"✅ Save limits",limReset:"↩️ Normal values",limOk:"✅ Limits saved",limBad:"Use numbers 0 or more.",work:"Fill-up",fuel:"Fuel",fill:"Fill-up",tank:"Tank stock",veh:"Vehicles",rep:"Reports",notes:"Notes",back:"⬅️ Back",
  pickV:"Tap the vehicle you are filling",noVeh:"No vehicles yet. The Admin must add them.",stopped:"Stopped",
  step1:"1. Photo of the km / hours meter",step2:"2. Photo of the pump display",takePh:"📷 Take photo",rePh:"📷 Again",meterKm:"Km on meter",meterH:"Hours on meter",litres:"Litres",
  needAll:"Take both photos and type both numbers. Then Save.",saveFill:"✅ Save fill-up",savedFill:"✅ Fill-up saved",last:"Last",
@@ -489,7 +501,7 @@ Object.assign(T.en,{vType:"Type",phCam:"📷 Take photo",phGal:"🖼️ Choose f
  saveV:"✅ Save vehicle",needV:"Type model and ID.",
  byVeh:"Per vehicle",byDrv:"Per driver",byWk:"Per week",fills:"Fills",dist:"Distance / hours",use:"Use",warns:"Warnings",driver:"Driver",week:"Week",noData:"No fill-ups yet.",
  hAgo:"%n h after last",kmAgo:"%n km",hrAgo:"%n h run"});
-Object.assign(T.fr,{vType:"Type",phCam:"📷 Prendre une photo",phGal:"🖼️ Choisir dans la galerie",phDel:"🗑️ Enlever la photo (icône)",limT:"⚠️ Limites des alertes",limH:"Changer seulement si besoin. Vide = valeur normale.",usePct:"Consommation forte : % au-dessus du normal",minGapH:"Trop tôt : heures depuis le dernier plein",minKm:"Trop tôt : km depuis le dernier plein",minHr:"Trop tôt : heures de marche depuis le dernier plein",svcKm:"Alerte entretien : km avant l'entretien",svcHr:"Alerte entretien : heures avant l'entretien",limSave:"✅ Enregistrer les limites",limReset:"↩️ Valeurs normales",limOk:"✅ Limites enregistrées",limBad:"Utilisez des nombres de 0 ou plus.",work:"Plein",fuel:"Carburant",fill:"Plein",tank:"Stock citerne",veh:"Véhicules",rep:"Rapports",notes:"Notes",back:"⬅️ Retour",
+Object.assign(T.fr,{vType:"Type",phCam:"📷 Prendre une photo",phGal:"🖼️ Choisir sur le téléphone",phDel:"🗑️ Enlever la photo (icône)",limT:"⚠️ Limites des alertes",limH:"Changer seulement si besoin. Vide = valeur normale.",usePct:"Consommation forte : % au-dessus du normal",minGapH:"Trop tôt : heures depuis le dernier plein",minKm:"Trop tôt : km depuis le dernier plein",minHr:"Trop tôt : heures de marche depuis le dernier plein",svcKm:"Alerte entretien : km avant l'entretien",svcHr:"Alerte entretien : heures avant l'entretien",limSave:"✅ Enregistrer les limites",limReset:"↩️ Valeurs normales",limOk:"✅ Limites enregistrées",limBad:"Utilisez des nombres de 0 ou plus.",work:"Plein",fuel:"Carburant",fill:"Plein",tank:"Stock citerne",veh:"Véhicules",rep:"Rapports",notes:"Notes",back:"⬅️ Retour",
  pickV:"Touchez le véhicule à remplir",noVeh:"Pas encore de véhicules. L'Admin doit les ajouter.",stopped:"Arrêté",
  step1:"1. Photo du compteur km / heures",step2:"2. Photo de l'écran de la pompe",takePh:"📷 Prendre la photo",rePh:"📷 Refaire",meterKm:"Km au compteur",meterH:"Heures au compteur",litres:"Litres",
  needAll:"Prenez les deux photos et tapez les deux chiffres. Puis Enregistrer.",saveFill:"✅ Enregistrer le plein",savedFill:"✅ Plein enregistré",last:"Dernier",
@@ -503,7 +515,7 @@ Object.assign(T.fr,{vType:"Type",phCam:"📷 Prendre une photo",phGal:"🖼️ C
  saveV:"✅ Enregistrer le véhicule",needV:"Tapez le modèle et l'ID.",
  byVeh:"Par véhicule",byDrv:"Par chauffeur",byWk:"Par semaine",fills:"Pleins",dist:"Distance / heures",use:"Conso.",warns:"Alertes",driver:"Chauffeur",week:"Semaine",noData:"Pas encore de pleins.",
  hAgo:"%n h après le dernier",kmAgo:"%n km",hrAgo:"%n h de marche"});
-Object.assign(T.ar,{vType:"النوع",phCam:"📷 التقاط صورة",phGal:"🖼️ اختيار من المعرض",phDel:"🗑️ حذف الصورة (استخدام الرمز)",limT:"⚠️ حدود التنبيهات",limH:"غيّر فقط عند الحاجة. فارغ = القيمة العادية.",usePct:"استهلاك كبير: % فوق العادي",minGapH:"مبكر جدا: ساعات منذ آخر تعبئة",minKm:"مبكر جدا: كم منذ آخر تعبئة",minHr:"مبكر جدا: ساعات تشغيل منذ آخر تعبئة",svcKm:"تنبيه الصيانة: كم قبل الصيانة",svcHr:"تنبيه الصيانة: ساعات قبل الصيانة",limSave:"✅ حفظ الحدود",limReset:"↩️ القيم العادية",limOk:"✅ تم حفظ الحدود",limBad:"استخدم أرقاما 0 أو أكثر.",work:"تعبئة",fuel:"الوقود",fill:"تعبئة",tank:"مخزون الخزان",veh:"المركبات",rep:"التقارير",notes:"ملاحظات",back:"➡️ رجوع",
+Object.assign(T.ar,{vType:"النوع",phCam:"📷 التقاط صورة",phGal:"🖼️ اختيار من الهاتف",phDel:"🗑️ حذف الصورة (استخدام الرمز)",limT:"⚠️ حدود التنبيهات",limH:"غيّر فقط عند الحاجة. فارغ = القيمة العادية.",usePct:"استهلاك كبير: % فوق العادي",minGapH:"مبكر جدا: ساعات منذ آخر تعبئة",minKm:"مبكر جدا: كم منذ آخر تعبئة",minHr:"مبكر جدا: ساعات تشغيل منذ آخر تعبئة",svcKm:"تنبيه الصيانة: كم قبل الصيانة",svcHr:"تنبيه الصيانة: ساعات قبل الصيانة",limSave:"✅ حفظ الحدود",limReset:"↩️ القيم العادية",limOk:"✅ تم حفظ الحدود",limBad:"استخدم أرقاما 0 أو أكثر.",work:"تعبئة",fuel:"الوقود",fill:"تعبئة",tank:"مخزون الخزان",veh:"المركبات",rep:"التقارير",notes:"ملاحظات",back:"➡️ رجوع",
  pickV:"اضغط على المركبة التي تعبئها",noVeh:"لا توجد مركبات بعد. يجب أن يضيفها المسؤول.",stopped:"متوقفة",
  step1:"1. صورة عداد الكيلومترات / الساعات",step2:"2. صورة شاشة المضخة",takePh:"📷 التقط صورة",rePh:"📷 مرة أخرى",meterKm:"الكيلومترات في العداد",meterH:"الساعات في العداد",litres:"لترات",
  needAll:"التقط الصورتين واكتب الرقمين. ثم احفظ.",saveFill:"✅ حفظ التعبئة",savedFill:"✅ تم حفظ التعبئة",last:"آخر",
@@ -528,6 +540,8 @@ button:disabled{opacity:.35;cursor:not-allowed}
 .big{font-size:44px;font-weight:900;text-align:center;margin:4px 0}.big.neg{color:#b91c1c}
 .mv{display:flex;gap:6px;align-items:center;border-bottom:1px solid #e2e8f0;padding:8px 0;font-size:16px}.mv .n{flex:1}.mv .q{font-weight:800;min-width:70px;text-align:end}.in{color:#15803d}.out{color:#b91c1c}
 table.rp{width:100%;border-collapse:collapse;font-size:15px}table.rp th,table.rp td{border-bottom:1px solid #e2e8f0;padding:6px 4px;text-align:start}table.rp td.r,table.rp th.r{text-align:end}
+/* v13: green report tables (CONFIG REPORT_COLOR, base TMC.reportHTML look). App colour stays orange. */
+table.rp tr:first-child th{background:var(--rc,#1B7F3B);color:#fff;padding:10px 6px}table.rp tr:nth-child(even) td{background:color-mix(in srgb,var(--rc,#1B7F3B) 10%,#fff)}table.rp tr.tot th,table.rp tr.tot td{background:var(--rc,#1B7F3B);color:#fff;font-weight:800;padding:10px 6px}
 .flag{color:#b91c1c;font-weight:800}.ok2{background:#dcfce7;border:3px solid #16a34a;border-radius:14px;padding:12px;font-weight:800;font-size:22px;text-align:center;margin:0 0 12px}
 select{font:inherit;font-size:22px;width:100%;padding:12px;border:2px solid #334155;border-radius:12px;margin:6px 0;background:#fff}
 .seg{display:flex;gap:8px}.seg button{margin:4px 0}.seg button.on{outline:4px solid #f59e0b}
@@ -693,9 +707,9 @@ function workHTML(u){
   if(fv==="fill"){const v=vehs().find(x=>x.id===fs.vid);if(!v){fv="pick";return workHTML(u)}const P=phMap(),pr=lastFill(v.id,Date.now());
     return `<button type="button" class="sec" data-fv="pick">${esc(t("back"))}</button>
     <div class="box" style="display:flex;gap:10px;align-items:center"><div style="width:90px" class="vt">${vImg(v,P)}</div><div><b style="font-size:24px">${esc(v.fleet)}</b><br>${esc(v.model)}<br><span class="hint">${esc(t("last"))}: ${pr?esc(fmt(num(pr.meter))+" "+unitM(v)):isFinite(num(v.m0))?esc(fmt(num(v.m0))+" "+unitM(v)):"—"}</span></div></div>
-    ${fromHTML()}<div class="box"><h3>${esc(t("step1"))}</h3><div class="prow"><label class="pbtn${fs.p1?" ok":""}" id="fuP1L">${fs.p1?`<img src="${esc(fs.p1)}" alt="">${esc(t("rePh"))}`:esc(t("takePh"))}<input type="file" id="fuP1" accept="image/*" capture="environment"></label>
+    ${fromHTML()}<div class="box"><h3>${esc(t("step1"))}</h3><div class="prow"><div><label class="pbtn${fs.p1?" ok":""}" id="fuP1L">${fs.p1?`<img src="${esc(fs.p1)}" alt="">${esc(t("rePh"))}`:esc(t("takePh"))}<input type="file" id="fuP1" accept="image/*" capture="environment"></label><label class="pbtn pgal" style="min-height:60px;margin-top:8px">${esc(t("phGal"))}<input type="file" id="fuP1G" accept="image/*"></label></div>
       <div><label class="fl" for="fuM">${esc(isH(v)?t("meterH"):t("meterKm"))}</label><input id="fuM" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(fs.m||"")}"></div></div></div>
-    <div class="box"><h3>${esc(t("step2"))}</h3><div class="prow"><label class="pbtn${fs.p2?" ok":""}" id="fuP2L">${fs.p2?`<img src="${esc(fs.p2)}" alt="">${esc(t("rePh"))}`:esc(t("takePh"))}<input type="file" id="fuP2" accept="image/*" capture="environment"></label>
+    <div class="box"><h3>${esc(t("step2"))}</h3><div class="prow"><div><label class="pbtn${fs.p2?" ok":""}" id="fuP2L">${fs.p2?`<img src="${esc(fs.p2)}" alt="">${esc(t("rePh"))}`:esc(t("takePh"))}<input type="file" id="fuP2" accept="image/*" capture="environment"></label><label class="pbtn pgal" style="min-height:60px;margin-top:8px">${esc(t("phGal"))}<input type="file" id="fuP2G" accept="image/*"></label></div>
       <div><label class="fl" for="fuL">${esc(t("litres"))}</label><input id="fuL" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(fs.l||"")}"></div></div></div>
     ${bmHTML()}${warnBox(curWarn())}<p class="hint" id="fuNeed">${esc(t("needAll"))}</p><button type="button" id="fuSave" ${canSave(fs)?"":"disabled"} style="min-height:72px;font-size:24px">${esc(t("saveFill"))}</button>`}
   if(fv==="tank")return tankHTML(u,fl);
@@ -744,7 +758,7 @@ function bindWork(u){
   const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
   document.querySelectorAll("[data-vid]").forEach(b=>b.onclick=()=>{fs={vid:b.dataset.vid};fv="fill";render();scrollTo(0,0)});
   const photo=(id,cb)=>{const i=$(id);if(i)i.onchange=async()=>{const f=i.files&&i.files[0];if(!f)return;try{cb(await shrink(f,/^veP/.test(id)?320:480))}catch(e){console.warn(e)}render()}};
-  photo("fuP1",d=>fs.p1=d);photo("fuP2",d=>fs.p2=d);photo("dlP",d=>dl.p=d);photo("xfP",d=>xf.p=d);photo("vePh",d=>{rv();ve._ph=d});photo("vePhG",d=>{rv();ve._ph=d});
+  photo("fuP1",d=>fs.p1=d);photo("fuP1G",d=>fs.p1=d);photo("fuP2G",d=>fs.p2=d);photo("dlPG",d=>dl.p=d);photo("xfPG",d=>xf.p=d);photo("fuP2",d=>fs.p2=d);photo("dlP",d=>dl.p=d);photo("xfP",d=>xf.p=d);photo("vePh",d=>{rv();ve._ph=d});photo("vePhG",d=>{rv();ve._ph=d});
   const inp=(id,k,o)=>{const e=$(id);if(e)e.oninput=()=>{o[k]=e.value;if(o===fs)refreshFill();else if(o===xf)refreshXf();else{const s=$("dlSave");if(s)s.disabled=!(num(dl.l)>0);refreshDl()}}};
   inp("fuM","m",fs);inp("fuL","l",fs);inp("fuBM","bm",fs);inp("dlL","l",dl);inp("dlN","n",dl);inp("xfL","l",xf);inp("xfM1","m1",xf);inp("xfM2","m2",xf);inp("xfN","n",xf);
   document.querySelectorAll("[data-ftk]").forEach(b=>b.onclick=()=>{fs.tk=b.dataset.ftk;render()});
@@ -821,7 +835,7 @@ const baseWorkD=workHTML;workHTML=function(u){
     <p id="dyDayLbl" style="font-size:26px;font-weight:800;text-align:center;margin:6px 0;${dd<td?"color:#b91c1c":""}">${dd<td?"🔴 "+esc(t("dlyNotToday"))+" · ":"✅ "+esc(t("dlyToday"))+" · "}${esc(new Date(dd+"T12:00:00").toLocaleDateString(lang,{weekday:"short",day:"numeric",month:"short"}))}</p></div>
     <div class="box"><label class="fl" for="dyM">${esc(t("dlyRead"))} (${esc(unitM(v))})</label><input id="dyM" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(dy.m||"")}">
     <div id="dyWarn">${ck?`<p class="flag">${esc(tr(ck.k,"",fmt(ck.b)))}</p>`:""}</div>
-    <label class="pbtn${dy.p?" ok":""}" id="dyPL" style="min-height:70px;margin-top:8px">${dy.p?`<img src="${esc(dy.p)}" alt="" style="height:70px">`:esc(t("dlyPh"))}<input type="file" id="dyP" accept="image/*" capture="environment"></label>
+    <label class="pbtn${dy.p?" ok":""}" id="dyPL" style="min-height:70px;margin-top:8px">${dy.p?`<img src="${esc(dy.p)}" alt="" style="height:70px">`:esc(t("dlyPh"))}<input type="file" id="dyP" accept="image/*" capture="environment"></label><label class="pbtn pgal" style="min-height:60px;margin-top:8px">${esc(t("phGal"))}<input type="file" id="dyPG" accept="image/*"></label>
     <button type="button" id="dySave" ${m>=0?"":"disabled"} style="min-height:72px;font-size:24px">${esc(t("dlySave"))}</button></div>`}
   if(fv==="dtab"){const T0=dayTable(dday),td=dayKey(Date.now());
     return `<button type="button" class="sec" data-fv="daily">${esc(t("back"))}</button><div class="box"><div class="seg"><button type="button" class="sec" id="dyPrev">⬅️</button><b id="dyDay" style="flex:2;text-align:center;font-size:22px;align-self:center">${esc(dday===td?t("dlyToday")+" "+dday:dday)}</b><button type="button" class="sec" id="dyNext" ${dday>=td?"disabled":""}>➡️</button></div>
@@ -836,7 +850,7 @@ const baseBindD=bindWork;bindWork=function(u){baseBindD(u);
   const dD=$("dyD");if(dD)dD.onchange=()=>setDay(dD.value);
   const dP=$("dyDPrev");if(dP)dP.onclick=()=>setDay(shiftDay(dy.day||dayKey(Date.now()),-1));
   const dN=$("dyDNext");if(dN)dN.onclick=()=>setDay(shiftDay(dy.day||dayKey(Date.now()),1));
-  const pi=$("dyP");if(pi)pi.onchange=async()=>{const f=pi.files&&pi.files[0];if(!f)return;try{dy.p=await shrink(f,480)}catch(e){}render()};
+  ["dyP","dyPG"].forEach(id=>{const pi=$(id);if(pi)pi.onchange=async()=>{const f=pi.files&&pi.files[0];if(!f)return;try{dy.p=await shrink(f,480)}catch(e){}render()}});
   const s=$("dySave");if(s)s.onclick=()=>{if(!(num(dy.m)>=0))return;if(!saveDaily(dy.vid,dy.m,u.name,dy.p?savePh(dy.p):"",dy.day))return;dy={};flash=t("dlySaved");fv="daily";render();scrollTo(0,0)};
   const pr=$("dyPrev");if(pr)pr.onclick=()=>{dday=shiftDay(dday,-1);render()};
   const nx=$("dyNext");if(nx)nx.onclick=()=>{dday=shiftDay(dday,1);render()};
@@ -871,7 +885,7 @@ let rpS={p:"m",k:dayKey(Date.now()),vid:""};
 function periodHTML(){const r=periodReport(rpS.p,rpS.k,rpS.vid),P=phMap(),V=vehs(),td=dayKey(Date.now()),uu=x=>x==="h"?t("hr"):t("km"),uU=x=>x==="h"?"L/h":"L/100km";
   const big=(o,u)=>`<div class="prbig"><div><b>${esc(fmt(o.litres))}</b><span>${esc(t("prL"))}</span></div>${u?`<div><b>${esc(fmt(o.used))} ${esc(uu(u))}</b><span>${esc(t("prUsed"))}</span></div><div class="${o.high?"flag":""}"><b>${o.use==null?"—":esc(fmt(o.use))}</b><span>${esc(t("prUse"))} ${esc(uU(u))}${o.exp?" · "+esc(t("prExp"))+" "+esc(fmt(o.exp)):""}</span></div>`:""}<div><b>${o.fills}</b><span>${esc(t("prF"))}</span></div><div class="${o.warnings?"flag":""}"><b>${o.warnings}</b><span>${esc(t("prWn"))}</span></div></div>`;
   const tab=(u,ttl)=>{const S=r.rows.filter(x=>x.unit===u);if(!S.length)return "";const tt=r[u];
-    return `<h3>${esc(ttl)}</h3><table class="rp prt" data-u="${u}"><tr><th>${esc(t("veh"))}</th><th class="r">${esc(t("prL"))}</th><th class="r">${esc(t("prUsed"))} ${esc(uu(u))}</th><th class="r">${esc(uU(u))}</th><th class="r">${esc(t("prF"))}</th><th class="r">⚠️</th></tr>${S.map(x=>`<tr><td>${esc(x.fleet)}</td><td class="r">${esc(fmt(x.litres))}</td><td class="r">${esc(fmt(x.used))}</td><td class="r${x.high?" flag":""}">${x.use==null?"—":esc(fmt(x.use))}${x.exp?` <small>/${esc(fmt(x.exp))}</small>`:""}</td><td class="r">${x.fills}</td><td class="r${x.warnings?" flag":""}">${x.warnings}</td></tr>`).join("")}<tr><th>${esc(t("prTot"))}</th><th class="r">${esc(fmt(tt.litres))}</th><th class="r">${esc(fmt(tt.used))}</th><th class="r">${tt.use==null?"—":esc(fmt(tt.use))}</th><th class="r">${tt.fills}</th><th class="r">${tt.warnings}</th></tr></table>`};
+    return `<h3>${esc(ttl)}</h3><table class="rp prt" data-u="${u}"><tr><th>${esc(t("veh"))}</th><th class="r">${esc(t("prL"))}</th><th class="r">${esc(t("prUsed"))} ${esc(uu(u))}</th><th class="r">${esc(uU(u))}</th><th class="r">${esc(t("prF"))}</th><th class="r">⚠️</th></tr>${S.map(x=>`<tr><td>${esc(x.fleet)}</td><td class="r">${esc(fmt(x.litres))}</td><td class="r">${esc(fmt(x.used))}</td><td class="r${x.high?" flag":""}">${x.use==null?"—":esc(fmt(x.use))}${x.exp?` <small>/${esc(fmt(x.exp))}</small>`:""}</td><td class="r">${x.fills}</td><td class="r${x.warnings?" flag":""}">${x.warnings}</td></tr>`).join("")}<tr class="tot"><th>${esc(t("prTot"))}</th><th class="r">${esc(fmt(tt.litres))}</th><th class="r">${esc(fmt(tt.used))}</th><th class="r">${tt.use==null?"—":esc(fmt(tt.use))}</th><th class="r">${tt.fills}</th><th class="r">${tt.warnings}</th></tr></table>`};
   const one=rpS.vid&&r.rows[0],nx=r.b>=td;
   return `<div class="box" id="prBox"><h2>📊 ${esc(t("prPer"))}</h2><div class="seg prs">${["d","w","m","y"].map(p=>`<button type="button" class="sec${rpS.p===p?" on":""}" data-prp="${p}">${esc(t("pr"+p.toUpperCase()))}</button>`).join("")}</div>
   <div class="seg"><button type="button" class="sec" id="prPrev">⬅️</button><b class="prlab" id="prLab">${esc(r.label)}</b><button type="button" class="sec" id="prNext" ${nx?"disabled":""}>➡️</button></div>
@@ -902,7 +916,7 @@ Object.assign(T.ar,{tkMainN:"خزان HQ",tkGz1N:"خزان GZ 1",tkGz2N:"خزا�
  wOver:"🛢️ أكثر مما يسع %a (%b لتر)",wNeg:"🔻 %a ينزل تحت الصفر (%b لتر)",wBmBack:"🔙 عداد الخزان رجع إلى الوراء (%a، الأخير %b)",wBmDiff:"🔢 العداد يبين %a لتر لكن كُتب %b لتر"});
 {const st=document.createElement("style");st.textContent=".seg.tks{flex-wrap:wrap}.seg.tks button{flex:1;min-width:140px;min-height:84px;font-size:22px;display:flex;flex-direction:column;align-items:center;justify-content:center}.seg.tks button.on{outline:5px solid #f59e0b;background:#fde68a}.seg.tks small{font-size:15px;font-weight:600}.tkg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tkg>div{background:#f1f5f9;border-radius:12px;padding:10px;text-align:center}.tkg b{display:block;font-size:28px}.tkg .neg b,.tkg .over b{color:#b91c1c}";document.head.appendChild(st)}
 const tkSeg=(attr,cur,list)=>`<div class="seg tks">${list.map(x=>`<button type="button" class="sec${x.id===cur?" on":""}" ${attr}="${esc(x.id)}">${x.mobile?"🚚":"🛢️"} ${esc(tkN(x))}</button>`).join("")}</div>`;
-function tkTable(rows){return `<table class="rp tkr"><tr><th>🛢️</th><th class="r">${esc(t("tkIn"))}</th><th class="r">${esc(t("tkOut"))}</th><th class="r">${esc(t("tkBalH"))}</th></tr>${rows.map(o=>`<tr data-tkr="${esc(o.id)}"><td>${esc(o.tank)}</td><td class="r">${esc(fmt(o.in))}</td><td class="r">${esc(fmt(o.out))}</td><td class="r${o.balance<0||(o.cap&&o.balance>o.cap)?" flag":""}">${esc(fmt(o.balance))}</td></tr>`).join("")}</table>`}
+function tkTable(rows){return `<table class="rp tkr"><tr><th>🛢️</th><th class="r">${esc(t("tkIn"))}</th><th class="r">${esc(t("tkOut"))}</th><th class="r">${esc(t("tkBalH"))}</th></tr>${rows.map(o=>`<tr data-tkr="${esc(o.id)}"><td>${esc(o.tank)}</td><td class="r">${esc(fmt(o.in))}</td><td class="r">${esc(fmt(o.out))}</td><td class="r${o.balance<0||(o.cap&&o.balance>o.cap)?" flag":""}">${esc(fmt(o.balance))}</td></tr>`).join("")}${rows.length>1?(()=>{const a=rows.reduce((z,o)=>({in:z.in+(+o.in||0),out:z.out+(+o.out||0),b:z.b+(+o.balance||0)}),{in:0,out:0,b:0});return `<tr class="tot"><th>${esc(t("prTot"))}</th><th class="r">${esc(fmt(a.in))}</th><th class="r">${esc(fmt(a.out))}</th><th class="r">${esc(fmt(a.b))}</th></tr>`})():""}</table>`}
 const xfDef=()=>{const T=tanks();if(!xf.from)xf.from="main";if(!xf.to||xf.to===xf.from){const o=T.find(x=>x.id!==xf.from&&x.meter)||T.find(x=>x.id!==xf.from);xf.to=o?o.id:""}};
 const xfMeterTk=()=>{const a=tkById(xf.to),b=tkById(xf.from);return a&&a.meter?a:b&&b.meter?b:null};
 function xfWarn(){if(!(num(xf.l)>0))return [];const at=Date.now(),M=xfMeterTk(),l=num(xf.l);
@@ -918,13 +932,13 @@ function tankHTML(u,fl){const T=tanks(),V={};vehs().forEach(v=>V[v.id]=v);xfDef(
   return `${back()}${fl}<div class="box"><h3>🛢️ ${esc(t("balance"))}</h3><div class="tkg">${cards}</div></div>
   <div class="box"><h3>${esc(t("addDel"))}</h3>${T.length>1?`<label class="fl">${esc(t("into"))}</label>${tkSeg("data-dtk",dl.tk||"main",T)}`:""}<label class="fl" for="dlL">${esc(t("delL"))}</label><input id="dlL" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(dl.l||"")}">
    <label class="fl" for="dlN">${esc(t("delNote"))}</label><input id="dlN" type="text" value="${esc(dl.n||"")}">
-   <label class="pbtn${dl.p?" ok":""}" style="min-height:70px;margin-top:8px">${dl.p?`<img src="${esc(dl.p)}" alt="" style="height:70px">`:esc(t("delPh"))}<input type="file" id="dlP" accept="image/*" capture="environment"></label>
+   <label class="pbtn${dl.p?" ok":""}" style="min-height:70px;margin-top:8px">${dl.p?`<img src="${esc(dl.p)}" alt="" style="height:70px">`:esc(t("delPh"))}<input type="file" id="dlP" accept="image/*" capture="environment"></label><label class="pbtn pgal" style="min-height:60px;margin-top:8px">${esc(t("phGal"))}<input type="file" id="dlPG" accept="image/*"></label>
    <div id="dlWarn">${num(dl.l)>0?warnBox(tankWarn(dl.tk||"main",num(dl.l))).replace('id="fuWarn"',''):""}</div><button type="button" id="dlSave" ${num(dl.l)>0?"":"disabled"}>${esc(t("saveDel"))}</button></div>
   ${T.length>1?`<div class="box" id="xfBox"><h3>${esc(t("xfT"))}</h3><label class="fl">${esc(t("xfFrom"))}</label>${tkSeg("data-xfr",xf.from,T)}<label class="fl">${esc(t("xfTo"))}</label>${tkSeg("data-xto",xf.to,others)}
    <label class="fl" for="xfL">${esc(t("xfL"))}</label><input id="xfL" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(xf.l||"")}">
    ${xm?`<label class="fl" for="xfM1">${esc(t("xfM1").replace("%a",tkN(xm)))}</label><input id="xfM1" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(xf.m1||"")}"><label class="fl" for="xfM2">${esc(t("xfM2").replace("%a",tkN(xm)))}</label><input id="xfM2" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(xf.m2||"")}"><p class="hint">${esc(t("last"))}: ${(()=>{const lm=lastTkMeter(xm.id,Date.now());return lm?esc(fmt(lm.m)):"—"})()}</p>`:""}
    <label class="fl" for="xfN">${esc(t("delNote"))}</label><input id="xfN" type="text" value="${esc(xf.n||"")}">
-   <label class="pbtn${xf.p?" ok":""}" style="min-height:70px;margin-top:8px">${xf.p?`<img src="${esc(xf.p)}" alt="" style="height:70px">`:esc(t("xfPh"))}<input type="file" id="xfP" accept="image/*" capture="environment"></label>
+   <label class="pbtn${xf.p?" ok":""}" style="min-height:70px;margin-top:8px">${xf.p?`<img src="${esc(xf.p)}" alt="" style="height:70px">`:esc(t("xfPh"))}<input type="file" id="xfP" accept="image/*" capture="environment"></label><label class="pbtn pgal" style="min-height:60px;margin-top:8px">${esc(t("phGal"))}<input type="file" id="xfPG" accept="image/*"></label>
    <div id="xfWarn">${warnBox(xfWarn()).replace('id="fuWarn"','')}</div><button type="button" id="xfSave" ${xfOk()?"":"disabled"}>${esc(t("xfSave"))}</button></div>`:""}
   <div class="box"><h3>${esc(t("moves"))}</h3>${T.length>1?tkSeg("data-tkv",tkv,T):""}${M.length?`<div class="mv hint"><span class="n"></span><span class="q">${esc(t("inL"))}/${esc(t("outL"))}</span><span class="q">${esc(t("bal"))}</span></div>`+M.slice().reverse().slice(0,60).map(m=>{const d=m.d,v=V[d.vid];
     const lab=m.kind==="d"?"🛢️ "+esc(d.note||t("inL")):m.kind==="tx"?esc(m.q>=0?t("xfIn").replace("%a",tkN(tkById(d.from||"main"))):t("xfOut").replace("%a",tkN(tkById(d.to))))+(isFinite(num(d.m1))?` <span class="hint">🔢 ${esc(fmt(num(d.m1)))}→${esc(fmt(num(d.m2)))}</span>`:""):"⛽ "+esc(v?v.fleet:"?")+(isFinite(num(d.bm))&&d.bm!=null?` <span class="hint">🔢 ${esc(fmt(num(d.bm)))}</span>`:"");
