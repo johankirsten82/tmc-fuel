@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 10,
+ "VER": 11,
  "COLOR": "#b45309",
  "COLOR_DARK": "#92400e",
  "BG": "#f1f5f9",
@@ -37,8 +37,64 @@
   "johankirsten",
   "johanakirsten",
   "jkirsten"
- ]
-}/*END*/;</script>
+ ],
+ "PERMS": [
+  {
+   "id": "fill",
+   "icon": "⛽",
+   "en": "Fill-up",
+   "fr": "Plein",
+   "ar": "تعبئة"
+  },
+  {
+   "id": "daily",
+   "icon": "📏",
+   "en": "Daily km/hours",
+   "fr": "Km/heures du jour",
+   "ar": "كم/ساعات يومية"
+  },
+  {
+   "id": "dl",
+   "icon": "🚚",
+   "en": "Tank deliveries",
+   "fr": "Livraisons citerne",
+   "ar": "توريدات الخزان"
+  },
+  {
+   "id": "xf",
+   "icon": "🔁",
+   "en": "Transfers",
+   "fr": "Transferts",
+   "ar": "تحويلات"
+  },
+  {
+   "id": "rep",
+   "icon": "📊",
+   "en": "View reports",
+   "fr": "Voir rapports",
+   "ar": "عرض التقارير"
+  }
+ ],
+ "PERM_DEFAULT": [
+  "fill",
+  "daily"
+ ],
+ "PERM_KINDS": {
+  "f": {
+   "add": "fill"
+  },
+  "dy": {
+   "add": "daily"
+  },
+  "d": {
+   "add": "dl"
+  },
+  "tx": {
+   "add": "xf"
+  }
+ }
+}
+/*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/favicon-32.png">
@@ -53,7 +109,7 @@ button{font:inherit;font-size:20px;font-weight:700;min-height:58px;width:100%;bo
 button.sec{background:#e2e8f0;color:#0f172a}button.red{background:#b91c1c}button.sm{min-height:44px;font-size:17px;width:auto;padding:8px 14px;margin:4px}
 input,textarea{font:inherit;font-size:22px;width:100%;padding:14px;border:2px solid #334155;border-radius:12px;margin:6px 0;background:#fff;color:#0f172a}
 .msk:not(.shw){-webkit-text-security:disc}
-.pw{position:relative}.pw .eye{position:absolute;inset-inline-end:6px;top:12px;width:auto;min-height:44px;padding:4px 10px;background:transparent;color:#334155;font-size:22px;margin:0}
+.pw{position:relative}.pw .eye{position:absolute;inset-inline-end:6px;top:12px;width:auto;padding:4px 10px;background:transparent;color:#334155;font-size:22px;margin:0}
 .full{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;background:linear-gradient(var(--c),var(--cd))}
 .card{background:#fff;border-radius:14px;padding:16px;width:100%;max-width:440px;box-shadow:0 1px 3px #0002;text-align:center;margin-bottom:12px}
 .card h2{margin:8px 0 12px;font-size:26px}.logo{width:84px;height:84px;border-radius:18px}
@@ -100,6 +156,15 @@ nav.tabs button .ticon{font-size:28px}nav.tabs button.on{color:var(--c);backgrou
 .tmcS .ncBox b{font-size:17px!important;line-height:22px!important;font-weight:700!important;margin:0 0 4px!important}
 .tmcS .ncBox button{width:100%!important;height:58px!important;min-height:58px!important;margin:12px 0 0!important;padding:0 14px!important;font-size:18px!important;line-height:normal!important;font-weight:700!important;border:0!important;border-radius:12px!important;background:#dc2626!important;color:#fff!important}
 /*END TMC-SIGNIN*/
+.permBox{width:100%;margin:8px 0;border:2px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff}.permBox .hint{padding:8px 12px;margin:0}
+.permT{display:flex;align-items:center;gap:12px;min-height:60px;border-top:1px solid #e2e8f0;padding:6px 14px;font-size:19px;font-weight:700;background:#fff;cursor:pointer}
+.permT span{flex:1}.permT.on{background:#ecfdf5}.permT input{width:32px;height:32px;min-height:32px;margin:0;flex:none;accent-color:var(--c)}
+.permT.lock{color:#94a3b8;background:#f8fafc;cursor:default}.permT.lock small{font-size:14px;font-weight:600}
+.uli{display:flex;align-items:center;gap:10px;width:100%;min-height:64px;background:#fff;color:#0f172a;border:0;border-bottom:1px solid #e2e8f0;border-radius:0;padding:8px 4px;text-align:start;font-size:19px;font-weight:700;box-shadow:none}
+.uli .ui{font-size:26px}.uli .ut{flex:1;min-width:0}.uli small{display:block;font-size:14px;font-weight:600;color:#475569}.uli .ch{font-size:26px;color:#94a3b8}
+.uopen{padding:6px 0 12px;border-bottom:1px solid #e2e8f0}.uopen .acts{display:flex;flex-wrap:wrap;gap:6px}
+.canR{display:flex;align-items:center;gap:12px;min-height:58px;font-size:20px;font-weight:700;border-bottom:1px solid #e2e8f0}.canR.no{color:#94a3b8}.canR .ci{font-size:26px}
+.fixB{width:auto;min-width:120px;min-height:56px;background:#b45309;font-size:18px}.fixN{width:100%}
 </style></head><body>
 <div id="app"></div>
 <script>
@@ -125,7 +190,7 @@ waitT:"Waiting for approval",waitH:"%n, the Admin must approve you. Ask the Admi
 rejT:"Not approved",rejH:"The Admin did not approve this name. Ask the Admin.",blkT:"Blocked",blkH:"This name is blocked. Ask the Admin.",
 netT:"Internet needed",netH:"Connect to the internet once so the app can load the users.",retry:"🔄 Try again",loading:"Loading…",
 home:"Home",work:"Work",users:"Users",settings:"Settings",share:"Share app",syncNow:"🔄 Sync now",
-phT:"🧩 APP FEATURES GO HERE",phH:"This tab is a placeholder. Each app puts its own screens here.",exT:"Example note (demo)",exAdd:"Save note",exNone:"No notes yet.",
+phT:"🧩 APP FEATURES GO HERE",phH:"This tab is a placeholder. Each app puts its own screens here.",exT:"Example note (demo)",exAdd:"Save note",fix:"✏️ Fix",fixT:"✏️ Fix a mistake (Admin)",fixSave:"💾 Save fix",fixOnly:"Only the Admin can fix a saved record.",fixed:"fixed by",can:"What I can do",canH:"Ticked = allowed. Ask the Admin to change it.",canEd:"✅ Allowed for",dupT:"Already asked - wait for Admin",dupH:"This name already asked once. Wait for the Admin. If you were approved, type your name and PIN to sign in.",canAdm:"⭐ Admin only: ✏️ Fix, 👥 Approve users",lkFix:"✏️ Fix",lkApp:"👥 Approve users",admOnly:"Admin only",canAll:"⭐ Admin: you can do everything.",noAccess:"You are not allowed to do this.",repT:"📊 Report",expT:"📤 Export",exNone:"No notes yet.",
 synced:"Synced",syncErr:"Sync problem",syncOff:"Sync not set up",offline:"Offline",last:"Last sync",
 pwT:"⚠️ %n change(s) not sent to the Sheet yet",pwOff:"No internet — they will be sent when you are online.",pwDel:"Tap 🔄 Sync now before deleting the app or clearing data, or these changes will be lost.",
 updT:"🆕 A new version is ready",updB:"⬆️ Update now",updChk:"Check for update",updNone:"You have the latest version.",ver:"Version",
@@ -145,7 +210,7 @@ waitT:"En attente d'approbation",waitH:"%n, l'Admin doit vous approuver. Demande
 rejT:"Non approuvé",rejH:"L'Admin n'a pas approuvé ce nom. Demandez à l'Admin.",blkT:"Bloqué",blkH:"Ce nom est bloqué. Demandez à l'Admin.",
 netT:"Internet nécessaire",netH:"Connectez-vous une fois à internet pour charger les utilisateurs.",retry:"🔄 Réessayer",loading:"Chargement…",
 home:"Accueil",work:"Travail",users:"Utilisateurs",settings:"Réglages",share:"Partager l'app",syncNow:"🔄 Synchroniser",
-phT:"🧩 LES FONCTIONS DE L'APP VONT ICI",phH:"Cet onglet est un emplacement. Chaque app y met ses écrans.",exT:"Note d'exemple (démo)",exAdd:"Enregistrer la note",exNone:"Pas encore de notes.",
+phT:"🧩 LES FONCTIONS DE L'APP VONT ICI",phH:"Cet onglet est un emplacement. Chaque app y met ses écrans.",exT:"Note d'exemple (démo)",exAdd:"Enregistrer la note",fix:"✏️ Corriger",fixT:"✏️ Corriger une erreur (Admin)",fixSave:"💾 Enregistrer",fixOnly:"Seul l'Admin peut corriger un enregistrement.",fixed:"corrigé par",can:"Mes droits",canH:"Coché = autorisé. Demandez à l'Admin pour changer.",canEd:"✅ Autorisé pour",dupT:"Déjà demandé - attendez l'Admin",dupH:"Ce nom a déjà demandé. Attendez l'Admin. Si vous êtes accepté, tapez votre nom et PIN.",canAdm:"⭐ Admin seulement : ✏️ Corriger, 👥 Approuver",lkFix:"✏️ Corriger",lkApp:"👥 Approuver",admOnly:"Admin seulement",canAll:"⭐ Admin : vous pouvez tout faire.",noAccess:"Vous n'avez pas le droit de faire ceci.",repT:"📊 Rapport",expT:"📤 Exporter",exNone:"Pas encore de notes.",
 synced:"Synchronisé",syncErr:"Problème de synchro",syncOff:"Synchro non configurée",offline:"Hors ligne",last:"Dernière synchro",
 pwT:"⚠️ %n modification(s) pas encore envoyée(s) à la feuille",pwOff:"Pas d'internet — elles seront envoyées dès que vous serez en ligne.",pwDel:"Touchez 🔄 Synchroniser avant de supprimer l'application ou d'effacer les données, sinon ces modifications seront perdues.",
 updT:"🆕 Une nouvelle version est prête",updB:"⬆️ Mettre à jour",updChk:"Chercher une mise à jour",updNone:"Vous avez la dernière version.",ver:"Version",
@@ -165,7 +230,7 @@ waitT:"بانتظار الموافقة",waitH:"%n، يجب أن يوافق ال�
 rejT:"غير موافق عليه",rejH:"لم يوافق المسؤول على هذا الاسم. اسأل المسؤول.",blkT:"محظور",blkH:"هذا الاسم محظور. اسأل المسؤول.",
 netT:"يلزم الإنترنت",netH:"اتصل بالإنترنت مرة واحدة ليتم تحميل المستخدمين.",retry:"🔄 حاول مرة أخرى",loading:"جار التحميل…",
 home:"الرئيسية",work:"العمل",users:"المستخدمون",settings:"الإعدادات",share:"مشاركة التطبيق",syncNow:"🔄 مزامنة الآن",
-phT:"🧩 ميزات التطبيق توضع هنا",phH:"هذا التبويب مكان مخصص. كل تطبيق يضع شاشاته هنا.",exT:"ملاحظة مثال (تجربة)",exAdd:"حفظ الملاحظة",exNone:"لا توجد ملاحظات بعد.",
+phT:"🧩 ميزات التطبيق توضع هنا",phH:"هذا التبويب مكان مخصص. كل تطبيق يضع شاشاته هنا.",exT:"ملاحظة مثال (تجربة)",exAdd:"حفظ الملاحظة",fix:"✏️ تصحيح",fixT:"✏️ تصحيح خطأ (المدير)",fixSave:"💾 حفظ التصحيح",fixOnly:"المدير فقط يمكنه تصحيح سجل محفوظ.",fixed:"صححه",can:"ما يمكنني فعله",canH:"المؤشَّر = مسموح. اطلب من المدير التغيير.",canEd:"✅ مسموح لـ",dupT:"تم الطلب - انتظر المدير",dupH:"هذا الاسم طلب من قبل. انتظر المدير. إذا تمت الموافقة، اكتب اسمك والرقم السري.",canAdm:"⭐ للمدير فقط: ✏️ تصحيح، 👥 قبول المستخدمين",lkFix:"✏️ تصحيح",lkApp:"👥 قبول المستخدمين",admOnly:"للمدير فقط",canAll:"⭐ المدير: يمكنك فعل كل شيء.",noAccess:"غير مسموح لك بهذا.",repT:"📊 تقرير",expT:"📤 تصدير",exNone:"لا توجد ملاحظات بعد.",
 synced:"تمت المزامنة",syncErr:"مشكلة في المزامنة",syncOff:"المزامنة غير مُعدة",offline:"غير متصل",last:"آخر مزامنة",
 pwT:"⚠️ %n تغيير لم يُرسل إلى الجدول بعد",pwOff:"لا يوجد إنترنت — سيتم الإرسال عند الاتصال.",pwDel:"اضغط 🔄 مزامنة الآن قبل حذف التطبيق أو مسح البيانات، وإلا ستضيع هذه التغييرات.",
 updT:"🆕 نسخة جديدة جاهزة",updB:"⬆️ تحديث الآن",updChk:"البحث عن تحديث",updNone:"لديك آخر نسخة.",ver:"النسخة",
@@ -186,7 +251,7 @@ window.TMC.T=T;window.TMC.t=t;
 
 /* ---------------- Name rule (shared by all TMC apps) ---------------- */
 const ADMIN_KEY=C.ADMIN_ALIASES[0];
-const NK=x=>{const n=String(x||"").toLowerCase().replace(/[\s.]+/g,"");return C.ADMIN_ALIASES.indexOf(n)>=0?ADMIN_KEY:n};
+const NK=x=>{const n=String(x||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[\s.]+/g,"");return C.ADMIN_ALIASES.indexOf(n)>=0?ADMIN_KEY:n};
 const clean=x=>String(x||"").trim().replace(/\s+/g," ");
 window.TMC.NK=NK;
 
@@ -195,8 +260,26 @@ let R=L.j("recs",{}),dirty=L.j("dirty",{});
 let dev=L.get("dev");if(!dev){dev="d"+Math.random().toString(36).slice(2,10);L.set("dev",dev)}
 const saveR=()=>{L.sj("recs",R);L.sj("dirty",dirty)};
 const all=kind=>Object.keys(R).map(k=>R[k]).filter(r=>r.kind===kind&&!r.del).map(r=>r.data);
-function put(kind,id,data){const k=kind+":"+id,u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:0,data:data};dirty[k]=1;saveR();syncSoon();}
-function remove(kind,id){const k=kind+":"+id,u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:1,data:null};dirty[k]=1;saveR();syncSoon();}
+/* ADMIN FIX RULE: staff may only ADD. Changing/deleting an existing record (not "u") is Admin-only; the server enforces it too. */
+/* PERMISSIONS: the Admin ticks what each person may do (CONFIG.PERMS). Admin = everything. The server checks too. */
+function permsOf(u){return u&&Array.isArray(u.perms)?u.perms:(C.PERM_DEFAULT||[])}
+function can(p,u){u=u||me();return !!u&&(!!u.admin||permsOf(u).indexOf(p)>=0)}
+function canKind(kind,what,u){const k=(C.PERM_KINDS||{})[kind];return !k||!k[what]||can(k[what],u)}
+function permLab(p){return p[lang]||p.en}
+const FREE_K={u:1,rp:1};// u = own user record, rp = report rows the app rebuilds itself
+function canFix(){const m=me();return !!(m&&m.admin)}
+function put(kind,id,data){const k=kind+":"+id;if(!FREE_K[kind]&&R[k]&&!R[k].del&&!(R[k].loc&&dirty[k])&&!canFix()){alert(t("fixOnly"));return false}if(!FREE_K[kind]&&!R[k]&&!canKind(kind,"add")){alert(t("noAccess"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0),loc=R[k]?(R[k].loc&&dirty[k]?1:0):1;R[k]={kind:kind,id:String(id),u:u,del:0,data:data};if(loc&&!canFix())R[k].loc=1;dirty[k]=1;saveR();syncSoon();return true}
+function remove(kind,id){const k=kind+":"+id;if(kind==="u")return false;if(!FREE_K[kind]&&!canFix()){alert(t("fixOnly"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:1,data:null};dirty[k]=1;saveR();syncSoon();return true}
+function fix(kind,id,field,val){if(!canFix())return false;const k=kind+":"+id,r=R[k];if(!r||r.del)return false;const d=Object.assign({},r.data),old=d[field];if(String(old)===String(val))return true;
+  d._fix=(Array.isArray(d._fix)?d._fix:[]).concat([{f:field,old:old,by:me().name,at:new Date().toISOString()}]);d[field]=val;return put(kind,id,d)!==false}
+function fixBtn(kind,id,field){return canFix()?`<button type="button" class="fixB" data-k="${esc(kind)}" data-i="${esc(id)}" data-f="${esc(field)}">${esc(t("fix"))}</button>`:""}
+function fixedNote(d){const f=d&&Array.isArray(d._fix)&&d._fix[d._fix.length-1];return f?`<span class="hint fixN">✏️ ${esc(t("fixed"))} ${esc(f.by)} · ${esc(String(f.at).slice(0,16).replace("T"," "))}</span>`:""}
+function bindFix(){if(!canFix())return;document.querySelectorAll(".fixB").forEach(b=>b.onclick=()=>{const kind=b.dataset.k,id=b.dataset.i,f=b.dataset.f,r=R[kind+":"+id];if(!r)return;
+  const m=document.createElement("div");m.className="modal";m.innerHTML=`<div class="card"><h2>${esc(t("fixT"))}</h2><textarea id="fixV" rows="3" spellcheck="true" autocorrect="on"></textarea><button type="button" id="fixS">${esc(t("fixSave"))}</button><button type="button" class="sec" id="fixX">${esc(t("close"))}</button></div>`;
+  document.body.appendChild(m);$("fixV").value=r.data[f]==null?"":String(r.data[f]);const x=()=>m.remove();$("fixX").onclick=x;
+  $("fixS").onclick=()=>{const v=$("fixV").value.trim();if(!v)return;fix(kind,id,f,v);x();render()}})}
+window.TMC.fix=fix;window.TMC.canFix=canFix;window.TMC.fixBtn=fixBtn;window.TMC.bindFix=bindFix;window.TMC.fixedNote=fixedNote;
+window.TMC.can=can;window.TMC.canKind=canKind;window.TMC.permsOf=permsOf;
 window.TMC.put=put;window.TMC.remove=remove;window.TMC.all=all;
 const sUrl=()=>L.get("syurl")||C.SYNC_URL,sCode=()=>L.get("sycode")||C.SYNC_CODE;
 const sTok=()=>L.get("tok")||"";
@@ -226,12 +309,19 @@ function syncNow(){
     if(!j||!j.ok)throw new Error(j&&j.error||"sync");
     Object.keys(sent).forEach(k=>{if(R[k]&&R[k].u===sent[k])delete dirty[k]});
     (j.records||[]).forEach(s=>{const k=s.kind+":"+s.id,u=+s.u||0,loc=R[k];if(loc&&(loc.u>u||(dirty[k]&&loc.u>=u)))return;
-      let d=s.data;if(typeof d==="string"){try{d=d?JSON.parse(d):null}catch(e){d=null}}R[k]={kind:s.kind,id:String(s.id),u:u,del:s.del?1:0,data:d}});
+      let d=s.data;if(typeof d==="string"){try{d=d?JSON.parse(d):null}catch(e){d=null}}if(s.kind==="u"&&(s.del||!d)&&loc&&!loc.del)return;R[k]={kind:s.kind,id:String(s.id),u:u,del:s.del?1:0,data:d}});
     L.set("since",String(j.now||Date.now()));L.set("lastOk",String(Date.now()));saveR();fails=0;sState="ok";netBad=false;return true})
   .catch(e=>{fails++;sState="err";netBad=true;syncSoon(navigator.onLine?Math.min(120000,5000*Math.pow(2,fails-1)):60000);return false})
   .then(ok=>{busy=null;paintSync();try{onData()}catch(e){console.warn(e)}if(ok&&pending())syncSoon(300);return ok});
   return busy;
 }
+/* Restore a backup: MERGES records only. Never removes users or any record; a backup with no users keeps the current users. */
+function restoreBackup(b){const recs=Array.isArray(b)?b:(b&&(b.records||b.R))||[];const list=Array.isArray(recs)?recs:Object.keys(recs).map(k=>recs[k]);let n=0;
+  list.forEach(s=>{if(!s||!s.kind||s.id==null||s.del)return;let d=s.data;if(typeof d==="string"){try{d=JSON.parse(d)}catch(e){return}}if(d==null||typeof d!=="object")return;
+    const k=s.kind+":"+s.id,loc=R[k];if(loc&&!loc.del&&(+s.u||0)<=loc.u)return;if(s.kind==="u"&&loc&&!loc.del)return;
+    R[k]={kind:s.kind,id:String(s.id),u:Math.max(+s.u||0,loc?loc.u+1:0),del:0,data:d};dirty[k]=1;n++});
+  saveR();syncSoon();return n}
+window.TMC.restoreBackup=restoreBackup;
 window.TMC.syncNow=syncNow;window.TMC.pending=pending;
 addEventListener("online",()=>syncSoon(100));
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){syncSoon(100);checkUpdate()}});
@@ -259,12 +349,13 @@ function render(){
   const u=me();
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
-  if(tab==="users"&&!u.admin)tab="home";
+  if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";
   A.innerHTML=`<header><img src="icons/icon-192.png" alt=""><div class="t">${esc(C.SHORT)}</div><span class="u">${esc(u.name)}</span><span id="sDot" class="dot"></span></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
-  <nav class="tabs">${navBtn("home","🏠")}${navBtn("work","🧩")}${u.admin?navBtn("users","👥",users().filter(x=>x.status==="pending").length):""}${navBtn("settings","⚙️")}</nav>`;
+  <nav class="tabs">${navBtn("home","🏠")}${workOk(u)?navBtn("work","🧩"):""}${u.admin?navBtn("users","👥",users().filter(x=>x.status==="pending").length):""}${navBtn("settings","⚙️")}</nav>`;
   bindMain(u);paintSync();paintUpd();
 }
+function workOk(u){return (C.PERMS||[]).length===0||["view","add","reports","export"].some(p=>can(p,u))}
 function navBtn(k,ic,n){return `<button type="button" data-tab="${k}" class="${tab===k?"on":""}"><span class="ticon">${ic}</span><span class="tlab">${esc(t(k))}</span>${n?`<span class="badge">${n}</span>`:""}</button>`}
 window.TMC.render=render;
 
@@ -275,6 +366,7 @@ function signinHTML(){
   if(f.s==="pin")return card(`<h2>${esc(t("pinT"))}</h2><p><b>${esc(f.u.name)}</b></p>${pinInput("fPin",t("pin"))}<p class="err" id="fErr"></p><button type="button" id="fGo">${esc(t("go"))}</button><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="set")return card(`<h2>${esc(f.setup?t("setupT"):t("setT"))}</h2><p><b>${esc(f.u.name)}</b></p><p class="hint">${esc(f.setup?t("setupH"):t("setH"))}</p>${pinInput("fPin",t("pin"))}${pinInput("fPin2",t("pin2"))}<p class="err" id="fErr"></p><button type="button" id="fSet">${esc(t("save"))}</button><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="wait")return card(`<h2>⏳ ${esc(t("waitT"))}</h2><p class="hint">${esc(t("waitH").replace("%n",f.name))}</p><button type="button" id="fCheck">${esc(t("check"))}</button><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
+  if(f.s==="dup")return card(`<h2 id="dupT">✋ ${esc(t("dupT"))}</h2><p class="hint" style="font-size:18px">${esc(t("dupH"))}</p><button type="button" id="fCheck" style="min-height:60px">${esc(t("check"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
@@ -315,6 +407,7 @@ async function srvLookup(name,reg){
   if(st==="setup"){flow={s:"set",setup:true,u:{id:"",name:C.ADMIN_NAME},name:name,srv:1};return render()}
   if(st==="blocked"){flow={s:"blk",name:name};return render()}
   if(st==="rejected"){flow={s:"rej",name:name};return render()}
+  if(st==="dup"||(st==="pending"&&j.other)){flow={s:"dup",name:name,srv:1};return render()}  // ONE request per name per app
   flow={s:"wait",name:name,srv:1};render();
 }
 async function gotToken(j,u){
@@ -336,6 +429,7 @@ function lookup(name,localOnly){
   // no single approved match (none, or 2+ sharing the key): a normal approval request
   if(tokMode()){flow={s:"net",name:name};return render()}  // token phones register on the server only
   const own=users().find(u=>u.status==="pending"&&NK(u.name)===K&&(ok.length<2||(u.dev===dev&&clean(u.name).toLowerCase()===name.toLowerCase())));
+  if(!own&&ok.length<2&&users().some(u=>NK(u.name)===K&&(u.status==="pending"||u.status==="active"))){flow={s:"dup",name:name};return render()}  // ONE request per name per app
   if(!own){const r={id:"r"+Date.now(),name:name,status:"pending",dev:dev,at:new Date().toISOString()};put("u",r.id,r)}
   flow={s:"wait",name:name};render();
 }
@@ -364,10 +458,12 @@ function viewHTML(u){
   if(tab==="work")return workHTML(u);
   if(tab==="users")return usersHTML(u);
   if(tab==="settings")return settingsHTML(u);
+  if(tab==="can")return canHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
   return `<div class="box"><h2 style="margin:4px 0">👋 ${esc(t("hello"))}, ${esc(u.name)}</h2><p class="hint" id="sLine"></p></div>
   <div class="tiles">
-   <button type="button" class="tile" data-tab="work"><b>🧩</b>${esc(t("work"))}</button>
+   ${workOk(u)?`<button type="button" class="tile" data-tab="work"><b>🧩</b>${esc(t("work"))}</button>`:""}
+   <button type="button" class="tile sec" data-tab="can" id="hCan"><b>✅</b>${esc(t("can"))}</button>
    ${u.admin?`<button type="button" class="tile" data-tab="users"><b>👥</b>${esc(t("users"))}${np?` (${np})`:""}</button>`:""}
    <button type="button" class="tile sec" id="hSync"><b>🔄</b>${esc(t("syncNow").replace("🔄 ",""))}</button>
    <button type="button" class="tile sec" id="hShare"><b>📤</b>${esc(t("share"))}</button>
@@ -632,7 +728,7 @@ function workHTML(u){
     if(fv==="menu"){const P=phMap(),V=vehs().filter(v=>v.active!==false);
       return fl+`<div class="box"><h2>⛽ ${esc(t("fill"))}: ${esc(t("pickV"))}</h2>${V.length?`<div class="vgrid">${V.map(v=>`<button type="button" class="vt" data-vid="${esc(v.id)}">${vImg(v,P)}<b>${esc(v.fleet)}</b><small>${esc(v.model)}${v.plate?" · "+esc(v.plate):""}</small></button>`).join("")}</div>`:`<p class="hint">${esc(t("noVeh"))}</p>`}</div>
     <div class="tiles" style="margin-bottom:10px"><button type="button" class="tile" data-fv="tank"><b>🛢️</b>${esc(t("tank"))}</button>${u.admin?`<button type="button" class="tile" data-fv="veh"><b>🚜</b>${esc(t("veh"))}</button><button type="button" class="tile" data-fv="rep"><b>📊</b>${esc(t("rep"))}</button>`:""}</div>`+`<div class="box"><h3>📝 ${esc(t("notes"))}</h3><textarea id="exTxt" rows="3" data-draft="exTxt" autocomplete="off" spellcheck="true" autocorrect="on" autocapitalize="sentences"></textarea><p class="hint" id="drNote" style="display:none">${esc(t("draft"))}</p>
-    <button type="button" id="exAdd">${esc(t("exAdd"))}</button>${notes.length?notes.map(n=>`<div class="urow"><span class="n">${esc(n.text)}</span><span class="hint">${esc(n.by)}</span></div>`).join(""):`<p class="hint">${esc(t("exNone"))}</p>`}</div>`}}
+    <button type="button" id="exAdd">${esc(t("exAdd"))}</button>${notes.length?notes.map(n=>`<div class="urow" data-id="${esc(n.id)}"><span class="n">${esc(n.text)}</span><span class="hint">${esc(n.by)}</span>${fixBtn("x",n.id,"text")}${fixedNote(n)}</div>`).join(""):`<p class="hint">${esc(t("exNone"))}</p>`}</div>`}}
   return fl+fuelTiles(u);
 }
 function curWarn(){const v=vehs().find(x=>x.id===fs.vid);if(!v)return [];const at=Date.now(),tk=fs.tk||"main",T=tkById(tk);
@@ -669,6 +765,7 @@ function bindWork(u){
   on("veSave",()=>{rv();if(!ve.model||!ve.fleet)return err(t("needV"));const v=Object.assign({},ve);if(!v.id)v.id="v"+Date.now();
     if(v._ph){v.ph=savePh(v._ph)}delete v._ph;put("v",v.id,v);ve=null;fv="veh";render()});
   on("exAdd",()=>{const v=$("exTxt").value.trim();if(!v)return;const id="x"+Date.now();put("x",id,{id:id,text:v,by:u.name,at:new Date().toISOString()});draftClear("exTxt");render()});
+  bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
 const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
@@ -921,7 +1018,7 @@ function editRec(kind,id,ch,u){u=u||me();if(!u||!u.admin)return {ok:false,error:
   else{n.day=day;n.at=new Date(day+"T12:00:00").getTime()}
   const was={},now={};ED_F.forEach(k=>{const a=k==="day"?(old.day||dayKey(old.at)):old[k],b=k==="day"?day:n[k];if(String(a==null?"":a)!==String(b==null?"":b)){was[k]=a==null?"":a;now[k]=b==null?"":b}});
   if(!Object.keys(now).length)return {ok:true,id:id,same:true};
-  delete n.chk;delete n.chkWhy;delete n.chkOk;n.edBy=u.name;n.edAt=new Date().toISOString();n.eds=(old.eds||0)+1;
+  delete n.chk;delete n.chkWhy;delete n.chkOk;n.edBy=u.name;n.edAt=new Date().toISOString();n.eds=(old.eds||0)+1;n._fix=(Array.isArray(old._fix)?old._fix:[]).concat(Object.keys(now).map(k=>({f:k,old:was[k],by:u.name,at:n.edAt})));
   let nid=id;if(kind==="dy"){nid=n.vid+"_"+day;n.id=nid;if(nid!==id)remove("dy",id)}put(kind,nid,n);
   const eid="e"+Date.now()+Math.random().toString(36).slice(2,5);put("ed",eid,{id:eid,kind:kind,rid:id,nid:nid,vid:n.vid,fleet:(vehs().find(x=>x.id===n.vid)||{}).fleet||"",what:"edit",old:was,new:now,by:u.name,at:Date.now(),date:new Date().toISOString()});
   pushReports();return {ok:true,id:nid}}
@@ -968,23 +1065,61 @@ const baseBind10=bindWork;bindWork=function(u){baseBind10(u);if(!u.admin)return;
   const c=$("edClear");if(c)c.onclick=()=>{clearCheck(er.kind,er.id,u);er=null;fv="edl";flash=t("edCleared");render();scrollTo(0,0)}};
 const baseBindM10=bindMain;bindMain=function(u){baseBindM10(u);if(u&&u.admin)document.querySelectorAll(".tile[data-fv=edl]").forEach(b=>b.onclick=()=>{fv="edl";tab="work";render();scrollTo(0,0)})};
 Object.assign(window.TMC.fuel,{checkList:checkList,oddList:oddList,markChecks:markChecks,editRec:editRec,clearCheck:clearCheck,saveDaily:saveDaily});
+/* ---- v11: per-user permissions = the BASE system (CONFIG.PERMS, user.perms, permTicks, "What I can do"). Fuel ticks: fill, daily, dl, xf, rep. ---- */
+/* migrate v11-draft field "can" -> "perms" (read either; Admin phone rewrites old records once) */
+const basePermsOf=permsOf;permsOf=function(u){return u&&!Array.isArray(u.perms)&&Array.isArray(u.can)?u.can:basePermsOf(u)};
+function migratePerms(){const m=me();if(!m||!m.admin)return;users().forEach(u=>{if(Array.isArray(u.can)){const n=Object.assign({},u);if(!Array.isArray(n.perms))n.perms=n.can.filter(k=>(C.PERMS||[]).some(p=>p.id===k));delete n.can;put("u",n.id,n)}})}
+workOk=function(){return true};  // Fuel tab always opens: Tank stock (read-only balance) is for everyone
+function canList(u){return !u?[]:(C.PERMS||[]).map(p=>p.id).filter(id=>can(id,u))}
+function canDo(u,k){return can(k,u)}
+const baseFTC=fuelTiles;fuelTiles=function(u){let h=baseFTC(u);if(u.admin)return h;const rm=(fv_)=>{h=h.replace(new RegExp('<button type="button" class="tile" data-fv="'+fv_+'"[^>]*>.*?</button>','s'),"")};
+  if(!can("fill",u))rm("pick");if(!can("daily",u))rm("daily");
+  if(can("rep",u)&&!/data-fv="rep"/.test(h))h=h.replace(/<\/div>\s*$/,`<button type="button" class="tile" data-fv="rep"><b>📊</b>${esc(t("rep"))}</button></div>`);return h};
+const baseTankC=tankHTML;tankHTML=function(u,fl){let h=baseTankC(u,fl);if(u.admin)return h;
+  if(!can("dl",u))h=h.replace(/<div class="box"><h3>(?:(?!<div class="box").)*?id="dlSave"[^>]*>[^<]*<\/button><\/div>/s,"");
+  if(!can("xf",u))h=h.replace(/<div class="box" id="xfBox">.*?id="xfSave"[^>]*>[^<]*<\/button><\/div>/s,"");return h};
+const baseWorkC=workHTML;workHTML=function(u){if(!u||u.admin)return baseWorkC(u);
+  if((fv==="pick"||fv==="fill")&&!can("fill",u))fv="menu";if((fv==="daily"||fv==="dent")&&!can("daily",u))fv="menu";
+  if(fv==="rep"&&can("rep",u))return baseWorkC(Object.assign({},u,{admin:1,_view:1})).replace(/<button[^>]*data-(?:ed|ck|rm)[^>]*>.*?<\/button>/gs,"");
+  return baseWorkC(u)};
+const baseBindUP=bindUsers;bindUsers=function(){migratePerms();baseBindUP()};
+window.TMC.C=C;window.TMC.permsOf=permsOf;window.TMC.workOk=workOk;
+Object.assign(window.TMC.fuel,{canDo:canDo,canList:canList});
 /* ==================== APP FEATURES END ==================== */
+function canHTML(u){
+  if(u.admin)return `<div class="box"><h2>✅ ${esc(t("can"))}</h2><p><b>${esc(t("canAll"))}</b></p></div>`;
+  return `<div class="box" id="canBox"><h2>✅ ${esc(t("can"))}</h2><p class="hint">${esc(t("canH"))}</p>${(C.PERMS||[]).map(p=>`<div class="canR ${can(p.id,u)?"yes":"no"}" data-cp="${esc(p.id)}"><span class="ci">${can(p.id,u)?"✅":"⬜"}</span><span>${esc(p.icon)} ${esc(permLab(p))}</span></div>`).join("")}<p class="hint">${esc(t("canAdm"))}</p></div>`;
+}
+function permTicks(u){
+  if(u.admin||u.status!=="active"&&u.status!=="pending")return "";
+  const lk=k=>`<div class="permT lock"><span>${esc(t(k))}<small> · ⭐ ${esc(t("admOnly"))}</small></span><span style="flex:none;font-size:24px">🔒</span></div>`;
+  return `<div class="permBox" data-pu="${esc(u.id)}"><div class="hint">${esc(t("canEd"))} ${esc(u.name)}:</div>${(C.PERMS||[]).map(p=>`<label class="permT${permsOf(u).indexOf(p.id)>=0?" on":""}"><span>${esc(p.icon)} ${esc(permLab(p))}</span><input type="checkbox" data-pu="${esc(u.id)}" data-pp="${esc(p.id)}"${permsOf(u).indexOf(p.id)>=0?" checked":""}></label>`).join("")}${lk("lkFix")}${lk("lkApp")}</div>`;
+}
+let openU=null; // Admin users list: which person is open (list form like Purchases)
 function usersHTML(me_){
   const U=users(),lab={pending:t("pend"),active:t("act"),rejected:t("rej"),blocked:t("blk")};
-  const row=u=>`<div class="urow"><span class="n">${esc(u.name)}${u.admin?` ⭐ ${esc(t("admin"))}`:""}</span><span class="st ${esc(u.status)}">${esc(lab[u.status]||u.status)}</span>
+  const sum=u=>u.admin?"⭐ "+t("admin"):((C.PERMS||[]).filter(p=>can(p.id,u)).map(p=>p.icon+" "+permLab(p)).join(" · ")||"—");
+  const ico={pending:"⏳",active:"🟢",rejected:"⛔",blocked:"🚫"};
+  const row=u=>{const o=openU===u.id||u.status==="pending";return `<div class="urow ulr" data-uid="${esc(u.id)}" style="display:block;padding:0;border:0"><button type="button" class="uli" data-open="${esc(u.id)}"><span class="ui">${ico[u.status]||"👤"}</span><span class="ut"><span class="n">${esc(u.name)}</span> <span class="st ${esc(u.status)}">${esc(lab[u.status]||u.status)}</span><small>${esc(sum(u))}</small></span><span class="ch">${o?"⌄":"›"}</span></button>${o?`<div class="uopen"><div class="acts">
    ${u.status==="pending"?`<button type="button" class="sm" data-ua="approve" data-id="${esc(u.id)}">${esc(t("approve"))}</button><button type="button" class="sm red" data-ua="reject" data-id="${esc(u.id)}">${esc(t("reject"))}</button>`:""}
    ${u.status==="active"&&u.id!==me_.id?`<button type="button" class="sm red" data-ua="block" data-id="${esc(u.id)}">${esc(t("block"))}</button>`:""}
    ${(u.status==="blocked"||u.status==="rejected")?`<button type="button" class="sm sec" data-ua="unblock" data-id="${esc(u.id)}">${esc(t("unblock"))}</button>`:""}
-   ${u.status==="active"&&(u.pinH||u.hasPin)&&u.id!==me_.id?`<button type="button" class="sm sec" data-ua="reset" data-id="${esc(u.id)}">${esc(t("resetPin"))}</button>`:""}</div>`;
+   ${u.status==="active"&&(u.pinH||u.hasPin)&&u.id!==me_.id?`<button type="button" class="sm sec" data-ua="reset" data-id="${esc(u.id)}">${esc(t("resetPin"))}</button>`:""}</div>${permTicks(u)}</div>`:""}</div>`};
   const pend=U.filter(u=>u.status==="pending"),rest=U.filter(u=>u.status!=="pending").sort((a,b)=>String(a.name).localeCompare(String(b.name)));
   return `<div class="box"><h3>⏳ ${esc(t("pend"))}</h3>${pend.length?pend.map(row).join(""):`<p class="hint">${esc(t("noPend"))}</p>`}</div><div class="box"><h3>👥 ${esc(t("users"))}</h3>${rest.map(row).join("")}</div>`;
 }
 function bindUsers(){
+  document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{openU=openU===b.dataset.open?null:b.dataset.open;render()});
   document.querySelectorAll("[data-ua]").forEach(b=>b.onclick=()=>{
     const u=Object.assign({},users().find(x=>x.id===b.dataset.id));if(!u.id)return;const a=b.dataset.ua;
     if(a==="approve"||a==="unblock")u.status="active";if(a==="reject")u.status="rejected";if(a==="block")u.status="blocked";
     if(a==="reset"){delete u.pinH;delete u.salt;delete u.hasPin;u.pinReset=Date.now()}
+    if(a==="approve"&&!Array.isArray(u.perms))u.perms=(C.PERM_DEFAULT||[]).slice();
     put("u",u.id,u);render()});
+  document.querySelectorAll("input[data-pp]").forEach(b=>b.onchange=()=>{
+    const u=Object.assign({},users().find(x=>x.id===b.dataset.pu));if(!u.id||u.admin)return;
+    const s=new Set(permsOf(u));if(b.checked)s.add(b.dataset.pp);else s.delete(b.dataset.pp);
+    u.perms=(C.PERMS||[]).map(p=>p.id).filter(id=>s.has(id));put("u",u.id,u);render()});
 }
 function settingsHTML(u){
   const lo=+(L.get("lastOk")||0);
