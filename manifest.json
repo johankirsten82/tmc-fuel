@@ -5,7 +5,7 @@
  "start_url": "./?tmcapp=fuel",
  "scope": "./",
  "display": "standalone",
- "background_color": "#fdf8e7",
+ "background_color": "#f1f5f9",
  "theme_color": "#b45309",
  "icons": [
   {

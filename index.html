@@ -24,10 +24,10 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 7,
+ "VER": 10,
  "COLOR": "#b45309",
  "COLOR_DARK": "#92400e",
- "BG": "#fdf8e7",
+ "BG": "#f1f5f9",
  "SYNC_URL": "https://script.google.com/macros/s/AKfycbzRUhbiYAxG4SIHGvzEqIGcez5Rj8YQ3wZMERq6tSv_ed_8LI7WO8htQLBiIZtU3CgW/exec",
  "SYNC_CODE": "",
  "SHARE_URL": "https://johankirsten82.github.io/tmc-fuel/",
@@ -46,7 +46,7 @@
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
-:root{--c:#0f766e;--cd:#115e59;--bg:#fdf8e7}
+:root{--c:#b45309;--cd:#92400e;--bg:#f1f5f9}
 *{box-sizing:border-box}html,body{margin:0;padding:0}
 body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Arabic",sans-serif;background:var(--bg);color:#0f172a;font-size:18px;min-height:100vh}
 button{font:inherit;font-size:20px;font-weight:700;min-height:58px;width:100%;border:0;border-radius:14px;background:var(--c);color:#fff;padding:12px 16px;margin:6px 0;cursor:pointer;touch-action:manipulation}
@@ -55,19 +55,19 @@ input,textarea{font:inherit;font-size:22px;width:100%;padding:14px;border:2px so
 .msk:not(.shw){-webkit-text-security:disc}
 .pw{position:relative}.pw .eye{position:absolute;inset-inline-end:6px;top:12px;width:auto;min-height:44px;padding:4px 10px;background:transparent;color:#334155;font-size:22px;margin:0}
 .full{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;background:linear-gradient(var(--c),var(--cd))}
-.card{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:440px;box-shadow:0 10px 30px #0003;text-align:center}
+.card{background:#fff;border-radius:14px;padding:16px;width:100%;max-width:440px;box-shadow:0 1px 3px #0002;text-align:center;margin-bottom:12px}
 .card h2{margin:8px 0 12px;font-size:26px}.logo{width:84px;height:84px;border-radius:18px}
 .err{color:#b91c1c;font-weight:700;display:none;margin:6px 0}.hint{color:#475569;font-size:16px}
-.langs{display:flex;gap:8px}.langs button{min-height:48px;font-size:18px}.langs button.on{outline:4px solid #f59e0b}
+.langs{display:flex;gap:8px}.langs select{min-height:60px;font-size:20px}.langs button{min-height:48px;font-size:18px}.langs button.on{outline:4px solid #f59e0b}
 header{position:sticky;top:0;z-index:5;background:var(--c);color:#fff;padding:10px 14px;display:flex;align-items:center;gap:10px}
 header img{width:36px;height:36px;border-radius:8px}header .t{flex:1;font-weight:800;font-size:20px}header .u{font-size:15px;opacity:.9}
 .dot{width:14px;height:14px;border-radius:50%;background:#94a3b8;display:inline-block}.dot.ok{background:#22c55e}.dot.err{background:#ef4444}.dot.busy{background:#f59e0b}
 main{padding:12px 12px 110px;max-width:640px;margin:0 auto}
-nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#fff;border-top:2px solid #cbd5e1;z-index:5;padding-bottom:env(safe-area-inset-bottom)}
-nav button{flex:1;margin:0;border-radius:0;background:#fff;color:#334155;min-height:72px;font-size:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:relative}
-nav button b{font-size:28px}nav button.on{color:var(--c);background:#f0fdfa;box-shadow:inset 0 4px 0 var(--c)}
+nav.tabs{position:fixed;bottom:0;left:0;right:0;display:flex;background:#fff;border-top:2px solid #cbd5e1;z-index:5;padding-bottom:env(safe-area-inset-bottom)}
+nav.tabs button{flex:1;margin:0;border-radius:0;background:#fff;color:#334155;min-height:72px;font-size:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:relative}
+nav.tabs button .ticon{font-size:28px}nav.tabs button.on{color:var(--c);background:#fff7ed;box-shadow:inset 0 4px 0 var(--c)}
 .badge{position:absolute;top:6px;inset-inline-end:22%;background:#dc2626;color:#fff;border-radius:12px;padding:0 7px;font-size:14px}
-.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tile{min-height:110px;font-size:19px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0}.tile b{font-size:38px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tile{min-height:110px;font-size:19px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0;background:#fff;color:#0f172a;border:2px solid var(--c);border-radius:16px;box-shadow:0 2px 8px #0000000f;font-weight:700}.tile.sec{background:#fff;color:#0f172a}.tile:active{background:#fff7ed}.tile b{font-size:38px}
 .box{background:#fff;border-radius:16px;padding:14px;margin:0 0 12px;box-shadow:0 2px 8px #0001}
 .ph{border:4px dashed #f59e0b;background:#fffbeb;text-align:center}
 .bar{display:none;margin:0 0 10px;padding:10px 12px;border-radius:12px;font-weight:700}
@@ -78,7 +78,28 @@ nav button b{font-size:28px}nav button.on{color:var(--c);background:#f0fdfa;box-
 .insB{background:#16a34a;font-size:22px;min-height:66px}.insH{background:#f1f5f9;border-radius:12px;padding:10px;font-weight:600;margin:6px 0}
 .modal{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}
 .ncW{background:#fee2e2;border:2px solid #dc2626;color:#7f1d1d}
+.signin{position:relative;width:100%;max-width:440px}.signin>.card{margin:0}
+.signin>.ncBox{position:absolute;top:100%;left:0;right:0;margin:16px 0 0}
 .qr{width:240px;height:240px;max-width:80vw;max-height:80vw;display:block;margin:8px auto;background:#fff}.hhero{display:flex;align-items:center;gap:14px}.hhero img{border-radius:14px}.hhero h2{margin:0;font-size:21px}
+
+/*TMC-SIGNIN v1 — shared sign-in block. Copy as-is. Only --tmcS-c/--tmcS-cd (colour), the logo and the app name may differ.*/
+.tmcS{position:fixed!important;inset:0!important;z-index:9000!important;overflow:auto!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:16px!important;margin:0!important;min-height:0!important;background:linear-gradient(var(--tmcS-c,#0f766e),var(--tmcS-cd,#115e59))!important;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif!important;box-sizing:border-box!important}
+.tmcS *{box-sizing:border-box!important;font-family:inherit!important;letter-spacing:normal!important}
+.tmcS .signin{position:relative!important;width:100%!important;max-width:380px!important;margin:0!important;padding:0!important}
+.tmcS .signin>.card{display:block!important;background:#fff!important;border-radius:14px!important;padding:16px!important;margin:0!important;width:100%!important;max-width:none!important;box-shadow:0 1px 3px #0002!important;text-align:center!important;border:0!important}
+.tmcS .tmcS-logo{display:block!important;width:84px!important;height:84px!important;margin:0 auto!important;border-radius:14px!important;padding:0!important}
+.tmcS .tmcS-t{display:block!important;margin:10px 0 12px!important;padding:0!important;font-size:22px!important;line-height:28px!important;height:28px!important;font-weight:700!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;color:#0f172a!important}
+.tmcS .tmcS-lang,.tmcS .tmcS-name{display:block!important;width:100%!important;height:58px!important;min-height:58px!important;max-height:58px!important;margin:0 0 12px!important;padding:0 14px!important;font-size:18px!important;line-height:normal!important;border:1px solid #cbd5e1!important;border-radius:12px!important;color:#0f172a!important;box-shadow:none!important;outline-offset:0}
+.tmcS .tmcS-lang{background:#eef2f6!important;text-align:center!important;text-align-last:center!important}
+.tmcS .tmcS-name{background:#fff!important;text-align:start!important}
+.tmcS .tmcS-err{color:#b91c1c!important;font-weight:700!important;margin:0 0 8px!important;font-size:16px!important}
+.tmcS .tmcS-go{display:block!important;width:100%!important;height:58px!important;min-height:58px!important;margin:0!important;padding:0 14px!important;font-size:19px!important;font-weight:700!important;border:0!important;border-radius:12px!important;background:var(--tmcS-c,#0f766e)!important;color:#fff!important;box-shadow:none!important}
+.tmcS .ncBox{position:absolute!important;top:100%!important;left:0!important;right:0!important;bottom:auto!important;width:auto!important;margin:16px 0 0!important;padding:14px!important;background:#fee2e2!important;border:1px solid #dc2626!important;border-radius:14px!important;color:#7f1d1d!important;font-size:15px!important;line-height:20px!important;font-weight:500!important;text-align:start!important;box-shadow:none!important;z-index:auto!important;unicode-bidi:plaintext}
+.tmcS .ncBox:not([style*="none"]){display:flex!important;flex-direction:column!important;gap:0!important}
+.tmcS .ncBox>*,.tmcS .ncBox>div>*{display:block!important;margin:0!important;padding:0!important;font-size:15px!important;line-height:20px!important;flex:none!important;width:auto!important}
+.tmcS .ncBox b{font-size:17px!important;line-height:22px!important;font-weight:700!important;margin:0 0 4px!important}
+.tmcS .ncBox button{width:100%!important;height:58px!important;min-height:58px!important;margin:12px 0 0!important;padding:0 14px!important;font-size:18px!important;line-height:normal!important;font-weight:700!important;border:0!important;border-radius:12px!important;background:#dc2626!important;color:#fff!important}
+/*END TMC-SIGNIN*/
 </style></head><body>
 <div id="app"></div>
 <script>
@@ -230,8 +251,8 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="card"><div id="ncW" class="bar ncW"></div><img class="logo" src="icons/icon-192.png" alt="">${inner}${insHTML()}</div></div>`}
-function langBtns(){return `<div class="langs">${["en","fr","ar"].map(l=>`<button type="button" class="sec${l===lang?" on":""}" data-lang="${l}">${l==="en"?"English":l==="fr"?"Français":"العربية"}</button>`).join("")}</div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 function render(){
   applyLang();const A=$("app");
@@ -241,10 +262,10 @@ function render(){
   if(tab==="users"&&!u.admin)tab="home";
   A.innerHTML=`<header><img src="icons/icon-192.png" alt=""><div class="t">${esc(C.SHORT)}</div><span class="u">${esc(u.name)}</span><span id="sDot" class="dot"></span></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
-  <nav>${navBtn("home","🏠")}${navBtn("work","🧩")}${u.admin?navBtn("users","👥",users().filter(x=>x.status==="pending").length):""}${navBtn("settings","⚙️")}</nav>`;
+  <nav class="tabs">${navBtn("home","🏠")}${navBtn("work","🧩")}${u.admin?navBtn("users","👥",users().filter(x=>x.status==="pending").length):""}${navBtn("settings","⚙️")}</nav>`;
   bindMain(u);paintSync();paintUpd();
 }
-function navBtn(k,ic,n){return `<button type="button" data-tab="${k}" class="${tab===k?"on":""}"><b>${ic}</b>${esc(t(k))}${n?`<span class="badge">${n}</span>`:""}</button>`}
+function navBtn(k,ic,n){return `<button type="button" data-tab="${k}" class="${tab===k?"on":""}"><span class="ticon">${ic}</span><span class="tlab">${esc(t(k))}</span>${n?`<span class="badge">${n}</span>`:""}</button>`}
 window.TMC.render=render;
 
 function signinHTML(){
@@ -256,11 +277,11 @@ function signinHTML(){
   if(f.s==="wait")return card(`<h2>⏳ ${esc(t("waitT"))}</h2><p class="hint">${esc(t("waitH").replace("%n",f.name))}</p><button type="button" id="fCheck">${esc(t("check"))}</button><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
-  return card(`<h2>${esc(C.NAME)}</h2>${langBtns()}<label for="fName" class="hint">${esc(t("nameH"))}</label><input id="fName" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("name"))}" value="${esc(L.get("lastName")||"")}"><p class="err" id="fErr"></p><button type="button" id="fName2">${esc(t("go"))}</button>`);
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
-  document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>{lang=b.dataset.lang;L.set("lang",lang);render()});
+  document.querySelectorAll("#langSel").forEach(b=>b.onchange=()=>{lang=b.value;L.set("lang",lang);render()});
   document.querySelectorAll("[data-eye]").forEach(b=>b.onclick=()=>{const i=$(b.dataset.eye);i.classList.toggle("shw")});
   bindIns();
 }
@@ -516,18 +537,35 @@ const SEED_V=[
  ["Generator PERKINS P22 GV8340 22KW","938324H","U938324H","h",1122.23,"",65,4.5],
  ["Generator PERKINS Pi 150P MC PP82576 150KW","094847K","U094847K","h",27.36,"",455,23],
  ["Generator PERKINS Pi 150P 1 PP82576 150KW","094772K","U094772K","h",4.48,"",455,23],
- ["Generator PERKINS Pi 150P 2 PP83576 150KW","094768K","U094768K","h",4.2,"",455,23]];
-function seedVehicles(){if(L.get("seedV")||L.get("noSeed"))return 0;let n=0;
-  SEED_V.forEach(a=>{const id="s_"+a[1].replace(/[^A-Za-z0-9]/g,""),k="v:"+id;if(R[k])return;
-    R[k]={kind:"v",id:id,u:1,del:0,data:{id:id,type:guessType({model:a[0],note:a[5]}),model:a[0],fleet:a[1],vin:a[2],plate:"",mt:a[3],m0:a[4],tank:a[6],exp:a[7],dept:"",svc:null,active:true,note:a[5],seed:1}};dirty[k]=1;n++});
-  L.set("seedV","1");saveR();return n}
+ ["Generator PERKINS Pi 150P 2 PP83576 150KW","094768K","U094768K","h",4.2,"",455,23],
+ // v9: units in Johan's Excel that were missing (tank / normal use = guesses, Admin can change)
+ ["XCMG Excavator","KA04687","XUGC215NPSKA04687","h",11.2,"",400,15],
+ ["Generator Honda 6.5KW","6.5KW","","h",null,"Diesel N/A",null,null],
+ ["Generator CNR PHASA 10KW Workshop","LND10000T-G","LND10000T","h",null,"",null,null],
+ ["Generator CNR PHASA 10KW Terex","LND10000T-T","LND10000T","h",null,"",null,null],
+ ["Kouri Fuel","Kouri","","km",null,"",null,null]];
+// v9: extra columns from Johan's Vehicles / Generator sheets (model code, engine no., location, correct VIN). Only fills blanks / old seed VIN.
+const SEED_X={B052052:{mdl:"V8",loc:"Production"},"0450":{mdl:"ZRT700",loc:"GZ"},ZTH4018:{mdl:"ZTH4018",vin:"215080000S000077",loc:"GZ"},D327778:{loc:"GZ"},
+ C310111:{mdl:"XC740K",eng:"30D2G1P00274",vin:"XUGOSRO7VRCB10111",loc:"GZ"},Z403013:{mdl:"426",loc:"GZ"},"1E33608":{mdl:"J6P-350",loc:"GZ"},"1I22938":{mdl:"J6P-350",vin:"LFNDRXPS2S1F22938",loc:"GZ"},
+ KA00514:{mdl:"XE335C",loc:"GZ"},KA00507:{mdl:"XE335C",loc:"GZ"},KA04687:{mdl:"XE215i - KLc",loc:"GZ"},"Terex 1":{loc:"Terex"},"Terex 2":{loc:"Terex"},
+ "938324H":{mdl:"P22 22KW",vin:"GV8340",eng:"U938324H",loc:"Workshop"},"094847K":{mdl:"Pi 150P 150KW",vin:"PP82576",eng:"U094847K",loc:"Mobile Cruser"},
+ "094772K":{mdl:"Pi 150P 150KW",vin:"PP82576",eng:"U094772K",loc:"Spare"},"094768K":{mdl:"Pi 150P 150KW",vin:"PP82576",eng:"U094768K",loc:"Spare"},
+ "6.5KW":{mdl:"6.5KW",loc:"Diesel N/A"},"LND10000T-G":{mdl:"10KW",eng:"LND10000T-G",loc:"Workshop"},"LND10000T-T":{mdl:"10KW",eng:"LND10000T-T",loc:"Terex"}};
+const sid=f=>"s_"+String(f).replace(/[^A-Za-z0-9]/g,"");
+function seedRec(a){const id=sid(a[1]),x=SEED_X[a[1]]||{};return {id:id,type:guessType({model:a[0],note:a[5]}),model:a[0],fleet:a[1],vin:x.vin||a[2],plate:"",mt:a[3],m0:a[4],tank:a[6],exp:a[7],dept:x.loc||"",mdl:x.mdl||"",eng:x.eng||"",svc:null,active:true,note:a[5],seed:1}}
+// v9: flag seedV2 so phones that already had the v1 list also get the new units once (deleted ones stay deleted).
+function seedVehicles(){if(L.get("seedV2")||L.get("noSeed"))return 0;let n=0;
+  SEED_V.forEach(a=>{const id=sid(a[1]),k="v:"+id;if(R[k])return;
+    R[k]={kind:"v",id:id,u:1,del:0,data:seedRec(a)};dirty[k]=1;n++});
+  L.set("seedV","1");L.set("seedV2","1");saveR();return n}
 seedVehicles();
 // v5: web-researched defaults (tank L, normal use). Only fills BLANK tank/normal-use on starting vehicles, on this phone only
 // (not pushed, record time unchanged), so any value an Admin typed on any phone always wins.
 function seedDefaults(){let n=0;SEED_V.forEach(a=>{const r=R["v:s_"+a[1].replace(/[^A-Za-z0-9]/g,"")];if(!r||r.del||!r.data)return;const d=r.data;
-  if((d.tank==null||d.tank==="")&&a[6]!=null){d.tank=a[6];n++}if((d.exp==null||d.exp==="")&&a[7]!=null){d.exp=a[7];n++}});if(n)saveR();return n}
+  if((d.tank==null||d.tank==="")&&a[6]!=null){d.tank=a[6];n++}if((d.exp==null||d.exp==="")&&a[7]!=null){d.exp=a[7];n++}
+  const x=SEED_X[a[1]]||{};if(!d.dept&&x.loc){d.dept=x.loc;n++}if(!d.mdl&&x.mdl){d.mdl=x.mdl;n++}if(!d.eng&&x.eng){d.eng=x.eng;n++}if(x.vin&&d.vin===a[2]&&a[2]!==x.vin){d.vin=x.vin;n++}});if(n)saveR();return n}
 seedDefaults();{const _od=onData;onData=function(){try{seedDefaults()}catch(e){}return _od.apply(this,arguments)}}
-window.TMC.fuel={fuelWarn:fuelWarn,canSave:canSave,tankBalance:tankBalance,tankMoves:tankMoves,reports:reports,lastFill:lastFill,isoWeek:isoWeek,limits:limits,LIM0:LIM0,SEED_V:SEED_V,seedVehicles:seedVehicles,seedDefaults:seedDefaults,pushReports:pushReports,tanks:tanks,tankWarn:tankWarn,tankTotals:tankTotals,lastTkMeter:lastTkMeter};
+window.TMC.fuel={fuelWarn:fuelWarn,canSave:canSave,tankBalance:tankBalance,tankMoves:tankMoves,reports:reports,lastFill:lastFill,isoWeek:isoWeek,limits:limits,LIM0:LIM0,SEED_V:SEED_V,SEED_X:SEED_X,seedVehicles:seedVehicles,seedDefaults:seedDefaults,pushReports:pushReports,tanks:tanks,tankWarn:tankWarn,tankTotals:tankTotals,lastTkMeter:lastTkMeter};
 
 /* ---- photos: shrink on the phone, store as its own record ---- */
 function shrink(file,max){return new Promise((ok,no)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");
@@ -545,7 +583,7 @@ function fuelTiles(u){return `<div class="tiles" style="margin-bottom:10px">
 </div>`}
 const VTYPES=["car", "tipper", "dropside", "tanker", "crane", "telehandler", "skidsteer", "tlb", "excavator", "pecker", "flowbin", "generator"];
 const VICON={car:'<path d="M14 52 L22 34 Q26 28 34 28 H78 Q86 28 92 34 L102 44 H108 Q112 44 112 50 V58 H8 V54 Z" fill="#16a34a"/><path d="M30 34 H52 V44 H24 Z M58 34 H78 L88 44 H58 Z" fill="#bae6fd"/><rect x="26" y="22" width="56" height="5" rx="2" fill="#374151"/><circle cx="32" cy="58" r="10" fill="#1f2937"/><circle cx="32" cy="58" r="4.0" fill="#d1d5db"/><circle cx="88" cy="58" r="10" fill="#1f2937"/><circle cx="88" cy="58" r="4.0" fill="#d1d5db"/>',tipper:'<path d="M6 22 L66 14 L70 50 H10 Z" fill="#ea580c"/><path d="M74 26 H96 L110 40 V52 H74 Z" fill="#dc2626"/><path d="M80 30 H94 L104 40 H80 Z" fill="#bae6fd"/><rect x="8" y="50" width="104" height="6" fill="#374151"/><circle cx="22" cy="60" r="9" fill="#1f2937"/><circle cx="22" cy="60" r="3.6" fill="#d1d5db"/><circle cx="46" cy="60" r="9" fill="#1f2937"/><circle cx="46" cy="60" r="3.6" fill="#d1d5db"/><circle cx="96" cy="60" r="9" fill="#1f2937"/><circle cx="96" cy="60" r="3.6" fill="#d1d5db"/>',dropside:'<rect x="6" y="30" width="64" height="20" fill="#2563eb"/><path d="M6 30 V24 H70 V30" fill="none" stroke="#1e3a8a" stroke-width="4"/><line x1="28" y1="30" x2="28" y2="50" stroke="#1e3a8a" stroke-width="3"/><line x1="50" y1="30" x2="50" y2="50" stroke="#1e3a8a" stroke-width="3"/><path d="M74 24 H96 L110 38 V52 H74 Z" fill="#0ea5e9"/><path d="M80 28 H94 L104 38 H80 Z" fill="#e0f2fe"/><rect x="6" y="50" width="106" height="6" fill="#374151"/><circle cx="22" cy="60" r="9" fill="#1f2937"/><circle cx="22" cy="60" r="3.6" fill="#d1d5db"/><circle cx="46" cy="60" r="9" fill="#1f2937"/><circle cx="46" cy="60" r="3.6" fill="#d1d5db"/><circle cx="96" cy="60" r="9" fill="#1f2937"/><circle cx="96" cy="60" r="3.6" fill="#d1d5db"/>',tanker:'<rect x="6" y="22" width="66" height="30" rx="15" fill="#e5e7eb" stroke="#6b7280" stroke-width="3"/><rect x="10" y="34" width="58" height="6" fill="#dc2626"/><path d="M76 24 H96 L110 38 V52 H76 Z" fill="#dc2626"/><path d="M82 28 H94 L104 38 H82 Z" fill="#bae6fd"/><rect x="6" y="52" width="106" height="5" fill="#374151"/><circle cx="22" cy="61" r="9" fill="#1f2937"/><circle cx="22" cy="61" r="3.6" fill="#d1d5db"/><circle cx="46" cy="61" r="9" fill="#1f2937"/><circle cx="46" cy="61" r="3.6" fill="#d1d5db"/><circle cx="96" cy="61" r="9" fill="#1f2937"/><circle cx="96" cy="61" r="3.6" fill="#d1d5db"/>',crane:'<rect x="10" y="44" width="100" height="12" rx="3" fill="#facc15"/><rect x="76" y="30" width="22" height="16" fill="#eab308"/><path d="M80 33 H94 V42 H80 Z" fill="#bae6fd"/><path d="M40 44 L98 6 L102 12 L48 46 Z" fill="#f59e0b" stroke="#92400e" stroke-width="2"/><line x1="100" y1="10" x2="100" y2="30" stroke="#111" stroke-width="2"/><rect x="96" y="28" width="8" height="5" fill="#111"/><circle cx="22" cy="60" r="9" fill="#1f2937"/><circle cx="22" cy="60" r="3.6" fill="#d1d5db"/><circle cx="44" cy="60" r="9" fill="#1f2937"/><circle cx="44" cy="60" r="3.6" fill="#d1d5db"/><circle cx="78" cy="60" r="9" fill="#1f2937"/><circle cx="78" cy="60" r="3.6" fill="#d1d5db"/><circle cx="100" cy="60" r="9" fill="#1f2937"/><circle cx="100" cy="60" r="3.6" fill="#d1d5db"/>',telehandler:'<rect x="20" y="40" width="76" height="14" rx="4" fill="#f97316"/><rect x="56" y="22" width="22" height="20" rx="3" fill="#ea580c"/><path d="M60 26 H74 V38 H60 Z" fill="#bae6fd"/><path d="M28 42 L96 16 L100 24 L36 48 Z" fill="#374151"/><path d="M98 18 V30 H112" fill="none" stroke="#111" stroke-width="4"/><circle cx="32" cy="60" r="11" fill="#1f2937"/><circle cx="32" cy="60" r="4.4" fill="#d1d5db"/><circle cx="84" cy="60" r="11" fill="#1f2937"/><circle cx="84" cy="60" r="4.4" fill="#d1d5db"/>',skidsteer:'<rect x="26" y="20" width="44" height="38" rx="6" fill="#facc15"/><rect x="32" y="26" width="26" height="18" fill="#bae6fd"/><path d="M70 30 L96 36 L96 44 L70 42 Z" fill="#374151"/><path d="M94 30 H112 L106 56 H94 Z" fill="#4b5563"/><rect x="18" y="54" width="62" height="14" rx="7" fill="#1f2937"/><circle cx="32" cy="61" r="6" fill="#1f2937"/><circle cx="32" cy="61" r="2.4" fill="#d1d5db"/><circle cx="66" cy="61" r="6" fill="#1f2937"/><circle cx="66" cy="61" r="2.4" fill="#d1d5db"/>',tlb:'<rect x="28" y="34" width="56" height="18" rx="3" fill="#facc15"/><rect x="40" y="16" width="26" height="20" fill="#eab308"/><path d="M44 20 H62 V34 H44 Z" fill="#bae6fd"/><path d="M84 38 L104 40 L106 56 L96 58" fill="none" stroke="#374151" stroke-width="5"/><path d="M28 38 L10 22 L4 34" fill="none" stroke="#374151" stroke-width="5"/><path d="M2 30 L12 36 L6 44 Z" fill="#374151"/><circle cx="40" cy="60" r="11" fill="#1f2937"/><circle cx="40" cy="60" r="4.4" fill="#d1d5db"/><circle cx="78" cy="62" r="7" fill="#1f2937"/><circle cx="78" cy="62" r="2.8" fill="#d1d5db"/>',excavator:'<rect x="14" y="56" width="62" height="12" rx="6" fill="#1f2937"/><rect x="18" y="38" width="54" height="16" rx="3" fill="#f59e0b"/><rect x="48" y="22" width="20" height="18" fill="#d97706"/><path d="M52 26 H64 V36 H52 Z" fill="#bae6fd"/><path d="M66 40 L92 12 L110 30" fill="none" stroke="#f59e0b" stroke-width="7" stroke-linejoin="round"/><path d="M104 28 L116 34 L110 50 L98 44 Z" fill="#374151"/>',pecker:'<rect x="14" y="56" width="62" height="12" rx="6" fill="#1f2937"/><rect x="18" y="38" width="54" height="16" rx="3" fill="#f59e0b"/><rect x="48" y="22" width="20" height="18" fill="#d97706"/><path d="M52 26 H64 V36 H52 Z" fill="#bae6fd"/><path d="M66 40 L92 12 L108 26" fill="none" stroke="#f59e0b" stroke-width="7" stroke-linejoin="round"/><rect x="102" y="26" width="10" height="22" fill="#dc2626"/><path d="M104 48 H110 L107 60 Z" fill="#374151"/><path d="M114 56 l6 -3 M114 62 l6 1" stroke="#111" stroke-width="2"/>',flowbin:'<rect x="12" y="18" width="96" height="42" rx="6" fill="#0891b2"/><rect x="18" y="24" width="84" height="8" fill="#67e8f9"/><rect x="16" y="60" width="10" height="8" fill="#374151"/><rect x="94" y="60" width="10" height="8" fill="#374151"/><circle cx="96" cy="44" r="7" fill="#fbbf24"/><text x="46" y="52" font-size="18" font-weight="900" fill="#fff" font-family="sans-serif">⛽</text>',generator:'<rect x="10" y="18" width="100" height="44" rx="6" fill="#16a34a"/><rect x="16" y="24" width="50" height="32" fill="#15803d"/><path d="M22 28 H60 M22 34 H60 M22 40 H60 M22 46 H60 M22 52 H60" stroke="#86efac" stroke-width="2"/><path d="M88 26 L78 42 H86 L80 56 L96 36 H88 L94 26 Z" fill="#facc15" stroke="#854d0e" stroke-width="1.5"/><rect x="14" y="62" width="12" height="6" fill="#374151"/><rect x="94" y="62" width="12" height="6" fill="#374151"/>'};
-function guessType(v){const m=((v&&v.model)||"")+" "+((v&&v.note)||"");const t=[[/pecker|breaker|marteau/i,"pecker"],[/excavat|pelle/i,"excavator"],[/tipper|benne|howo/i,"tipper"],[/drop ?side|plateau/i,"dropside"],[/tanker|citerne|kouri/i,"tanker"],[/telli|tele/i,"telehandler"],[/crane|grue/i,"crane"],[/skid/i,"skidsteer"],[/tlb|backhoe|retro/i,"tlb"],[/flowbin|bowser|terex/i,"flowbin"],[/generat|groupe|perkins|kw\b/i,"generator"],[/cruiser|toyota|car|4x4|hilux|pick/i,"car"]];for(const a of t)if(a[0].test(m))return a[1];return ""}
+function guessType(v){const m=((v&&v.model)||"")+" "+((v&&v.note)||"");const t=[[/pecker|breaker|marteau/i,"pecker"],[/excavat|pelle/i,"excavator"],[/tipper|benne|howo/i,"tipper"],[/drop ?side|plateau/i,"dropside"],[/tanker|citerne|kouri/i,"tanker"],[/telli|tele/i,"telehandler"],[/crane|grue/i,"crane"],[/skid/i,"skidsteer"],[/tlb|backhoe|retro/i,"tlb"],[/generat|groupe|perkins|kw\b/i,"generator"],[/flowbin|bowser|terex/i,"flowbin"],[/cruiser|toyota|car|4x4|hilux|pick/i,"car"]];for(const a of t)if(a[0].test(m))return a[1];return ""}
 const vType=v=>(v&&VTYPES.includes(v.type))?v.type:guessType(v);
 const vIcon=ty=>VICON[ty]?`<svg class="vic" viewBox="0 0 120 74" role="img" aria-label="${ty}">${VICON[ty]}</svg>`:`<span class="ni">🚜</span>`;
 function vImg(v,P){const s=v.ph&&P[v.ph];return s?`<img src="${esc(s)}" alt="">`:vIcon(vType(v))}
@@ -816,6 +854,120 @@ function bindTanks(u){const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
   on("xfSave",()=>{if(!xfOk())return;const at=Date.now(),id="tx"+at,W=xfWarn(),M=xfMeterTk();
     put("tx",id,{id:id,from:xf.from,to:xf.to,litres:num(xf.l),m1:M?num(xf.m1):null,m2:M?num(xf.m2):null,mtk:M?M.id:"",note:clean(xf.n||""),at:at,date:new Date(at).toISOString(),by:u.name,p:xf.p?savePh(xf.p):"",warn:W.map(w=>w.k)});
     tkv=xf.to;xf={};flash=t("sv")+(W.length?"  ⚠️"+W.length:"");pushReports();render()})}
+
+// v9: one-off Admin import of Johan's Excel history (import/oct2026.json). Guarded by synced record cfg:imp_<id> (one import for ALL phones),
+// and every record id is fixed (imp_…), so a second run can never add doubles. Daily readings never overwrite one typed in the app.
+Object.assign(T.en,{impT:"📥 Import history",impH:"Loads the October fill-ups and km / hours from your Excel. Only once.",impGo:"📥 Import history",impDone:"✅ History imported: %a fill-ups, %b daily readings",impAlready:"✅ History already imported",impErr:"⚠️ Could not load the file. Check internet and try again.",impQ:"Import the Excel history now? This is done only once."});
+Object.assign(T.fr,{impT:"📥 Importer l'historique",impH:"Charge les pleins d'octobre et les km / heures de votre Excel. Une seule fois.",impGo:"📥 Importer l'historique",impDone:"✅ Historique importé : %a pleins, %b relevés",impAlready:"✅ Historique déjà importé",impErr:"⚠️ Fichier non chargé. Vérifiez internet et réessayez.",impQ:"Importer l'historique Excel maintenant ? Une seule fois."});
+Object.assign(T.ar,{impT:"📥 استيراد السجل",impH:"يحمّل تعبئات أكتوبر والكيلومترات / الساعات من ملف Excel. مرة واحدة فقط.",impGo:"📥 استيراد السجل",impDone:"✅ تم الاستيراد: %a تعبئة، %b قراءة يومية",impAlready:"✅ تم استيراد السجل من قبل",impErr:"⚠️ تعذر تحميل الملف. تحقق من الإنترنت وحاول مجددا.",impQ:"استيراد سجل Excel الآن؟ مرة واحدة فقط."});
+const IMP_ID="oct2026";let impMsg="";
+const impDone=id=>!!all("cfg").find(c=>c&&c.id==="imp_"+(id||IMP_ID));
+function importHistory(J,u){if(!u||!u.admin||!J||!J.id)return {ok:false,error:"not_allowed"};if(impDone(J.id))return {ok:false,error:"already"};
+  const now=Date.now();let k0=0;const P=(kind,id,data)=>{const k=kind+":"+id;R[k]={kind:kind,id:String(id),u:Math.max(now,R[k]?R[k].u+1:0)+(k0++),del:0,data:data};dirty[k]=1};
+  const res={fills:0,daily:0,skipped:[]},by="Excel import",when=(d,t)=>new Date(d+"T"+(t||"12:00")+":00").getTime();
+  const veh=key=>{const id=sid(key),r=R["v:"+id];if(r&&r.del)return null;if(r&&r.data)return r.data;const a=SEED_V.find(x=>x[1]===key);if(!a)return null;const d=seedRec(a);P("v",id,d);return d};
+  if(J.opening&&J.opening.litres>0){const at=when(J.opening.day,"00:00");P("d","imp_"+J.id+"_open",{id:"imp_"+J.id+"_open",litres:J.opening.litres,note:"Opening balance (Excel)",at:at,date:new Date(at).toISOString(),by:by,p:"",tk:J.opening.tk||"gz1",pr:J.opening.pr,imp:J.id,warn:[]})}
+  (J.fills||[]).forEach(f=>{const v=veh(f.key);if(!v){res.skipped.push(f.key+" "+f.day);return}const at=when(f.day,f.time),id="imp_"+J.id+"_f"+f.row;
+    P("f",id,{id:id,vid:v.id,fleet:v.fleet,meter:f.meter==null?null:f.meter,unit:f.unit,litres:f.litres,at:at,date:new Date(at).toISOString(),by:by,p1:"",p2:"",prev:f.prev==null?null:f.prev,warn:[],flag:0,tk:(J.opening&&J.opening.tk)||"gz1",bm:null,bm0:null,pr:f.pr,note:f.note||"",imp:J.id});res.fills++});
+  (J.daily||[]).forEach(e=>{const v=veh(e.key);if(!v){res.skipped.push(e.key+" "+e.day);return}const id=v.id+"_"+e.day;if(R["dy:"+id]&&!R["dy:"+id].del)return;
+    const at=when(e.day,"12:00");P("dy",id,{id:id,vid:v.id,day:e.day,meter:e.meter,at:at,ent:now,date:new Date(now).toISOString(),by:by,ph:"",imp:J.id});res.daily++});
+  P("cfg","imp_"+J.id,{id:"imp_"+J.id,at:new Date(now).toISOString(),by:u.name,fills:res.fills,daily:res.daily});saveR();syncSoon();try{pushReports()}catch(e){}return Object.assign({ok:true},res)}
+function importHTML(u){if(!u||!u.admin)return "";const d=impDone();
+  return `<div class="box" id="impBox"><h2>${esc(t("impT"))}</h2><p class="hint">${esc(t("impH"))}</p>${impMsg?`<p class="ok" id="impMsg">${esc(impMsg)}</p>`:""}${d?`<p class="ok" id="impOk">${esc(t("impAlready"))}</p>`:`<button type="button" id="impGo" style="min-height:72px;font-size:24px">${esc(t("impGo"))}</button>`}</div>`}
+const baseView9=viewHTML;viewHTML=function(u){const h=baseView9(u);return tab==="settings"?h+importHTML(u):h};
+const baseBind9=bindMain;bindMain=function(u){baseBind9(u);const b=document.getElementById("impGo");if(b)b.onclick=async()=>{if(!confirm(t("impQ")))return;b.disabled=true;
+  try{const J=await (await fetch("./import/"+IMP_ID+".json",{cache:"no-store"})).json();const r=importHistory(J,me());impMsg=r.ok?tr("impDone",r.fills,r.daily):r.error==="already"?t("impAlready"):t("impErr")}catch(e){impMsg=t("impErr")}render()}};
+Object.assign(window.TMC.fuel,{importHistory:importHistory,impDone:impDone,IMP_ID:IMP_ID});
+
+// v9: gaps = a fill-up whose start reading is not the previous fill-up's reading for that vehicle (a filling seems missing). Shown on Admin Reports.
+Object.assign(T.en,{gapT:"🟨 Missing fill-up?",gapRow:"%a: %b",gapNone:"No gaps found."});
+Object.assign(T.fr,{gapT:"🟨 Plein manquant ?",gapRow:"%a : %b",gapNone:"Aucun trou trouvé."});
+Object.assign(T.ar,{gapT:"🟨 تعبئة مفقودة؟",gapRow:"%a: %b",gapNone:"لا توجد فجوات."});
+function fillGaps(){const V={};vehs().forEach(v=>V[v.id]=v);const last={},G=[];
+  fills().forEach(f=>{const m=num(f.meter),st=num(f.prev),p=last[f.vid];
+    if(p!=null&&isFinite(st)&&Math.abs(st-p.m)>0.05){const v=V[f.vid]||{};G.push({vid:f.vid,veh:(v.fleet||f.fleet||"?")+" "+(v.model||""),day:dayKey(f.at),from:p.m,to:st,unit:isH(v)?"h":"km",fid:f.id})}
+    if(isFinite(m)&&f.meter!==null)last[f.vid]={m:m,at:f.at}});return G}
+function gapsHTML(){const G=fillGaps();return `<div class="box" id="gapBox"><h3>${esc(t("gapT"))} (${G.length})</h3>${G.length?G.map(g=>`<div class="mv" data-gap="${esc(g.fid)}" style="background:#fff59d"><span class="n">${esc(g.day)} ${esc(g.veh)}<br><b>${esc((g.unit==="h"?"Hs ":"Km ")+fmt(g.from)+" → "+fmt(g.to))}</b></span></div>`).join(""):`<p class="hint">${esc(t("gapNone"))}</p>`}</div>`}
+const baseWorkG=workHTML;workHTML=function(u){const h=baseWorkG(u);if(fv!=="rep"||!u.admin)return h;const i=h.indexOf('<div class="box">');return i<0?h+gapsHTML():h.slice(0,i)+gapsHTML()+h.slice(i)};
+Object.assign(window.TMC.fuel,{fillGaps:fillGaps});
+// v10: "Check later" marks (odd / backward readings, kept as typed) + Admin-only Edit with a log (kind "ed").
+Object.assign(T.en,{ckT:"🟧 Check later",ckNone:"Nothing to check.",ckBack:"Lower than before (%b)",ckHigh:"Higher than a later day (%b)",ckMark:"Check later",edTile:"Check & edit",edT:"✏️ Edit",edRecent:"All records",edFills:"⛽ Fill-ups",edDaily:"📏 Daily",edDate:"Date",edVeh:"Vehicle",edMeter:"Meter reading",edStart:"Start reading",edLit:"Litres",edTank:"From tank",edSave:"✅ Save change",edClear:"✔️ Fixed – clear mark",edSaved:"✅ Change saved",edCleared:"✅ Mark cleared",edLog:"📜 Edit log",edBad:"Type a number and a date (not in the future).",edNoAdm:"Only the Admin can edit."});
+Object.assign(T.fr,{ckT:"🟧 À vérifier",ckNone:"Rien à vérifier.",ckBack:"Plus bas qu'avant (%b)",ckHigh:"Plus haut qu'un jour suivant (%b)",ckMark:"À vérifier",edTile:"Vérifier et modifier",edT:"✏️ Modifier",edRecent:"Tous les relevés",edFills:"⛽ Pleins",edDaily:"📏 Journaliers",edDate:"Date",edVeh:"Véhicule",edMeter:"Relevé du compteur",edStart:"Relevé de départ",edLit:"Litres",edTank:"Depuis la cuve",edSave:"✅ Enregistrer la modification",edClear:"✔️ Corrigé – enlever la marque",edSaved:"✅ Modification enregistrée",edCleared:"✅ Marque enlevée",edLog:"📜 Journal des modifications",edBad:"Tapez un chiffre et une date (pas dans le futur).",edNoAdm:"Seul l'Admin peut modifier."});
+Object.assign(T.ar,{ckT:"🟧 للتحقق لاحقًا",ckNone:"لا شيء للتحقق.",ckBack:"أقل من قبل (%b)",ckHigh:"أعلى من يوم لاحق (%b)",ckMark:"للتحقق لاحقًا",edTile:"تحقق وتعديل",edT:"✏️ تعديل",edRecent:"كل السجلات",edFills:"⛽ التعبئات",edDaily:"📏 اليومية",edDate:"التاريخ",edVeh:"المركبة",edMeter:"قراءة العداد",edStart:"قراءة البداية",edLit:"لترات",edTank:"من الخزان",edSave:"✅ حفظ التعديل",edClear:"✔️ تم الإصلاح – إزالة العلامة",edSaved:"✅ تم حفظ التعديل",edCleared:"✅ أزيلت العلامة",edLog:"📜 سجل التعديلات",edBad:"اكتب رقمًا وتاريخًا (ليس في المستقبل).",edNoAdm:"المسؤول فقط يمكنه التعديل."});
+{const st=document.createElement("style");st.textContent=".ck{background:#fed7aa;border-inline-start:6px solid #ea580c}.ckb{display:inline-block;background:#ea580c;color:#fff;border-radius:8px;padding:1px 6px;font-size:13px;font-weight:800}.mv .ebtn{min-height:56px;min-width:84px;font-size:18px;margin:0}#edBox input,#edBox select{font-size:24px}#edBox button{min-height:72px;font-size:22px}";document.head.appendChild(st)}
+const recOf=(k,id)=>{const r=R[k+":"+id];return r&&!r.del&&r.data?r.data:null};
+// Odd = reading lower than the reading before it, or higher than a later day. Cleared (chkOk) records stay cleared until edited.
+function oddList(){const O={};vehs().forEach(v=>{const L=dayReadings(v.id);L.forEach((r,i)=>{let why=null;
+    if(r.back)why={k:"ckBack",b:r.prev};
+    if(!why)return;let kind="dy",id=r.id;if(r.src!=="d"){const f=fills().filter(x=>x.vid===v.id&&dayKey(x.at)===r.day&&num(x.meter)===r.meter).pop();if(!f)return;kind="f";id=f.id}
+    O[kind+":"+id]={kind:kind,id:id,vid:v.id,day:r.day,meter:r.meter,why:why}})});
+  fills().forEach(f=>{if((f.warn||[]).includes("wBack")&&!O["f:"+f.id])O["f:"+f.id]={kind:"f",id:f.id,vid:f.vid,day:dayKey(f.at),meter:num(f.meter),why:{k:"ckBack",b:f.prev}}});return O}
+function checkList(){const O=oddList(),L=[];
+  Object.values(O).forEach(o=>{const d=recOf(o.kind,o.id);if(d&&!d.chkOk)L.push(o)});
+  ["f","dy"].forEach(k=>all(k).forEach(d=>{if(d.chk&&!d.chkOk&&!O[k+":"+d.id])L.push({kind:k,id:d.id,vid:d.vid,day:d.day||dayKey(d.at),meter:num(d.meter),why:{k:"ckMark",b:""}})}));
+  return L.sort((a,b)=>a.day<b.day?-1:a.day>b.day?1:0)}
+const isChk=(k,id)=>checkList().some(o=>o.kind===k&&o.id===id);
+// store the mark on the record so the Sheet can highlight it (Admin phone writes it; staff phones mark their own odd daily readings)
+function markChecks(){const u=me();if(!u||!u.admin)return 0;let n=0;Object.values(oddList()).forEach(o=>{const d=recOf(o.kind,o.id);if(d&&!d.chk&&!d.chkOk){put(o.kind,o.id,Object.assign({},d,{chk:1,chkWhy:tr(o.why.k,"",fmt(num(o.why.b))).trim()}));n++}});return n}
+const basePushR=pushReports;pushReports=function(){markChecks();basePushR()};
+const baseSaveD=saveDaily;saveDaily=function(vid,meter,by,ph,day,ent){const id=baseSaveD(vid,meter,by,ph,day,ent);if(id){const d=recOf("dy",id);const c=d&&dailyCheck(vid,d.day,d.meter);if(c)put("dy",id,Object.assign({},d,{chk:1,chkWhy:t(c.k).replace("%b",fmt(c.b))}))}return id};
+const ED_F=["day","vid","meter","prev","litres","tk"];
+function editRec(kind,id,ch,u){u=u||me();if(!u||!u.admin)return {ok:false,error:"not_allowed"};const old=recOf(kind,id);if(!old||(kind!=="f"&&kind!=="dy"))return {ok:false,error:"missing"};
+  const n=Object.assign({},old),td=dayKey(Date.now()),day=ch.day||old.day||dayKey(old.at);if(!/^\d{4}-\d\d-\d\d$/.test(day)||day>td)return {ok:false,error:"bad"};
+  if(ch.meter!==undefined){const m=num(ch.meter);if(!isFinite(m))return {ok:false,error:"bad"};n.meter=m}
+  if(ch.vid){const v=vehs().find(x=>x.id===ch.vid);if(!v)return {ok:false,error:"bad"};n.vid=v.id;if(kind==="f"){n.fleet=v.fleet;n.unit=isH(v)?"h":"km"}}
+  if(kind==="f"){if(ch.litres!==undefined){const l=num(ch.litres);if(!(l>0))return {ok:false,error:"bad"};n.litres=l}if(ch.prev!==undefined){const p=num(ch.prev);n.prev=isFinite(p)?p:null}if(ch.tk&&tkById(ch.tk))n.tk=ch.tk;
+    const o=new Date(old.at),dd=new Date(day+"T12:00:00");dd.setHours(o.getHours(),o.getMinutes(),o.getSeconds());n.at=dd.getTime();n.date=new Date(n.at).toISOString()}
+  else{n.day=day;n.at=new Date(day+"T12:00:00").getTime()}
+  const was={},now={};ED_F.forEach(k=>{const a=k==="day"?(old.day||dayKey(old.at)):old[k],b=k==="day"?day:n[k];if(String(a==null?"":a)!==String(b==null?"":b)){was[k]=a==null?"":a;now[k]=b==null?"":b}});
+  if(!Object.keys(now).length)return {ok:true,id:id,same:true};
+  delete n.chk;delete n.chkWhy;delete n.chkOk;n.edBy=u.name;n.edAt=new Date().toISOString();n.eds=(old.eds||0)+1;
+  let nid=id;if(kind==="dy"){nid=n.vid+"_"+day;n.id=nid;if(nid!==id)remove("dy",id)}put(kind,nid,n);
+  const eid="e"+Date.now()+Math.random().toString(36).slice(2,5);put("ed",eid,{id:eid,kind:kind,rid:id,nid:nid,vid:n.vid,fleet:(vehs().find(x=>x.id===n.vid)||{}).fleet||"",what:"edit",old:was,new:now,by:u.name,at:Date.now(),date:new Date().toISOString()});
+  pushReports();return {ok:true,id:nid}}
+function clearCheck(kind,id,u){u=u||me();if(!u||!u.admin)return {ok:false,error:"not_allowed"};const d=recOf(kind,id);if(!d)return {ok:false,error:"missing"};
+  put(kind,id,Object.assign({},d,{chk:0,chkOk:1,chkBy:u.name,chkAt:new Date().toISOString()}));const eid="e"+Date.now()+Math.random().toString(36).slice(2,5);
+  put("ed",eid,{id:eid,kind:kind,rid:id,nid:id,vid:d.vid,fleet:(vehs().find(x=>x.id===d.vid)||{}).fleet||"",what:"cleared Check later",old:{chk:d.chkWhy||"Check later"},new:{chk:"cleared"},by:u.name,at:Date.now(),date:new Date().toISOString()});pushReports();return {ok:true}}
+let er=null,edK="f";
+const vName=vid=>{const v=vehs().find(x=>x.id===vid)||{};return (v.fleet||"?")+" "+(v.model||"")};
+function ckRow(o,btn){const v=vehs().find(x=>x.id===o.vid)||{};return `<div class="mv ck" data-ck="${esc(o.kind+":"+o.id)}"><span class="n">${esc(o.day)} · <b>${esc(vName(o.vid))}</b><br>${o.kind==="f"?"⛽":"📏"} ${esc((isH(v)?"Hs ":"Km ")+fmt(o.meter))} <span class="ckb">${esc(t("ckMark"))}</span> <small>${esc(tr(o.why.k,"",fmt(num(o.why.b))).trim())}</small></span>${btn?`<button type="button" class="sm ebtn" data-ed="${esc(o.kind+":"+o.id)}">✏️</button>`:""}</div>`}
+function ckBoxHTML(btn){const L=checkList();return `<div class="box" id="ckBox"><h3>${esc(t("ckT"))} (${L.length})</h3>${L.length?L.map(o=>ckRow(o,btn)).join(""):`<p class="hint">${esc(t("ckNone"))}</p>`}</div>`}
+function edListHTML(){const C={};checkList().forEach(o=>C[o.kind+":"+o.id]=1);
+  const rows=edK==="f"?fills().slice().reverse().slice(0,80).map(f=>({k:"f",id:f.id,day:dayKey(f.at),vid:f.vid,txt:"⛽ "+fmt(num(f.litres))+" L · "+fmt(num(f.meter)),by:f.by,eds:f.eds}))
+    :all("dy").slice().sort((a,b)=>a.day<b.day?1:-1).slice(0,80).map(d=>({k:"dy",id:d.id,day:d.day,vid:d.vid,txt:"📏 "+fmt(num(d.meter)),by:d.by,eds:d.eds}));
+  return `${back()}${flash?`<div class="ok2">${esc(flash)}</div>`:""}${ckBoxHTML(true)}<div class="box" id="edList"><h3>${esc(t("edRecent"))}</h3><div class="seg"><button type="button" class="sec${edK==="f"?" on":""}" data-edk="f">${esc(t("edFills"))}</button><button type="button" class="sec${edK==="dy"?" on":""}" data-edk="dy">${esc(t("edDaily"))}</button></div>
+  ${rows.map(r=>`<div class="mv${C[r.k+":"+r.id]?" ck":""}"><span class="n">${esc(r.day)} · <b>${esc(vName(r.vid))}</b><br>${esc(r.txt)} <span class="hint">${esc(r.by||"")}${r.eds?" · ✏️"+r.eds:""}</span></span><button type="button" class="sm ebtn" data-ed="${esc(r.k+":"+r.id)}">✏️</button></div>`).join("")||`<p class="hint">${esc(t("noMoves"))}</p>`}</div>
+  <div class="box" id="edLogBox"><h3>${esc(t("edLog"))}</h3>${all("ed").slice().sort((a,b)=>b.at-a.at).slice(0,30).map(e=>`<div class="mv"><span class="n"><small>${esc(new Date(e.at).toLocaleString(lang,{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"}))} · ${esc(e.by)}</small><br><b>${esc(e.fleet||"")}</b> ${esc(Object.keys(e.new||{}).map(k=>k+": "+e.old[k]+" → "+e.new[k]).join(", "))}</span></div>`).join("")||`<p class="hint">${esc(t("noMoves"))}</p>`}</div>`}
+function edFormHTML(){const d=recOf(er.kind,er.id);if(!d){er=null;fv="edl";return edListHTML()}const f=er.kind==="f",V=vehs(),v=V.find(x=>x.id===er.vid)||{},ck=isChk(er.kind,er.id);
+  return `<button type="button" class="sec" id="edBack">${esc(t("back"))}</button><div class="box" id="edBox"><h2>${esc(t("edT"))} ${f?"⛽":"📏"}</h2>${ck?`<p class="ck" style="padding:8px;border-radius:10px"><span class="ckb">${esc(t("ckMark"))}</span></p>`:""}
+  <label class="fl" for="edDay">${esc(t("edDate"))}</label><input id="edDay" type="date" max="${esc(dayKey(Date.now()))}" value="${esc(er.day)}">
+  <label class="fl" for="edVid">${esc(t("edVeh"))}</label><select id="edVid">${V.map(x=>`<option value="${esc(x.id)}"${x.id===er.vid?" selected":""}>${esc(x.fleet+" "+(x.model||""))}</option>`).join("")}</select>
+  ${f?`<label class="fl" for="edPrev">${esc(t("edStart"))} (${esc(unitM(v))})</label><input id="edPrev" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(er.prev==null?"":er.prev)}">`:""}
+  <label class="fl" for="edMeter">${esc(t("edMeter"))} (${esc(unitM(v))})</label><input id="edMeter" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(er.meter==null?"":er.meter)}">
+  ${f?`<label class="fl" for="edLit">${esc(t("edLit"))}</label><input id="edLit" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(er.litres)}"><label class="fl">${esc(t("edTank"))}</label>${tkSeg("data-etk",er.tk||"main",tanks())}`:""}
+  <p class="flag" id="edErr" style="display:none">${esc(t("edBad"))}</p><button type="button" id="edSave">${esc(t("edSave"))}</button>${ck?`<button type="button" class="sec" id="edClear">${esc(t("edClear"))}</button>`:""}</div>`}
+const baseWork10=workHTML;workHTML=function(u){
+  if((fv==="edl"||fv==="edr")&&!u.admin)fv="menu";
+  if(fv==="edl")return edListHTML();if(fv==="edr"&&er)return edFormHTML();if(fv==="edr")fv="edl";
+  let h=baseWork10(u);
+  if(u.admin&&!/data-fv="edl"/.test(h))h=h.replace(/(<button type="button" class="tile" data-fv="rep">.*?<\/button>)/,`$1<button type="button" class="tile" data-fv="edl"><b>✏️</b>${esc(t("edTile"))}</button>`);
+  if(fv==="rep"&&u.admin){const i=h.indexOf('<div class="box"');h=i<0?h+ckBoxHTML(false):h.slice(0,i)+ckBoxHTML(false)+h.slice(i)}
+  return h};
+const baseFT=fuelTiles;fuelTiles=function(u){const h=baseFT(u);return u.admin?h.replace(/(<button type="button" class="tile" data-fv="rep">.*?<\/button>)/,`$1<button type="button" class="tile" data-fv="edl"><b>✏️</b>${esc(t("edTile"))}</button>`):h};
+const baseBind10=bindWork;bindWork=function(u){baseBind10(u);if(!u.admin)return;
+  document.querySelectorAll("[data-fv=edl]").forEach(b=>b.onclick=()=>{fv="edl";render();scrollTo(0,0)});
+  document.querySelectorAll("[data-edk]").forEach(b=>b.onclick=()=>{edK=b.dataset.edk;render()});
+  document.querySelectorAll("[data-ed]").forEach(b=>b.onclick=()=>{const p=b.dataset.ed.split(":"),k=p[0],id=p.slice(1).join(":"),d=recOf(k,id);if(!d)return;
+    er={kind:k,id:id,day:d.day||dayKey(d.at),vid:d.vid,meter:d.meter,prev:d.prev,litres:d.litres,tk:d.tk||"main"};fv="edr";render();scrollTo(0,0)});
+  if(fv!=="edr"||!er)return;const rd=()=>{const g=i=>{const e=$(i);return e?e.value:undefined};er.day=g("edDay");er.vid=g("edVid");er.meter=g("edMeter");if(er.kind==="f"){er.prev=g("edPrev");er.litres=g("edLit")}};
+  const eb=$("edBack");if(eb)eb.onclick=()=>{er=null;fv="edl";render()};
+  const sv=$("edVid");if(sv)sv.onchange=()=>{rd();render()};
+  document.querySelectorAll("[data-etk]").forEach(b=>b.onclick=()=>{rd();er.tk=b.dataset.etk;render()});
+  const s=$("edSave");if(s)s.onclick=()=>{rd();const ch={day:er.day,vid:er.vid,meter:er.meter};if(er.kind==="f"){ch.litres=er.litres;ch.prev=er.prev;ch.tk=er.tk}
+    const r=editRec(er.kind,er.id,ch,u);if(!r.ok){const e=$("edErr");if(e)e.style.display="block";return}er=null;fv="edl";flash=t("edSaved");render();scrollTo(0,0)};
+  const c=$("edClear");if(c)c.onclick=()=>{clearCheck(er.kind,er.id,u);er=null;fv="edl";flash=t("edCleared");render();scrollTo(0,0)}};
+const baseBindM10=bindMain;bindMain=function(u){baseBindM10(u);if(u&&u.admin)document.querySelectorAll(".tile[data-fv=edl]").forEach(b=>b.onclick=()=>{fv="edl";tab="work";render();scrollTo(0,0)})};
+Object.assign(window.TMC.fuel,{checkList:checkList,oddList:oddList,markChecks:markChecks,editRec:editRec,clearCheck:clearCheck,saveDaily:saveDaily});
 /* ==================== APP FEATURES END ==================== */
 function usersHTML(me_){
   const U=users(),lab={pending:t("pend"),active:t("act"),rejected:t("rej"),blocked:t("blk")};
@@ -885,7 +1037,7 @@ window.TMC.draftClear=draftClear;
 /* ---------------- Sync status + unsynced warning ---------------- */
 let pendSince=0;
 function paintNc(){const w=$("ncW");if(!w)return;const off=!sUrl(),show=off||netBad;w.style.display=show?"block":"none";if(!show)return;
-  w.innerHTML=`${esc(t("ncT"))}<small>${esc(off?t("ncOff"):t("ncH"))}</small>${off?"":`<button type="button" id="ncB">${esc(t("retry"))}</button>`}`;
+  w.innerHTML=`<b>${esc(t("ncT"))}</b><span>${esc(off?t("ncOff"):t("ncH"))}</span>${off?"":`<button type="button" id="ncB">${esc(t("retry"))}</button>`}`;
   const b=$("ncB");if(b)b.onclick=()=>{if(syncOn())syncNow();else api({action:"status",name:"x"}).catch(()=>{})}}
 function paintSync(){paintNc();
   const d=$("sDot");if(d)d.className="dot "+(!syncOn()?"":sState==="busy"?"busy":sState==="err"||!navigator.onLine?"err":sState==="ok"?"ok":"");
