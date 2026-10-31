@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER":20,
+ "VER":21,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=20">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=20">
+<link rel="icon" href="icons/favicon-32.png?v=21">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=21">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -131,7 +131,7 @@ nav.tabs button .ticon{font-size:28px}nav.tabs button.on{color:var(--c);backgrou
 .pendW{background:#fef3c7;border:2px solid #f59e0b;color:#78350f}.updW{background:#dbeafe;border:2px solid #2563eb;color:#1e3a8a}
 .bar small{display:block;font-weight:500;margin-top:4px}
 .urow{display:flex;flex-wrap:wrap;align-items:center;gap:4px;border-bottom:1px solid #e2e8f0;padding:8px 0}.urow .n{flex:1;min-width:140px;font-weight:700}
-.st{font-size:14px;border-radius:8px;padding:2px 8px;background:#e2e8f0}.st.pending{background:#fef3c7}.st.blocked,.st.rejected{background:#fee2e2}.st.active{background:#dcfce7}
+.st{font-size:14px;border-radius:8px;padding:2px 8px;background:#e2e8f0}.st.pending{background:#fef3c7}.mainP{display:block;margin:6px 0;padding:10px 12px;border-radius:10px;background:#dbeafe;color:#1e3a8a;font-size:17px;font-weight:600}.st.blocked,.st.rejected{background:#fee2e2}.st.active{background:#dcfce7}
 .insB{background:#16a34a;font-size:22px;min-height:66px}.insH{background:#f1f5f9;border-radius:12px;padding:10px;font-weight:600;margin:6px 0}
 .phPick{display:flex;gap:8px}.phPick label{flex:1;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center;background:var(--c);color:#fff;border-radius:10px;font-weight:700;font-size:17px;padding:6px;margin:6px 0;cursor:pointer}.phPick label.alt{background:#fff;color:var(--c);border:2px solid var(--c)}.phPick input{display:none}.phPrev{max-width:100%;border-radius:10px;margin-top:6px}
 .rep{width:100%;border-collapse:collapse;font-size:17px;margin:6px 0}.rep th{background:var(--rc);color:#fff;text-align:left;padding:12px 10px}.rep td{padding:12px 10px;border-bottom:1px solid #d1e7d8}.rep tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--rc) 10%,#fff)}.rep tfoot td{background:color-mix(in srgb,var(--rc) 22%,#fff);color:var(--rc);font-weight:800;border-top:3px solid var(--rc)}.repH{background:var(--rc);color:#fff;border-radius:10px;padding:12px;font-weight:800;font-size:19px;margin:6px 0}
@@ -214,7 +214,7 @@ pwT:"⚠️ %n change(s) not sent to the Sheet yet",pwOff:"No internet — they 
 updT:"🆕 A new version is ready",updB:"⬆️ Update now",updChk:"Check for update",updNone:"You have the latest version.",ver:"Version",
 insBtn:"📲 Install app",insIos:"Tap Share ⬆️ then Add to Home Screen ➕",
 shareH:"Scan this code with the other phone, or send the link.",shareB:"📤 Send link",copy:"📋 Copy link",copied:"Copied",close:"Close",
-dscBT:"⛔ Block and remove %n?",dscRT:"❌ Reject and remove %n?",dscH:"%n is taken off the list. Their old PIN stops working. They can send a new request later.",dscY:"🗑️ Yes, remove",dscN:"↩️ Back",dscOld:"🗑️ Remove",dscDone:"%n was removed.",dscSelf:"You cannot remove yourself.",dscLast:"You cannot remove the last Admin.",dscTok:"Sign in again with your PIN to remove people.",goneT:"Not approved",goneH:"The Admin removed this request. You can send a new one.",again:"📨 Send a new request",pend:"Waiting",act:"Approved",rej:"Rejected",blk:"Blocked",approve:"✅ Approve",reject:"❌ Reject",block:"⛔ Block",unblock:"↩️ Unblock",resetPin:"🔑 Reset PIN",admin:"Admin",noPend:"No one is waiting.",
+dscMain:"The main Admin can never be removed or blocked.",dscDem:"The main Admin always stays Admin.",mainP:"🛡️ Main Admin – protected (cannot be removed or blocked)",dscBT:"⛔ Block and remove %n?",dscRT:"❌ Reject and remove %n?",dscH:"%n is taken off the list. Their old PIN stops working. They can send a new request later.",dscY:"🗑️ Yes, remove",dscN:"↩️ Back",dscOld:"🗑️ Remove",dscDone:"%n was removed.",dscSelf:"You cannot remove yourself.",dscLast:"You cannot remove the last Admin.",dscTok:"Sign in again with your PIN to remove people.",goneT:"Not approved",goneH:"The Admin removed this request. You can send a new one.",again:"📨 Send a new request",pend:"Waiting",act:"Approved",rej:"Rejected",blk:"Blocked",approve:"✅ Approve",reject:"❌ Reject",block:"⛔ Block",unblock:"↩️ Unblock",resetPin:"🔑 Reset PIN",admin:"Admin",noPend:"No one is waiting.",
 lang:"Language",sync:"Sync",syncUrl:"Sync link",syncCode:"Sync code",sv:"Saved",logout:"🚪 Log out",logoutQ:"Log out %n?",
 logoutPend:"⚠️ %n change(s) are not sent yet. They stay on this phone and will be sent later. Log out anyway?",
 wipe:"🗑️ Clear this app on this phone",wipeQ:"Delete this app's data on this phone? Other apps are not touched.",wipePend:"⚠️ %n change(s) are NOT sent and will be LOST. Delete anyway?",
@@ -234,7 +234,7 @@ pwT:"⚠️ %n modification(s) pas encore envoyée(s) à la feuille",pwOff:"Pas 
 updT:"🆕 Une nouvelle version est prête",updB:"⬆️ Mettre à jour",updChk:"Chercher une mise à jour",updNone:"Vous avez la dernière version.",ver:"Version",
 insBtn:"📲 Installer l'application",insIos:"Touchez Partager ⬆️ puis Sur l'écran d'accueil ➕",
 shareH:"Scannez ce code avec l'autre téléphone, ou envoyez le lien.",shareB:"📤 Envoyer le lien",copy:"📋 Copier le lien",copied:"Copié",close:"Fermer",
-dscBT:"⛔ Bloquer et retirer %n ?",dscRT:"❌ Refuser et retirer %n ?",dscH:"%n est retiré de la liste. Son ancien PIN ne marche plus. Il peut envoyer une nouvelle demande plus tard.",dscY:"🗑️ Oui, retirer",dscN:"↩️ Retour",dscOld:"🗑️ Retirer",dscDone:"%n a été retiré.",dscSelf:"Vous ne pouvez pas vous retirer vous-même.",dscLast:"Vous ne pouvez pas retirer le dernier Admin.",dscTok:"Reconnectez-vous avec votre PIN pour retirer quelqu'un.",goneT:"Non approuvé",goneH:"L'Admin a retiré cette demande. Vous pouvez en envoyer une nouvelle.",again:"📨 Nouvelle demande",pend:"En attente",act:"Approuvé",rej:"Refusé",blk:"Bloqué",approve:"✅ Approuver",reject:"❌ Refuser",block:"⛔ Bloquer",unblock:"↩️ Débloquer",resetPin:"🔑 Réinitialiser PIN",admin:"Admin",noPend:"Personne n'attend.",
+dscMain:"L'Admin principal ne peut jamais être retiré ni bloqué.",dscDem:"L'Admin principal reste toujours Admin.",mainP:"🛡️ Admin principal – protégé (ne peut pas être retiré ni bloqué)",dscBT:"⛔ Bloquer et retirer %n ?",dscRT:"❌ Refuser et retirer %n ?",dscH:"%n est retiré de la liste. Son ancien PIN ne marche plus. Il peut envoyer une nouvelle demande plus tard.",dscY:"🗑️ Oui, retirer",dscN:"↩️ Retour",dscOld:"🗑️ Retirer",dscDone:"%n a été retiré.",dscSelf:"Vous ne pouvez pas vous retirer vous-même.",dscLast:"Vous ne pouvez pas retirer le dernier Admin.",dscTok:"Reconnectez-vous avec votre PIN pour retirer quelqu'un.",goneT:"Non approuvé",goneH:"L'Admin a retiré cette demande. Vous pouvez en envoyer une nouvelle.",again:"📨 Nouvelle demande",pend:"En attente",act:"Approuvé",rej:"Refusé",blk:"Bloqué",approve:"✅ Approuver",reject:"❌ Refuser",block:"⛔ Bloquer",unblock:"↩️ Débloquer",resetPin:"🔑 Réinitialiser PIN",admin:"Admin",noPend:"Personne n'attend.",
 lang:"Langue",sync:"Synchro",syncUrl:"Lien de synchro",syncCode:"Code de synchro",sv:"Enregistré",logout:"🚪 Se déconnecter",logoutQ:"Déconnecter %n ?",
 logoutPend:"⚠️ %n modification(s) pas encore envoyée(s). Elles restent sur ce téléphone et seront envoyées plus tard. Se déconnecter quand même ?",
 wipe:"🗑️ Effacer cette app sur ce téléphone",wipeQ:"Effacer les données de cette app sur ce téléphone ? Les autres apps ne sont pas touchées.",wipePend:"⚠️ %n modification(s) NON envoyée(s) seront PERDUES. Effacer quand même ?",
@@ -254,7 +254,7 @@ pwT:"⚠️ %n تغيير لم يُرسل إلى الجدول بعد",pwOff:"ل�
 updT:"🆕 نسخة جديدة جاهزة",updB:"⬆️ تحديث الآن",updChk:"البحث عن تحديث",updNone:"لديك آخر نسخة.",ver:"النسخة",
 insBtn:"📲 تثبيت التطبيق",insIos:"اضغط مشاركة ⬆️ ثم إضافة إلى الشاشة الرئيسية ➕",
 shareH:"امسح هذا الرمز بالهاتف الآخر، أو أرسل الرابط.",shareB:"📤 إرسال الرابط",copy:"📋 نسخ الرابط",copied:"تم النسخ",close:"إغلاق",
-dscBT:"⛔ حظر وإزالة %n؟",dscRT:"❌ رفض وإزالة %n؟",dscH:"سيتم حذف %n من القائمة. رمز PIN القديم لن يعمل بعد الآن. يمكنه إرسال طلب جديد لاحقاً.",dscY:"🗑️ نعم، إزالة",dscN:"↩️ رجوع",dscOld:"🗑️ إزالة",dscDone:"تمت إزالة %n.",dscSelf:"لا يمكنك إزالة نفسك.",dscLast:"لا يمكنك إزالة آخر مسؤول (Admin).",dscTok:"سجّل الدخول مجدداً برمز PIN لإزالة الأشخاص.",goneT:"غير موافق عليه",goneH:"قام المسؤول (Admin) بإزالة هذا الطلب. يمكنك إرسال طلب جديد.",again:"📨 إرسال طلب جديد",pend:"بانتظار",act:"موافق عليه",rej:"مرفوض",blk:"محظور",approve:"✅ موافقة",reject:"❌ رفض",block:"⛔ حظر",unblock:"↩️ إلغاء الحظر",resetPin:"🔑 إعادة تعيين الرمز",admin:"مسؤول",noPend:"لا أحد بالانتظار.",
+dscMain:"لا يمكن أبدًا إزالة أو حظر المسؤول الرئيسي.",dscDem:"المسؤول الرئيسي يبقى دائمًا مسؤولًا.",mainP:"🛡️ المسؤول الرئيسي – محمي (لا يمكن إزالته أو حظره)",dscBT:"⛔ حظر وإزالة %n؟",dscRT:"❌ رفض وإزالة %n؟",dscH:"سيتم حذف %n من القائمة. رمز PIN القديم لن يعمل بعد الآن. يمكنه إرسال طلب جديد لاحقاً.",dscY:"🗑️ نعم، إزالة",dscN:"↩️ رجوع",dscOld:"🗑️ إزالة",dscDone:"تمت إزالة %n.",dscSelf:"لا يمكنك إزالة نفسك.",dscLast:"لا يمكنك إزالة آخر مسؤول (Admin).",dscTok:"سجّل الدخول مجدداً برمز PIN لإزالة الأشخاص.",goneT:"غير موافق عليه",goneH:"قام المسؤول (Admin) بإزالة هذا الطلب. يمكنك إرسال طلب جديد.",again:"📨 إرسال طلب جديد",pend:"بانتظار",act:"موافق عليه",rej:"مرفوض",blk:"محظور",approve:"✅ موافقة",reject:"❌ رفض",block:"⛔ حظر",unblock:"↩️ إلغاء الحظر",resetPin:"🔑 إعادة تعيين الرمز",admin:"مسؤول",noPend:"لا أحد بالانتظار.",
 lang:"اللغة",sync:"المزامنة",syncUrl:"رابط المزامنة",syncCode:"رمز المزامنة",sv:"تم الحفظ",logout:"🚪 تسجيل الخروج",logoutQ:"تسجيل خروج %n؟",
 logoutPend:"⚠️ %n تغيير لم يُرسل بعد. ستبقى على هذا الهاتف وتُرسل لاحقا. تسجيل الخروج على أي حال؟",
 wipe:"🗑️ مسح هذا التطبيق من هذا الهاتف",wipeQ:"حذف بيانات هذا التطبيق من هذا الهاتف؟ التطبيقات الأخرى لا تتأثر.",wipePend:"⚠️ %n تغيير لم يُرسل وسيضيع. الحذف على أي حال؟",
@@ -269,6 +269,8 @@ window.TMC.T=T;window.TMC.t=t;
 
 /* ---------------- Name rule (shared by all TMC apps) ---------------- */
 const ADMIN_KEY=C.ADMIN_ALIASES[0];
+/* VER 21: the MAIN Admin (ADMIN_NAME + ADMIN_ALIASES, case/space/dot/accent-insensitive via NK) can never be removed or blocked */
+const isMain=u=>!!u&&NK(u.name)===ADMIN_KEY&&(!!u.admin||u.status==="active");
 const NK=x=>{const n=String(x||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[\s.]+/g,"");return C.ADMIN_ALIASES.indexOf(n)>=0?ADMIN_KEY:n};
 const clean=x=>String(x||"").trim().replace(/\s+/g," ");
 window.TMC.NK=NK;
@@ -287,7 +289,7 @@ function permLab(p){return p[lang]||p.en}
 /* VER 6 base ADMIN FIX RULE (phone): role + token decide, never the team code alone. See tmc-base tests/admin_fix_test_spec.md. */
 function canFix(){const m=me();if(!(m&&m.admin))return false;return !!(sTok()||!sCode())}
 const FREE_K={u:1,rp:1};// u = own user record, rp = report rows the app rebuilds itself
-function put(kind,id,data){const k=kind+":"+id;if(!FREE_K[kind]&&R[k]&&!R[k].del&&!(R[k].loc&&dirty[k])&&!canFix()){alert(t("fixOnly"));return false}if(!FREE_K[kind]&&!R[k]&&!canKind(kind,"add")){alert(t("noAccess"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0),loc=R[k]?(R[k].loc&&dirty[k]?1:0):1;R[k]={kind:kind,id:String(id),u:u,del:0,data:data};if(loc&&!canFix())R[k].loc=1;dirty[k]=1;saveR();syncSoon();return true}
+function put(kind,id,data){const k=kind+":"+id;if(kind==="u"&&R[k]&&!R[k].del&&R[k].data&&R[k].data.admin&&isMain(R[k].data)&&!(data&&data.admin)){toast(t("dscDem"));return false}/* v21: the main Admin can never be demoted */if(!FREE_K[kind]&&R[k]&&!R[k].del&&!(R[k].loc&&dirty[k])&&!canFix()){alert(t("fixOnly"));return false}if(!FREE_K[kind]&&!R[k]&&!canKind(kind,"add")){alert(t("noAccess"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0),loc=R[k]?(R[k].loc&&dirty[k]?1:0):1;R[k]={kind:kind,id:String(id),u:u,del:0,data:data};if(loc&&!canFix())R[k].loc=1;dirty[k]=1;saveR();syncSoon();return true}
 function remove(kind,id){const k=kind+":"+id;if(kind==="u")return false;if(!FREE_K[kind]&&!canFix()){alert(t("fixOnly"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:1,data:null};dirty[k]=1;saveR();syncSoon();return true}
 /* fix(): Admin changes one field; old value, Admin name and time are kept in data._fix (audit column) and the server "Fix log" tab. */
 function fix(kind,id,field,val){if(!canFix())return false;const k=kind+":"+id,r=R[k];if(!r||r.del)return false;const d=Object.assign({},r.data),old=d[field];if(String(old)===String(val))return true;
@@ -335,7 +337,7 @@ function syncNow(){
       let d=s.data;if(typeof d==="string"){try{d=d?JSON.parse(d):null}catch(e){d=null}}if(s.kind==="u"&&(s.del||!d)&&loc&&!loc.del&&!(s.del&&d&&d.discarded===1))return;if(s.kind==="u"&&d&&!d.pinH&&d.hasPin&&!d.pinReset&&loc&&loc.data&&loc.data.pinH){d.pinH=loc.data.pinH;d.salt=loc.data.salt}R[k]={kind:s.kind,id:String(s.id),u:u,del:s.del?1:0,data:d}});
     L.set("since",String(j.now||Date.now()));L.set("lastOk",String(Date.now()));saveR();fails=0;sState="ok";netBad=false;
     /* VER 6 base: the server refused a fix (admin_only_fix): tell the user and take the server copy back */
-    if(j.refused&&Array.isArray(j.refusedDiscard)&&j.refusedDiscard.length){j.refusedDiscard.forEach(id=>{if(!dirty["u:"+id])force["u:"+id]=1});L.set("since","0");toast(t(j.refusedWhy==="last_admin"?"dscLast":j.refusedWhy==="self"?"dscSelf":"dscTok"));syncSoon(200)}
+    if(j.refused&&Array.isArray(j.refusedDiscard)&&j.refusedDiscard.length){j.refusedDiscard.forEach(id=>{if(!dirty["u:"+id])force["u:"+id]=1});L.set("since","0");toast(t(j.refusedWhy==="main_admin"?"dscMain":j.refusedWhy==="last_admin"?"dscLast":j.refusedWhy==="self"?"dscSelf":"dscTok"));syncSoon(200)}
     else if(j.refused&&j.refusedWhy==="admin_only_fix"){Object.keys(sent).forEach(k=>{if(k.indexOf("u:")!==0&&!dirty[k])force[k]=1});L.set("since","0");toast(t("fixRef"));syncSoon(200)}
     return true})
   .catch(e=>{fails++;sState="err";netBad=true;syncSoon(navigator.onLine?Math.min(120000,5000*Math.pow(2,fails-1)):60000);return false})
@@ -368,7 +370,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=20" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=21" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -381,7 +383,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=20" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=21" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -404,7 +406,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=20" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=21" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -499,7 +501,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=20" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=21" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -903,7 +905,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=20" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=21" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -1280,24 +1282,24 @@ function permTicks(u){
 let openU=null; // Admin users list: which person is open (list form like Purchases)
 function usersHTML(me_){
   const U=users(),lab={pending:t("pend"),active:t("act"),rejected:t("rej"),blocked:t("blk")};
-  const sum=u=>u.admin?"⭐ "+t("admin"):((C.PERMS||[]).filter(p=>can(p.id,u)).map(p=>p.icon+" "+permLab(p)).join(" · ")||"—");
+  const sum=u=>u.admin?(isMain(u)?"🛡️ ":"")+"⭐ "+t("admin"):((C.PERMS||[]).filter(p=>can(p.id,u)).map(p=>p.icon+" "+permLab(p)).join(" · ")||"—");
   const ico={pending:"⏳",active:"🟢",rejected:"⛔",blocked:"🚫"};
-  const row=u=>{const o=openU===u.id||u.status==="pending";return `<div class="urow ulr" data-uid="${esc(u.id)}" style="display:block;padding:0;border:0"><button type="button" class="uli" data-open="${esc(u.id)}"><span class="ui">${ico[u.status]||"👤"}</span><span class="ut"><span class="n">${esc(u.name)}</span> <span class="st ${esc(u.status)}">${esc(lab[u.status]||u.status)}</span><small>${esc(sum(u))}</small></span><span class="ch">${o?"⌄":"›"}</span></button>${o?`<div class="uopen"><div class="acts">
-   ${u.status==="pending"?`<button type="button" class="sm" data-ua="approve" data-id="${esc(u.id)}">${esc(t("approve"))}</button><button type="button" class="sm red" data-ud="reject" data-id="${esc(u.id)}">${esc(t("reject"))}</button>`:""}
-   ${u.status==="active"&&u.id!==me_.id?`<button type="button" class="sm red" data-ud="block" data-id="${esc(u.id)}">${esc(t("block"))}</button>`:""}
-   ${(u.status==="blocked"||u.status==="rejected")?`<button type="button" class="sm red" data-ud="${u.status==="blocked"?"block":"reject"}" data-id="${esc(u.id)}">${esc(t("dscOld"))}</button>`:""}
+  const row=u=>{const o=openU===u.id||u.status==="pending";return `<div class="urow ulr" data-uid="${esc(u.id)}" style="display:block;padding:0;border:0"><button type="button" class="uli" data-open="${esc(u.id)}"><span class="ui">${ico[u.status]||"👤"}</span><span class="ut"><span class="n">${esc(u.name)}</span> <span class="st ${esc(u.status)}">${esc(lab[u.status]||u.status)}</span><small>${esc(sum(u))}</small></span><span class="ch">${o?"⌄":"›"}</span></button>${o?`<div class="uopen">${isMain(u)?`<span class="mainP" id="mainP">${esc(t("mainP"))}</span>`:""}<div class="acts">
+   ${u.status==="pending"?`<button type="button" class="sm" data-ua="approve" data-id="${esc(u.id)}">${esc(t("approve"))}</button>${isMain(u)?"":`<button type="button" class="sm red" data-ud="reject" data-id="${esc(u.id)}">${esc(t("reject"))}</button>`}`:""}
+   ${u.status==="active"&&u.id!==me_.id&&!isMain(u)?`<button type="button" class="sm red" data-ud="block" data-id="${esc(u.id)}">${esc(t("block"))}</button>`:""}
+   ${(u.status==="blocked"||u.status==="rejected")&&!isMain(u)?`<button type="button" class="sm red" data-ud="${u.status==="blocked"?"block":"reject"}" data-id="${esc(u.id)}">${esc(t("dscOld"))}</button>`:""}
    ${u.status==="active"&&(u.pinH||u.hasPin)&&u.id!==me_.id?`<button type="button" class="sm sec" data-ua="reset" data-id="${esc(u.id)}">${esc(t("resetPin"))}</button>`:""}</div>${permTicks(u)}</div>`:""}</div>`};
   const pend=U.filter(u=>u.status==="pending"),rest=U.filter(u=>u.status!=="pending").sort((a,b)=>String(a.name).localeCompare(String(b.name)));
   return `<div class="box"><h3>⏳ ${esc(t("pend"))}</h3>${pend.length?pend.map(row).join(""):`<p class="hint">${esc(t("noPend"))}</p>`}</div><div class="box"><h3>👥 ${esc(t("users"))}</h3>${rest.map(row).join("")}</div>`;
 }
 /* VER 20 (= base VER 7, Johan 31 Oct 2026): Block / Reject = REMOVE. The user record is taken off the phone and the Sheet (server checks Admin token,
    never the signed-in Admin, never the last Admin) and its old PIN/token stop working. The person may send a fresh request later (→ Pending). No Unblock. */
-function discardWhy(u){const m=me();if(!m||!m.admin)return "dscTok";if(u.id===m.id)return "dscSelf";
+function discardWhy(u){if(isMain(u))return "dscMain";const m=me();if(!m||!m.admin)return "dscTok";if(u.id===m.id)return "dscSelf";
   if(u.admin&&!users().some(x=>x.id!==u.id&&x.admin&&x.status==="active"))return "dscLast";if(!canFix())return "dscTok";return ""}
 function discardUser(id){const u=users().find(x=>x.id===id);if(!u)return false;const w=discardWhy(u);if(w){toast(t(w));return false}
   const k="u:"+id;R[k]={kind:"u",id:String(id),u:Math.max(Date.now(),R[k]?R[k].u+1:0),del:1,data:{discarded:1,at:new Date().toISOString()}};dirty[k]=1;saveR();syncSoon();
   if(openU===id)openU=null;toast(t("dscDone").replace("%n",u.name));render();return true}
-window.TMC.discardUser=discardUser;
+window.TMC.discardUser=discardUser;window.TMC.isMain=isMain;window.TMC.discardWhy=discardWhy;window.TMC.setOpenU=id=>{openU=id};
 function discardModal(id,why,again){const u=users().find(x=>x.id===id);if(!u)return;const w=discardWhy(u);
   if(w==="dscTok"&&!again&&me()&&me().admin&&!sTok()){relogNo=0;return Promise.resolve(syncNow()).then(()=>discardModal(id,why,1),()=>discardModal(id,why,1))}  // Admin token missing: fetch one first
   if(w)return toast(t(w));
@@ -1308,7 +1310,7 @@ function bindUsers(){
   document.querySelectorAll("[data-ud]").forEach(b=>b.onclick=()=>discardModal(b.dataset.id,b.dataset.ud));
   document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{openU=openU===b.dataset.open?null:b.dataset.open;render()});
   document.querySelectorAll("[data-ua]").forEach(b=>b.onclick=()=>{
-    const u=Object.assign({},users().find(x=>x.id===b.dataset.id));if(!u.id)return;const a=b.dataset.ua;
+    const u=Object.assign({},users().find(x=>x.id===b.dataset.id));if(!u.id)return;const a=b.dataset.ua;if(isMain(u)&&(a==="reject"||a==="block"))return toast(t("dscMain"));
     if(a==="approve"||a==="unblock")u.status="active";if(a==="reject")u.status="rejected";if(a==="block")u.status="blocked";
     if(a==="reset"){delete u.pinH;delete u.salt;delete u.hasPin;u.pinReset=Date.now()}
     if(a==="approve"&&!Array.isArray(u.perms))u.perms=(C.PERM_DEFAULT||[]).slice();
