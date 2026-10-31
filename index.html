@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER":19,
+ "VER":20,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=19">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=19">
+<link rel="icon" href="icons/favicon-32.png?v=20">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=20">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -136,6 +136,7 @@ nav.tabs button .ticon{font-size:28px}nav.tabs button.on{color:var(--c);backgrou
 .phPick{display:flex;gap:8px}.phPick label{flex:1;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center;background:var(--c);color:#fff;border-radius:10px;font-weight:700;font-size:17px;padding:6px;margin:6px 0;cursor:pointer}.phPick label.alt{background:#fff;color:var(--c);border:2px solid var(--c)}.phPick input{display:none}.phPrev{max-width:100%;border-radius:10px;margin-top:6px}
 .rep{width:100%;border-collapse:collapse;font-size:17px;margin:6px 0}.rep th{background:var(--rc);color:#fff;text-align:left;padding:12px 10px}.rep td{padding:12px 10px;border-bottom:1px solid #d1e7d8}.rep tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--rc) 10%,#fff)}.rep tfoot td{background:color-mix(in srgb,var(--rc) 22%,#fff);color:var(--rc);font-weight:800;border-top:3px solid var(--rc)}.repH{background:var(--rc);color:#fff;border-radius:10px;padding:12px;font-weight:800;font-size:19px;margin:6px 0}
 .modal{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}
+.dsc h2{color:#b91c1c}.dsc button{min-height:60px;font-size:20px}
 .ncW{background:#fee2e2;border:2px solid #dc2626;color:#7f1d1d}
 .signin{position:relative;width:100%;max-width:440px}.signin>.card{margin:0}
 .signin>.ncBox{position:absolute;top:100%;left:0;right:0;margin:16px 0 0}
@@ -213,7 +214,7 @@ pwT:"⚠️ %n change(s) not sent to the Sheet yet",pwOff:"No internet — they 
 updT:"🆕 A new version is ready",updB:"⬆️ Update now",updChk:"Check for update",updNone:"You have the latest version.",ver:"Version",
 insBtn:"📲 Install app",insIos:"Tap Share ⬆️ then Add to Home Screen ➕",
 shareH:"Scan this code with the other phone, or send the link.",shareB:"📤 Send link",copy:"📋 Copy link",copied:"Copied",close:"Close",
-pend:"Waiting",act:"Approved",rej:"Rejected",blk:"Blocked",approve:"✅ Approve",reject:"❌ Reject",block:"⛔ Block",unblock:"↩️ Unblock",resetPin:"🔑 Reset PIN",admin:"Admin",noPend:"No one is waiting.",
+dscBT:"⛔ Block and remove %n?",dscRT:"❌ Reject and remove %n?",dscH:"%n is taken off the list. Their old PIN stops working. They can send a new request later.",dscY:"🗑️ Yes, remove",dscN:"↩️ Back",dscOld:"🗑️ Remove",dscDone:"%n was removed.",dscSelf:"You cannot remove yourself.",dscLast:"You cannot remove the last Admin.",dscTok:"Sign in again with your PIN to remove people.",goneT:"Not approved",goneH:"The Admin removed this request. You can send a new one.",again:"📨 Send a new request",pend:"Waiting",act:"Approved",rej:"Rejected",blk:"Blocked",approve:"✅ Approve",reject:"❌ Reject",block:"⛔ Block",unblock:"↩️ Unblock",resetPin:"🔑 Reset PIN",admin:"Admin",noPend:"No one is waiting.",
 lang:"Language",sync:"Sync",syncUrl:"Sync link",syncCode:"Sync code",sv:"Saved",logout:"🚪 Log out",logoutQ:"Log out %n?",
 logoutPend:"⚠️ %n change(s) are not sent yet. They stay on this phone and will be sent later. Log out anyway?",
 wipe:"🗑️ Clear this app on this phone",wipeQ:"Delete this app's data on this phone? Other apps are not touched.",wipePend:"⚠️ %n change(s) are NOT sent and will be LOST. Delete anyway?",
@@ -233,7 +234,7 @@ pwT:"⚠️ %n modification(s) pas encore envoyée(s) à la feuille",pwOff:"Pas 
 updT:"🆕 Une nouvelle version est prête",updB:"⬆️ Mettre à jour",updChk:"Chercher une mise à jour",updNone:"Vous avez la dernière version.",ver:"Version",
 insBtn:"📲 Installer l'application",insIos:"Touchez Partager ⬆️ puis Sur l'écran d'accueil ➕",
 shareH:"Scannez ce code avec l'autre téléphone, ou envoyez le lien.",shareB:"📤 Envoyer le lien",copy:"📋 Copier le lien",copied:"Copié",close:"Fermer",
-pend:"En attente",act:"Approuvé",rej:"Refusé",blk:"Bloqué",approve:"✅ Approuver",reject:"❌ Refuser",block:"⛔ Bloquer",unblock:"↩️ Débloquer",resetPin:"🔑 Réinitialiser PIN",admin:"Admin",noPend:"Personne n'attend.",
+dscBT:"⛔ Bloquer et retirer %n ?",dscRT:"❌ Refuser et retirer %n ?",dscH:"%n est retiré de la liste. Son ancien PIN ne marche plus. Il peut envoyer une nouvelle demande plus tard.",dscY:"🗑️ Oui, retirer",dscN:"↩️ Retour",dscOld:"🗑️ Retirer",dscDone:"%n a été retiré.",dscSelf:"Vous ne pouvez pas vous retirer vous-même.",dscLast:"Vous ne pouvez pas retirer le dernier Admin.",dscTok:"Reconnectez-vous avec votre PIN pour retirer quelqu'un.",goneT:"Non approuvé",goneH:"L'Admin a retiré cette demande. Vous pouvez en envoyer une nouvelle.",again:"📨 Nouvelle demande",pend:"En attente",act:"Approuvé",rej:"Refusé",blk:"Bloqué",approve:"✅ Approuver",reject:"❌ Refuser",block:"⛔ Bloquer",unblock:"↩️ Débloquer",resetPin:"🔑 Réinitialiser PIN",admin:"Admin",noPend:"Personne n'attend.",
 lang:"Langue",sync:"Synchro",syncUrl:"Lien de synchro",syncCode:"Code de synchro",sv:"Enregistré",logout:"🚪 Se déconnecter",logoutQ:"Déconnecter %n ?",
 logoutPend:"⚠️ %n modification(s) pas encore envoyée(s). Elles restent sur ce téléphone et seront envoyées plus tard. Se déconnecter quand même ?",
 wipe:"🗑️ Effacer cette app sur ce téléphone",wipeQ:"Effacer les données de cette app sur ce téléphone ? Les autres apps ne sont pas touchées.",wipePend:"⚠️ %n modification(s) NON envoyée(s) seront PERDUES. Effacer quand même ?",
@@ -253,7 +254,7 @@ pwT:"⚠️ %n تغيير لم يُرسل إلى الجدول بعد",pwOff:"ل�
 updT:"🆕 نسخة جديدة جاهزة",updB:"⬆️ تحديث الآن",updChk:"البحث عن تحديث",updNone:"لديك آخر نسخة.",ver:"النسخة",
 insBtn:"📲 تثبيت التطبيق",insIos:"اضغط مشاركة ⬆️ ثم إضافة إلى الشاشة الرئيسية ➕",
 shareH:"امسح هذا الرمز بالهاتف الآخر، أو أرسل الرابط.",shareB:"📤 إرسال الرابط",copy:"📋 نسخ الرابط",copied:"تم النسخ",close:"إغلاق",
-pend:"بانتظار",act:"موافق عليه",rej:"مرفوض",blk:"محظور",approve:"✅ موافقة",reject:"❌ رفض",block:"⛔ حظر",unblock:"↩️ إلغاء الحظر",resetPin:"🔑 إعادة تعيين الرمز",admin:"مسؤول",noPend:"لا أحد بالانتظار.",
+dscBT:"⛔ حظر وإزالة %n؟",dscRT:"❌ رفض وإزالة %n؟",dscH:"سيتم حذف %n من القائمة. رمز PIN القديم لن يعمل بعد الآن. يمكنه إرسال طلب جديد لاحقاً.",dscY:"🗑️ نعم، إزالة",dscN:"↩️ رجوع",dscOld:"🗑️ إزالة",dscDone:"تمت إزالة %n.",dscSelf:"لا يمكنك إزالة نفسك.",dscLast:"لا يمكنك إزالة آخر مسؤول (Admin).",dscTok:"سجّل الدخول مجدداً برمز PIN لإزالة الأشخاص.",goneT:"غير موافق عليه",goneH:"قام المسؤول (Admin) بإزالة هذا الطلب. يمكنك إرسال طلب جديد.",again:"📨 إرسال طلب جديد",pend:"بانتظار",act:"موافق عليه",rej:"مرفوض",blk:"محظور",approve:"✅ موافقة",reject:"❌ رفض",block:"⛔ حظر",unblock:"↩️ إلغاء الحظر",resetPin:"🔑 إعادة تعيين الرمز",admin:"مسؤول",noPend:"لا أحد بالانتظار.",
 lang:"اللغة",sync:"المزامنة",syncUrl:"رابط المزامنة",syncCode:"رمز المزامنة",sv:"تم الحفظ",logout:"🚪 تسجيل الخروج",logoutQ:"تسجيل خروج %n؟",
 logoutPend:"⚠️ %n تغيير لم يُرسل بعد. ستبقى على هذا الهاتف وتُرسل لاحقا. تسجيل الخروج على أي حال؟",
 wipe:"🗑️ مسح هذا التطبيق من هذا الهاتف",wipeQ:"حذف بيانات هذا التطبيق من هذا الهاتف؟ التطبيقات الأخرى لا تتأثر.",wipePend:"⚠️ %n تغيير لم يُرسل وسيضيع. الحذف على أي حال؟",
@@ -326,15 +327,16 @@ function syncNow(){
   sState="busy";paintSync();
   busy=fetch(sUrl(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"sync",code:sTok()?undefined:(sCode()||undefined),token:sTok()||undefined,device:dev,since:+(L.get("since")||0),changes:changes})})
   .then(r=>r.json()).then(j=>{
-    if(j&&!j.ok&&(j.error==="bad_token"||j.error==="not_active")){const hadTok=!!sTok();L.del("tok");if(sCode()&&hadTok){relogNo=0;syncSoon(300)}}
+    if(j&&!j.ok&&(j.error==="bad_token"||j.error==="not_active")){const hadTok=!!sTok();L.del("tok");if(sCode()&&hadTok){relogNo=0;syncSoon(300)}else if(tokMode()&&hadTok)syncSoon(300)}  // VER 7 base: re-check now (a removed user is signed out at once)
     if(!j||!j.ok)throw new Error(j&&j.error||"sync");
     Object.keys(sent).forEach(k=>{if(R[k]&&R[k].u===sent[k])delete dirty[k]});
     const F=force;force={};
     (j.records||[]).forEach(s=>{const k=s.kind+":"+s.id,u=+s.u||0,loc=R[k];if(F[k]&&!dirty[k]){delete F[k]}else if(loc&&(loc.u>u||(dirty[k]&&loc.u>=u)))return;
-      let d=s.data;if(typeof d==="string"){try{d=d?JSON.parse(d):null}catch(e){d=null}}if(s.kind==="u"&&(s.del||!d)&&loc&&!loc.del)return;if(s.kind==="u"&&d&&!d.pinH&&d.hasPin&&!d.pinReset&&loc&&loc.data&&loc.data.pinH){d.pinH=loc.data.pinH;d.salt=loc.data.salt}R[k]={kind:s.kind,id:String(s.id),u:u,del:s.del?1:0,data:d}});
+      let d=s.data;if(typeof d==="string"){try{d=d?JSON.parse(d):null}catch(e){d=null}}if(s.kind==="u"&&(s.del||!d)&&loc&&!loc.del&&!(s.del&&d&&d.discarded===1))return;if(s.kind==="u"&&d&&!d.pinH&&d.hasPin&&!d.pinReset&&loc&&loc.data&&loc.data.pinH){d.pinH=loc.data.pinH;d.salt=loc.data.salt}R[k]={kind:s.kind,id:String(s.id),u:u,del:s.del?1:0,data:d}});
     L.set("since",String(j.now||Date.now()));L.set("lastOk",String(Date.now()));saveR();fails=0;sState="ok";netBad=false;
     /* VER 6 base: the server refused a fix (admin_only_fix): tell the user and take the server copy back */
-    if(j.refused&&j.refusedWhy==="admin_only_fix"){Object.keys(sent).forEach(k=>{if(k.indexOf("u:")!==0&&!dirty[k])force[k]=1});L.set("since","0");toast(t("fixRef"));syncSoon(200)}
+    if(j.refused&&Array.isArray(j.refusedDiscard)&&j.refusedDiscard.length){j.refusedDiscard.forEach(id=>{if(!dirty["u:"+id])force["u:"+id]=1});L.set("since","0");toast(t(j.refusedWhy==="last_admin"?"dscLast":j.refusedWhy==="self"?"dscSelf":"dscTok"));syncSoon(200)}
+    else if(j.refused&&j.refusedWhy==="admin_only_fix"){Object.keys(sent).forEach(k=>{if(k.indexOf("u:")!==0&&!dirty[k])force[k]=1});L.set("since","0");toast(t("fixRef"));syncSoon(200)}
     return true})
   .catch(e=>{fails++;sState="err";netBad=true;syncSoon(navigator.onLine?Math.min(120000,5000*Math.pow(2,fails-1)):60000);return false})
   .then(ok=>{busy=null;paintSync();try{onData()}catch(e){console.warn(e)}if(ok&&pending())syncSoon(300);return ok});
@@ -366,16 +368,20 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=19" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=20" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
+/* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
+   The new data shows on the next render() (Save, Back, tab change). Fields marked data-nodirty and the language picker don't count. */
+let formDirty=0;document.addEventListener("input",e=>{const el=e.target;if(el&&el.closest&&el.closest("#app")&&!el.dataset.nodirty&&el.id!=="langSel"&&/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))formDirty=1},true);
+window.TMC.formDirty=()=>formDirty;
 function render(){
-  applyLang();const A=$("app");
+  formDirty=0;applyLang();const A=$("app");
   const u=me();
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=19" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=20" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -397,7 +403,8 @@ function signinHTML(){
   if(f.s==="dup")return card(`<h2 id="dupT">✋ ${esc(t("dupT"))}</h2><p class="hint" style="font-size:18px">${esc(t("dupH"))}</p><button type="button" id="fCheck" style="min-height:60px">${esc(t("check"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=19" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=20" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -412,7 +419,8 @@ function bindSignin(){
   on("fName2",()=>startName($("fName").value));
   const n=$("fName");if(n)n.onkeydown=e=>{if(e.key==="Enter")startName(n.value)};
   on("fRetry",()=>startName(flow.name));
-  on("fCheck",()=>{if(tokMode())return srvLookup(flow.name,false);syncNow().then(()=>lookup(flow.name))});
+  on("fCheck",()=>{if(tokMode())return srvLookup(flow.name,false);const nm=flow.name;syncNow().then(()=>{const K=NK(nm);if(!users().some(u=>NK(u.name)===K)){flow={s:"gone",name:nm};return render()}lookup(nm)})});  // VER 7 base: request removed → offer a fresh one
+  on("fAgain",()=>startName(flow.name));
   on("fGo",checkPin);on("fSet",setPin);
   const p=$("fPin");if(p){p.focus();p.onkeydown=e=>{if(e.key==="Enter")(flow.s==="pin"?checkPin:setPin)()}}
 }
@@ -436,6 +444,7 @@ async function srvLookup(name,reg){
   if(st==="blocked"){flow={s:"blk",name:name};return render()}
   if(st==="rejected"){flow={s:"rej",name:name};return render()}
   if(st==="dup"||(st==="pending"&&j.other)){flow={s:"dup",name:name,srv:1};return render()}  // ONE request per name per app
+  if(st==="none"&&!reg){flow={s:"gone",name:name};return render()}  // VER 7 base: the Admin removed this request
   flow={s:"wait",name:name,srv:1};render();
 }
 async function gotToken(j,u){
@@ -490,7 +499,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=19" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=20" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -894,7 +903,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=19" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=20" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -1274,14 +1283,29 @@ function usersHTML(me_){
   const sum=u=>u.admin?"⭐ "+t("admin"):((C.PERMS||[]).filter(p=>can(p.id,u)).map(p=>p.icon+" "+permLab(p)).join(" · ")||"—");
   const ico={pending:"⏳",active:"🟢",rejected:"⛔",blocked:"🚫"};
   const row=u=>{const o=openU===u.id||u.status==="pending";return `<div class="urow ulr" data-uid="${esc(u.id)}" style="display:block;padding:0;border:0"><button type="button" class="uli" data-open="${esc(u.id)}"><span class="ui">${ico[u.status]||"👤"}</span><span class="ut"><span class="n">${esc(u.name)}</span> <span class="st ${esc(u.status)}">${esc(lab[u.status]||u.status)}</span><small>${esc(sum(u))}</small></span><span class="ch">${o?"⌄":"›"}</span></button>${o?`<div class="uopen"><div class="acts">
-   ${u.status==="pending"?`<button type="button" class="sm" data-ua="approve" data-id="${esc(u.id)}">${esc(t("approve"))}</button><button type="button" class="sm red" data-ua="reject" data-id="${esc(u.id)}">${esc(t("reject"))}</button>`:""}
-   ${u.status==="active"&&u.id!==me_.id?`<button type="button" class="sm red" data-ua="block" data-id="${esc(u.id)}">${esc(t("block"))}</button>`:""}
-   ${(u.status==="blocked"||u.status==="rejected")?`<button type="button" class="sm sec" data-ua="unblock" data-id="${esc(u.id)}">${esc(t("unblock"))}</button>`:""}
+   ${u.status==="pending"?`<button type="button" class="sm" data-ua="approve" data-id="${esc(u.id)}">${esc(t("approve"))}</button><button type="button" class="sm red" data-ud="reject" data-id="${esc(u.id)}">${esc(t("reject"))}</button>`:""}
+   ${u.status==="active"&&u.id!==me_.id?`<button type="button" class="sm red" data-ud="block" data-id="${esc(u.id)}">${esc(t("block"))}</button>`:""}
+   ${(u.status==="blocked"||u.status==="rejected")?`<button type="button" class="sm red" data-ud="${u.status==="blocked"?"block":"reject"}" data-id="${esc(u.id)}">${esc(t("dscOld"))}</button>`:""}
    ${u.status==="active"&&(u.pinH||u.hasPin)&&u.id!==me_.id?`<button type="button" class="sm sec" data-ua="reset" data-id="${esc(u.id)}">${esc(t("resetPin"))}</button>`:""}</div>${permTicks(u)}</div>`:""}</div>`};
   const pend=U.filter(u=>u.status==="pending"),rest=U.filter(u=>u.status!=="pending").sort((a,b)=>String(a.name).localeCompare(String(b.name)));
   return `<div class="box"><h3>⏳ ${esc(t("pend"))}</h3>${pend.length?pend.map(row).join(""):`<p class="hint">${esc(t("noPend"))}</p>`}</div><div class="box"><h3>👥 ${esc(t("users"))}</h3>${rest.map(row).join("")}</div>`;
 }
+/* VER 20 (= base VER 7, Johan 31 Oct 2026): Block / Reject = REMOVE. The user record is taken off the phone and the Sheet (server checks Admin token,
+   never the signed-in Admin, never the last Admin) and its old PIN/token stop working. The person may send a fresh request later (→ Pending). No Unblock. */
+function discardWhy(u){const m=me();if(!m||!m.admin)return "dscTok";if(u.id===m.id)return "dscSelf";
+  if(u.admin&&!users().some(x=>x.id!==u.id&&x.admin&&x.status==="active"))return "dscLast";if(!canFix())return "dscTok";return ""}
+function discardUser(id){const u=users().find(x=>x.id===id);if(!u)return false;const w=discardWhy(u);if(w){toast(t(w));return false}
+  const k="u:"+id;R[k]={kind:"u",id:String(id),u:Math.max(Date.now(),R[k]?R[k].u+1:0),del:1,data:{discarded:1,at:new Date().toISOString()}};dirty[k]=1;saveR();syncSoon();
+  if(openU===id)openU=null;toast(t("dscDone").replace("%n",u.name));render();return true}
+window.TMC.discardUser=discardUser;
+function discardModal(id,why,again){const u=users().find(x=>x.id===id);if(!u)return;const w=discardWhy(u);
+  if(w==="dscTok"&&!again&&me()&&me().admin&&!sTok()){relogNo=0;return Promise.resolve(syncNow()).then(()=>discardModal(id,why,1),()=>discardModal(id,why,1))}  // Admin token missing: fetch one first
+  if(w)return toast(t(w));
+  const m=document.createElement("div");m.className="modal";m.id="dscM";
+  m.innerHTML=`<div class="card dsc"><h2>${esc(t(why==="reject"?"dscRT":"dscBT").replace("%n",u.name))}</h2><p class="hint" style="font-size:18px">${esc(t("dscH").replace("%n",u.name))}</p><button type="button" class="red" id="dscY">${esc(t("dscY"))}</button><button type="button" class="sec" id="dscN">${esc(t("dscN"))}</button></div>`;
+  document.body.appendChild(m);const x=()=>m.remove();$("dscN").onclick=x;m.onclick=e=>{if(e.target===m)x()};$("dscY").onclick=()=>{x();discardUser(id)}}
 function bindUsers(){
+  document.querySelectorAll("[data-ud]").forEach(b=>b.onclick=()=>discardModal(b.dataset.id,b.dataset.ud));
   document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{openU=openU===b.dataset.open?null:b.dataset.open;render()});
   document.querySelectorAll("[data-ua]").forEach(b=>b.onclick=()=>{
     const u=Object.assign({},users().find(x=>x.id===b.dataset.id));if(!u.id)return;const a=b.dataset.ua;
@@ -1363,7 +1387,7 @@ setInterval(paintSync,2000);addEventListener("online",paintSync);addEventListene
 function toast(m){let w=$("tmcToast");if(!w){w=document.createElement("div");w.id="tmcToast";w.setAttribute("role","status");w.style.cssText="position:fixed;left:12px;right:12px;bottom:84px;z-index:9999;background:#7c2d12;color:#fff;padding:14px 16px;border-radius:12px;font-size:17px;line-height:1.35;box-shadow:0 4px 14px rgba(0,0,0,.3);text-align:center";document.body.appendChild(w)}w.textContent=m;w.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>{w.style.display="none"},7000)}
 window.TMC.toast=toast;
 function onData(){const u=me();if(flow&&flow.s==="wait"&&!u){/* stay */}if(!u&&L.get("uid")){signOut();render();return}
-  const a=document.activeElement;if(u&&!(a&&(a.tagName==="INPUT"||a.tagName==="TEXTAREA")))render()}
+  const a=document.activeElement;if(u&&!formDirty&&!(a&&(a.tagName==="INPUT"||a.tagName==="TEXTAREA")))render()}
 
 /* ---------------- Auto-update (service worker) ---------------- */
 let reg=null,updReady=false;
