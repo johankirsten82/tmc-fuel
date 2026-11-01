@@ -2147,7 +2147,7 @@ Object.assign(T.en,{wBurn:"⚠️ Uses more than normal (%a L/h, normal %b). Che
 Object.assign(T.fr,{wBurn:"⚠️ Consomme plus que d'habitude (%a L/h, normal %b). Vérifiez.",ckBurn:"🔥 Forte consommation %b L/h",burnPct:"Forte consommation : % au-dessus du normal L/h",x28Col:"L/h",x22w_wBurn:"Forte consommation"});
 Object.assign(T.ar,{wBurn:"⚠️ يستهلك أكثر من المعتاد (%a لتر/س، المعتاد %b). تحقق منه.",ckBurn:"🔥 استهلاك مرتفع %b لتر/س",burnPct:"استهلاك مرتفع: % فوق المعتاد لتر/س",x28Col:"لتر/س",x22w_wBurn:"استهلاك مرتفع"});
 {const st=document.createElement("style");st.textContent="#fuWarn p[data-w=wBurn]{color:#b91c1c;background:#fee2e2;border:3px solid #dc2626;border-radius:12px;padding:8px;font-weight:800}@media print{td.x28c,th.x28c{display:none}}";document.head.appendChild(st)}
-Object.assign(window.TMC.fuel,{x28Burn:x28Burn,x28Rates:x28Rates,x28Med:x28Med});
+Object.assign(window.TMC.fuel,{checkList:checkList,fuelWarn:fuelWarn,x28Burn:x28Burn,x28Rates:x28Rates,x28Med:x28Med});
 render();
 if(syncOn())syncNow();else if(sUrl())api({action:"status",name:"-"}).catch(()=>{});  // probe so "Not connected" shows on a fresh phone too
 })();
