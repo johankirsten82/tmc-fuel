@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER":30,
+ "VER":31,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=30">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=30">
+<link rel="icon" href="icons/favicon-32.png?v=31">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=31">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -382,7 +382,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=30" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=31" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -395,7 +395,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=30" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=31" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -418,7 +418,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=30" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=31" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -513,7 +513,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=30" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=31" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -791,6 +791,10 @@ function pumpAt(tk,at,exceptId){const M=[];at=at==null?Date.now():at;
 // v18: pump meter typed on a fill-up must be last reading + litres (within the Admin tolerance, default 2 L). Warn only – Save stays allowed (Check later).
 function pmCheck(tk,bm,l,at,exceptId){const W=[];if(!tk||!hasNum(bm)||!(num(l)>0))return W;const lp=pumpAt(tk,at,exceptId);if(!lp)return W;
   const b=num(bm),e=Math.round((lp.m+num(l))*100)/100,tol=typeof pmTol==="function"?pmTol():2;
+  // v31: fill-ups typed out of order – fits the highest TOTAL below it? Then it is fine (same rule as the Check pump meter list).
+  if(Math.abs(b-e)>tol+1e-9){let c=null;const see=(r,a2,id)=>{if(id===exceptId||!isFinite(r)||a2>(at==null?Date.now():at))return;if(r<b-0.05&&(c==null||r>c))c=r};
+    all("tx").forEach(x=>see(txAfter(x,tk),x.at,x.id));all("d").forEach(d=>{if(tkOf(d)===tk&&hasNum(d.pr))see(num(d.pr),d.at,d.id)});all("f").forEach(f=>{if(tkOf(f)===tk&&hasNum(f.bm))see(num(f.bm),f.at,f.id)});
+    if(c!=null&&Math.abs((b-c)-num(l))<=tol+1e-9)return W}
   if(b<lp.m-0.05)W.push({k:"wBmBack",a:fmt(b),b:fmt(lp.m),e:e});else if(Math.abs(b-e)>tol+1e-9)W.push({k:"wPmMis",a:fmt(b),b:fmt(e),e:e});return W}
 function tankTotals(a,b){return tanks().map(T=>{let i=0,o=0;const M=tankMoves(T.id);let end=0;M.forEach(m=>{const k=dayKey(m.at);if(b&&k>b)return;end=m.bal;if(a&&k<a)return;if(m.q>0)i+=m.q;else o-=m.q});
   return {tank:tkN(T),id:T.id,cap:num(T.cap)>0?num(T.cap):null,in:r1(i),out:r1(o),balance:r1(end)}})}
@@ -971,7 +975,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=30" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=31" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -1508,21 +1512,29 @@ const pmTol=()=>{const x=num(L.get("pmTol"));return isFinite(x)&&x>=0?x:2};
 function pumpScan(tol){tol=tol==null?pmTol():tol;const out=[];
   // v18: every tank has a pump meter now. Tanks without a meter before v18 (HQ, GZ 1, GZ 2): older rows only build the baseline
   // (delivery / Excel pump reading pr, else previous + litres); checking starts at the first fill-up with a typed pump meter reading.
+  // v31: the pump meter (TOTAL) only counts up, so a fill-up that does not fit the reading before it in time still passes when it fits the highest TOTAL below it
+  // (fill-ups typed in a different order than they were pumped still chain: 5 → 367 → 595 → 910).
+  // A fill-up the Admin cleared (Check OK) never shows in the list.
   tanks().forEach(T=>{const M=[];let on=!!T.meter;
     all("f").forEach(f=>{if(tkOf(f)===T.id)M.push({at:f.at,k:"f",d:f})});
     all("tx").forEach(x=>{if(isFinite(txAfter(x,T.id)))M.push({at:x.at,k:"tx",d:x})});
     if(!T.meter)all("d").forEach(d=>{if(tkOf(d)===T.id&&hasNum(d.pr))M.push({at:d.at,k:"d",d:d})});
-    M.sort((a,b)=>a.at-b.at);let p=null,pAt=null;
-    M.forEach(m=>{const d=m.d;if(m.k==="tx"){const a=txAfter(d,T.id);if(isFinite(a)){p=a;pAt=d.at}return}
-      if(m.k==="d"){p=num(d.pr);pAt=d.at;return}
+    M.sort((a,b)=>a.at-b.at);
+    const walk=chk=>{let p=null,pAt=null,on0=on;const pts=[];
+    M.forEach((m,ix)=>{const d=m.d,pt=()=>pts.push({ix:ix,v:p,at:pAt});if(m.k==="tx"){const a=txAfter(d,T.id);if(isFinite(a)){p=a;pAt=d.at;pt()}return}
+      if(m.k==="d"){p=num(d.pr);pAt=d.at;pt();return}
       const b=num(d.bm),l=num(d.litres),has=d.bm!=null&&d.bm!==""&&isFinite(b),same=has&&x26Same(d.litres,d.bm);let why=null;
-      if(!on&&!has){if(hasNum(d.pr)){p=num(d.pr);pAt=d.at}else if(p!=null){p=Math.round((p+(isFinite(l)?l:0))*100)/100;pAt=d.at}return}
-      on=true;
+      if(!on0&&!has){if(hasNum(d.pr)){p=num(d.pr);pAt=d.at;pt()}else if(p!=null){p=Math.round((p+(isFinite(l)?l:0))*100)/100;pAt=d.at;pt()}return}
+      on0=true;const q=p,qAt=pAt;
       if(!has)why={k:"pmMiss"};
-      else if(p!=null&&b<p-0.05)why={k:"pmBack",b:fmt(p)};
-      else if(p!=null&&Math.abs((b-p)-(isFinite(l)?l:0))>tol+1e-9)why={k:"pmJump",a:fmt(Math.round((b-p)*100)/100),b:fmt(l)};const gap=why&&why.k==="pmJump"&&(b-p)-(isFinite(l)?l:0)>tol?Math.round(((b-p)-l)*100)/100:0;
-      if(!why&&same)why={k:"x26Ck"};if(why)out.push({tk:T.id,tank:tkN(T),id:d.id,at:d.at,day:dayKey(d.at),vid:d.vid,litres:l,bm:has?b:null,prev:p,pAt:pAt,gap:gap,why:why,same:same});
-      if(has){p=b;pAt=d.at}})});
+      else if(q!=null&&b<q-0.05)why={k:"pmBack",b:fmt(q)};
+      else if(q!=null&&Math.abs((b-q)-(isFinite(l)?l:0))>tol+1e-9)why={k:"pmJump",a:fmt(Math.round((b-q)*100)/100),b:fmt(l)};const gap=why&&why.k==="pmJump"&&(b-q)-(isFinite(l)?l:0)>tol?Math.round(((b-q)-l)*100)/100:0;
+      // v31: fails against the reading before it in time? Then try the highest TOTAL below it (typed out of order) – passes if that fits.
+      if(chk&&has&&why&&(why.k==="pmBack"||why.k==="pmJump")){let c=null;chk.forEach(o=>{if(o.ix===ix||!isFinite(o.v))return;if(o.v<b-0.05||(Math.abs(o.v-b)<=0.05&&o.ix<ix)){if(!c||o.v>c.v||(o.v===c.v&&o.ix>c.ix))c=o}});
+        if(c&&Math.abs((b-c.v)-(isFinite(l)?l:0))<=tol+1e-9)why=null}
+      if(!why&&same)why={k:"x26Ck"};if(chk&&why&&!d.chkOk)out.push({tk:T.id,tank:tkN(T),id:d.id,at:d.at,day:dayKey(d.at),vid:d.vid,litres:l,bm:has?b:null,prev:q,pAt:qAt,gap:gap,why:why,same:same});
+      if(has){p=b;pAt=d.at;pt()}});return pts};
+    walk(walk(null))});
   return out}
 let pe=null;
 function pmHTML(){const T=tanks(),P=pumpScan(),G={};P.forEach(r=>(G[r.tk]=G[r.tk]||[]).push(r));
@@ -1844,7 +1856,7 @@ function x22Data(p,k){const R0=periodRange(p,k),a=R0.a,b=R0.b,td=dayKey(Date.now
   const noPh=F.filter(f=>!f.miss&&!f.imp&&!(f.p1&&f.p2)).length,endMs=new Date(b+"T23:59:59").getTime();
   const TKS=tankTotals(a,b).map(x=>{const pa=pumpAt(x.id,endMs);return Object.assign({},x,{pump:pa?pa.m:null})});
   // readings to check: Check-later marks + fill-ups / deliveries with warnings
-  const chk=[];CK.forEach(o=>{const v=VB[o.vid]||{},d=recOf(o.kind,o.id)||{};chk.push({day:o.day,tm:o.kind==="f"||o.kind==="tx"?x22hm(d.at):"",name:o.kind==="tx"?"🔁 "+tkN(tkById(d.from||"main"))+" → "+tkN(tkById(d.to)):x22Nm(v),fleet:v.fleet||"",meter:o.meter,l:o.kind==="dy"?null:num(d.litres),
+  const chk=[];CK.forEach(o=>{const v=VB[o.vid]||{},d=recOf(o.kind,o.id)||{};chk.push({day:o.day,tm:o.kind==="f"||o.kind==="tx"||o.kind==="stk"?x22hm(d.at):"",name:o.kind==="tx"?"🔁 "+tkN(tkById(d.from||"main"))+" → "+tkN(tkById(d.to)):o.kind==="stk"?"📐 "+tkN(tkById(d.tk))+" · "+fmt(num(d.mm))+" mm":x22Nm(v),fleet:v.fleet||"",meter:o.meter,l:o.kind==="dy"?null:num(d.litres),
     why:[t(o.why.k).replace("%a","").replace("%b",o.why.b==null?"":(typeof o.why.b==="number"?fmt(o.why.b):o.why.b)).replace(/\(\s*\)/,"").trim()].concat(o.kind==="f"?x22W(d.warn):[]).filter(Boolean).join(" · "),ck:1})});
   F.forEach(f=>{if(ckS["f:"+f.id]||!(f.warn||[]).length)return;const v=VB[f.vid]||{};chk.push({day:dayKey(f.at),tm:x22hm(f.at),name:x22Nm(v),fleet:v.fleet||f.fleet||"",meter:num(f.meter),l:num(f.litres),why:x22W(f.warn).join(" · "),ck:0})});
   all("d").forEach(d=>{const k0=dayKey(d.at);if(k0<a||k0>b||!(d.warn||[]).length)return;chk.push({day:k0,tm:x22hm(d.at),name:"🛢️ "+t("x22Del")+" · "+tkN(tkById(tkOf(d))),fleet:"",meter:null,l:num(d.litres),why:x22W(d.warn).join(" · "),ck:0})});
@@ -2051,7 +2063,7 @@ const x25Btn=ref=>`<button type="button" class="x25Fix" data-x25="${esc(ref)}">$
 // the entry behind each CHECK row of the Fuel report page on screen
 function x25Refs(pid){const D=x22Data(x22.p,x22.k),a=D.a,b=D.b,ok=o=>o&&(o.k==="f"||o.k==="dy"),CK=checkList().filter(o=>o.day>=a&&o.day<=b),ckS={};CK.forEach(o=>ckS[o.kind+":"+o.id]=1);
   const F=fills().filter(f=>{const d=dayKey(f.at);return d>=a&&d<=b});
-  if(pid==="chk"){const L=[];CK.forEach(o=>{const d=recOf(o.kind,o.id)||{};L.push({k:o.kind,id:o.id,s:o.day+(o.kind==="f"||o.kind==="tx"?x22hm(d.at):"")})});
+  if(pid==="chk"){const L=[];CK.forEach(o=>{const d=recOf(o.kind,o.id)||{};L.push({k:o.kind,id:o.id,s:o.day+(o.kind==="f"||o.kind==="tx"||o.kind==="stk"?x22hm(d.at):"")})});
     F.forEach(f=>{if(!ckS["f:"+f.id]&&(f.warn||[]).length)L.push({k:"f",id:f.id,s:dayKey(f.at)+x22hm(f.at)})});
     all("d").forEach(d=>{const k0=dayKey(d.at);if(k0>=a&&k0<=b&&(d.warn||[]).length)L.push({k:"d",id:d.id,s:k0+x22hm(d.at)})});
     L.sort((p0,q0)=>p0.s.localeCompare(q0.s));return {rows:L.map(o=>ok(o)?o.k+":"+o.id:"")}}
@@ -2101,7 +2113,7 @@ function x27Back(force){const u=me();if(!u||!syncOn()||(!force&&Date.now()-x27La
 function x27Refs(pid){const D=x22Data(x22.p,x22.k),a=D.a,b=D.b;
   if(pid==="dsl")return D.log.map(m=>m.k+":"+m.r.id);
   if(pid!=="chk")return null;const CK=checkList().filter(o=>o.day>=a&&o.day<=b),ckS={},L=[];CK.forEach(o=>ckS[o.kind+":"+o.id]=1);
-  CK.forEach(o=>{const d=recOf(o.kind,o.id)||{};L.push({r:o.kind+":"+o.id,s:o.day+(o.kind==="f"||o.kind==="tx"?x22hm(d.at):"")})});
+  CK.forEach(o=>{const d=recOf(o.kind,o.id)||{};L.push({r:o.kind+":"+o.id,s:o.day+(o.kind==="f"||o.kind==="tx"||o.kind==="stk"?x22hm(d.at):"")})});
   fills().forEach(f=>{const d0=dayKey(f.at);if(d0>=a&&d0<=b&&!ckS["f:"+f.id]&&(f.warn||[]).length)L.push({r:"f:"+f.id,s:d0+x22hm(f.at)})});
   all("d").forEach(d=>{const k0=dayKey(d.at);if(k0>=a&&k0<=b&&(d.warn||[]).length)L.push({r:"d:"+d.id,s:k0+x22hm(d.at)})});
   L.sort((p0,q0)=>p0.s.localeCompare(q0.s));return L.map(o=>o.r)}
@@ -2169,6 +2181,74 @@ Object.assign(T.ar,{fuLit:"الأرقام الكبيرة (LITRE)",pmRead:"الس
  ckPm:"🔢 TOTAL لا يطابق (المتوقع %b)",wPmMis:"🔢 TOTAL %a لا يطابق آخر TOTAL + LITRE (%b). حُفظ كـ «للتحقق لاحقًا».",
  needAll:"التقط الصورتين، واكتب الكيلومترات / الساعات وLITRE وTOTAL، واختر الخزان. ثم احفظ."});
 {const st=document.createElement("style");st.textContent="#fuStep2 label[for=fuL]:before{content:'① '}#fuStep2 label[for=fuBM]:before{content:'② '}";document.head.appendChild(st)}
+
+/* ---- v31: WEEKLY STOCK TAKE (Johan 1 Nov 2026) ----
+   Pick a tank that has a chart, type ONE number (level in mm from the dip stick), optional photo.
+   mm → litres: horizontal cylinder (diameter d, length l, mm), scaled so full = cap, then × STK_MARGIN (Johan's 5 % safety margin).
+   Saved as its own record kind "stk" (synced like every record). It is a CHECK only: it never changes the tank balance
+   (Admins still use the stock correction for that). Difference > 2 % of the app balance (at least 100 L) = red + Check list.
+   New tank chart later (HQ, bowser) = one line in STK_CHARTS. */
+const STK_CHARTS={gz1:{d:2460,l:4530,cap:20000},gz2:{d:2460,l:4530,cap:20000}},STK_MARGIN=0.95,STK_PCT=0.02,STK_MIN=100;
+function stkLitres(tk,mm){const c=STK_CHARTS[tk];if(!c||!hasNum(mm))return null;const d=num(c.d),L=num(c.l),r=d/2,h=Math.min(Math.max(num(mm),0),d);
+  const A=r*r*Math.acos((r-h)/r)-(r-h)*Math.sqrt(Math.max(0,2*r*h-h*h)),full=Math.PI*r*r*L/1e6,raw=A*L/1e6*(num(c.cap)>0?num(c.cap)/full:1);
+  return {raw:Math.round(raw),litres:Math.round(raw*STK_MARGIN)}}
+const stkTanks=()=>tanks().filter(x=>STK_CHARTS[x.id]);
+const stkMmOk=(tk,mm)=>!!STK_CHARTS[tk]&&hasNum(mm)&&num(mm)>=0&&num(mm)<=num(STK_CHARTS[tk].d);
+function stkCalc(tk,mm){if(!stkMmOk(tk,mm))return null;const r=stkLitres(tk,mm),bal=Math.round(tankBalance(tk)),diff=r.litres-bal,lim=Math.max(STK_MIN,Math.round(STK_PCT*Math.abs(bal)));
+  return {raw:r.raw,litres:r.litres,bal:bal,diff:diff,lim:lim,big:Math.abs(diff)>lim}}
+let stk={};
+const sgn=n=>(n>0?"+":"")+fmt(n);
+function stkResHTML(){const c=stkCalc(stk.tk,stk.mm);if(!stk.tk)return "";
+  if(!c)return hasNum(stk.mm)?`<p class="bad stkBad">${esc(tr("stkBad",fmt(num(STK_CHARTS[stk.tk].d))))}</p>`:"";
+  return `<div class="stkR${c.big?" big":""}"><span>${esc(t("stkCnt"))}</span><b id="stkL">${esc(fmt(c.litres))} L</b><small>${esc(tr("stkRaw",fmt(c.raw),fmt(c.litres)))}</small>
+  <div class="stkG"><div><span>${esc(t("stkBal"))}</span><b id="stkB">${esc(fmt(c.bal))} L</b></div><div><span>${esc(t("stkDiff"))}</span><b id="stkD">${esc(sgn(c.diff))} L</b></div></div>
+  <p class="${c.big?"bad":"ok2"}" id="stkMsg">${esc(c.big?tr("stkBig",fmt(c.lim)):t("stkOk"))}</p></div>`}
+function stkRows(a,b){return all("stk").filter(x=>{const k=x.day||dayKey(x.at);return (!a||k>=a)&&(!b||k<=b)}).sort((p,q)=>p.at-q.at).map(x=>({day:x.day||dayKey(x.at),tm:hm(new Date(x.at)),tank:tkN(tkById(x.tk)),mm:num(x.mm),l:num(x.litres),bal:num(x.bal),diff:num(x.diff),by:x.by||"",ck:x.big?(x.chkOk?"✅":"⚠️"):"",id:x.id,p:x.p||""}))}
+function stkHTML(u){const T=stkTanks(),ok=stkMmOk(stk.tk,stk.mm),last=stkRows().slice(-5).reverse();
+  return `<button type="button" class="sec" id="stkBack">${esc(t("back"))}</button>${stk.msg?`<div class="ok2" id="stkDone">${esc(stk.msg)}</div>`:""}<div class="box" id="stkBox"><h2>${esc(t("stkT"))}</h2>
+  ${!T.length?`<p class="hint">${esc(t("stkNoTk"))}</p>`:`<label class="fl">${esc(t("stkPick"))}</label><div class="stkTk">${T.map(x=>`<button type="button" class="${stk.tk===x.id?"on":"sec"}" data-stk="${esc(x.id)}">🛢️ ${esc(tkN(x))}</button>`).join("")}</div>
+  ${stk.tk?`<label class="fl" for="stkMm">${esc(t("stkMm"))}</label><input id="stkMm" class="num big2" type="text" inputmode="decimal" autocomplete="off" value="${esc(stk.mm||"")}">
+  <div id="stkRes">${stkResHTML()}</div>
+  <label class="pbtn${stk.p?" ok":""}" style="min-height:70px;margin-top:8px">${stk.p?`<img src="${esc(stk.p)}" alt="" style="height:70px">`:esc(t("stkPh"))}<input type="file" id="stkP" accept="image/*" capture="environment"></label><label class="pbtn pgal" style="min-height:60px;margin-top:8px">${esc(t("phGal"))}<input type="file" id="stkPG" accept="image/*"></label>
+  <button type="button" id="stkSave" ${ok?"":"disabled"} style="min-height:72px;font-size:22px;margin-top:10px">${esc(t("stkSave"))}</button>`:""}`}</div>
+  ${last.length?`<div class="box" id="stkLast"><h3>${esc(t("stkLast"))}</h3>${last.map(r=>`<div class="mv${r.ck==="⚠️"?" ck":""}"><span class="n">${esc(r.day)} ${esc(r.tm)} · <b>${esc(r.tank)}</b> · ${esc(fmt(r.mm))} mm<br>📐 <b>${esc(fmt(r.l))} L</b> · ${esc(t("stkBal"))} ${esc(fmt(r.bal))} L · ${esc(t("stkDiff"))} <b>${esc(sgn(r.diff))} L</b> ${esc(r.ck)}</span>${r.p?phBtn(r.p):""}</div>`).join("")}</div>`:""}`}
+function stkSave(u){u=u||me();if(!u||!stkMmOk(stk.tk,stk.mm))return null;const c=stkCalc(stk.tk,stk.mm),at=Date.now(),id="stk"+at+Math.random().toString(36).slice(2,6);
+  const o={id:id,v:31,tk:stk.tk,mm:num(stk.mm),raw:c.raw,litres:c.litres,bal:c.bal,diff:c.diff,big:c.big?1:0,at:at,day:dayKey(at),date:new Date(at).toISOString(),by:u.name,p:stk.p?phKeep(stk.p,"stock take"):""};
+  if(c.big)Object.assign(o,{chk:1,chkOk:0,chkWhy:"ckStk"});
+  if(put("stk",id,o)===false)return null;stk={tk:o.tk,msg:t("stkDone")+" · "+fmt(c.litres)+" L"};if(typeof pushReports==="function")pushReports();return id}
+{const bw=workHTML;workHTML=function(u){if(fv==="stk")return stkHTML(u);return bw(u)}}
+{const bb=bindWork;bindWork=function(u){bb(u);if(fv!=="stk")return;
+  const b=$("stkBack");if(b)b.onclick=()=>{stk={};fv="menu";tab="home";render();scrollTo(0,0)};
+  document.querySelectorAll("[data-stk]").forEach(x=>x.onclick=()=>{stk={tk:x.dataset.stk,mm:stk.mm,p:stk.p};render();const i=$("stkMm");if(i)i.focus()});
+  const i=$("stkMm");if(i)i.oninput=()=>{stk.mm=i.value.replace(",",".").trim();delete stk.msg;const r=$("stkRes");if(r)r.innerHTML=stkResHTML();const s=$("stkSave");if(s)s.disabled=!stkMmOk(stk.tk,stk.mm)};
+  ["stkP","stkPG"].forEach(id=>{const e=$(id);if(e)e.onchange=async()=>{const f=e.files&&e.files[0];if(!f)return;try{stk.p=await phSmall(f)}catch(er){console.warn(er)}render()}});
+  const s=$("stkSave");if(s)s.onclick=()=>{if(stkSave(me())){render();scrollTo(0,0)}}}}
+// Home: big tile for everyone who may use the work screens (staff included)
+const stkTile=()=>`<button type="button" class="tile stkTile" data-fv="stk" id="hStk"><b>📐</b>${esc(t("stkTile"))}</button>`;
+{const bv=viewHTML;viewHTML=function(u){const h=bv(u);if(!u||!workOk(u)||!stkTanks().length||h.indexOf('id="hHero"')<0||h.indexOf('id="hStk"')>=0)return h;
+  const m=h.match(/<button\b[^>]*data-tab="work"[^>]*>[\s\S]*?<\/button>/);if(m)return h.replace(m[0],m[0]+stkTile());
+  const i=h.indexOf('<div class="tiles">');if(i<0)return h;const j=h.indexOf("</div>",i);return j<0?h:h.slice(0,j)+stkTile()+h.slice(j)}}
+{const bm=bindMain;bindMain=function(u){bm(u);const b=$("hStk");if(b)b.onclick=()=>{stk={};fv="stk";tab="work";render();scrollTo(0,0)}}}
+// Check list (Admin "Check & edit"): big differences until the Admin clears them
+{const bc=checkList;checkList=function(){const L=bc();all("stk").forEach(d=>{if(d.chk&&!d.chkOk)L.push({kind:"stk",id:d.id,vid:"",day:d.day||dayKey(d.at),meter:null,why:{k:"ckStk",b:tkN(tkById(d.tk))+": "+fmt(num(d.litres))+" L / "+fmt(num(d.bal))+" L ("+sgn(num(d.diff))+" L)"}})});return L.sort((a,b)=>a.day<b.day?-1:a.day>b.day?1:0)}}
+{const br=ckRow;ckRow=function(o,btn){if(o.kind!=="stk")return br(o,btn);const d=recOf("stk",o.id)||{};
+  return `<div class="mv ck" data-ck="${esc("stk:"+o.id)}"><span class="n">${esc(o.day)} ${esc(hm(new Date(d.at)))} · <b>📐 ${esc(tkN(tkById(d.tk)))}</b> ${esc(fmt(num(d.mm)))} mm → ${esc(fmt(num(d.litres)))} L<br>${esc(t("stkBal"))} ${esc(fmt(num(d.bal)))} L · ${esc(t("stkDiff"))} <b>${esc(sgn(num(d.diff)))} L</b> <span class="ckb">${esc(t("ckMark"))}</span></span>${btn?`<button type="button" class="sm sec" data-cks="${esc(o.id)}">✅</button>`:""}</div>`}}
+{const bb=bindWork;bindWork=function(u){bb(u);document.querySelectorAll("[data-cks]").forEach(b=>b.onclick=()=>{const r=clearCheck("stk",b.dataset.cks,me());if(r.ok){flash=t("sv");render()}})}}
+{const st=document.createElement("style");st.textContent=".tile.stkTile{background:#0e7490;color:#fff}#stkBox .stkTk{display:flex;gap:8px;flex-wrap:wrap}#stkBox .stkTk button{flex:1 1 45%;min-height:72px;font-size:22px}#stkBox label.fl{font-size:19px;margin-top:12px;display:block}#stkBox input.big2{display:block;width:100%;box-sizing:border-box;min-height:70px;font-size:34px;text-align:center}.stkR{margin:12px 0;padding:12px;border-radius:14px;background:#ecfeff;border:4px solid #0e7490;text-align:center}.stkR>span,.stkG span{display:block;font-size:18px}.stkR>b{display:block;font-size:52px;color:#0e7490}.stkR>small{display:block;color:#555;font-size:15px!important;font-weight:400;line-height:1.3}.stkG{display:flex;gap:8px;margin-top:8px}.stkG>div{flex:1;background:#fff;border-radius:10px;padding:6px}.stkG b{font-size:28px}.stkR.big{border-color:#dc2626;background:#fee2e2}.stkR.big>b,.stkR.big #stkD{color:#dc2626}.stkR p{font-size:19px;font-weight:700;margin:8px 0 0}p.bad{color:#dc2626;font-weight:700}";document.head.appendChild(st)}
+Object.assign(T.en,{stkT:"📐 Stock take – tank level",stkTile:"Stock take",stkPick:"① Pick the tank",stkMm:"② Level in the tank (mm) – read the dip stick",stkCnt:"Litres in the tank (counted)",stkBal:"App balance",stkDiff:"Difference",
+ stkRaw:"Chart %a L − 5 % = %b L",stkBig:"⚠️ Big difference (more than %a L). The Admin will check it.",stkOk:"✅ Close to the app balance.",stkSave:"✅ Save stock take",stkPh:"📷 Photo of the dip stick (if you can)",
+ stkBad:"Type the level in mm (0 to %a).",stkDone:"✅ Stock take saved",stkLast:"Last stock takes",stkNoTk:"No tank has a chart yet.",ckStk:"📐 Stock take differs from the app: %b",rvStk:"📐 Stock takes",
+ cStkTm:"Time",cStkMm:"Level (mm)",cStkL:"Counted (L)",cStkBal:"App balance (L)",cStkDiff:"Difference (L)"});
+Object.assign(T.fr,{stkT:"📐 Inventaire – niveau de la cuve",stkTile:"Inventaire cuve",stkPick:"① Choisissez la cuve",stkMm:"② Niveau dans la cuve (mm) – lisez la jauge",stkCnt:"Litres dans la cuve (comptés)",stkBal:"Solde de l'app",stkDiff:"Différence",
+ stkRaw:"Abaque %a L − 5 % = %b L",stkBig:"⚠️ Grande différence (plus de %a L). L'Admin va vérifier.",stkOk:"✅ Proche du solde de l'app.",stkSave:"✅ Enregistrer l'inventaire",stkPh:"📷 Photo de la jauge (si possible)",
+ stkBad:"Tapez le niveau en mm (0 à %a).",stkDone:"✅ Inventaire enregistré",stkLast:"Derniers inventaires",stkNoTk:"Aucune cuve n'a encore d'abaque.",ckStk:"📐 Inventaire différent de l'app : %b",rvStk:"📐 Inventaires",
+ cStkTm:"Heure",cStkMm:"Niveau (mm)",cStkL:"Compté (L)",cStkBal:"Solde app (L)",cStkDiff:"Différence (L)"});
+Object.assign(T.ar,{stkT:"📐 جرد الخزان – مستوى الوقود",stkTile:"جرد الخزان",stkPick:"① اختر الخزان",stkMm:"② مستوى الوقود في الخزان (مم) – اقرأ عصا القياس",stkCnt:"اللترات في الخزان (المحسوبة)",stkBal:"رصيد التطبيق",stkDiff:"الفرق",
+ stkRaw:"الجدول %a لتر − 5٪ = %b لتر",stkBig:"⚠️ فرق كبير (أكثر من %a لتر). سيتحقق منه المسؤول.",stkOk:"✅ قريب من رصيد التطبيق.",stkSave:"✅ حفظ الجرد",stkPh:"📷 صورة عصا القياس (إن أمكن)",
+ stkBad:"اكتب المستوى بالمم (0 إلى %a).",stkDone:"✅ تم حفظ الجرد",stkLast:"آخر عمليات الجرد",stkNoTk:"لا يوجد خزان له جدول بعد.",ckStk:"📐 الجرد يختلف عن التطبيق: %b",rvStk:"📐 عمليات الجرد",
+ cStkTm:"الوقت",cStkMm:"المستوى (مم)",cStkL:"المحسوب (لتر)",cStkBal:"رصيد التطبيق (لتر)",cStkDiff:"الفرق (لتر)"});
+addReport({id:"stk",title:TT("rvStk"),cols:[{key:"day",label:"cDate"},{key:"tm",label:"cStkTm"},{key:"tank",label:"c14Tank"},{key:"mm",label:"cStkMm",num:true},{key:"l",label:"cStkL",num:true,sum:true},{key:"bal",label:"cStkBal",num:true},{key:"diff",label:"cStkDiff",num:true},{key:"by",label:"cXfBy"},{key:"ck",label:"cXfCk"}],rows:(a,b)=>stkRows(a,b)});
+Object.assign(window.TMC.fuel,{ckRow:ckRow,stkLitres:stkLitres,stkCalc:stkCalc,stkRows:stkRows,stkSave:stkSave,STK_CHARTS:STK_CHARTS,pumpScan:pumpScan,checkList:checkList,stkState:()=>stk,stkSet:o=>{stk=Object.assign({},o||{})}});
 
 render();
 if(syncOn())syncNow();else if(sUrl())api({action:"status",name:"-"}).catch(()=>{});  // probe so "Not connected" shows on a fresh phone too
