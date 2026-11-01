@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER":22,
+ "VER":23,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=22">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=22">
+<link rel="icon" href="icons/favicon-32.png?v=23">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=23">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -381,7 +381,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=22" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=23" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -394,7 +394,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=22" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=23" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -417,7 +417,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=22" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=23" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -512,7 +512,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=22" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=23" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -916,7 +916,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=22" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=23" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -1702,6 +1702,177 @@ function xfRows(a,b){return all("tx").filter(x=>{const k=dayKey(x.at);return (!a
   fm:hasNum(x.m1)?fmt(num(x.m1))+" → "+fmt(num(x.m2)):"",tm:hasNum(x.tm1)?fmt(num(x.tm1))+" → "+(hasNum(x.tm2)?fmt(num(x.tm2)):"—"):"",by:x.by||"",ck:x.chk&&!x.chkOk?"⚠️ "+t("ckMark"):""}))}
 addReport({id:"xfr",title:TT("rvXf"),cols:[{key:"day",label:"cDate"},{key:"from",label:"cXfFrom"},{key:"to",label:"cXfTo"},{key:"l",label:"c14L",num:true,d:1,sum:true},{key:"fm",label:"cXfFm"},{key:"tm",label:"cXfTm"},{key:"by",label:"cXfBy"},{key:"ck",label:"cXfCk"}],rows:(a,b)=>xfRows(a,b)});
 Object.assign(window.TMC.fuel,{checkList:checkList,txAfter:txAfter,xfLit:xfLit,xfWarn:xfWarn,xfOk:xfOk,xfRows:xfRows,lastTkMeter:lastTkMeter,pumpAt:pumpAt,pumpScan:pumpScan,xfState:()=>xf});
+
+/* ---- v22: 📗 Fuel report (Excel tabs) – the same pages as Johan's Excel: Dashboard · Office · Diesel · Petrol · KM HS · Generator · Readings to check & sign-off.
+   Built live from the app's own records (fill-ups, daily readings, deliveries, moves, stock corrections, tanks). Big Day / Week / Month / Year buttons
+   (Month first), green #1B7F3B, 24 h times, CHECK flags, phone view (one page at a time, tables scroll inside their box),
+   🖨️ A4 landscape Print / PDF (every page) and 📥 Excel (all pages on one sheet). No server change: the diesel price is a cfg record like the limits. ---- */
+Object.assign(T.en,{x22T:"📗 Fuel report (Excel tabs)",x22Dash:"Dashboard",x22Off:"Office",x22Dsl:"Diesel",x22Pet:"Petrol",x22Km:"KM HS",x22Gen:"Generator",x22Chk:"Readings to check & sign-off",x22ChkS:"To check",
+ x22Print:"🖨️ Print / PDF (A4)",x22Xls:"📥 Download Excel",x22Price:"Diesel price (FCFA per litre)",x22PriceS:"✅ Save price",
+ x22Name:"Name",x22Fleet:"Fleet no.",x22Unit:"Unit",x22Start:"Start",x22End:"End",x22Used:"Used",x22Dl:"Diesel L",x22Pl:"Petrol L",x22Tl:"Total L",x22Rate:"Use",x22Cost:"Cost (FCFA)",x22Tot:"TOTAL",
+ x22Stock:"Fuel in the tanks (end of period)",x22Pump:"Pump meter (end of period)",x22Top:"Top 5 users (litres)",x22NoPh:"Fill-ups without both photos",x22PmBad:"Pump meter not matching",x22ChkN:"Readings to check",x22Sum:"Summary",
+ x22Date:"Date",x22Time:"Time",x22Meter:"Km / hours",x22Lit:"Litres",x22In:"In L",x22Out:"Out L",x22Tank:"Tank",x22PmR:"Pump meter",x22TkL:"All tanks L",x22Ph:"Photos",x22By:"By",x22Note:"Note",x22Open:"Opening stock",x22Close:"Closing stock",
+ x22Del:"Delivery",x22Mv:"Move",x22Sc:"Stock correction",x22NoPet:"Petrol is not recorded in the app yet, so there are no petrol rows.",x22None:"Nothing in this period.",x22Why:"Why",x22Flag:"Flag",
+ x22SgBy:"Checked by (name)",x22SgSig:"Signature",x22SgDate:"Date",x22SgClerk:"Fuel clerk",x22SgSite:"Site manager",x22SgAdm:"Admin",x22Made:"Made by the app",x22Days:"Days",x22Grid:"Last reading of each day",x22GridY:"Last reading of each month",x22GridW:"Reading at the end of each week",
+ x22Ok:"✅ No readings to check in this period.",x22All:"All tanks",x22Kind:"What",x22Fill:"Fill-up",
+ x22w_wTank:"More than the tank holds",x22w_wBack:"Meter lower than before",x22w_wUse:"Uses too much",x22w_wSoon:"Too soon after last fill",x22w_wSvc:"Service due",x22w_wOver:"Tank too full",x22w_wNeg:"Tank below zero",x22w_wBmBack:"Pump meter went back",x22w_wBmDiff:"Pump meter differs",x22w_wPmMis:"Pump meter not matching"});
+Object.assign(T.fr,{x22T:"📗 Rapport carburant (onglets Excel)",x22Dash:"Tableau de bord",x22Off:"Bureau",x22Dsl:"Diesel",x22Pet:"Essence",x22Km:"KM HS",x22Gen:"Groupes électrogènes",x22Chk:"Relevés à vérifier et signature",x22ChkS:"À vérifier",
+ x22Print:"🖨️ Imprimer / PDF (A4)",x22Xls:"📥 Télécharger Excel",x22Price:"Prix du diesel (FCFA par litre)",x22PriceS:"✅ Enregistrer le prix",
+ x22Name:"Nom",x22Fleet:"N° de parc",x22Unit:"Unité",x22Start:"Début",x22End:"Fin",x22Used:"Utilisé",x22Dl:"Diesel L",x22Pl:"Essence L",x22Tl:"Total L",x22Rate:"Conso.",x22Cost:"Coût (FCFA)",x22Tot:"TOTAL",
+ x22Stock:"Carburant dans les cuves (fin de période)",x22Pump:"Compteur pompe (fin de période)",x22Top:"Top 5 consommateurs (litres)",x22NoPh:"Pleins sans les deux photos",x22PmBad:"Compteur pompe ne correspond pas",x22ChkN:"Relevés à vérifier",x22Sum:"Résumé",
+ x22Date:"Date",x22Time:"Heure",x22Meter:"Km / heures",x22Lit:"Litres",x22In:"Entrée L",x22Out:"Sortie L",x22Tank:"Cuve",x22PmR:"Compteur pompe",x22TkL:"Toutes cuves L",x22Ph:"Photos",x22By:"Par",x22Note:"Note",x22Open:"Stock d'ouverture",x22Close:"Stock de clôture",
+ x22Del:"Livraison",x22Mv:"Transfert",x22Sc:"Correction de stock",x22NoPet:"L'essence n'est pas encore saisie dans l'app, donc pas de lignes essence.",x22None:"Rien sur cette période.",x22Why:"Pourquoi",x22Flag:"Marque",
+ x22SgBy:"Vérifié par (nom)",x22SgSig:"Signature",x22SgDate:"Date",x22SgClerk:"Pompiste",x22SgSite:"Chef de site",x22SgAdm:"Admin",x22Made:"Fait par l'app",x22Days:"Jours",x22Grid:"Dernier relevé de chaque jour",x22GridY:"Dernier relevé de chaque mois",x22GridW:"Relevé à la fin de chaque semaine",
+ x22Ok:"✅ Aucun relevé à vérifier sur cette période.",x22All:"Toutes les cuves",x22Kind:"Quoi",x22Fill:"Plein",
+ x22w_wTank:"Plus que le réservoir",x22w_wBack:"Compteur plus bas qu'avant",x22w_wUse:"Consomme trop",x22w_wSoon:"Trop tôt après le dernier plein",x22w_wSvc:"Entretien bientôt",x22w_wOver:"Cuve trop pleine",x22w_wNeg:"Cuve sous zéro",x22w_wBmBack:"Compteur pompe a reculé",x22w_wBmDiff:"Compteur pompe différent",x22w_wPmMis:"Compteur pompe ne correspond pas"});
+Object.assign(T.ar,{x22T:"📗 تقرير الوقود (أوراق Excel)",x22Dash:"لوحة القيادة",x22Off:"المكتب",x22Dsl:"الديزل",x22Pet:"البنزين",x22Km:"كم / ساعات",x22Gen:"المولدات",x22Chk:"قراءات للتحقق والتوقيع",x22ChkS:"للتحقق",
+ x22Print:"🖨️ طباعة / PDF (A4)",x22Xls:"📥 تنزيل Excel",x22Price:"سعر الديزل (فرنك لكل لتر)",x22PriceS:"✅ حفظ السعر",
+ x22Name:"الاسم",x22Fleet:"رقم الأسطول",x22Unit:"الوحدة",x22Start:"البداية",x22End:"النهاية",x22Used:"المستعمل",x22Dl:"ديزل لتر",x22Pl:"بنزين لتر",x22Tl:"المجموع لتر",x22Rate:"الاستهلاك",x22Cost:"التكلفة (فرنك)",x22Tot:"المجموع",
+ x22Stock:"الوقود في الخزانات (نهاية الفترة)",x22Pump:"عداد المضخة (نهاية الفترة)",x22Top:"أكثر 5 مستهلكين (لترات)",x22NoPh:"تعبئات بدون الصورتين",x22PmBad:"عداد المضخة لا يطابق",x22ChkN:"قراءات للتحقق",x22Sum:"ملخص",
+ x22Date:"التاريخ",x22Time:"الوقت",x22Meter:"كم / ساعات",x22Lit:"لترات",x22In:"داخل لتر",x22Out:"خارج لتر",x22Tank:"الخزان",x22PmR:"عداد المضخة",x22TkL:"كل الخزانات لتر",x22Ph:"الصور",x22By:"بواسطة",x22Note:"ملاحظة",x22Open:"المخزون الافتتاحي",x22Close:"المخزون الختامي",
+ x22Del:"توريد",x22Mv:"نقل",x22Sc:"تصحيح المخزون",x22NoPet:"البنزين غير مسجل في التطبيق بعد، لذلك لا توجد سطور بنزين.",x22None:"لا شيء في هذه الفترة.",x22Why:"السبب",x22Flag:"علامة",
+ x22SgBy:"تحقق بواسطة (الاسم)",x22SgSig:"التوقيع",x22SgDate:"التاريخ",x22SgClerk:"موظف الوقود",x22SgSite:"مدير الموقع",x22SgAdm:"المسؤول",x22Made:"صنعه التطبيق",x22Days:"الأيام",x22Grid:"آخر قراءة في كل يوم",x22GridY:"آخر قراءة في كل شهر",x22GridW:"القراءة في نهاية كل أسبوع",
+ x22Ok:"✅ لا توجد قراءات للتحقق في هذه الفترة.",x22All:"كل الخزانات",x22Kind:"النوع",x22Fill:"تعبئة",
+ x22w_wTank:"أكثر من سعة الخزان",x22w_wBack:"العداد أقل من قبل",x22w_wUse:"استهلاك كبير",x22w_wSoon:"مبكر جدا بعد آخر تعبئة",x22w_wSvc:"الصيانة قريبة",x22w_wOver:"الخزان ممتلئ جدا",x22w_wNeg:"الخزان تحت الصفر",x22w_wBmBack:"عداد المضخة رجع",x22w_wBmDiff:"عداد المضخة مختلف",x22w_wPmMis:"عداد المضخة لا يطابق"});
+{const st=document.createElement("style");st.textContent=`#x22Bar h2{margin:0 0 8px;color:#1B7F3B}.x22Ps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.x22Ps button{min-height:66px;font-size:20px;font-weight:800;margin:0;padding:4px 2px}
+.x22Ps button.on,.x22Tabs button.on{background:#1B7F3B;color:#fff;outline:none;border-color:#1B7F3B}
+.x22Nav{display:flex;gap:6px;align-items:center;margin-top:8px}.x22Nav button{flex:0 0 64px;min-height:58px;margin:0}.x22Nav b{flex:1;text-align:center;font-size:20px}
+.x22Tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}.x22Tabs button{min-height:58px;font-size:17px;margin:0;padding:4px}
+.x22S{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%;margin:4px 0 10px}#rpOut.x22o{min-width:0;overflow:hidden}
+table.x22t{border-collapse:collapse;font-size:14px;white-space:nowrap;min-width:100%}table.x22t th{background:#1B7F3B;color:#fff;padding:7px 5px;text-align:start;font-weight:800}
+table.x22t td{border-bottom:1px solid #cfe5d6;padding:5px}table.x22t tbody tr:nth-child(even) td{background:#E8F3EC}table.x22t .n{text-align:end}
+table.x22t tfoot td{background:#CDE3D4;color:#1B7F3B;font-weight:800}table.x22t td.x22ck{background:#fde68a!important}table.x22t tr.x22op td{font-weight:800;background:#f0fdf4}
+.x22f{display:inline-block;background:#dc2626;color:#fff;border-radius:6px;padding:0 5px;font-size:11px;font-weight:800;margin-inline-start:4px;vertical-align:middle}
+.x22H{color:#1B7F3B;font-weight:800;font-size:21px;margin:4px 0 2px}.x22sub{color:#475569;font-size:14px;margin:0 0 6px}.x22cap{font-weight:800;color:#1B7F3B;margin:10px 0 2px;font-size:16px}
+.x22note{background:#fff7ed;border-radius:10px;padding:10px;font-weight:700}.x22Sg{display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}.x22Sg div{border:2px solid #1B7F3B;border-radius:10px;padding:8px 10px;min-height:86px}
+.x22Sg b{color:#1B7F3B}.x22Sg span{display:block;border-bottom:1px solid #94a3b8;margin-top:14px;color:#64748b;font-size:12px}
+#x22PriceB{display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap}#x22PriceB input{font-size:22px;min-height:56px;max-width:160px}#x22PriceB button{min-height:56px;margin:0}
+.rpAct button#x22Print,.rpAct button#x22Xls{min-height:60px}#x22Pr{display:none}
+@page x22a4{size:A4 landscape;margin:7mm}
+@media print{html.x22Prt body>*:not(#x22Pr){display:none!important}html.x22Prt #x22Pr{display:block!important;page:x22a4}html.x22Prt body{padding:0;margin:0;background:#fff}
+#x22Pr .x22pg{break-after:page;page-break-after:always}#x22Pr .x22pg:last-child{break-after:auto;page-break-after:auto}#x22Pr .x22S{overflow:visible;margin:2px 0 6px}
+#x22Pr table.x22t{font-size:8.6px;width:100%;table-layout:auto}#x22Pr table.x22t th,#x22Pr table.x22t td{padding:2px 3px}#x22Pr *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#x22Pr .x22ph{display:flex;align-items:center;gap:8px;border-bottom:3px solid #1B7F3B;margin-bottom:4px;padding-bottom:3px}#x22Pr .x22ph img{width:30px;height:30px}#x22Pr .x22ph b{font-size:15px;color:#1B7F3B}#x22Pr .x22ph span{margin-inline-start:auto;font-size:11px}
+#x22Pr .x22H{font-size:13px}#x22Pr .x22cap{font-size:10px;margin:4px 0 1px}#x22Pr .x22two{display:grid;grid-template-columns:2.2fr 1fr;gap:8px;align-items:start}#x22Pr .x22Sg{grid-template-columns:1fr 1fr 1fr}#x22Pr .x22ft{font-size:9px;color:#475569;margin-top:3px}#x22Pr thead{display:table-header-group}}`;document.head.appendChild(st)}
+let x22={p:"m",k:dayKey(Date.now()),s:"dash",msg:""};
+const X22S=[["dash","x22Dash"],["off","x22Off"],["dsl","x22Dsl"],["pet","x22Pet"],["km","x22Km"],["gen","x22Gen"],["chk","x22ChkS"]];
+const x22p2=n=>String(n).padStart(2,"0"),x22hm=ms=>{const d=new Date(ms);return x22p2(d.getHours())+":"+x22p2(d.getMinutes())};
+const x22dm=k=>k.slice(8)+"/"+k.slice(5,7);
+function x22Price(){const r=all("cfg").find(c=>c&&c.id==="price"),v=r?num(r.diesel):NaN;return isFinite(v)&&v>0?v:2250}
+function x22SetPrice(v,u){u=u||me();v=num(v);if(!u||!u.admin||!(v>0))return false;return put("cfg","price",{id:"price",diesel:v,by:u.name,at:new Date().toISOString()})!==false}
+const x22Gen=v=>vType(v)==="generator";
+const x22Ord=v=>{const i=SEED_V.findIndex(a=>sid(a[1])===v.id);return i<0?999:i};
+const x22Vs=()=>vehs().filter(v=>v.active!==false).sort((p,q)=>x22Ord(p)-x22Ord(q)||String(p.fleet).localeCompare(String(q.fleet)));
+const x22Nm=v=>String(v.model||v.fleet||"?").replace(/^Generator\s+/i,"");
+function x22Days(a,b){const o=[];let k=a;while(k<=b&&o.length<400){o.push(k);k=shiftDay(k,1)}return o}
+// columns: grid (KM HS / Generator) = days (Year: months); office = weeks Mon–Sun inside the month (Week: days, Year: months)
+function x22Cols(p,a,b,office){const mon=y=>{const o=[];for(let m=1;m<=12;m++){const s=y+"-"+x22p2(m)+"-01";o.push({a:s,b:periodRange("m",s).b,l:new Date(s+"T12:00:00").toLocaleDateString(lang,{month:"short"})})}return o};
+  if(p==="y")return mon(a.slice(0,4));
+  if(p==="m"&&office){const o=[];x22Days(a,b).forEach(k=>{const L=o[o.length-1];if(!L||new Date(k+"T12:00:00").getDay()===1)o.push({a:k,b:k});else L.b=k});o.forEach(c=>c.l=(+c.a.slice(8))+"–"+(+c.b.slice(8)));return o}
+  return x22Days(a,b).map(k=>({a:k,b:k,l:p==="m"?String(+k.slice(8)):x22dm(k)}))}
+const x22W=W=>(W||[]).map(k=>T[lang]["x22w_"+k]||T.en["x22w_"+k]||k);
+function x22Data(p,k){const R0=periodRange(p,k),a=R0.a,b=R0.b,td=dayKey(Date.now()),price=x22Price(),CK=checkList().filter(o=>o.day>=a&&o.day<=b),ckS={};CK.forEach(o=>ckS[o.kind+":"+o.id]=o);
+  const F=fills().filter(f=>{const d=dayKey(f.at);return d>=a&&d<=b}),V=x22Vs();
+  const veh=V.map(v=>{const L=dayReadings(v.id),P=vehPeriod(v,a,b),inP=L.filter(r=>r.day>=a&&r.day<=b),st=prevReading(v.id,a),h=isH(v);
+    const en=inP.length?inP[inP.length-1].meter:(isFinite(st)?st:NaN);const ckD={};CK.forEach(o=>{if(o.vid===v.id)ckD[o.day]=1});
+    const at=c=>{if(c.a>td)return null;let r=null;inP.forEach(x=>{if(x.day>=c.a&&x.day<=c.b)r=x});return r?{v:r.meter,ck:!!(ckD[r.day]||r.back)}:null};
+    const rate=P.used>0&&P.litres>0?(h?r1(P.litres/P.used)+" L/h":r1(P.used/P.litres)+" km/L"):"";
+    const wn=F.filter(f=>f.vid===v.id).reduce((s,f)=>s+(f.warn||[]).length,0);
+    return {v:v,id:v.id,name:x22Nm(v),full:v.model||"",fleet:v.fleet||"",unit:h?"h":"km",gen:x22Gen(v),start:isFinite(st)?st:null,end:isFinite(en)?en:null,used:P.used,l:P.litres,rate:rate,cost:Math.round(P.litres*price),fills:P.fills,ck:Object.keys(ckD).length,wn:wn,at:at}});
+  // diesel log: every tank move in the period, running total of all tanks
+  const M=[];all("d").forEach(d=>M.push({at:d.at,k:"d",q:num(d.litres)||0,r:d}));all("f").forEach(f=>M.push({at:f.at,k:"f",q:-(num(f.litres)||0),r:f}));
+  all("tx").forEach(x=>M.push({at:x.at,k:"tx",q:0,r:x}));all("sc").forEach(c=>M.push({at:c.at,k:"sc",q:num(c.q)||0,r:c}));M.sort((p0,q0)=>p0.at-q0.at);
+  let bal=0,open=0;const log=[];M.forEach(m=>{const d=dayKey(m.at);if(d>b)return;bal+=isFinite(m.q)?m.q:0;if(d<a){open=bal;return}m.bal=r1(bal);log.push(m)});
+  const VB={};vehs().forEach(v=>VB[v.id]=v);
+  const pmBad=F.filter(f=>(f.warn||[]).some(w=>w==="wPmMis"||w==="wBmBack"||w==="wBmDiff")||(f.chk&&!f.chkOk&&hasNum(f.pmExp))).length;
+  const noPh=F.filter(f=>!f.miss&&!f.imp&&!(f.p1&&f.p2)).length,endMs=new Date(b+"T23:59:59").getTime();
+  const TKS=tankTotals(a,b).map(x=>{const pa=pumpAt(x.id,endMs);return Object.assign({},x,{pump:pa?pa.m:null})});
+  // readings to check: Check-later marks + fill-ups / deliveries with warnings
+  const chk=[];CK.forEach(o=>{const v=VB[o.vid]||{},d=recOf(o.kind,o.id)||{};chk.push({day:o.day,tm:o.kind==="f"||o.kind==="tx"?x22hm(d.at):"",name:o.kind==="tx"?"🔁 "+tkN(tkById(d.from||"main"))+" → "+tkN(tkById(d.to)):x22Nm(v),fleet:v.fleet||"",meter:o.meter,l:o.kind==="dy"?null:num(d.litres),
+    why:[t(o.why.k).replace("%a","").replace("%b",o.why.b==null?"":(typeof o.why.b==="number"?fmt(o.why.b):o.why.b)).replace(/\(\s*\)/,"").trim()].concat(o.kind==="f"?x22W(d.warn):[]).filter(Boolean).join(" · "),ck:1})});
+  F.forEach(f=>{if(ckS["f:"+f.id]||!(f.warn||[]).length)return;const v=VB[f.vid]||{};chk.push({day:dayKey(f.at),tm:x22hm(f.at),name:x22Nm(v),fleet:v.fleet||f.fleet||"",meter:num(f.meter),l:num(f.litres),why:x22W(f.warn).join(" · "),ck:0})});
+  all("d").forEach(d=>{const k0=dayKey(d.at);if(k0<a||k0>b||!(d.warn||[]).length)return;chk.push({day:k0,tm:x22hm(d.at),name:"🛢️ "+t("x22Del")+" · "+tkN(tkById(tkOf(d))),fleet:"",meter:null,l:num(d.litres),why:x22W(d.warn).join(" · "),ck:0})});
+  chk.sort((p0,q0)=>(p0.day+p0.tm).localeCompare(q0.day+q0.tm));
+  return {p:p,k:k,a:a,b:b,label:R0.label,price:price,veh:veh,log:log,open:r1(open),close:r1(bal),tanks:TKS,pmBad:pmBad,noPh:noPh,chk:chk,
+    cols:x22Cols(p,a,b,false),ocols:x22Cols(p,a,b,true),diesel:r1(veh.reduce((s,r)=>s+r.l,0)),cost:veh.reduce((s,r)=>s+r.cost,0)}}
+// one page = {id,title,tables:[{cap,head,num:[bool],rows:[[cell]],foot,grid:{fixed,n}}],note,sign}; cell = value | {v,ck,w}
+const x22n=v=>v==null||v===""||(typeof v==="number"&&!isFinite(v))?"":v;
+const x22Cost=v=>Math.round(v).toLocaleString("fr-FR").replace(/\u202f|\u00a0/g," ");
+function x22Pages(D){const VV=D.veh.filter(r=>r.l>0||r.used>0||r.fills),dash=VV;
+  const ckc=r=>r.ck||r.wn?{v:"",ck:1}:"";
+  const P={};
+  P.dash={title:t("x22Dash"),two:1,tables:[{cap:t("x22Sum")+" · "+t("x22Price").replace(/\s*\(.*\)/,"")+" "+x22Cost(D.price)+" FCFA/L",head:["x22Name","x22Fleet","x22Dl","x22Pl","x22Tl","x22Used","x22Rate","x22Cost",""].map(x=>x?t(x):t("x22Flag")),num:[0,0,1,1,1,1,0,1,0],
+      rows:dash.map(r=>[r.name,r.fleet,r1(r.l),0,r1(r.l),r.used?r.used+" "+(r.unit==="h"?"h":"km"):"",r.rate,x22Cost(r.cost),ckc(r)]),foot:[t("x22Tot"),"",D.diesel,0,D.diesel,"","",x22Cost(D.cost),""]},
+    {cap:t("x22Stock"),head:[t("x22Tank"),t("x22Lit"),t("x22PmR")],num:[0,1,1],rows:D.tanks.map(x=>[x.tank,x.balance,x22n(x.pump)]),foot:[t("x22All"),r1(D.tanks.reduce((s,x)=>s+x.balance,0)),""]},
+    {cap:t("x22Top"),head:[t("x22Name"),t("x22Fleet"),t("x22Lit")],num:[0,0,1],rows:VV.slice().sort((p,q)=>q.l-p.l).slice(0,5).map(r=>[r.name,r.fleet,r1(r.l)])},
+    {cap:t("x22ChkN"),head:[t("x22Kind"),"#"],num:[0,1],rows:[[t("x22ChkN"),D.chk.length?{v:D.chk.length,ck:1}:0],[t("x22NoPh"),D.noPh?{v:D.noPh,ck:1}:0],[t("x22PmBad"),D.pmBad?{v:D.pmBad,ck:1}:0]]}]};
+  const OV=D.veh.filter(r=>r.start!=null||r.end!=null||r.l>0);
+  P.off={title:t("x22Off"),tables:[{cap:D.p==="m"?t("x22GridW"):D.p==="y"?t("x22GridY"):t("x22Grid"),grid:{fixed:4,n:D.ocols.length},head:[t("x22Name"),t("x22Fleet"),t("x22Unit"),t("x22Start")].concat(D.ocols.map(c=>c.l),[t("x22End"),t("x22Used"),t("x22Lit"),t("x22Rate"),t("x22Flag")]),
+    num:[0,0,0,1].concat(D.ocols.map(()=>1),[1,1,1,0,0]),rows:OV.map(r=>[r.name,r.fleet,r.unit,x22n(r.start)].concat(D.ocols.map(c=>{const x=r.at(c);return x?{v:x.v,ck:x.ck}:""}),[x22n(r.end),r.used||"",r1(r.l)||"",r.rate,ckc(r)])),
+    foot:[t("x22Tot"),"","",""].concat(D.ocols.map(()=>""),["","",D.diesel,"",""])}]};
+  const VB={};vehs().forEach(v=>VB[v.id]=v);
+  const lrow=m=>{const r=m.r;if(m.k==="f"){const v=VB[r.vid]||{},pm=hasNum(r.bm)?num(r.bm):hasNum(r.pr)?num(r.pr):(pumpAt(tkOf(r),r.at)||{}).m,ck=(r.chk&&!r.chkOk)||(r.warn||[]).length;
+      return [dayKey(m.at),x22hm(m.at),x22Nm(v)||r.fleet,v.fleet||r.fleet||"",x22n(num(r.meter)),"",num(r.litres),tkN(tkById(tkOf(r))),x22n(pm),m.bal,r.p1&&r.p2?"✓":r.miss||r.imp?"—":{v:"✗",ck:1},r.by||"",ck?{v:x22W(r.warn).join(" · ")||(r.chkWhy||""),ck:1}:""]}
+    if(m.k==="d")return [dayKey(m.at),x22hm(m.at),"🛢️ "+t("x22Del")+(r.note?" · "+r.note:""),"","",num(r.litres),"",tkN(tkById(tkOf(r))),x22n(hasNum(r.pr)?num(r.pr):""),m.bal,r.p?"✓":"",r.by||"",(r.warn||[]).length?{v:x22W(r.warn).join(" · "),ck:1}:""];
+    if(m.k==="tx")return [dayKey(m.at),x22hm(m.at),"🔁 "+t("x22Mv")+": "+tkN(tkById(r.from||"main"))+" → "+tkN(tkById(r.to))+" "+fmt(num(r.litres))+" L","","","","",tkN(tkById(r.from||"main")),hasNum(r.m2)?num(r.m2):"",m.bal,"",r.by||"",r.chk&&!r.chkOk?{v:t("ckMark"),ck:1}:""];
+    return [dayKey(m.at),x22hm(m.at),"⚖️ "+t("x22Sc")+": "+(r.reason||""),"","",m.q>0?m.q:"",m.q<0?-m.q:"",tkN(tkById(r.tk)),"",m.bal,"",r.by||"",""]};
+  const inS=r1(D.log.reduce((s,m)=>s+(m.q>0?m.q:0),0)),outS=r1(D.log.reduce((s,m)=>s+(m.q<0?-m.q:0),0));
+  P.dsl={title:t("x22Dsl"),tables:[{head:["x22Date","x22Time","x22Name","x22Fleet","x22Meter","x22In","x22Out","x22Tank","x22PmR","x22TkL","x22Ph","x22By","x22Note"].map(x=>t(x)),num:[0,0,0,0,1,1,1,0,1,1,0,0,0],
+    open:[D.a,"",t("x22Open"),"","","","","","",D.open,"","",""],rows:D.log.map(lrow),foot:[t("x22Tot"),"","","","",inS,outS,"","",D.close,"","",t("x22Close")]}]};
+  P.pet={title:t("x22Pet"),note:t("x22NoPet"),tables:[{head:["x22Date","x22Time","x22Name","x22Fleet","x22Meter","x22Lit","x22By"].map(x=>t(x)),num:[0,0,0,0,1,1,0],rows:[],foot:[t("x22Tot"),"","","","",0,""]}]};
+  const grid=(L,ti)=>({title:ti,tables:[{cap:D.p==="y"?t("x22GridY"):t("x22Grid"),grid:{fixed:4,n:D.cols.length},head:[t("x22Name"),t("x22Fleet"),t("x22Unit"),t("x22Start")].concat(D.cols.map(c=>c.l),[t("x22End"),t("x22Used"),t("x22Lit"),t("x22Rate"),t("x22Flag")]),
+    num:[0,0,0,1].concat(D.cols.map(()=>1),[1,1,1,0,0]),rows:L.map(r=>[r.name,r.fleet,r.unit,x22n(r.start)].concat(D.cols.map(c=>{const x=r.at(c);return x?{v:x.v,ck:x.ck}:""}),[x22n(r.end),r.used||"",r1(r.l)||"",r.rate,ckc(r)])),
+    foot:[t("x22Tot"),"","",""].concat(D.cols.map(()=>""),["","",r1(L.reduce((s,r)=>s+r.l,0)),"",""])}]});
+  P.km=grid(D.veh.filter(r=>!r.gen),t("x22Km"));P.gen=grid(D.veh.filter(r=>r.gen),t("x22Gen"));
+  P.chk={title:t("x22Chk"),sign:1,note:D.chk.length?"":t("x22Ok"),tables:[{head:["x22Date","x22Time","x22Name","x22Fleet","x22Meter","x22Lit","x22Why","x22Flag"].map(x=>t(x)),num:[0,0,0,0,1,1,0,0],
+    rows:D.chk.map(c=>[c.day,c.tm,c.name,c.fleet,x22n(c.meter),x22n(c.l),c.why,c.ck?{v:"",ck:1}:"⚠️"])}]};
+  X22S.forEach(([id])=>P[id].id=id);return P}
+function x22Cell(c,isNum){const o=c&&typeof c==="object"?c:{v:c},v=o.v,s=typeof v==="number"?(isFinite(v)?String(r1(v)):""):String(v==null?"":v);
+  return `<td class="${isNum?"n":""}${o.ck?" x22ck":""}">${esc(s)}${o.ck?'<b class="x22f">CHECK</b>':""}</td>`}
+function x22Table(tb,cols){const ix=cols||tb.head.map((_,i)=>i);
+  return `${tb.cap?`<div class="x22cap">${esc(tb.cap)}</div>`:""}<div class="x22S"><table class="x22t"><thead><tr>${ix.map(i=>`<th class="${tb.num[i]?"n":""}">${esc(tb.head[i])}</th>`).join("")}</tr></thead><tbody>${tb.open?`<tr class="x22op">${ix.map(i=>x22Cell(tb.open[i],tb.num[i])).join("")}</tr>`:""}${tb.rows.length?tb.rows.map(r=>`<tr>${ix.map(i=>x22Cell(r[i],tb.num[i])).join("")}</tr>`).join(""):`<tr><td colspan="${ix.length}">${esc(t("x22None"))}</td></tr>`}</tbody>${tb.foot?`<tfoot><tr>${ix.map(i=>x22Cell(tb.foot[i],tb.num[i])).join("")}</tr></tfoot>`:""}</table></div>`}
+const x22Sign=()=>`<div class="x22Sg" id="x22Sg">${["x22SgClerk","x22SgSite","x22SgAdm"].map(k=>`<div><b>${esc(t(k))}</b><span>${esc(t("x22SgBy"))}</span><span>${esc(t("x22SgSig"))}</span><span>${esc(t("x22SgDate"))}</span></div>`).join("")}</div>`;
+function x22PageHTML(pg,D,print){let body="";
+  if(print&&pg.two){body=`<div class="x22two"><div>${x22Table(pg.tables[0])}</div><div>${pg.tables.slice(1).map(tb=>x22Table(tb)).join("")}</div></div>`}
+  else pg.tables.forEach(tb=>{const g=tb.grid;if(print&&g&&g.n>16){const h=Math.ceil(g.n/2),f=[...Array(g.fixed).keys()],all0=tb.head.map((_,i)=>i);
+      body+=x22Table(tb,f.concat(all0.slice(g.fixed,g.fixed+h)))+x22Table(Object.assign({},tb,{cap:""}),f.concat(all0.slice(g.fixed+h)))}else body+=x22Table(tb)});
+  const sub=t("rpPeriod")+": "+D.label+" ("+(D.a===D.b?D.a:D.a+" → "+D.b)+")";
+  return print?`<section class="x22pg" data-x22pg="${pg.id}"><div class="x22ph"><img src="icons/icon-192.png" alt=""><b>${esc(C.SHORT)} · ${esc(pg.title)}</b><span>${esc(sub)}</span></div>${pg.note?`<p class="x22note">${esc(pg.note)}</p>`:""}${body}${pg.sign?x22Sign():""}<div class="x22ft">${esc(t("x22Made"))} · ${esc(dayKey(Date.now())+" "+x22hm(Date.now()))}</div></section>`
+    :`<div class="x22H" id="x22Title">${esc(pg.title)}</div><p class="x22sub" id="x22Sub">${esc(sub)}</p>${pg.note?`<p class="x22note" id="x22Note">${esc(pg.note)}</p>`:""}${body}${pg.sign?x22Sign():""}`}
+function x22Screen(u){const D=x22Data(x22.p,x22.k),P=x22Pages(D),pg=P[x22.s]||P.dash,td=dayKey(Date.now());
+  return `<div class="box noPr" id="x22Bar"><h2>${esc(t("x22T"))}</h2>${x22.msg?`<p class="ok2" id="x22Msg">${esc(x22.msg)}</p>`:""}<div class="x22Ps">${["d","w","m","y"].map(p=>`<button type="button" class="sec${x22.p===p?" on":""}" data-x22p="${p}">${esc(t("pr"+p.toUpperCase()))}</button>`).join("")}</div>
+  <div class="x22Nav"><button type="button" class="sec" id="x22Prev">⬅️</button><b id="x22Lab">${esc(D.label)}</b><button type="button" class="sec" id="x22Next" ${D.b>=td?"disabled":""}>➡️</button></div>
+  <div class="x22Tabs">${X22S.map(([id,k])=>`<button type="button" class="sec${pg.id===id?" on":""}" data-x22s="${id}">${esc(t(k))}${id==="chk"&&D.chk.length?" ("+D.chk.length+")":""}</button>`).join("")}</div></div>
+  <div class="box x22o" id="rpOut" data-x22="${esc(pg.id)}">${x22PageHTML(pg,D,false)}${pg.id==="dash"&&u&&u.admin?`<div id="x22PriceB" class="noPr"><label class="fl" for="x22PriceI" style="width:100%">${esc(t("x22Price"))}</label><input id="x22PriceI" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(String(D.price))}"><button type="button" class="sec" id="x22PriceS">${esc(t("x22PriceS"))}</button></div>`:""}</div>
+  <div class="rpAct noPr"><button type="button" id="x22Print">${esc(t("x22Print"))}</button>${canXlsU(u)?`<button type="button" class="rpXls" id="x22Xls">${esc(t("x22Xls"))}</button>`:""}<button type="button" class="sec rpBk" id="rpBack">${esc(t("rpBack"))}</button></div>`}
+function x22PrintHTML(D){const P=x22Pages(D);return X22S.map(([id])=>x22PageHTML(P[id],D,true)).join("")}
+function x22Print(){const D=x22Data(x22.p,x22.k);let el=$("x22Pr");if(!el){el=document.createElement("div");el.id="x22Pr";document.body.appendChild(el)}
+  el.setAttribute("dir",document.documentElement.getAttribute("dir")||"ltr");el.innerHTML=x22PrintHTML(D);document.documentElement.classList.add("x22Prt");
+  const done=()=>{document.documentElement.classList.remove("x22Prt");window.removeEventListener("afterprint",done)};window.addEventListener("afterprint",done);
+  try{window.print()}catch(e){}return el}
+function x22Xlsx(D){const P=x22Pages(D),R=[],plain=c=>{const o=c&&typeof c==="object"?c:{v:c};return {v:o.ck?(o.v===""||o.v==null?"CHECK":(typeof o.v==="number"?r1(o.v):o.v)+" CHECK"):o.v,ck:o.ck}};
+  R.push([{v:C.SHORT+" · "+t("x22T").replace(/^\S+\s/,""),s:"title"}],[t("rpPeriod"),{v:D.label+" ("+(D.a===D.b?D.a:D.a+" → "+D.b)+")",s:"bold"}],[]);
+  X22S.forEach(([id])=>{const pg=P[id];R.push([{v:pg.title,s:"title"}]);if(pg.note)R.push([pg.note]);
+    pg.tables.forEach(tb=>{if(tb.cap)R.push([{v:tb.cap,s:"bold"}]);R.push(tb.head.map(h=>({v:h,s:"h"})));const rows=(tb.open?[tb.open]:[]).concat(tb.rows);
+      rows.forEach((r,i)=>{const s=i%2?"a":"b";R.push(r.map((c,j)=>{const o=plain(c),v=o.v;return typeof v==="number"&&isFinite(v)?{v:r1(v),d:Number.isInteger(r1(v))?0:1,s:s}:{v:v==null?"":String(v),s:s}}))});
+      if(tb.foot)R.push(tb.foot.map(c=>{const v=plain(c).v;return typeof v==="number"&&isFinite(v)?{v:r1(v),d:Number.isInteger(r1(v))?0:1,s:"t"}:{v:v==null?"":String(v),s:"t"}}))});
+    if(pg.sign)["x22SgClerk","x22SgSite","x22SgAdm"].forEach(k=>R.push([{v:t(k),s:"bold"},t("x22SgBy")+": ____________",t("x22SgSig")+": ____________",t("x22SgDate")+": ________"]));R.push([])});
+  const nm=(C.SHORT+" fuel report "+(D.a===D.b?D.a:D.a+" to "+D.b)).replace(/[\\\/:*?"<>|]/g," ");
+  return {name:nm+".xlsx",blob:XL.book("Fuel report",R,[24,14,12,12,12,12,12,14,12,12,10,14,26],C.REPORT_COLOR)}}
+function x22DashRows(a,b){const R0={a:a||"0000-01-01",b:b||"9999-12-31"},price=x22Price();
+  return x22Vs().map(v=>{const P=vehPeriod(v,R0.a,R0.b);return {veh:x22Nm(v),fleet:v.fleet||"",l:P.litres,used:P.used,cost:Math.round(P.litres*price)}}).filter(r=>r.l>0||r.used>0)}
+addReport({id:"xl",title:TT("x22T"),cols:[{key:"veh",label:"x22Name"},{key:"fleet",label:"x22Fleet"},{key:"l",label:"x22Dl",num:true,d:1,sum:true},{key:"used",label:"x22Used",num:true,d:1,sum:true},{key:"cost",label:"x22Cost",num:true,sum:true}],rows:(a,b)=>x22DashRows(a,b)});
+{const bs=repScreenHTML;repScreenHTML=function(u){if(rp.id!=="xl"||REPORTS.length===1||!repOk(u))return bs(u);return x22Screen(u)}}
+{const bb=bindRep;bindRep=function(u){bb(u);document.documentElement.classList.remove("x22Prt");if(rp.id!=="xl"||!$("x22Bar"))return;
+  document.querySelectorAll("[data-x22p]").forEach(b=>b.onclick=()=>{x22.p=b.dataset.x22p;x22.msg="";render()});
+  document.querySelectorAll("[data-x22s]").forEach(b=>b.onclick=()=>{x22.s=b.dataset.x22s;x22.msg="";render()});
+  const pv=$("x22Prev");if(pv)pv.onclick=()=>{x22.k=shiftPeriod(x22.p,x22.k,-1);x22.msg="";render()};
+  const nx=$("x22Next");if(nx)nx.onclick=()=>{const k=shiftPeriod(x22.p,x22.k,1),td=dayKey(Date.now());x22.k=k>td?td:k;x22.msg="";render()};
+  const pr=$("x22Print");if(pr)pr.onclick=()=>x22Print();
+  const xl=$("x22Xls");if(xl)xl.onclick=()=>sendXls(x22Xlsx(x22Data(x22.p,x22.k)));
+  const ps=$("x22PriceS");if(ps)ps.onclick=()=>{if(x22SetPrice($("x22PriceI").value,u)){x22.msg=t("sv");render()}else{const i=$("x22PriceI");i.style.borderColor="#dc2626";i.focus()}}}}
+Object.assign(window.TMC.fuel,{x22:()=>x22,setX22:o=>{Object.assign(x22,o)},x22Data:x22Data,x22Pages:x22Pages,x22Cols:x22Cols,x22Price:x22Price,x22SetPrice:x22SetPrice,x22Xlsx:x22Xlsx,x22Print:x22Print,x22PrintHTML:x22PrintHTML});
+
 
 render();
 if(syncOn())syncNow();else if(sUrl())api({action:"status",name:"-"}).catch(()=>{});  // probe so "Not connected" shows on a fresh phone too
