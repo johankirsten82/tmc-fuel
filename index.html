@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER":27,
+ "VER":28,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=27">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=27">
+<link rel="icon" href="icons/favicon-32.png?v=28">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=28">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -382,7 +382,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=27" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=28" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -395,7 +395,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=27" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=28" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -418,7 +418,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=27" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=28" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -513,7 +513,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=27" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=28" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -722,7 +722,7 @@ const unitU=v=>isH(v)?t("perH"):t("per100");
 /* ---- pure logic (tested) ---- */
 function lastFill(vid,beforeAt,exceptId){let p=null;fills().forEach(f=>{if(f.vid===vid&&f.id!==exceptId&&f.at<=beforeAt&&(!p||f.at>=p.at))p=f});return p}
 // Warning limits: Admin can change them in Settings. Stored as synced record cfg:limits (in fuel_recs).
-const LIM0={usePct:25,minGapH:4,minKm:50,minHr:2,svcKm:500,svcHr:50};
+const LIM0={usePct:25,minGapH:4,minKm:50,minHr:2,svcKm:500,svcHr:50,burnPct:30};
 const LIMK=Object.keys(LIM0);
 function limits(){const r=all("cfg").find(c=>c&&c.id==="limits")||{},o={};LIMK.forEach(k=>{const n=num(r[k]);o[k]=isFinite(n)&&n>=0?n:LIM0[k]});return o}
 function fuelWarn(v,prev,e,lim){lim=lim||limits();
@@ -971,7 +971,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=27" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=28" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -2122,6 +2122,32 @@ Object.assign(T.en,{x27E:"⚠️ Meter should be about %a. Check it.",x27Ck:"Sho
 Object.assign(T.fr,{x27E:"⚠️ Le compteur devrait être environ %a. Vérifiez-le.",x27Ck:"Devrait être environ %a"});
 Object.assign(T.ar,{x27E:"⚠️ يجب أن يكون العداد حوالي %a. تحقق منه.",x27Ck:"يجب أن يكون حوالي %a"});
 Object.assign(window.TMC.fuel,{x27Exp:x27Exp,x27Off:x27Off});
+// v28: burn rate (hour-meter machines). rate = litres / (hours now - hours at the last fill-up of that machine).
+// Skip: no earlier reading, hours went back, gap < 2 h. Normal = median of the last 10 good rates (needs 3). Warn at normal x (1 + burnPct%).
+function x28Rates(vid,beforeAt,exceptId){const F=fills().filter(f=>f.vid===vid&&f.id!==exceptId&&f.at<beforeAt&&hasNum(f.meter)),R0=[];
+  for(let i=1;i<F.length;i++){const d=num(F[i].meter)-num(F[i-1].meter),l=num(F[i].litres);if(d>=2&&l>0)R0.push(l/d)}return R0.slice(-10)}
+function x28Med(a){if(a.length<3)return null;const b=a.slice().sort((x,y)=>x-y),m=b.length>>1;return b.length%2?b[m]:(b[m-1]+b[m])/2}
+function x28Burn(v,e,exceptId){if(!v||!isH(v)||!e)return null;const at=e.at||Date.now(),m=num(e.meter),l=num(e.litres);if(!isFinite(m)||!(l>0))return null;
+  const p=fills().filter(f=>f.vid===v.id&&f.id!==exceptId&&f.at<at&&hasNum(f.meter)).pop();if(!p)return null;const d=m-num(p.meter);if(!(d>=2))return null;
+  const rate=l/d,norm=x28Med(x28Rates(v.id,at,exceptId));if(norm==null)return {rate:rate,norm:null,high:false};
+  return {rate:rate,norm:norm,high:rate>=norm*(1+limits().burnPct/100)-1e-9}}
+const x28F=x=>String(Math.round(x*10)/10);
+{const fw=fuelWarn;fuelWarn=function(v,prev,e,lim){const W=fw(v,prev,e,lim);try{const b=x28Burn(v,e,e&&e.id);if(b&&b.high)W.push({k:"wBurn",a:x28F(b.rate),b:x28F(b.norm)})}catch(er){}return W}}
+{const cl=checkList;checkList=function(){const L=cl(),have={};L.forEach(o=>have[o.kind+":"+o.id]=1);
+  fills().forEach(f=>{if(!have["f:"+f.id]&&!f.chkOk&&(f.warn||[]).includes("wBurn")){const v=vehs().find(x=>x.id===f.vid),b=x28Burn(v,f,f.id);L.push({kind:"f",id:f.id,vid:f.vid,day:dayKey(f.at),meter:num(f.meter),why:{k:"ckBurn",b:b?b.rate:""}})}});
+  return L.sort((a,b)=>a.day<b.day?-1:a.day>b.day?1:0)}}
+function x28Paint(u){const o=$("rpOut");if(!o||o.dataset.x22!=="dsl")return;const refs=x27Refs("dsl");if(!refs)return;
+  o.querySelectorAll("table.x22t").forEach(tb=>{if(tb.querySelector(".x28c"))return;const tr0=[...tb.querySelectorAll("tbody tr")].filter(r=>!r.classList.contains("x22op"));if(tr0.length!==refs.length)return;
+    tb.querySelectorAll("tr").forEach(r=>{const j=tr0.indexOf(r),hd=r.parentNode.tagName==="THEAD",c=document.createElement(hd?"th":"td");c.className="x28c";
+      if(hd)c.textContent=j<0&&r===tb.querySelector("thead tr:last-child")?t("x28Col"):"";else if(j>=0){const p=refs[j].split(":"),d=p[0]==="f"?recOf("f",p.slice(1).join(":")):null,v=d&&vehs().find(x=>x.id===d.vid),b=d&&x28Burn(v,d,d.id);
+        c.textContent=b?x28F(b.rate):"";if(b&&b.high)c.style.cssText="color:#b91c1c;font-weight:800"}
+      r.appendChild(c)})})}
+{const br=bindRep;bindRep=function(u){br(u);try{x28Paint(u||me())}catch(e){console.warn(e)}}}
+Object.assign(T.en,{wBurn:"⚠️ Uses more than normal (%a L/h, normal %b). Check it.",ckBurn:"🔥 High burn %b L/h",burnPct:"High burn: % over normal L/h",x28Col:"L/h",x22w_wBurn:"High burn"});
+Object.assign(T.fr,{wBurn:"⚠️ Consomme plus que d'habitude (%a L/h, normal %b). Vérifiez.",ckBurn:"🔥 Forte consommation %b L/h",burnPct:"Forte consommation : % au-dessus du normal L/h",x28Col:"L/h",x22w_wBurn:"Forte consommation"});
+Object.assign(T.ar,{wBurn:"⚠️ يستهلك أكثر من المعتاد (%a لتر/س، المعتاد %b). تحقق منه.",ckBurn:"🔥 استهلاك مرتفع %b لتر/س",burnPct:"استهلاك مرتفع: % فوق المعتاد لتر/س",x28Col:"لتر/س",x22w_wBurn:"استهلاك مرتفع"});
+{const st=document.createElement("style");st.textContent="#fuWarn p[data-w=wBurn]{color:#b91c1c;background:#fee2e2;border:3px solid #dc2626;border-radius:12px;padding:8px;font-weight:800}@media print{td.x28c,th.x28c{display:none}}";document.head.appendChild(st)}
+Object.assign(window.TMC.fuel,{x28Burn:x28Burn,x28Rates:x28Rates,x28Med:x28Med});
 render();
 if(syncOn())syncNow();else if(sUrl())api({action:"status",name:"-"}).catch(()=>{});  // probe so "Not connected" shows on a fresh phone too
 })();
