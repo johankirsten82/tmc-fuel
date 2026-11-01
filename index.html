@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER":31,
+ "VER":32,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=31">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=31">
+<link rel="icon" href="icons/favicon-32.png?v=32">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=32">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -191,6 +191,7 @@ header{padding:12px 14px}header .t{font-weight:700;min-width:0;overflow:hidden;t
 .updW,.ncW{border-width:1px}
 main>.bar button{font-size:18px;font-weight:600;border-radius:10px;padding:10px}
 #updW,#ncW{font-size:17px}
+.navBack{display:block;width:100%;min-height:64px;margin:0 0 12px;padding:10px 16px;font-size:24px;font-weight:800;text-align:start;background:#0f172a!important;color:#fff!important;border:0;border-radius:14px;box-shadow:0 2px 8px #0003}.navAsk .card h2{font-size:24px}.navAsk .card button{min-height:60px;font-size:22px}
 </style></head><body>
 <div id="app"></div>
 <script>
@@ -382,7 +383,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=31" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=32" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -395,7 +396,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=31" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=32" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -418,7 +419,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=31" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=32" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -513,7 +514,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=31" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=32" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -975,7 +976,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=31" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=32" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -2250,6 +2251,55 @@ Object.assign(T.ar,{stkT:"📐 جرد الخزان – مستوى الوقود",
 addReport({id:"stk",title:TT("rvStk"),cols:[{key:"day",label:"cDate"},{key:"tm",label:"cStkTm"},{key:"tank",label:"c14Tank"},{key:"mm",label:"cStkMm",num:true},{key:"l",label:"cStkL",num:true,sum:true},{key:"bal",label:"cStkBal",num:true},{key:"diff",label:"cStkDiff",num:true},{key:"by",label:"cXfBy"},{key:"ck",label:"cXfCk"}],rows:(a,b)=>stkRows(a,b)});
 Object.assign(window.TMC.fuel,{ckRow:ckRow,stkLitres:stkLitres,stkCalc:stkCalc,stkRows:stkRows,stkSave:stkSave,STK_CHARTS:STK_CHARTS,pumpScan:pumpScan,checkList:checkList,stkState:()=>stk,stkSet:o=>{stk=Object.assign({},o||{})}});
 
+/* v32 BACK (base VER 10): a big "← Back" bar at the TOP of every screen except Home (staff-friendly).
+   Order: 1) one level up inside the screen (report → report list, app hooks), 2) the screen's own top Back
+   button if it has one (kept, made big), 3) the previous screen, 4) Home. A half-filled form asks
+   "Leave without saving?" Yes / No first. Bottom tabs are unchanged. Apps extend window.TMC.nav. */
+Object.assign(T.en,{navBack:"← Back",navLeave:"Leave without saving?",navYes:"Yes",navNo:"No"});
+Object.assign(T.fr,{navBack:"← Retour",navLeave:"Quitter sans enregistrer ?",navYes:"Oui",navNo:"Non"});
+if(T.ar)Object.assign(T.ar,{navBack:"→ رجوع",navLeave:"المغادرة بدون حفظ؟",navYes:"نعم",navNo:"لا"});
+const NAV={st:[],last:"",up:0,skip:0,pass:0,sticky:0,saved:0,keys:[],sets:[],ups:[],sel:[],dirty:[],clear:[]};
+NAV.ups.push(()=>{if(tab==="reports"&&typeof rp!=="undefined"&&rp.id&&REPORTS.length>1){rp.id=null;return true}return false});
+function navKey(){let o={t:tab};NAV.keys.forEach(f=>{o=f(o)||o});return JSON.stringify(o)}
+function navTyped(){return [...document.querySelectorAll("#view input,#view textarea")].some(el=>{const ty=(el.type||"").toLowerCase();if(el.disabled||el.readOnly||/^(button|submit|reset|hidden|checkbox|radio|range|color)$/.test(ty))return false;if(ty==="file")return !!(el.files&&el.files.length);const v=(el.value||"").trim();if(!v)return false;return /^(date|time|datetime-local|month|week)$/.test(ty)?el.value!==el.defaultValue:true})}
+function navDirty(){return NAV.dirty.some(f=>{try{return !!f()}catch(e){return false}})||((!!formDirty||!!NAV.sticky)&&navTyped())}
+function navGoBack(){
+  if(NAV.ups.some(f=>{try{return f()}catch(e){return false}})){NAV.skip=1;render();scrollTo(0,0);return}
+  const cur=NAV.last;for(;;){let k=null;while(NAV.st.length){k=NAV.st.pop();if(k!==NAV.last&&k!==cur)break;k=null}
+  const o=k?JSON.parse(k):{t:"home"};tab=o.t;NAV.sets.forEach(f=>f(o));NAV.skip=1;render();if(!k||NAV.last!==cur)break}scrollTo(0,0);
+}
+function navAsk(yes){
+  const m=document.createElement("div");m.className="modal navAsk";m.id="navAsk";
+  m.innerHTML=`<div class="card"><h2>${esc(t("navLeave"))}</h2><button type="button" class="red" id="navYes">${esc(t("navYes"))}</button><button type="button" class="sec" id="navNo">${esc(t("navNo"))}</button></div>`;
+  document.body.appendChild(m);$("navNo").onclick=()=>m.remove();$("navYes").onclick=()=>{m.remove();yes()};
+}
+function navClear(){const u=me();if(u)document.querySelectorAll("#view [data-draft]").forEach(el=>L.del(dKey(u,el.dataset.draft)));NAV.clear.forEach(f=>{try{f()}catch(e){}});formDirty=0;NAV.sticky=0}
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest(".navBack");if(!b)return;if(NAV.pass||!navDirty()){NAV.up=1;return}
+  e.preventDefault();e.stopImmediatePropagation();navAsk(()=>{navClear();NAV.pass=1;try{b.click()}finally{NAV.pass=0}})},true);
+function navAfter(){
+  const V=$("view");if(!V||!me())return;
+  const k=navKey();
+  if(NAV.skip)NAV.skip=0;else if(NAV.last&&k!==NAV.last){const i=NAV.st.lastIndexOf(k);if(i>=0)NAV.st.length=i;else if(!NAV.up)NAV.st.push(NAV.last)}NAV.up=0;
+  NAV.last=k;if(NAV.st.length>30)NAV.st.shift();
+  if(tab==="home"){NAV.st=[];return}
+  let b=null;const sel=NAV.sel.join(",");
+  if(sel){const c=V.querySelector(sel);if(c&&c.parentNode===V){let p=c.previousElementSibling,top=true;while(p){if(p.matches(".box,.tiles,table,form,.vgrid"))top=false;p=p.previousElementSibling}if(top)b=c}}
+  if(b){b.classList.add("navBack");b.textContent=t("navBack");V.insertBefore(b,V.firstChild)}
+  else{V.insertAdjacentHTML("afterbegin",`<button type="button" class="navBack" id="navBack">${esc(t("navBack"))}</button>`);$("navBack").onclick=navGoBack}
+}
+/* typing stays "unsaved" across redraws of the SAME screen (e.g. a pick that redraws the form) until a save or a screen change */
+{const r0=render;render=function(){const was=formDirty,k0=NAV.last;r0.apply(this,arguments);navAfter();if(NAV.last!==k0||NAV.saved)NAV.sticky=0;else if(was)NAV.sticky=1;NAV.saved=0};window.TMC.render=render}
+{const p0=put;put=function(){NAV.sticky=0;NAV.saved=1;return p0.apply(this,arguments)}}
+{const m0=remove;remove=function(){NAV.sticky=0;NAV.saved=1;return m0.apply(this,arguments)}}
+window.TMC.nav=NAV;window.TMC.navBack=navGoBack;window.TMC.navDirty=navDirty;
+/* v32 BACK END */
+/* Fuel v32: work sub-screens keep their own top Back (made big; it goes one level up), the rest use history */
+NAV.keys.push(o=>{if(o.t==="work")o.fv=fv;return o});
+NAV.sets.push(o=>{if(o.t==="work"&&o.fv)fv=o.fv});
+NAV.sel.push("#view > button.sec[data-fv]","#edBack","#pmEdBack","#pmMsBack","#stkBack");
+NAV.dirty.push(()=>tab==="work"&&fv==="fill"&&!!(fs.p1||fs.p2||fs.m||fs.l||fs.bm));
+/* the old "Back to work menu" button follows real history instead (Home tile → screen → Back → Home) */
+{const r1=render;render=function(){r1.apply(this,arguments);const b=document.querySelector('#view > button.navBack[data-fv="menu"]');if(b)b.onclick=navGoBack};window.TMC.render=render}
 render();
 if(syncOn())syncNow();else if(sUrl())api({action:"status",name:"-"}).catch(()=>{});  // probe so "Not connected" shows on a fresh phone too
 })();
