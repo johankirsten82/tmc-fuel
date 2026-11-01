@@ -2154,7 +2154,7 @@ function x29Done(fid){const r=recOf("sv",fid);return !!(r&&r.done)}
 {const c0=ckRow;ckRow=function(o,btn){const h=c0(o,btn);return o&&o.kind==="f"&&x29Done(o.id)?h.replace("<br>",` · <b class="x29ok">✅ ${esc(t("x29Done"))}</b><br>`):h}}
 Object.assign(T.en,{x29Done:"Service checked"});Object.assign(T.fr,{x29Done:"Vérifié par le service"});Object.assign(T.ar,{x29Done:"فحصته الصيانة"});
 {const st=document.createElement("style");st.textContent=".x29ok{color:#15803d}";document.head.appendChild(st)}
-Object.assign(window.TMC.fuel,{put:put,x29Done:x29Done});
+Object.assign(window.TMC.fuel,{put:put,x29Done:x29Done,ckRow:ckRow});
 render();
 if(syncOn())syncNow();else if(sUrl())api({action:"status",name:"-"}).catch(()=>{});  // probe so "Not connected" shows on a fresh phone too
 })();
