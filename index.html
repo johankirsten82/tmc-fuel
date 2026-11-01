@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER":29,
+ "VER":30,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=29">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=29">
+<link rel="icon" href="icons/favicon-32.png?v=30">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=30">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -382,7 +382,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=29" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=30" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -395,7 +395,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=29" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=30" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -418,7 +418,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=29" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=30" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -513,7 +513,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=29" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=30" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -892,7 +892,7 @@ function workHTML(u){
     <div class="box"><h3>${esc(t("step1"))}</h3><div class="prow"><div><label class="pbtn${fs.p1?" ok":""}" id="fuP1L">${fs.p1?`<img src="${esc(fs.p1)}" alt="">${esc(t("rePh"))}`:esc(t("takePh"))}<input type="file" id="fuP1" accept="image/*" capture="environment"></label><label class="pbtn pgal" style="min-height:60px;margin-top:8px">${esc(t("phGal"))}<input type="file" id="fuP1G" accept="image/*"></label></div>
       <div><label class="fl" for="fuM">${esc(isH(v)?t("meterH"):t("meterKm"))}</label><input id="fuM" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(fs.m||"")}"></div></div></div>
     <div class="box" id="fuStep2"><h3>${esc(t("step2"))}</h3><div><label class="pbtn${fs.p2?" ok":""}" id="fuP2L">${fs.p2?`<img src="${esc(fs.p2)}" alt="">${esc(t("rePh"))}`:esc(t("takePh"))}<input type="file" id="fuP2" accept="image/*" capture="environment"></label><label class="pbtn pgal" style="min-height:60px;margin-top:8px">${esc(t("phGal"))}<input type="file" id="fuP2G" accept="image/*"></label></div>
-      <label class="fl big2" for="fuL">${esc(t("fuLit"))}</label><input id="fuL" class="num big2" type="text" inputmode="decimal" autocomplete="off" value="${esc(fs.l||"")}">
+      ${x30Pic()}<label class="fl big2" for="fuL">${esc(t("fuLit"))}</label><input id="fuL" class="num big2" type="text" inputmode="decimal" autocomplete="off" value="${esc(fs.l||"")}">
       ${bmHTML()}</div>
     ${fromHTML()}${warnBox(curWarn())}<p class="hint" id="fuNeed">${esc(t("needAll"))}</p><button type="button" id="fuSave" ${canSave(fs)?"":"disabled"} style="min-height:72px;font-size:24px">${esc(t("saveFill"))}</button>`}
   if(fv==="tank")return tankHTML(u,fl);
@@ -971,7 +971,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=29" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=30" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -1532,8 +1532,8 @@ function pmHTML(){const T=tanks(),P=pumpScan(),G={};P.forEach(r=>(G[r.tk]=G[r.tk
   <button type="button" id="pmDone">${esc(t("pmDone"))}</button></div>`}
 function pmEdHTML(){const d=recOf("f",pe.id);if(!d){pe=null;fv="pm";return pmHTML()}const T=tkById(tkOf(d));
   return `<button type="button" class="sec" id="pmEdBack">${esc(t("back"))}</button><div class="box" id="pmEd"><h2>${esc(t("edT"))} ⛽ ${esc(tkN(T))}</h2><p><b>${esc(vName(d.vid))}</b> · ${esc(dayKey(d.at))}</p>
-  <label class="fl" for="pmBm">${esc(t("pmMeter"))}</label><input id="pmBm" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(d.bm==null?"":d.bm)}">
   <label class="fl" for="pmLit">${esc(t("fuLit"))}</label><input id="pmLit" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(d.litres)}">
+  <label class="fl" for="pmBm">${esc(t("pmMeter"))}</label><input id="pmBm" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(d.bm==null?"":d.bm)}">
   <p class="flag" id="pmErr" style="display:none">${esc(t("edBad"))}</p><button type="button" id="pmSave">${esc(t("edSave"))}</button></div>`}
 function pmFix(id,ch,u){const b=ch.bm===undefined?undefined:num(ch.bm);if(ch.bm!==undefined&&!isFinite(b))return {ok:false,error:"bad"};return editRec("f",id,Object.assign({},ch,ch.bm===undefined?{}:{bm:b}),u)}
 const baseWork16=workHTML;workHTML=function(u){
@@ -2155,6 +2155,28 @@ function x29Done(fid){const r=recOf("sv",fid);return !!(r&&r.done)}
 Object.assign(T.en,{x29Done:"Service checked"});Object.assign(T.fr,{x29Done:"Vérifié par le service"});Object.assign(T.ar,{x29Done:"فحصته الصيانة"});
 {const st=document.createElement("style");st.textContent=".x29ok{color:#15803d}";document.head.appendChild(st)}
 Object.assign(window.TMC.fuel,{put:put,x29Done:x29Done,ckRow:ckRow});
+/* ---- v30: pump boxes named like the HIGH ACCURACY METER: big LITRE digits first, small TOTAL line second (texts + picture only, no logic change) ---- */
+Object.assign(T.en,{fuLit:"Big numbers (LITRE)",pmRead:"Small line (TOTAL)",pmMeter:"Small line (TOTAL)",pmReadH:"The small TOTAL line under the big numbers.",
+ x26W:"⚠️ Same as LITRE? Type the small TOTAL line.",x26Ck:"LITRE = TOTAL (typed wrong?)",x27E:"⚠️ TOTAL should be about %a. Check it.",x27Ck:"TOTAL should be about %a",
+ ckPm:"🔢 TOTAL does not match (expected %b)",wPmMis:"🔢 TOTAL %a does not match last TOTAL + LITRE (%b). Saved as Check later.",
+ needAll:"Take both photos, type km / hours, LITRE and TOTAL, and pick the tank. Then Save.",x30Pic:"What the pump meter shows"});
+Object.assign(T.fr,{fuLit:"Gros chiffres (LITRE)",pmRead:"Petite ligne (TOTAL)",pmMeter:"Petite ligne (TOTAL)",pmReadH:"La petite ligne TOTAL sous les gros chiffres.",
+ x26W:"⚠️ Même nombre que LITRE ? Tapez la petite ligne TOTAL.",x26Ck:"LITRE = TOTAL (erreur de saisie ?)",x27E:"⚠️ TOTAL devrait être environ %a. Vérifiez-le.",x27Ck:"TOTAL devrait être environ %a",
+ ckPm:"🔢 TOTAL ne correspond pas (attendu %b)",wPmMis:"🔢 TOTAL %a ne correspond pas au dernier TOTAL + LITRE (%b). Enregistré « À vérifier ».",
+ needAll:"Prenez les deux photos, tapez km / heures, LITRE et TOTAL, et choisissez la cuve. Puis Enregistrer.",x30Pic:"Ce que montre le compteur de la pompe"});
+Object.assign(T.ar,{fuLit:"الأرقام الكبيرة (LITRE)",pmRead:"السطر الصغير (TOTAL)",pmMeter:"السطر الصغير (TOTAL)",pmReadH:"سطر TOTAL الصغير تحت الأرقام الكبيرة.",
+ x26W:"⚠️ نفس رقم LITRE؟ اكتب سطر TOTAL الصغير.",x26Ck:"LITRE = TOTAL (خطأ في الكتابة؟)",x27E:"⚠️ يجب أن يكون TOTAL حوالي %a. تحقق منه.",x27Ck:"يجب أن يكون TOTAL حوالي %a",
+ ckPm:"🔢 TOTAL لا يطابق (المتوقع %b)",wPmMis:"🔢 TOTAL %a لا يطابق آخر TOTAL + LITRE (%b). حُفظ كـ «للتحقق لاحقًا».",
+ needAll:"التقط الصورتين، واكتب الكيلومترات / الساعات وLITRE وTOTAL، واختر الخزان. ثم احفظ.",x30Pic:"ما يظهره عداد المضخة"});
+function x30Pic(){const e=x=>esc(t(x));return `<figure class="x30" aria-label="${e("x30Pic")}"><svg viewBox="0 0 300 150" role="img" dir="ltr"><rect x="2" y="2" width="296" height="146" rx="14" fill="#1f2937"/>
+<text x="150" y="20" fill="#e5e7eb" font-size="11" font-weight="700" text-anchor="middle">HIGH ACCURACY METER</text>
+<rect x="18" y="28" width="196" height="62" rx="6" fill="#d9f99d" stroke="#16a34a" stroke-width="4"/><text x="116" y="78" font-size="46" font-weight="800" font-family="monospace" text-anchor="middle" fill="#111">125.4</text>
+<text x="222" y="56" fill="#fff" font-size="15" font-weight="800">LITRE</text><text x="222" y="80" fill="#a3e635" font-size="20" font-weight="800">①</text>
+<rect x="18" y="104" width="196" height="30" rx="5" fill="#e5e7eb" stroke="#2563eb" stroke-width="4"/><text x="116" y="126" font-size="20" font-family="monospace" text-anchor="middle" fill="#111">0 0 4 8 2 7 6</text>
+<text x="222" y="124" fill="#fff" font-size="15" font-weight="800">TOTAL</text><text x="276" y="124" fill="#93c5fd" font-size="20" font-weight="800">②</text></svg>
+<figcaption><b class="x30a">① ${e("fuLit")}</b><b class="x30b">② ${e("pmRead")}</b></figcaption></figure>`}
+{const st=document.createElement("style");st.textContent=".x30{margin:10px 0 6px}.x30 svg{width:100%;max-width:340px;display:block;margin:0 auto}.x30 figcaption{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;font-size:16px;margin-top:4px}.x30a{color:#15803d}.x30b{color:#1d4ed8}#fuStep2 label[for=fuL]:before{content:'① '}#fuStep2 label[for=fuBM]:before{content:'② '}";document.head.appendChild(st)}
+Object.assign(window.TMC.fuel,{x30Pic:x30Pic});
 render();
 if(syncOn())syncNow();else if(sUrl())api({action:"status",name:"-"}).catch(()=>{});  // probe so "Not connected" shows on a fresh phone too
 })();
