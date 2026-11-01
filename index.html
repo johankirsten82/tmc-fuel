@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER":23,
+ "VER":24,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=23">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=23">
+<link rel="icon" href="icons/favicon-32.png?v=24">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=24">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -381,7 +381,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=23" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=24" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -394,7 +394,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=23" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=24" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -417,7 +417,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=23" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=24" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -512,7 +512,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=23" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=24" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -916,7 +916,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=23" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=24" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -1872,6 +1872,113 @@ addReport({id:"xl",title:TT("x22T"),cols:[{key:"veh",label:"x22Name"},{key:"flee
   const xl=$("x22Xls");if(xl)xl.onclick=()=>sendXls(x22Xlsx(x22Data(x22.p,x22.k)));
   const ps=$("x22PriceS");if(ps)ps.onclick=()=>{if(x22SetPrice($("x22PriceI").value,u)){x22.msg=t("sv");render()}else{const i=$("x22PriceI");i.style.borderColor="#dc2626";i.focus()}}}}
 Object.assign(window.TMC.fuel,{x22:()=>x22,setX22:o=>{Object.assign(x22,o)},x22Data:x22Data,x22Pages:x22Pages,x22Cols:x22Cols,x22Price:x22Price,x22SetPrice:x22SetPrice,x22Xlsx:x22Xlsx,x22Print:x22Print,x22PrintHTML:x22PrintHTML});
+/* ---- v24: choose where to save. Every report download (📄 PDF, 📥 Excel, CSV) opens the "Save as" window on laptop Chrome / Edge
+   (showSaveFilePicker) with a clear name, e.g. "TMC Fuel - Month report - 2026-10.pdf" / ".xlsx"; phones and other browsers get a normal
+   download with the same name; Cancel = nothing happens. 📄 PDF = a real .pdf file made by the app itself (each A4 landscape page is drawn
+   on a canvas → JPEG → PDF; no library, no service; Arabic / right-to-left ok). 🖨️ Print stays and suggests the same name for "Save as PDF". */
+Object.assign(T.en,{x24Pdf:"📄 Download PDF"});Object.assign(T.fr,{x24Pdf:"📄 Télécharger PDF"});Object.assign(T.ar,{x24Pdf:"📄 تنزيل PDF"});
+{const st=document.createElement("style");st.textContent=`.rpAct .rpPdf{background:var(--rc);min-height:60px}.rpAct #rpPrint,.rpAct #x22Print{grid-column:1/-1}`;document.head.appendChild(st)}
+const X24T={pdf:{description:"PDF",accept:{"application/pdf":[".pdf"]}},xlsx:{description:"Excel",accept:{"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":[".xlsx"]}},csv:{description:"CSV",accept:{"text/csv":[".csv"]}}};
+const x24Clean=s=>String(s).replace(/[\\\/:*?"<>|]+/g," ").replace(/[^\p{L}\p{N}\p{P}\p{Zs}]/gu,"").replace(/\s+/g," ").trim();
+const x24En=v=>v==null?"":typeof v==="object"?(v.en||""):(T.en[v]||String(v));
+// p = d | w | m | y | r (dates); a / b = first / last day. Day + Week use the first day (Week starts Monday).
+function x24Name(p,a,b,what){const P={d:"Day report - "+a,w:"Week report - "+a,m:"Month report - "+a.slice(0,7),y:"Year report - "+a.slice(0,4)};
+  return x24Clean(C.SHORT+" - "+(what?x24Clean(what)+" - ":"")+(P[p]||(a===b?P.d:"Report - "+a+" to "+b)))}
+const x24RpName=(def,D)=>x24Name(rp.p==="today"?"d":rp.p==="month"?"m":D.f===D.to?"d":"r",D.f,D.to,def.id==="xl"?"":x24En(def.title));
+const x24X22Name=D=>x24Name(D.p,D.a,D.b,"");
+function x24Dl(blob,name){const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),30000)}
+// picker first (it needs the fresh tap), then make the file. Cancel → nothing. No picker / picker error → normal download, same name.
+async function x24Save(name,kind,make){const fn=name+"."+kind;let h=null;
+  if(typeof window.showSaveFilePicker==="function"){try{h=await window.showSaveFilePicker({suggestedName:fn,types:[X24T[kind]],id:"tmc-fuel-reports"})}catch(e){if(e&&e.name==="AbortError")return {ok:false,cancel:true,name:fn};h=null}}
+  const blob=await make();
+  if(h){try{const w=await h.createWritable();await w.write(blob);await w.close();return {ok:true,how:"picker",name:h.name||fn,size:blob.size}}catch(e){}}
+  x24Dl(blob,fn);return {ok:true,how:"download",name:fn,size:blob.size}}
+let x24Last=null,x24Busy=false;
+function x24Go(btn,name,kind,make){if(x24Busy)return Promise.resolve(null);x24Busy=true;if(btn)btn.disabled=true;
+  return x24Save(name,kind,make).catch(e=>({ok:false,err:String(e&&e.message||e),name:name+"."+kind})).then(r=>{x24Last=r;x24Busy=false;if(btn)btn.disabled=false;return r})}
+function x24PrintAs(name,go){const old=document.title;let done=false;const back=()=>{if(done)return;done=true;document.title=old;window.removeEventListener("afterprint",back)};
+  document.title=name;window.addEventListener("afterprint",back);try{go()}finally{setTimeout(back,3000)}}
+let x24Logo=null;const x24LoadLogo=()=>{if(!x24Logo){x24Logo=new Image();x24Logo.src="icons/icon-192.png"}};
+const x24CanPdf=()=>{try{const c=document.createElement("canvas");c.width=c.height=2;return !!c.getContext("2d")&&c.toDataURL("image/jpeg").indexOf("data:image/jpeg")===0}catch(e){return false}};
+// ---- PDF: docs = [{title, sub, note, tables:[{cap,head,num,rows,open,foot,grid}], sign}] → A4 landscape pages
+function x24Pages(docs){const S=2,W=842,H=595,M=22,BOT=H-M-14,rtl=document.documentElement.dir==="rtl",RC=C.REPORT_COLOR||"#1B7F3B",
+  FF='system-ui,"Segoe UI",Roboto,"Noto Sans","Noto Sans Arabic","Noto Color Emoji",Arial,sans-serif',pages=[];let cv,cx,y=0,doc=null;
+  const font=(z,b)=>{cx.font=(b?"700 ":"400 ")+z+"px "+FF};
+  const X=(x,w)=>rtl?W-x-w:x;   // logical (left-to-right) box → page box
+  const txt=(s,x,w,al,pad)=>{s=String(s);pad=pad==null?3:pad;const mw=w-2*pad;if(mw<=0)return;if(cx.measureText(s).width>mw){while(s.length>1&&cx.measureText(s+"…").width>mw)s=s.slice(0,-1);s+="…"}
+    const bx=X(x,w),end=al==="end";cx.textAlign=(rtl?!end:end)?"right":"left";
+    // Arabic pages: numbers, dates and Latin names keep left-to-right order (no "250 549 2")
+    let dr=null;if(rtl){if(!/[\u0590-\u08FF\uFB50-\uFEFF]/.test(s)){dr="ltr"}else s=s.replace(/[0-9][0-9 .,:\/\-→–]*[0-9]|[0-9]/g,m=>"\u2066"+m+"\u2069")}
+    if(dr)try{cx.direction=dr}catch(e){}cx.fillText(s,(rtl?!end:end)?bx+w-pad:bx+pad,y);if(dr)try{cx.direction="rtl"}catch(e){}};
+  const page=()=>{cv=document.createElement("canvas");cv.width=W*S;cv.height=H*S;cx=cv.getContext("2d");cx.scale(S,S);cx.fillStyle="#fff";cx.fillRect(0,0,W,H);
+    try{cx.direction=rtl?"rtl":"ltr"}catch(e){}cx.textBaseline="middle";pages.push(cv);y=M;
+    if(x24Logo&&x24Logo.complete&&x24Logo.naturalWidth)try{cx.drawImage(x24Logo,X(M,26),y,26,26)}catch(e){}
+    font(15,1);cx.fillStyle=RC;y+=8;txt(C.SHORT+" · "+doc.title,M+30,W-2*M-30,"start",0);font(9.5);cx.fillStyle="#334155";y+=14;txt(doc.sub,M+30,W-2*M-30,"start",0);
+    y+=10;cx.fillStyle=RC;cx.fillRect(M,y,W-2*M,2.5);y+=10};
+  const need=h=>{if(y+h>BOT){page();return true}return false};
+  const wrap=(s,w)=>{const o=[];let l="";String(s).split(/\s+/).forEach(wd=>{const n=l?l+" "+wd:wd;if(l&&cx.measureText(n).width>w){o.push(l);l=wd}else l=n});if(l)o.push(l);return o};
+  const cell=c=>{const o=c&&typeof c==="object"?c:{v:c},v=o.v;return {s:typeof v==="number"?(isFinite(v)?String(r1(v)):""):String(v==null?"":v),ck:!!o.ck}};
+  const table=(tb,ix)=>{ix=ix||tb.head.map((_,i)=>i);const avail=W-2*M,rows=(tb.open?[tb.open]:[]).concat(tb.rows),all=rows.concat(tb.foot?[tb.foot]:[]);let fs=9,ws,tot;
+    const meas=f=>{ws=ix.map(i=>{font(f,1);let w=cx.measureText(String(tb.head[i])).width;font(f);all.forEach(r=>{const c=cell(r[i]);w=Math.max(w,cx.measureText(c.s).width+(c.ck?f*3.6:0))});return w+f*0.9});tot=ws.reduce((a,b)=>a+b,0)};
+    meas(fs);while(tot>avail&&fs>6){fs-=0.5;meas(fs)}ws=ws.map(w=>w*avail/tot);
+    const rh=Math.round(fs*1.8),xs=[];ws.reduce((x,w,i)=>(xs[i]=x,x+w),M);
+    const head=()=>{cx.fillStyle=RC;cx.fillRect(M,y,avail,rh);font(fs,1);cx.fillStyle="#fff";y+=rh/2;ix.forEach((i,j)=>txt(tb.head[i],xs[j],ws[j],tb.num[i]?"end":"start"));y+=rh/2};
+    const row=(r,k,ri)=>{if(need(rh))head();const bg=k==="f"?"#CDE3D4":ri%2?"#E8F3EC":"#fff";cx.fillStyle=bg;cx.fillRect(M,y,avail,rh);
+      ix.forEach((i,j)=>{const c=cell(r[i]);if(c.ck){cx.fillStyle="#fde68a";cx.fillRect(X(xs[j],ws[j]),y,ws[j],rh)}});
+      cx.fillStyle="#cfe5d6";cx.fillRect(M,y+rh-0.6,avail,0.6);y+=rh/2;
+      ix.forEach((i,j)=>{const c=cell(r[i]),bw=c.ck?fs*3.3:0;font(fs,k!=="b");cx.fillStyle=k==="f"?RC:"#0f172a";
+        if(c.s)txt(c.s,tb.num[i]?xs[j]:xs[j]+(rtl?0:0),ws[j]-(tb.num[i]?0:bw),tb.num[i]?"end":"start");
+        if(c.ck){const bx=X(xs[j]+ws[j]-bw-2,bw);cx.fillStyle="#dc2626";cx.fillRect(tb.num[i]?X(xs[j]+2,bw):bx,y-fs*0.6,bw,fs*1.2);font(fs*0.62,1);cx.fillStyle="#fff";cx.textAlign="center";cx.fillText("CHECK",(tb.num[i]?X(xs[j]+2,bw):bx)+bw/2,y)}});
+      y+=rh/2};
+    need((tb.cap?16:0)+rh*2+2);
+    if(tb.cap){font(10,1);cx.fillStyle=RC;y+=7;txt(tb.cap,M,avail,"start",0);y+=9}
+    head();if(!rows.length){row([t("x22None")].concat(ix.slice(1).map(()=>"")),"b",0)}else rows.forEach((r,ri)=>row(r,tb.open&&ri===0?"o":"b",ri));
+    if(tb.foot)row(tb.foot,"f",0);y+=10};
+  docs.forEach(d=>{doc=d;page();
+    if(d.note){font(10,1);const L=wrap(d.note,W-2*M-16),h=L.length*14+10;need(h);cx.fillStyle="#fff7ed";cx.fillRect(M,y,W-2*M,h);cx.fillStyle="#0f172a";y+=12;L.forEach(l=>{txt(l,M+8,W-2*M-16,"start",0);y+=14});y+=2}
+    d.tables.forEach(tb=>{const g=tb.grid;if(g&&g.n>16){const h=Math.ceil(g.n/2),f=[...Array(g.fixed).keys()],a=tb.head.map((_,i)=>i);table(tb,f.concat(a.slice(g.fixed,g.fixed+h)));table(Object.assign({},tb,{cap:""}),f.concat(a.slice(g.fixed+h)))}else table(tb)});
+    if(d.sign){need(84);const cw=(W-2*M-24)/3;["x22SgClerk","x22SgSite","x22SgAdm"].forEach((k,i)=>{const x=M+i*(cw+12),y0=y;cx.strokeStyle="#94a3b8";cx.lineWidth=0.6;cx.strokeRect(X(x,cw),y0,cw,78);
+      font(10,1);cx.fillStyle=RC;y=y0+10;txt(t(k),x+6,cw-12,"start",0);font(8);cx.fillStyle="#64748b";["x22SgBy","x22SgSig","x22SgDate"].forEach((s,n)=>{y=y0+30+n*20;txt(t(s),x+6,cw-12,"start",0);cx.fillStyle="#94a3b8";cx.fillRect(X(x+6,cw-12),y+6,cw-12,0.6);cx.fillStyle="#64748b"});y=y0});y+=84}});
+  const made=t("x22Made")+" · "+dayKey(Date.now())+" "+x22hm(Date.now());
+  pages.forEach((p,i)=>{cx=p.getContext("2d");font(8);cx.fillStyle="#64748b";y=H-M+2;txt(made,M,W/2,"start",0);txt((i+1)+" / "+pages.length,W/2,W/2-M,"end",0)});
+  return pages}
+function x24PdfBlob(pages,title){const W=842,H=595,enc=new TextEncoder(),parts=[],offs=[];let len=0;
+  const add=x=>{const b=typeof x==="string"?enc.encode(x):x;parts.push(b);len+=b.length};
+  const obj=(n,body)=>{offs[n]=len;add(n+" 0 obj\n");body.forEach(add);add("\nendobj\n")};
+  const hex=s=>"<FEFF"+[...String(s)].map(ch=>{let o="";for(let i=0;i<ch.length;i++)o+=ch.charCodeAt(i).toString(16).padStart(4,"0");return o}).join("").toUpperCase()+">";
+  const jp=cv=>{const b=atob(cv.toDataURL("image/jpeg",0.85).split(",")[1]),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u};
+  add("%PDF-1.4\n");add(new Uint8Array([37,226,227,207,211,10]));const n=pages.length,d=new Date(),p2=v=>String(v).padStart(2,"0");
+  obj(1,["<< /Type /Catalog /Pages 2 0 R >>"]);
+  obj(2,["<< /Type /Pages /Count "+n+" /Kids ["+pages.map((_,i)=>(4+3*i)+" 0 R").join(" ")+"] >>"]);
+  obj(3,["<< /Title "+hex(title)+" /Creator "+hex(C.NAME)+" /Producer (TMC Fuel app) /CreationDate (D:"+d.getFullYear()+p2(d.getMonth()+1)+p2(d.getDate())+p2(d.getHours())+p2(d.getMinutes())+p2(d.getSeconds())+") >>"]);
+  pages.forEach((cv,i)=>{const o=4+3*i,cs="q "+W+" 0 0 "+H+" 0 0 cm /Im0 Do Q",im=jp(cv);
+    obj(o,["<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+W+" "+H+"] /Resources << /XObject << /Im0 "+(o+2)+" 0 R >> >> /Contents "+(o+1)+" 0 R >>"]);
+    obj(o+1,["<< /Length "+cs.length+" >>\nstream\n"+cs+"\nendstream"]);
+    obj(o+2,["<< /Type /XObject /Subtype /Image /Width "+cv.width+" /Height "+cv.height+" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "+im.length+" >>\nstream\n",im,"\nendstream"])});
+  const xs=len,N=4+3*n;add("xref\n0 "+N+"\n0000000000 65535 f \n");for(let i=1;i<N;i++)add(String(offs[i]).padStart(10,"0")+" 00000 n \n");
+  add("trailer\n<< /Size "+N+" /Root 1 0 R /Info 3 0 R >>\nstartxref\n"+xs+"\n%%EOF\n");return new Blob(parts,{type:"application/pdf"})}
+const x24Pdf=(docs,title)=>x24PdfBlob(x24Pages(docs),title);
+const x24X22Docs=D=>{const P=x22Pages(D),sub=t("rpPeriod")+": "+D.label+" ("+(D.a===D.b?D.a:D.a+" → "+D.b)+")";return X22S.map(([id])=>({title:P[id].title,sub:sub,note:P[id].note,tables:P[id].tables,sign:P[id].sign}))};
+const x24RpDocs=(def,D)=>{const cs=def.cols,f=(c,v)=>c.num&&v!==""&&v!=null&&isFinite(+v)?fmtN(+v,c.d):(v==null?"":String(v));
+  return [{title:tx(def.title),sub:t("rpPeriod")+": "+(D.f===D.to?D.f:D.f+" → "+D.to),tables:[{head:cs.map(c=>tx(c.label)),num:cs.map(c=>!!c.num),rows:D.rows.map(r=>cs.map(c=>f(c,r[c.key]))),
+    foot:cs.map((c,i)=>i===0?tx(def.totalLabel||"rpTot"):c.sum?fmtN(D.tot[c.key],c.d):"")}]}]};
+// ---- buttons: base report screen (Excel · PDF · Print) and the 📗 Excel-tabs report (PDF · Excel · Print)
+{const bs=repScreenHTML;repScreenHTML=function(u){let h=bs(u);const pdf=id=>`<button type="button" class="rpPdf" id="${id}">${esc(t("x24Pdf"))}</button>`;
+  if(h.indexOf('id="x22Bar"')>=0){const m=h.match(/<button type="button" id="x22Print">[^<]*<\/button>/);if(m)h=h.replace(m[0],pdf("x22Pdf")).replace('<button type="button" class="sec rpBk" id="rpBack">',m[0]+'<button type="button" class="sec rpBk" id="rpBack">')}
+  else h=h.replace('<button type="button" class="sec" id="rpPrint">',pdf("rpPdf")+'<button type="button" class="sec" id="rpPrint">');return h}}
+{const bb=bindRep;bindRep=function(u){bb(u);const on=(id,fn)=>{const e=$(id);if(e)e.onclick=()=>fn(e)},cur=()=>REPORTS.length===1?REPORTS[0]:REPORTS.find(r=>r.id===rp.id);
+  if(!$("rpPdf")&&!$("x22Pdf"))return;x24LoadLogo();
+  if($("x22Bar")){const D=()=>x22Data(x22.p,x22.k);
+    on("x22Xls",b=>{const d=D();return x24Go(b,x24X22Name(d),"xlsx",()=>x22Xlsx(d).blob)});
+    on("x22Pdf",b=>{const d=D(),n=x24X22Name(d);if(!x24CanPdf())return x24PrintAs(n,()=>x22Print());return x24Go(b,n,"pdf",()=>x24Pdf(x24X22Docs(d),n))});
+    on("x22Print",()=>x24PrintAs(x24X22Name(D()),()=>x22Print()))}
+  else{on("rpXls",b=>{const d=cur();if(!d)return;const R=rpData(d);return x24Go(b,x24RpName(d,R),"xlsx",()=>repXlsx(d,R).blob)});
+    on("rpPdf",b=>{const d=cur();if(!d)return;const R=rpData(d),n=x24RpName(d,R);if(!x24CanPdf())return x24PrintAs(n,()=>window.print());return x24Go(b,n,"pdf",()=>x24Pdf(x24RpDocs(d,R),n))});
+    on("rpPrint",()=>{const d=cur();x24PrintAs(d?x24RpName(d,rpData(d)):C.NAME,()=>window.print())})}}}
+// ---- Fuel → Reports page: 📄 CSV export gets the same Save-as window + clear name
+{const bw=bindWork;bindWork=function(u){bw(u);const c=$("prCsv");if(!c)return;
+  c.onclick=()=>{const r=periodReport(rpS.p,rpS.k,rpS.vid),v=rpS.vid?vehs().find(x=>x.id===rpS.vid):null;return x24Go(c,x24Name(rpS.p,r.a,r.b,v?v.fleet:""),"csv",()=>new Blob([periodCSV(r)],{type:"text/csv"}))}}}
+Object.assign(window.TMC.fuel,{x24Name:x24Name,x24RpName:x24RpName,x24X22Name:x24X22Name,x24Save:x24Save,x24Pdf:x24Pdf,x24Pages:x24Pages,x24X22Docs:x24X22Docs,x24RpDocs:x24RpDocs,x24Last:()=>x24Last});
 
 
 render();
