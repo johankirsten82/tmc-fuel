@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER":26,
+ "VER":27,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=26">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=26">
+<link rel="icon" href="icons/favicon-32.png?v=27">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=27">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -134,6 +134,7 @@ nav.tabs button .ticon{font-size:28px}nav.tabs button.on{color:var(--c);backgrou
 .st{font-size:14px;border-radius:8px;padding:2px 8px;background:#e2e8f0}.st.pending{background:#fef3c7}.mainP{display:block;margin:6px 0;padding:10px 12px;border-radius:10px;background:#dbeafe;color:#1e3a8a;font-size:17px;font-weight:600}.st.blocked,.st.rejected{background:#fee2e2}.st.active{background:#dcfce7}
 .insB{background:#16a34a;font-size:22px;min-height:66px}.insH{background:#f1f5f9;border-radius:12px;padding:10px;font-weight:600;margin:6px 0}
 .phPick{display:flex;gap:8px}.phPick label{flex:1;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center;background:var(--c);color:#fff;border-radius:10px;font-weight:700;font-size:17px;padding:6px;margin:6px 0;cursor:pointer}.phPick label.alt{background:#fff;color:var(--c);border:2px solid var(--c)}.phPick input{display:none}.phPrev{max-width:100%;border-radius:10px;margin-top:6px}
+.phView{display:block;width:100%;min-height:60px;font-size:19px;font-weight:700;margin:6px 0}.phOv{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;gap:10px}.phOv img{max-width:100%;max-height:80vh;object-fit:contain;background:#fff}.phOv .phMsg{color:#fff;font-size:20px;text-align:center}.phOv button{min-height:60px;font-size:20px;width:100%;max-width:420px}
 .rep{width:100%;border-collapse:collapse;font-size:17px;margin:6px 0}.rep th{background:var(--rc);color:#fff;text-align:left;padding:12px 10px}.rep td{padding:12px 10px;border-bottom:1px solid #d1e7d8}.rep tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--rc) 10%,#fff)}.rep tfoot td{background:color-mix(in srgb,var(--rc) 22%,#fff);color:var(--rc);font-weight:800;border-top:3px solid var(--rc)}.repH{background:var(--rc);color:#fff;border-radius:10px;padding:12px;font-weight:800;font-size:19px;margin:6px 0}
 .modal{position:fixed;inset:0;background:#0008;display:flex;align-items:center;justify-content:center;z-index:20;padding:16px}
 .dsc h2{color:#b91c1c}.dsc button{min-height:60px;font-size:20px}
@@ -352,7 +353,7 @@ function syncNow(){
     else if(j.refused&&j.refusedWhy==="admin_only_fix"){Object.keys(sent).forEach(k=>{if(k.indexOf("u:")!==0&&!dirty[k])force[k]=1});L.set("since","0");toast(t("fixRef"));syncSoon(200)}
     return true})
   .catch(e=>{fails++;sState="err";netBad=true;syncSoon(navigator.onLine?Math.min(120000,5000*Math.pow(2,fails-1)):60000);return false})
-  .then(ok=>{busy=null;paintSync();try{onData()}catch(e){console.warn(e)}if(ok&&pending())syncSoon(300);return ok});
+  .then(ok=>{busy=null;paintSync();if(ok)phSoon(1000);try{onData()}catch(e){console.warn(e)}if(ok&&pending())syncSoon(300);return ok});
   return busy;
 }
 /* Restore a backup: MERGES records only. Never removes users or any record; a backup with no users keeps the current users. */
@@ -381,7 +382,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=26" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=27" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -394,7 +395,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=26" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=27" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -417,7 +418,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=26" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=27" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -512,15 +513,65 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=26" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=27" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
    photoHTML(id) -> HTML; bindPhoto(id, cb) -> cb(dataUrl) after resize/compress (max 1280px, JPEG 0.7). */
 function photoHTML(id){return `<div class="phPick" id="${id}"><label class="phCam"><input type="file" accept="image/*" capture="environment" data-ph="${id}">${esc(t("phTake"))}</label><label class="alt phGal"><input type="file" accept="image/*" data-ph="${id}">${esc(t("phPick"))}</label></div>`}
 function shrinkPhoto(file,max,q){return new Promise((ok,no)=>{const r=new FileReader();r.onerror=no;r.onload=()=>{const im=new Image();im.onerror=no;im.onload=()=>{const k=Math.min(1,(max||1280)/Math.max(im.width,im.height));const c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);ok(c.toDataURL("image/jpeg",q||0.7))};im.src=r.result};r.readAsDataURL(file)})}
-function bindPhoto(id,cb){document.querySelectorAll(`input[data-ph="${id}"]`).forEach(i=>i.onchange=()=>{const f=i.files&&i.files[0];if(!f)return;window.TMC.lastPhotoFrom=i.hasAttribute("capture")?"camera":"phone";shrinkPhoto(f).then(cb).catch(()=>{});i.value=""})}
+function bindPhoto(id,cb){document.querySelectorAll(`input[data-ph="${id}"]`).forEach(i=>i.onchange=()=>{const f=i.files&&i.files[0];if(!f)return;window.TMC.lastPhotoFrom=i.hasAttribute("capture")?"camera":"phone";phSmall(f).then(cb).catch(()=>{});i.value="";if(0)shrinkPhoto(f).then(cb).catch(()=>{});i.value=""})}
 window.TMC.photoHTML=photoHTML;window.TMC.bindPhoto=bindPhoto;window.TMC.shrinkPhoto=shrinkPhoto;
+/* ---- VER 9 PHOTOS TO DRIVE (Johan 1 Nov 2026) ----
+   Photo is made small on the phone (max 800px, JPEG ~0.5, aim 50-100 KB, digits still readable), kept in THIS app's own
+   on-phone queue (IndexedDB "<APP_ID>_photos") until the upload worked, then sent to the app's own Drive folder (made by its
+   own Code.gs). The server adds a "pl" record (link only) that syncs to every phone; the Sheet shows the Drive link.
+   Offline = it waits and retries. Old photos: TMC.phBackfill([{id,d,at,ref}]) sends them in small batches (2 at a time),
+   skipping any older than 2 months. Admin: TMC.phBtn(id) = big "View photo" button. Server deletes photos older than 2 months daily.
+   TMC.phKeep(dataUrl,ref[,id[,at]]) -> photo id (put that id in your record). TMC.phState(id) -> drive|removed|phone|none. */
+Object.assign(T.en,{phView:"🖼️ View photo",phGone:"Photo removed (older than 2 months)",phWait:"Photo not sent yet (still on the phone)",phClose:"✖ Close",phLoad:"Loading photo…",phNo:"Photo not found."});
+Object.assign(T.fr,{phView:"🖼️ Voir la photo",phGone:"Photo supprimée (plus de 2 mois)",phWait:"Photo pas encore envoyée (encore sur le téléphone)",phClose:"✖ Fermer",phLoad:"Chargement de la photo…",phNo:"Photo introuvable."});
+Object.assign(T.ar,{phView:"🖼️ عرض الصورة",phGone:"تم حذف الصورة (أقدم من شهرين)",phWait:"الصورة لم تُرسل بعد (ما زالت على الهاتف)",phClose:"✖ إغلاق",phLoad:"جارٍ تحميل الصورة…",phNo:"الصورة غير موجودة."});
+const PH_DAYS=60,PH_MAX=800,PH_Q=0.5,PH_AIM=136000;   // 136000 base64 chars ≈ 100 KB
+let phDbP=null;
+function phDb(){return phDbP||(phDbP=new Promise((ok,no)=>{try{const r=indexedDB.open(P+"photos",1);r.onupgradeneeded=()=>r.result.createObjectStore("q",{keyPath:"id"});r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)}catch(e){no(e)}}))}
+function phTx(mode,f){return phDb().then(db=>new Promise((ok,no)=>{const tx=db.transaction("q",mode),s=tx.objectStore("q");let out;const r=f(s);if(r)r.onsuccess=()=>{out=r.result};tx.oncomplete=()=>ok(out);tx.onerror=()=>no(tx.error)}))}
+const phQ={all:()=>phTx("readonly",s=>s.getAll()).then(a=>a||[]),get:id=>phTx("readonly",s=>s.get(id)),put:o=>phTx("readwrite",s=>s.put(o)),del:id=>phTx("readwrite",s=>s.delete(id))};
+const phOld=at=>Date.now()-(Date.parse(at)||Date.now())>PH_DAYS*864e5;
+const phRec=id=>{const r=R["pl:"+id];return r&&!r.del?r.data:null};
+function phState(id){const d=phRec(id);return d?(d.removed?"removed":"drive"):(phLocal[id]?"phone":"none")}
+const phLocal={};   // ids waiting in this phone's queue (filled from IndexedDB at start)
+function phSmall(file){return shrinkPhoto(file,PH_MAX,PH_Q).then(d=>d.length<=PH_AIM?d:shrinkPhoto(file,PH_MAX,0.4)).then(d=>d.length<=PH_AIM?d:shrinkPhoto(file,PH_MAX,0.3))}
+function phKeep(d,ref,id,at){id=String(id||("ph"+Date.now()+Math.random().toString(36).slice(2,6)));phLocal[id]=1;
+  phQ.put({id:id,d:String(d),at:at||new Date().toISOString(),ref:String(ref||"").slice(0,80)}).then(()=>phSoon(300)).catch(e=>console.warn(e));return id}
+function phBackfill(list){return phQ.all().then(q=>{const have={};q.forEach(o=>have[o.id]=1);let n=0;
+  (list||[]).forEach(o=>{if(!o||!o.id||!o.d||have[o.id]||phRec(o.id)||phOld(o.at))return;phKeep(o.d,o.ref,o.id,o.at);n++});return n}).catch(()=>0)}
+let phBusy=false,phTmr=null,phFails=0;
+function phSoon(ms){clearTimeout(phTmr);phTmr=setTimeout(phPump,ms==null?2000:ms)}
+function phPump(){if(phBusy||!syncOn()||!navigator.onLine)return Promise.resolve(0);if(tokMode()&&!sTok())return Promise.resolve(0);phBusy=true;let sent=0;
+  return phQ.all().then(q=>{q.sort((a,b)=>String(a.at).localeCompare(String(b.at)));
+    const go=q.slice(0,2);   // small batches: 2 photos, then a pause
+    return go.reduce((p,o)=>p.then(()=>{if(phOld(o.at)||phRec(o.id)){delete phLocal[o.id];return phQ.del(o.id)}
+      return api({action:"photo",token:sTok()||undefined,code:sTok()?undefined:(sCode()||undefined),id:o.id,d:o.d,at:o.at,ref:o.ref}).then(j=>{
+        if(j&&j.ok){sent++;delete phLocal[o.id];return phQ.del(o.id)}                         // only now the phone copy goes
+        if(j&&/^(bad_photo|bad_id|too_big)$/.test(j.error||"")){delete phLocal[o.id];return phQ.del(o.id)}
+        throw new Error(j&&j.error||"photo")})}),Promise.resolve()).then(()=>q.length-go.length)})
+  .then(left=>{phBusy=false;phFails=0;if(sent)syncSoon(200);if(left>0)phSoon(15000);return sent})
+  .catch(e=>{phBusy=false;phFails++;phSoon(Math.min(300000,15000*Math.pow(2,phFails-1)));return sent})}
+phQ.all().then(q=>{q.forEach(o=>phLocal[o.id]=1);if(q.length)phSoon(5000)}).catch(()=>{});
+addEventListener("online",()=>phSoon(1500));
+function phBtn(id){const u=me();if(!id||!u||!u.admin)return "";const s=phState(id);
+  if(s==="removed")return `<p class="hint phGone">${esc(t("phGone"))}</p>`;
+  return `<button type="button" class="phView" data-phv="${esc(id)}">${esc(t("phView"))}</button>`}
+function phShow(src,msg){let o=document.getElementById("phOv");if(!o){o=document.createElement("div");o.id="phOv";o.className="phOv";document.body.appendChild(o)}
+  o.innerHTML=`${src?`<img alt="" src="${esc(src)}">`:`<p class="phMsg">${esc(msg||"")}</p>`}<button type="button" id="phOvX">${esc(t("phClose"))}</button>`;$("phOvX").onclick=()=>o.remove()}
+function phView(id){const u=me();if(!u||!u.admin)return Promise.resolve(false);
+  return phQ.get(id).catch(()=>null).then(o=>{if(o&&o.d){phShow(o.d);return true}const d=phRec(id);
+    if(d&&d.removed){phShow("",t("phGone"));return false}if(window.TMC.phLocalGet){const x=window.TMC.phLocalGet(id);if(x){phShow(x);return true}}
+    if(!d){phShow("",t("phWait"));return false}phShow("",t("phLoad"));
+    return api({action:"photoget",token:sTok()||undefined,id:id}).then(j=>{if(j&&j.ok&&j.d){phShow(j.d);return true}phShow("",t(j&&j.error==="photo_removed"?"phGone":"phNo"));return false},()=>{phShow("",t("ncT"));return false})})}
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("[data-phv]");if(b){e.preventDefault();phView(b.getAttribute("data-phv"))}});
+window.TMC.phKeep=phKeep;window.TMC.phBackfill=phBackfill;window.TMC.phPump=phPump;window.TMC.phState=phState;window.TMC.phBtn=phBtn;window.TMC.phView=phView;window.TMC.phSmall=phSmall;window.TMC.phQueue=()=>phQ.all();window.TMC.PH_DAYS=PH_DAYS;
 /* ---- REPORT: green company table (CONFIG REPORT_COLOR). rows=[[label,value],...] ---- */
 function reportHTML(title,rows){const tot=rows.reduce((a,r)=>a+(+r[1]||0),0);return `<div class="repH">📊 ${esc(title)}</div><table class="rep"><thead><tr><th>${esc(t("rpItem"))}</th><th>${esc(t("rpQty"))}</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</tbody><tfoot><tr><td>${esc(t("rpTot"))}</td><td>${tot}</td></tr></tfoot></table>`}
 window.TMC.reportHTML=reportHTML;
@@ -887,12 +938,13 @@ function fromHTML(){const T=tanks();const c=fs.tk||"";
 function bmHTML(){const T=fs.tk?tkById(fs.tk):null,lp=T?pumpAt(T.id,Date.now()):null;
   return `<label class="fl big2" for="fuBM">${esc(t("pmRead"))}</label><input id="fuBM" class="num big2" type="text" inputmode="decimal" autocomplete="off" value="${esc(fs.bm||"")}">
   <p class="x26W" id="fuSame" role="alert"${x26Same(fs.l,fs.bm)?"":' style="display:none"'}>${esc(t("x26W"))}</p>
+  <p class="x26W" id="fuExp" role="alert"${x27Exp()?"":' style="display:none"'}>${esc(x27Exp())}</p>
   <p class="hint" id="fuBMH">${esc(t("pmReadH"))}<br><b>${T?(lp?esc(tr("pmLast",tkN(T),fmt(lp.m))):esc(t("pmLast0"))):esc(t("pmPickTk"))}</b></p>`}
-function refreshFill(){const b=$("fuSave");if(b)b.disabled=!canSave(fs);const sm=$("fuSame");if(sm)sm.style.display=x26Same(fs.l,fs.bm)?"":"none";const w=$("fuWarn");if(w)w.outerHTML=warnBox(curWarn())}
+function refreshFill(){const b=$("fuSave");if(b)b.disabled=!canSave(fs);const sm=$("fuSame");if(sm)sm.style.display=x26Same(fs.l,fs.bm)?"":"none";const ex=$("fuExp");if(ex){const m=x27Exp();ex.textContent=m;ex.style.display=m?"":"none"}const w=$("fuWarn");if(w)w.outerHTML=warnBox(curWarn())}
 function bindWork(u){
   const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
   document.querySelectorAll("[data-vid]").forEach(b=>b.onclick=()=>{fs={vid:b.dataset.vid};fv="fill";render();scrollTo(0,0)});
-  const photo=(id,cb)=>{const i=$(id);if(i)i.onchange=async()=>{const f=i.files&&i.files[0];if(!f)return;try{cb(await shrink(f,/^veP/.test(id)?320:480))}catch(e){console.warn(e)}render()}};
+  const photo=(id,cb)=>{const i=$(id);if(i)i.onchange=async()=>{const f=i.files&&i.files[0];if(!f)return;try{cb(await(/^veP/.test(id)?shrink(f,320):phSmall(f)))}catch(e){console.warn(e)}render()}};
   photo("fuP1",d=>fs.p1=d);photo("fuP1G",d=>fs.p1=d);photo("fuP2G",d=>fs.p2=d);photo("dlPG",d=>dl.p=d);photo("xfPG",d=>xf.p=d);photo("fuP2",d=>fs.p2=d);photo("dlP",d=>dl.p=d);photo("xfP",d=>xf.p=d);photo("vePh",d=>{rv();ve._ph=d});photo("vePhG",d=>{rv();ve._ph=d});
   const inp=(id,k,o)=>{const e=$(id);if(e)e.oninput=()=>{o[k]=e.value;if(o===fs)refreshFill();else if(o===xf)refreshXf();else{const s=$("dlSave");if(s)s.disabled=!(num(dl.l)>0);refreshDl()}}};
   inp("fuM","m",fs);inp("fuL","l",fs);inp("fuBM","bm",fs);inp("dlL","l",dl);inp("dlN","n",dl);inp("xfR1","r1",xf);inp("xfR2","r2",xf);inp("xfR3","r3",xf);inp("xfR4","r4",xf);inp("xfN","n",xf);
@@ -900,10 +952,10 @@ function bindWork(u){
   on("fuSave",()=>{if(!canSave(fs))return;const v=vehs().find(x=>x.id===fs.vid),at=Date.now(),pr=lastFill(v.id,at),tk=fs.tk,W=curWarn(at),lm=pumpAt(tk,at),pw=W.find(w=>w.k==="wPmMis"||w.k==="wBmBack");
     const id="f"+at+Math.random().toString(36).slice(2,5);
     put("f",id,{id:id,vid:v.id,fleet:v.fleet,meter:num(fs.m),unit:isH(v)?"h":"km",litres:num(fs.l),at:at,date:new Date(at).toISOString(),by:u.name,
-      p1:savePh(fs.p1),p2:savePh(fs.p2),prev:pr?num(pr.meter):null,warn:W.map(w=>w.k),flag:W.length?1:0,tk:tk,bm:num(fs.bm),bm0:lm?lm.m:null,
+      p1:phKeep(fs.p1,"fill meter "+(v.fleet||"")),p2:phKeep(fs.p2,"fill pump "+(v.fleet||"")),prev:pr?num(pr.meter):null,warn:W.map(w=>w.k),flag:W.length?1:0,tk:tk,bm:num(fs.bm),bm0:lm?lm.m:null,
       ...(pw?{chk:1,chkOk:0,pmExp:pw.e,chkWhy:tr(pw.k,pw.a,pw.b)}:{})});
     fs={};fv="menu";flash=t("savedFill")+(W.length?"  ⚠️"+W.length:"");pushReports();render();scrollTo(0,0)});
-  on("dlSave",()=>{if(!(num(dl.l)>0))return;const at=Date.now(),id="d"+at,tk=dl.tk||"main",W=tankWarn(tk,num(dl.l),null,null,null,at);put("d",id,{id:id,litres:num(dl.l),note:clean(dl.n),at:at,date:new Date(at).toISOString(),by:u.name,p:dl.p?savePh(dl.p):"",tk:tk,warn:W.map(w=>w.k)});dl={};flash=t("sv")+(W.length?"  ⚠️"+W.length:"");tkv=tk;pushReports();render()});
+  on("dlSave",()=>{if(!(num(dl.l)>0))return;const at=Date.now(),id="d"+at,tk=dl.tk||"main",W=tankWarn(tk,num(dl.l),null,null,null,at);put("d",id,{id:id,litres:num(dl.l),note:clean(dl.n),at:at,date:new Date(at).toISOString(),by:u.name,p:dl.p?phKeep(dl.p,"delivery"):"",tk:tk,warn:W.map(w=>w.k)});dl={};flash=t("sv")+(W.length?"  ⚠️"+W.length:"");tkv=tk;pushReports();render()});
   bindTanks(u);
   document.querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{if(!confirm(t("delQ")))return;const p=b.dataset.rm.split(":");remove(p[0],p.slice(1).join(":"));pushReports();render()});
   on("vAdd",()=>{ve={mt:"km",active:true};fv="vedit";render()});
@@ -919,7 +971,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=26" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=27" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -986,8 +1038,8 @@ const baseBindD=bindWork;bindWork=function(u){baseBindD(u);
   const dD=$("dyD");if(dD)dD.onchange=()=>setDay(dD.value);
   const dP=$("dyDPrev");if(dP)dP.onclick=()=>setDay(shiftDay(dy.day||dayKey(Date.now()),-1));
   const dN=$("dyDNext");if(dN)dN.onclick=()=>setDay(shiftDay(dy.day||dayKey(Date.now()),1));
-  ["dyP","dyPG"].forEach(id=>{const pi=$(id);if(pi)pi.onchange=async()=>{const f=pi.files&&pi.files[0];if(!f)return;try{dy.p=await shrink(f,480)}catch(e){}render()}});
-  const s=$("dySave");if(s)s.onclick=()=>{if(!(num(dy.m)>=0))return;if(!saveDaily(dy.vid,dy.m,u.name,dy.p?savePh(dy.p):"",dy.day))return;dy={};flash=t("dlySaved");fv="daily";render();scrollTo(0,0)};
+  ["dyP","dyPG"].forEach(id=>{const pi=$(id);if(pi)pi.onchange=async()=>{const f=pi.files&&pi.files[0];if(!f)return;try{dy.p=await phSmall(f)}catch(e){}render()}});
+  const s=$("dySave");if(s)s.onclick=()=>{if(!(num(dy.m)>=0))return;if(!saveDaily(dy.vid,dy.m,u.name,dy.p?phKeep(dy.p,"daily "+dy.vid):"",dy.day))return;dy={};flash=t("dlySaved");fv="daily";render();scrollTo(0,0)};
   const pr=$("dyPrev");if(pr)pr.onclick=()=>{dday=shiftDay(dday,-1);render()};
   const nx=$("dyNext");if(nx)nx.onclick=()=>{dday=shiftDay(dday,1);render()};
   if(fv==="daily"||fv==="dtab")document.querySelectorAll("[data-fv=dtab]").forEach(b=>b.addEventListener("click",()=>{dday=dayKey(Date.now())}))};
@@ -1112,7 +1164,7 @@ function bindTanks(u){const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
   document.querySelectorAll("[data-tmo]").forEach(b=>b.onclick=()=>{rd();te.mobile=b.dataset.tmo==="1";render()});
   on("teSave",()=>{rd();if(!te.name)return err(t("tkNeed"));const o={id:te.id||"t"+Date.now(),name:te.name,cap:te.cap,meter:!!te.meter,mobile:!!te.mobile,by:u.name,at:new Date().toISOString()};put("st",o.id,o);te=null;fv="tank";pushReports();render()});
   on("xfSave",()=>{if(!xfOk())return;const at=Date.now(),id="tx"+at,W=xfWarn(),l=xfLit(),r4=hasNum(xf.r4)?num(xf.r4):null,mis=W.find(w=>w.k==="wXfMis");
-    const o={id:id,v:19,from:xf.from,to:xf.to,litres:l,m1:num(xf.r1),m2:num(xf.r3),mtk:xf.from,tm1:num(xf.r2),tm2:r4,note:clean(xf.n||""),at:at,date:new Date(at).toISOString(),by:u.name,p:xf.p?savePh(xf.p):"",warn:W.map(w=>w.k)};
+    const o={id:id,v:19,from:xf.from,to:xf.to,litres:l,m1:num(xf.r1),m2:num(xf.r3),mtk:xf.from,tm1:num(xf.r2),tm2:r4,note:clean(xf.n||""),at:at,date:new Date(at).toISOString(),by:u.name,p:xf.p?phKeep(xf.p,"transfer"):"",warn:W.map(w=>w.k)};
     if(mis)Object.assign(o,{chk:1,chkOk:0,chkWhy:"wXfMis",pmExp:Math.round((num(xf.r2)+l)*100)/100});
     put("tx",id,o);tkv=xf.to;xf={};flash=t("sv")+(W.length?"  ⚠️"+W.length:"");pushReports();render()})}
 
@@ -1370,6 +1422,7 @@ async function wipe(){
 }
 // Deletes ONLY this app's keys, caches and service worker. Other TMC apps are untouched.
 async function wipeThisApp(){
+  try{if(phDbP){(await phDbP).close();phDbP=null}await new Promise(r=>{const q=indexedDB.deleteDatabase(P+"photos");q.onsuccess=q.onerror=q.onblocked=()=>r()})}catch(e){}  // VER 9: only THIS app's photo queue
   Object.keys(localStorage).filter(k=>k.indexOf(P)===0).forEach(k=>localStorage.removeItem(k));
   try{const ks=await caches.keys();await Promise.all(ks.filter(k=>k.indexOf(CACHE_PREFIX)===0).map(k=>caches.delete(k)))}catch(e){}
   try{const rg=await navigator.serviceWorker.getRegistration("./");if(rg&&new URL(rg.scope).href===new URL("./",location.href).href)await rg.unregister()}catch(e){}
@@ -1473,7 +1526,7 @@ function pumpScan(tol){tol=tol==null?pmTol():tol;const out=[];
   return out}
 let pe=null;
 function pmHTML(){const T=tanks(),P=pumpScan(),G={};P.forEach(r=>(G[r.tk]=G[r.tk]||[]).push(r));
-  const row=r=>`<div class="mv ck" data-pmr="${esc(r.id)}"><span class="n" style="flex:1 1 100%">${esc(r.day)} ${esc(hm(new Date(r.at)))} · <b>${esc(vName(r.vid))}</b><br>⛽ ${esc(fmt(r.litres))} L · 🔢 ${r.bm==null?"—":esc(fmt(r.bm))} <small class="hint">${esc(t("pmPrev"))}: ${r.prev==null?"—":esc(fmt(r.prev))}</small><br><span class="ckb">${esc(t(r.why.k).replace("%a",r.why.a||"").replace("%b",r.why.b||""))}</span>${r.same&&r.why.k!=="x26Ck"?` <span class="ckb x26S">${esc(t("x26Ck"))}</span>`:""}</span><div class="pmBtns"><button type="button" class="ebtn" data-pmf="${esc(r.id)}">${esc(t("pmFix"))}</button>${r.gap>0?`<button type="button" class="ebtn" data-pmm="${esc(r.id)}">${esc(t("pmMissB"))}</button>`:""}<button type="button" class="sec ebtn" data-pmc="${esc(r.id)}">${esc(t("ckMark"))}${recOf("f",r.id)&&recOf("f",r.id).chk?" ✔":""}</button></div></div>`;
+  const row=r=>`<div class="mv ck" data-pmr="${esc(r.id)}"><span class="n" style="flex:1 1 100%">${esc(r.day)} ${esc(hm(new Date(r.at)))} · <b>${esc(vName(r.vid))}</b><br>⛽ ${esc(fmt(r.litres))} L · 🔢 ${r.bm==null?"—":esc(fmt(r.bm))} <small class="hint">${esc(t("pmPrev"))}: ${r.prev==null?"—":esc(fmt(r.prev))}</small><br><span class="ckb">${esc(t(r.why.k).replace("%a",r.why.a||"").replace("%b",r.why.b||""))}</span>${r.same&&r.why.k!=="x26Ck"?` <span class="ckb x26S">${esc(t("x26Ck"))}</span>`:""}${x27Off(r)?` <span class="ckb x26S x27E">${esc(t("x27Ck").replace("%a",x27N(x27Off(r))))}</span>`:""}</span><div class="pmBtns"><button type="button" class="ebtn" data-pmf="${esc(r.id)}">${esc(t("pmFix"))}</button>${r.gap>0?`<button type="button" class="ebtn" data-pmm="${esc(r.id)}">${esc(t("pmMissB"))}</button>`:""}<button type="button" class="sec ebtn" data-pmc="${esc(r.id)}">${esc(t("ckMark"))}${recOf("f",r.id)&&recOf("f",r.id).chk?" ✔":""}</button></div></div>`;
   return `${flash?`<div class="ok2">${esc(flash)}</div>`:""}<div class="box" id="pmBox"><h2>${esc(t("pmT"))} (${P.length})</h2><label class="fl" for="pmTol">${esc(t("pmTol"))}</label><input id="pmTol" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(pmTol())}">
   ${!T.length?`<p class="hint">${esc(t("pmNoTk"))}</p>`:!P.length?`<p class="ok2">${esc(t("pmNone"))}</p>`:T.filter(x=>G[x.id]).map(x=>`<div class="pmTk" data-pmtk="${esc(x.id)}"><h3>${x.mobile?"🚚":"🛢️"} ${esc(tkN(x))} (${G[x.id].length})</h3>${G[x.id].map(row).join("")}</div>`).join("")}
   <button type="button" id="pmDone">${esc(t("pmDone"))}</button></div>`}
@@ -1589,7 +1642,7 @@ function fbHTML(){const T=tanks();if(dl.l==null)dl.l="1000";if(!dl.sup)dl.sup="k
   <label class="pbtn${dl.p?" ok":""}" style="min-height:70px;margin-top:8px">${dl.p?`<img src="${esc(dl.p)}" alt="" style="height:70px">`:esc(t("fbPh"))}<input type="file" id="dlP" accept="image/*" capture="environment"></label><label class="pbtn pgal" style="min-height:60px;margin-top:8px">${esc(t("phGal"))}<input type="file" id="dlPG" accept="image/*"></label>
   ${dl.p?"":`<p class="flag" id="fbNeedP">${esc(t("fbNeedP"))}</p>`}<div id="dlWarn">${l>0?warnBox(tankWarn(dl.tk||"main",l)).replace('id="fuWarn"',''):""}</div>${g?`<button type="button" class="sec fbBig" id="dlDone">${esc(t("fbDone"))}</button>`:""}<button type="button" class="fbBig" id="dlSave" ${ok?"":"disabled"}>${esc(g?t("fbMore").replace("%n",n+" · "+fmt(l>0?l:0)+" L"):t("fbSave")+" · "+fmt(l>0?l:0)+" L")}</button></div>`}
 function saveFlowbin(u){u=u||me();const l=num(dl.l);if(!u||!(l>0)||!dl.p||(dl.sup==="other"&&!clean(dl.n)))return null;const at=Date.now(),id="d"+at+Math.random().toString(36).slice(2,4),tk=dl.tk||"main",W=tankWarn(tk,l,null,null,null,at),grp=dl.grp||"g"+at,fb=(dl.fb||0)+1;
-  if(put("d",id,{id:id,litres:l,note:supLab(dl),sup:dl.sup==="other"?"other":"kouri",supN:dl.sup==="other"?clean(dl.n):"",grp:grp,fb:fb,at:at,date:new Date(at).toISOString(),by:u.name,p:savePh(dl.p),tk:tk,warn:W.map(w=>w.k)})===false)return null;
+  if(put("d",id,{id:id,litres:l,note:supLab(dl),sup:dl.sup==="other"?"other":"kouri",supN:dl.sup==="other"?clean(dl.n):"",grp:grp,fb:fb,at:at,date:new Date(at).toISOString(),by:u.name,p:dl.p?phKeep(dl.p,"delivery"):"",tk:tk,warn:W.map(w=>w.k)})===false)return null;
   dl={tk:tk,sup:dl.sup,n:dl.n,grp:grp,fb:fb,tot:r1((dl.tot||0)+l),l:"1000"};tkv=tk;pushReports();return {id:id,fb:fb,tot:dl.tot,warn:W}}
 {const bt=tankHTML;tankHTML=function(u,fl){const h=bt(u,fl);return h.replace(/<div class="box"><h3>(?:(?!<div class="box").)*?id="dlSave"[^>]*>[^<]*<\/button><\/div>/s,()=>fbHTML())}}
 
@@ -2028,6 +2081,47 @@ Object.assign(T.ar,{x26W:"⚠️ نفس رقم اللترات؟ اكتب الع�
 {const st=document.createElement("style");st.textContent=".x26W{color:#b91c1c;background:#fee2e2;border:3px solid #dc2626;border-radius:12px;padding:10px 12px;font-size:20px;font-weight:800;margin:4px 0 8px}.ckb.x26S{background:#dc2626}";document.head.appendChild(st)}
 Object.assign(window.TMC.fuel,{x26Same:x26Same});
 
+
+/* ---- v27: photos to Drive (base VER 9). Fill-up / delivery / transfer / daily photos go to the app's own Drive folder
+   (kept on the phone until sent). Admin: big "🖼️ View photo" buttons in Check & edit and on the report pages.
+   Old photos still in this phone's storage are sent in small batches (2 months max). Vehicle icons stay as before. ---- */
+Object.assign(T.en,{x27M:"meter",x27P:"pump"});Object.assign(T.fr,{x27M:"compteur",x27P:"pompe"});Object.assign(T.ar,{x27M:"العداد",x27P:"المضخة"});
+{const st=document.createElement("style");st.textContent=".x27Ph{flex:1 1 100%;display:flex;flex-wrap:wrap;gap:6px}.x27Ph .phView{flex:1 1 140px;width:auto}table.x22t td.x27c{padding:4px 6px;min-width:150px}table.x22t td.x27c .phView{min-height:56px;font-size:17px;margin:2px 0}@media print{.x27Ph,td.x27c,th.x27c,.phView{display:none!important}}";document.head.appendChild(st)}
+window.TMC.phLocalGet=id=>{const r=R["ph:"+id];return r&&!r.del&&r.data&&r.data.d?r.data.d:null};
+const x27Ids=(k,d)=>!d?[]:k==="f"?[[d.p1,"x27M"],[d.p2,"x27P"]]:k==="dy"?[[d.ph,"x27M"]]:(k==="d"||k==="tx")?[[d.p,""]]:[];
+function x27Btns(k,d){const h=x27Ids(k,d).filter(p=>p[0]).map(p=>{const b=phBtn(p[0]);return p[1]&&b.indexOf("data-phv")>0?b.replace(esc(t("phView")),esc(t("phView")+" ("+t(p[1])+")")):b}).join("");return h?`<div class="x27Ph">${h}</div>`:""}
+let x27Last=0;
+function x27Back(force){const u=me();if(!u||!syncOn()||(!force&&Date.now()-x27Last<600000))return Promise.resolve(0);x27Last=Date.now();const L=[];
+  ["f","d","tx","dy"].forEach(k=>all(k).forEach(d=>{if(!d||!(u.admin||d.by===u.name))return;x27Ids(k,d).forEach(p=>{const x=p[0]&&window.TMC.phLocalGet(p[0]);if(x)L.push({id:p[0],d:x,at:new Date(d.at||Date.now()).toISOString(),ref:k+":"+d.id})})}));
+  return phBackfill(L)}
+{const od=onData;onData=function(){od.apply(this,arguments);try{x27Back()}catch(e){}}}
+{const ef=edFormHTML;edFormHTML=function(){const h=ef();const d=er&&recOf(er.kind,er.id),b=d?x27Btns(er.kind,d):"";const i=h.indexOf("</h2>");return b&&i>0?h.slice(0,i+5)+b+h.slice(i+5):h}}
+{const bw=bindWork;bindWork=function(u){bw(u);if(!u||!u.admin)return;
+  document.querySelectorAll("#ckBox .mv.ck[data-ck]").forEach(r=>{if(r.querySelector(".x27Ph"))return;const p=r.dataset.ck.split(":"),k=p[0],d=recOf(k,p.slice(1).join(":"));const b=x27Btns(k,d);if(b)r.insertAdjacentHTML("beforeend",b)})}}
+function x27Refs(pid){const D=x22Data(x22.p,x22.k),a=D.a,b=D.b;
+  if(pid==="dsl")return D.log.map(m=>m.k+":"+m.r.id);
+  if(pid!=="chk")return null;const CK=checkList().filter(o=>o.day>=a&&o.day<=b),ckS={},L=[];CK.forEach(o=>ckS[o.kind+":"+o.id]=1);
+  CK.forEach(o=>{const d=recOf(o.kind,o.id)||{};L.push({r:o.kind+":"+o.id,s:o.day+(o.kind==="f"||o.kind==="tx"?x22hm(d.at):"")})});
+  fills().forEach(f=>{const d0=dayKey(f.at);if(d0>=a&&d0<=b&&!ckS["f:"+f.id]&&(f.warn||[]).length)L.push({r:"f:"+f.id,s:d0+x22hm(f.at)})});
+  all("d").forEach(d=>{const k0=dayKey(d.at);if(k0>=a&&k0<=b&&(d.warn||[]).length)L.push({r:"d:"+d.id,s:k0+x22hm(d.at)})});
+  L.sort((p0,q0)=>p0.s.localeCompare(q0.s));return L.map(o=>o.r)}
+function x27Paint(u){const o=$("rpOut");if(!o||!o.dataset.x22||!u||!u.admin)return;const refs=x27Refs(o.dataset.x22);if(!refs)return;
+  o.querySelectorAll("table.x22t").forEach(tb=>{const tr=[...tb.querySelectorAll("tbody tr")].filter(r=>!r.classList.contains("x22op"));if(tr.length!==refs.length)return;
+    const H=tr.map((r,i)=>{const p=refs[i].split(":"),k=p[0];return x27Btns(k,recOf(k,p.slice(1).join(":")))});if(!H.some(Boolean))return;
+    tb.querySelectorAll("tr").forEach(r=>{const j=tr.indexOf(r),c=document.createElement(r.parentNode.tagName==="THEAD"?"th":"td");c.className="x27c";if(j>=0)c.innerHTML=H[j];r.appendChild(c)})})}
+{const br=bindRep;bindRep=function(u){br(u);try{x27Paint(u||me())}catch(e){console.warn(e)}}}
+Object.assign(window.TMC.fuel,{x27Btns:x27Btns,x27Back:x27Back,x27Refs:x27Refs});
+
+// v27: pump meter check on the Fill-up screen. Expected = last pump meter of that tank + litres on the pump display.
+// More than the allowed difference (2 L, Admin can change it) away -> red warning right under the meter box. Save stays on. No earlier reading -> no check.
+const x27N=x=>Number(Math.round(x*10)/10).toLocaleString("en-US",{maximumFractionDigits:1});
+function x27Exp(){if(!fs||!fs.tk||!hasNum(fs.bm)||!(num(fs.l)>0))return "";const w=pmCheck(fs.tk,fs.bm,fs.l,Date.now()).find(x=>x.k==="wPmMis"||x.k==="wBmBack");
+  return w&&isFinite(w.e)?t("x27E").replace("%a",x27N(w.e)):""}
+function x27Off(r){if(!r||r.bm==null||r.prev==null)return 0;const l=isFinite(r.litres)?r.litres:0,e=Math.round((r.prev+l)*100)/100;return Math.abs(r.bm-e)>pmTol()+1e-9?e:0}
+Object.assign(T.en,{x27E:"⚠️ Meter should be about %a. Check it.",x27Ck:"Should be about %a"});
+Object.assign(T.fr,{x27E:"⚠️ Le compteur devrait être environ %a. Vérifiez-le.",x27Ck:"Devrait être environ %a"});
+Object.assign(T.ar,{x27E:"⚠️ يجب أن يكون العداد حوالي %a. تحقق منه.",x27Ck:"يجب أن يكون حوالي %a"});
+Object.assign(window.TMC.fuel,{x27Exp:x27Exp,x27Off:x27Off});
 render();
 if(syncOn())syncNow();else if(sUrl())api({action:"status",name:"-"}).catch(()=>{});  // probe so "Not connected" shows on a fresh phone too
 })();
