@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 33,
+ "VER": 34,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=33">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=33">
+<link rel="icon" href="icons/favicon-32.png?v=34">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=34">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -293,7 +293,10 @@ window.TMC.NK=NK;
 let R=L.j("recs",{}),dirty=L.j("dirty",{});
 let dev=L.get("dev");if(!dev){dev="d"+Math.random().toString(36).slice(2,10);L.set("dev",dev)}
 const saveR=()=>{L.sj("recs",R);L.sj("dirty",dirty)};
-const all=kind=>Object.keys(R).map(k=>R[k]).filter(r=>r.kind===kind&&!r.del).map(r=>r.data);
+const allRaw=kind=>Object.keys(R).map(k=>R[k]).filter(r=>r.kind===kind&&!r.del).map(r=>r.data);
+/* Fuel v34 (Johan, 2 Nov 2026): a 2nd fill-up for the same vehicle on the same day (x2) waiting for Admin OK is left out of every total, stock and report until approved */
+const x2W=d=>!!(d&&d.x2&&d.x2!=="0"&&!(d.ap===1||d.ap==="1"));
+const all=kind=>kind==="f"?allRaw(kind).filter(d=>!x2W(d)):allRaw(kind);
 /* ADMIN FIX RULE: staff may only ADD. Changing/deleting an existing record (not "u") is Admin-only; the server enforces it too. */
 /* PERMISSIONS: the Admin ticks what each person may do (CONFIG.PERMS). Admin = everything. The server checks too. */
 function permsOf(u){return u&&Array.isArray(u.perms)?u.perms:(C.PERM_DEFAULT||[])}
@@ -384,7 +387,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=33" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=34" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -397,7 +400,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=33" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=34" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -420,7 +423,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=33" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=34" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -515,7 +518,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=33" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=34" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -976,7 +979,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=33" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=34" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -996,7 +999,7 @@ Object.assign(T.ar,{dlyDate:"تاريخ القراءة",dlyNotToday:"ليس ال
 const dayKey=ms=>{const d=new Date(ms);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
 // All readings of one vehicle by day: daily entries win; else last fill-up of that day if it moved since the previous reading.
 function dayReadings(vid){const v=vehs().find(x=>x.id===vid)||{},o={};
-  all("dy").forEach(e=>{if(e.vid===vid&&isFinite(num(e.meter)))o[e.day]={day:e.day,meter:num(e.meter),by:e.by,at:e.at,ent:e.ent||e.at,bd:e.day<dayKey(e.ent||e.at),src:"d",id:e.id}});
+  all("dy").forEach(e=>{if(e.vid===vid&&isFinite(num(e.meter))&&!(o[e.day]&&(e.ent||e.at)<o[e.day].ent))o[e.day]={day:e.day,meter:num(e.meter),by:e.by,at:e.at,ent:e.ent||e.at,bd:e.day<dayKey(e.ent||e.at),src:"d",id:e.id}});
   const F=fills().filter(f=>f.vid===vid&&isFinite(num(f.meter)));let prev=num(v.m0);
   F.forEach(f=>{const k=dayKey(f.at),m=num(f.meter);if(o[k]&&o[k].src==="d"){prev=o[k].meter;return}
     if(isFinite(prev)&&m===prev)return;o[k]={day:k,meter:m,by:f.by,at:f.at,src:"f"};prev=m});
@@ -2105,7 +2108,7 @@ const x27Ids=(k,d)=>!d?[]:k==="f"?[[d.p1,"x27M"],[d.p2,"x27P"]]:k==="dy"?[[d.ph,
 function x27Btns(k,d){const h=x27Ids(k,d).filter(p=>p[0]).map(p=>{const b=phBtn(p[0]);return p[1]&&b.indexOf("data-phv")>0?b.replace(esc(t("phView")),esc(t("phView")+" ("+t(p[1])+")")):b}).join("");return h?`<div class="x27Ph">${h}</div>`:""}
 let x27Last=0;
 function x27Back(force){const u=me();if(!u||!syncOn()||(!force&&Date.now()-x27Last<600000))return Promise.resolve(0);x27Last=Date.now();const L=[];
-  ["f","d","tx","dy"].forEach(k=>all(k).forEach(d=>{if(!d||!(u.admin||d.by===u.name))return;x27Ids(k,d).forEach(p=>{const x=p[0]&&window.TMC.phLocalGet(p[0]);if(x)L.push({id:p[0],d:x,at:new Date(d.at||Date.now()).toISOString(),ref:k+":"+d.id})})}));
+  ["f","d","tx","dy"].forEach(k=>allRaw(k).forEach(d=>{if(!d||!(u.admin||d.by===u.name))return;x27Ids(k,d).forEach(p=>{const x=p[0]&&window.TMC.phLocalGet(p[0]);if(x)L.push({id:p[0],d:x,at:new Date(d.at||Date.now()).toISOString(),ref:k+":"+d.id})})}));
   return phBackfill(L)}
 {const od=onData;onData=function(){od.apply(this,arguments);try{x27Back()}catch(e){}}}
 {const ef=edFormHTML;edFormHTML=function(){const h=ef();const d=er&&recOf(er.kind,er.id),b=d?x27Btns(er.kind,d):"";const i=h.indexOf("</h2>");return b&&i>0?h.slice(0,i+5)+b+h.slice(i+5):h}}
@@ -2344,9 +2347,9 @@ const AP_K=["f","dy"];
 const apSt=d=>!d||d.ap===undefined||d.ap===null||d.ap===1||d.ap==="1"?1:0;   // 1 approved (also: no ap = older/imported/Admin) · 0 waiting (no "send back" – Johan 1 Nov)
 const apAdm=u=>!!(u&&u.admin&&!u._view);
 const apDay=(k,d)=>k==="dy"&&d.day?d.day:dayKey(d.at);
-function apList(st){const L=[];AP_K.forEach(k=>all(k).forEach(d=>{if(d&&d.id&&apSt(d)===st)L.push({k:k,d:d})}));return L.sort((p,q)=>(p.d.at||0)-(q.d.at||0))}
+function apList(st){const L=[];AP_K.forEach(k=>allRaw(k).forEach(d=>{if(d&&d.id&&apSt(d)===st)L.push({k:k,d:d})}));return L.sort((p,q)=>(p.d.at||0)-(q.d.at||0))}
 const apWaiting=()=>apList(0);
-const apNotIn=(a,b)=>apList(0).filter(o=>{const x=apDay(o.k,o.d);return x>=a&&x<=b});
+const apNotIn=(a,b)=>apList(0).filter(o=>{if(x2W(o.d))return false;const x=apDay(o.k,o.d);return x>=a&&x<=b});
 let apJust=0;
 /* new staff entries wait for approval; Admins' own entries and every older / imported record count as approved */
 {const p0=put;put=function(kind,id,data){try{if(AP_K.indexOf(kind)>=0&&data&&typeof data==="object"&&data.ap===undefined){const r=R[kind+":"+id],u=me();
@@ -2424,6 +2427,32 @@ Object.assign(window.TMC.fuel,{put:put,apSt:apSt,apSet:apSet,apList:apList,apWai
  Object.assign(window.TMC.fuel,{perCSV:()=>perCSV().s});
  const st=document.createElement("style");st.textContent=".rpAct #rpCsv{grid-column:1/-1}";document.head.appendChild(st)}
 /* Fuel v33 REPORTS END */
+/* ==== Fuel v34 ONE A DAY (Johan, 2 Nov 2026): 1 fill-up and 1 km/hours reading per vehicle per day.
+   ⛽ A 2nd fill-up for the same vehicle on the same day still saves, but gets ap:0 + x2:1 = waits in the v33 Admin approval list
+   (✔ Approve / Fix numbers, no send back) and is NOT counted in totals, stock, reports or the Sheet report tabs until approved.
+   ⏱️ A 2nd reading the same day with a DIFFERENT number saves normally, no Admin step (staff: as its own record, because the server lets
+   only Admins change a saved one; the later reading counts for that day). The SAME number as a reading saved that day is refused with a plain note. No server change (x2 is just one more field in the record). ==== */
+Object.assign(T.en,{x2Saved:"✅ Saved. 2nd fill-up today for this vehicle – waiting for Admin OK. Not counted until approved.",x2Tag:"2nd fill-up today – not counted until approved",dyDup:"⛔ This reading is already saved today for this vehicle. Not saved again."});
+Object.assign(T.fr,{x2Saved:"✅ Enregistré. 2e plein aujourd'hui pour ce véhicule – en attente de l'accord de l'Admin. Pas compté avant approbation.",x2Tag:"2e plein aujourd'hui – pas compté avant approbation",dyDup:"⛔ Ce relevé est déjà enregistré aujourd'hui pour ce véhicule. Pas enregistré à nouveau."});
+if(T.ar)Object.assign(T.ar,{x2Saved:"✅ تم الحفظ. تعبئة ثانية اليوم لهذه المركبة – بانتظار موافقة المسؤول. لا تُحسب قبل الموافقة.",x2Tag:"تعبئة ثانية اليوم – لا تُحسب قبل الموافقة",dyDup:"⛔ هذه القراءة محفوظة اليوم لهذه المركبة. لم تُحفظ مرة أخرى."});
+let x2Just=0,dyDupJust=0;
+const x2Has=(vid,at,id)=>allRaw("f").some(f=>f&&f.id!==id&&f.vid===vid&&!f.miss&&dayKey(f.at)===dayKey(at));
+{const p0=put;put=function(kind,id,data){try{if(kind==="f"&&data&&typeof data==="object"&&!data.miss&&data.vid&&data.at&&!data.x2){const r=R["f:"+id];
+  if((!r||r.del||!r.data)&&x2Has(data.vid,data.at,id)){data=Object.assign({},data,{ap:0,x2:1});x2Just=1}}}catch(e){}return p0.apply(this,[kind,id,data].concat([].slice.call(arguments,3)))}}
+{const r0=render;render=function(){if(x2Just){apJust=0;if(typeof flash==="string"&&flash.indexOf(t("savedFill"))===0)flash=t("x2Saved")+flash.slice(t("savedFill").length);x2Just=0}return r0.apply(this,arguments)};window.TMC.render=render}
+{const s0=apSet;apSet=function(k,id){const d=recOf(k,id),w=k==="f"&&x2W(d),r=s0.apply(this,arguments);if(w&&r&&r.ok)try{pushReports()}catch(e){}return r}}   // now counted: refresh the report tabs
+{const ac=apCard;apCard=function(o){const h=ac(o);return x2W(o.d)?h.replace('<div class="apNums">',`<div class="apWarn" data-x2="1">⚠️ ${esc(t("x2Tag"))}</div><div class="apNums">`):h}}
+{const sd=saveDaily;saveDaily=function(vid,meter,by,ph,day,ent){const dk=typeof day==="number"?dayKey(day):(day||dayKey(ent||Date.now())),m=num(meter);
+  if(isFinite(m)&&allRaw("dy").some(e=>e&&e.vid===vid&&e.day===dk&&num(e.meter)===m)){dyDupJust=1;return null}
+  const u=me(),live=all("dy").some(e=>e.vid===vid&&e.day===dk);   // staff 2nd reading, other number: its own record (the server lets only Admins change a saved one); the later one counts
+  if(u&&!u.admin&&live&&vOk(vid,u)&&dk<=dayKey(Date.now())&&isFinite(m)&&m>=0){ent=ent||Date.now();const id=vid+"_"+dk+"_"+Date.now().toString(36);
+    if(put("dy",id,{id:id,vid:vid,day:dk,meter:m,at:new Date(dk+"T12:00:00").getTime(),ent:ent,date:new Date(ent).toISOString(),by:by,ph:ph||""})===false)return null;
+    const c=dailyCheck(vid,dk,m);if(c)put("dy",id,Object.assign({},recOf("dy",id),{chk:1,chkWhy:t(c.k).replace("%b",fmt(c.b))}));return id}
+  return sd.apply(this,arguments)}}
+{const bb=bindWork;bindWork=function(u){bb(u);const s=$("dySave");if(!s||!s.onclick)return;const c0=s.onclick;s.onclick=function(){dyDupJust=0;const r=c0.apply(this,arguments);
+  if(dyDupJust){dyDupJust=0;const w=$("dyWarn");if(w)w.innerHTML=`<p class="flag" id="dyDup">${esc(t("dyDup"))}</p>`}return r}}}
+Object.assign(window.TMC.fuel,{put:put,apSet:apSet,saveDaily:saveDaily,x2W:x2W,allRaw:allRaw});
+/* Fuel v34 ONE A DAY END */
 render();
 if(syncOn())syncNow();else if(sUrl())api({action:"status",name:"-"}).catch(()=>{});  // probe so "Not connected" shows on a fresh phone too
 })();
