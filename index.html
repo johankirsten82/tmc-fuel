@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 35,
+ "VER": 36,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=35">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=35">
+<link rel="icon" href="icons/favicon-32.png?v=36">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=36">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -388,7 +388,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=35" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=36" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -401,7 +401,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=35" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=36" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -424,7 +424,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=35" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=36" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -519,7 +519,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=35" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=36" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -980,7 +980,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=35" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=36" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -2466,6 +2466,11 @@ const x2Has=(vid,at,id)=>allRaw("f").some(f=>f&&f.id!==id&&f.vid===vid&&!f.miss&
   if(dyDupJust){dyDupJust=0;const w=$("dyWarn");if(w)w.innerHTML=`<p class="flag" id="dyDup">${esc(t("dyDup"))}</p>`}return r}}}
 Object.assign(window.TMC.fuel,{put:put,apSet:apSet,saveDaily:saveDaily,x2W:x2W,allRaw:allRaw});
 /* Fuel v34 ONE A DAY END */
+/* ---- v36 STOCK TAKE SETS THE BALANCE (Johan 5 Nov 2026): a saved stock take SETS the tank balance to the counted litres from that moment on (even while waiting for Admin). ---- */
+{const bm=tankMoves;tankMoves=function(tk){tk=tk||"main";const M=bm(tk).filter(m=>m.kind!=="stk"),T=tkById(tk),cap=T?num(T.cap):NaN;all("stk").forEach(x=>{if(x&&tkOf(x)===tk&&hasNum(x.litres))M.push({at:x.at,q:0,set:num(x.litres),d:x,kind:"stk"})});
+  M.sort((a,b)=>a.at-b.at);let b=0;M.forEach(m=>{if(m.kind==="stk"){m.q=m.set-b;b=m.set}else b+=isFinite(m.q)?m.q:0;m.bal=b;m.over=cap>0&&b>cap+0.5;m.neg=b<-0.05});return M}}
+{const btt=tankTotals;tankTotals=function(a,b){const R=btt(a,b);return R.map(r=>{let x=0,y=0;tankMoves(r.id).forEach(m=>{const k=dayKey(m.at);if(m.kind!=="stk"||(a&&k<a)||(b&&k>b))return;if(m.q>0)x+=m.q;else y-=m.q});return Object.assign({},r,{in:r1(r.in-x),out:r1(r.out-y)})})};if(window.TMC&&TMC.fuel)TMC.fuel.tankTotals=tankTotals}
+/* ---- v36 END ---- */
 /* ==== Fuel v35 DAY TABLE: EVERY ENTRY (Johan, 2 Nov 2026): the Admin 📋 Day table shows EVERY km/hours reading and EVERY fill-up of the day,
    each as its own row in time order (2nd readings and 2nd fill-ups too). Before, it kept one row per vehicle per day (a daily reading hid that
    day's fill-up meter, and a fill-up with the same meter as the day before was left out). A 2nd fill-up still waiting for Admin OK (v34 x2) shows with
