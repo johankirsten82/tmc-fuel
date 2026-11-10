@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 37,
+ "VER": 38,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=37">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=37">
+<link rel="icon" href="icons/favicon-32.png?v=38">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=38">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -388,7 +388,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=37" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=38" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -401,7 +401,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=37" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=38" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -424,7 +424,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=37" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=38" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(L.get("lastName")||"")}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -519,7 +519,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=37" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=38" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -980,7 +980,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=37" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=38" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -2499,6 +2499,154 @@ function dayRows(day){const V=vehs().filter(v=>v.active!==false),rows=[];let not
   return o.replace(/<p class="hint" id="dyNot">[\s\S]*?<\/p>/,`<p class="hint" id="dyNot">${esc(t("dlyNot").replace("%n",T0.notUsed))}</p>`)}}
 Object.assign(window.TMC.fuel,{dayRows:dayRows});
 /* Fuel v35 DAY TABLE END */
+/* ---- v38 SAMPLE PUMP READING (Johan, 10 Nov 2026): big "🔢 Pump reading" tile on Home = record the diesel pump's TOTAL (running) meter
+   with ONE required photo, WITHOUT a fill-up. Pick the tank (every tank has a pump meter), type the TOTAL, take / choose the photo; date + time are
+   recorded automatically in 24-hour Chad time (Africa/Ndjamena, UTC+1, no summer time). Save is off until tank + reading + photo are in.
+   Save closes the form and goes back to the previous screen, which shows a result card: Expected = last pump reading of that tank (else the pump
+   running meter from fill-ups / transfers / deliveries) + litres pumped through that tank's meter since then (fill-ups incl. 2nd fill-ups waiting for Admin,
+   transfers on that meter); Entered; Difference = entered − expected (green within the pump meter tolerance, amber up to 20 L, red above).
+   Own record kind "pu" (fuel_ storage, normal sync queue – the server keeps any kind in Records, no Code.gs change). It is a CHECK only:
+   it never changes tank stock, any fill-up, or the fill-up pump meter cross-check. ==== */
+Object.assign(T.en,{puTile:"Pump reading",puT:"🔢 Pump reading (TOTAL)",puPick:"① Which pump / tank?",puRead:"② Pump TOTAL reading",puReadH:"The big TOTAL counter on the pump – not the litres of a fill-up.",
+ puPh:"③ 📷 Photo of the pump TOTAL",puWhen:"🕒 Date and time (Chad):",puSave:"✅ Save pump reading",puNeed:"Pick the tank, type the TOTAL and take the photo. Then Save.",
+ puResT:"🔢 Pump reading saved",puExp:"Expected",puEnt:"Entered",puDiff:"Difference",puHow:"Last reading %a + %b L pumped since",puFirst:"First reading for this tank – nothing to compare yet.",
+ puOkM:"✅ Matches",puAmb:"⚠️ Small difference – check the number",puRed:"⛔ Big difference – the Admin will check",puOk:"OK",puLastPu:"pump reading",puLastM:"pump meter"});
+Object.assign(T.fr,{puTile:"Relevé pompe",puT:"🔢 Relevé pompe (TOTAL)",puPick:"① Quelle pompe / cuve ?",puRead:"② Relevé TOTAL de la pompe",puReadH:"Le grand compteur TOTAL de la pompe – pas les litres d'un plein.",
+ puPh:"③ 📷 Photo du TOTAL de la pompe",puWhen:"🕒 Date et heure (Tchad) :",puSave:"✅ Enregistrer le relevé",puNeed:"Choisissez la cuve, tapez le TOTAL et prenez la photo. Puis Enregistrer.",
+ puResT:"🔢 Relevé pompe enregistré",puExp:"Attendu",puEnt:"Saisi",puDiff:"Différence",puHow:"Dernier relevé %a + %b L pompés depuis",puFirst:"Premier relevé pour cette cuve – rien à comparer.",
+ puOkM:"✅ Correct",puAmb:"⚠️ Petite différence – vérifiez le chiffre",puRed:"⛔ Grande différence – l'Admin va vérifier",puOk:"OK",puLastPu:"relevé pompe",puLastM:"compteur pompe"});
+if(T.ar)Object.assign(T.ar,{puTile:"قراءة المضخة",puT:"🔢 قراءة المضخة (TOTAL)",puPick:"① أي مضخة / خزان؟",puRead:"② قراءة TOTAL للمضخة",puReadH:"العداد الكبير TOTAL على المضخة – ليس لترات التعبئة.",
+ puPh:"③ 📷 صورة TOTAL المضخة",puWhen:"🕒 التاريخ والوقت (تشاد):",puSave:"✅ حفظ قراءة المضخة",puNeed:"اختر الخزان، واكتب TOTAL والتقط الصورة. ثم احفظ.",
+ puResT:"🔢 تم حفظ قراءة المضخة",puExp:"المتوقع",puEnt:"المُدخل",puDiff:"الفرق",puHow:"آخر قراءة %a + %b لتر ضُخّت منذ ذلك",puFirst:"أول قراءة لهذا الخزان – لا شيء للمقارنة.",
+ puOkM:"✅ مطابق",puAmb:"⚠️ فرق صغير – تحقق من الرقم",puRed:"⛔ فرق كبير – سيتحقق المسؤول",puOk:"حسنًا",puLastPu:"قراءة المضخة",puLastM:"عداد المضخة"});
+const PU_AMBER=20;
+/* Chad time = UTC+1 all year (no summer time): "YYYY-MM-DD HH:MM", 24-hour, whatever the phone's time zone */
+const chadStr=ms=>new Date(num(ms)+36e5).toISOString().slice(0,16).replace("T"," ");
+const chadDay=ms=>chadStr(ms).slice(0,10);
+const puNum=x=>String(x==null?"":x).replace(/\s/g,"").replace(",",".").trim();
+const puTanks=()=>tanks();
+function puLast(tk,at,exceptId){let p=null;allRaw("pu").forEach(x=>{if(x&&x.id!==exceptId&&x.tk===tk&&hasNum(x.r)&&num(x.at)<=at&&(!p||num(x.at)>=p.at))p={m:num(x.r),at:num(x.at),src:"pu"}});return p}
+/* expected TOTAL at time at: anchor (last pump reading, else pump running meter) + litres that left the tank through the pump since */
+function puExpect(tk,at,exceptId){at=at==null?Date.now():num(at);let a=puLast(tk,at,exceptId);
+  if(!a){const p=pumpAt(tk,at);if(p)a={m:num(p.m),at:num(p.at),src:"m"}}
+  if(!a)return null;let q=0;
+  allRaw("f").forEach(f=>{if(f&&tkOf(f)===tk&&num(f.at)>a.at&&num(f.at)<=at)q+=num(f.litres)||0});
+  /* transfers move the pump meter of the tank that was metered: v19 Move fuel = FROM and TO meters both move; older transfers = only the read meter (mtk) */
+  allRaw("tx").forEach(x=>{if(!x||!(num(x.at)>a.at&&num(x.at)<=at))return;const fr=(x.from||"main")===tk,to=x.to===tk,v19=hasNum(x.tm1);
+    if((fr&&(v19||!x.mtk||x.mtk===tk))||(to&&(v19||x.mtk===tk)))q+=num(x.litres)||0});
+  q=Math.round(q*100)/100;return {last:a.m,lastAt:a.at,src:a.src,issued:q,exp:Math.round((a.m+q)*100)/100}}
+function puLevel(d){if(d==null||!isFinite(d))return "";const a=Math.abs(d);return a<=pmTol()+1e-9?"g":a<=PU_AMBER?"a":"r"}
+let pu={},puShow=null;
+const puReady=()=>!!(pu.tk&&tkById(pu.tk)&&hasNum(pu.r)&&num(pu.r)>=0&&pu.p);
+function puHTML(u){const T=puTanks();if(T.length===1&&!pu.tk)pu.tk=T[0].id;const ok=puReady();
+  return `<button type="button" class="sec" id="puBack">${esc(t("back"))}</button><div class="box" id="puBox"><h2>${esc(t("puT"))}</h2>
+  ${T.length>1?`<label class="fl">${esc(t("puPick"))}</label><div class="puTk">${T.map(x=>`<button type="button" class="${pu.tk===x.id?"on":"sec"}" data-pu="${esc(x.id)}">🛢️ ${esc(tkN(x))}</button>`).join("")}</div>`:""}
+  <label class="fl" for="puR">${esc(t("puRead"))}</label><input id="puR" class="num big2" type="text" inputmode="decimal" autocomplete="off" value="${esc(pu.r||"")}"><p class="hint">${esc(t("puReadH"))}</p>
+  <label class="fl">${esc(t("puPh"))}</label><div><label class="pbtn${pu.p?" ok":""}" id="puPL">${pu.p?`<img src="${esc(pu.p)}" alt="">${esc(t("rePh"))}`:esc(t("takePh"))}<i class="camIn" id="puP" data-cam="puP" hidden></i></label></div>
+  <p class="puWhen" id="puWhen">${esc(t("puWhen"))} <b>${esc(chadStr(Date.now()))}</b></p>
+  ${ok?"":`<p class="hint" id="puNeed">${esc(t("puNeed"))}</p>`}
+  <button type="button" id="puSave" ${ok?"":"disabled"}>${esc(t("puSave"))}</button></div>`}
+function puSave(u){u=u||me();if(!u||!puReady())return null;const at=Date.now(),id="pu"+at+Math.random().toString(36).slice(2,6),r=num(puNum(pu.r)),e=puExpect(pu.tk,at,id);
+  const o={id:id,v:38,tk:pu.tk,r:r,at:at,day:chadDay(at),chad:chadStr(at),tz:"Africa/Ndjamena",date:new Date(at).toISOString(),by:u.name,p:phKeep(pu.p,"pump reading",null,new Date(at).toISOString())};
+  if(e)Object.assign(o,{last:e.last,lastAt:e.lastAt,lastSrc:e.src,issued:e.issued,exp:e.exp,diff:Math.round((r-e.exp)*100)/100});
+  if(e&&puLevel(o.diff)==="r")o.big=1;
+  if(put("pu",id,o)===false)return null;puShow=o;pu={};return id}
+function puResHTML(o){if(!o)return "";const T=tkN(tkById(o.tk)),has=hasNum(o.exp),lv=has?puLevel(num(o.diff)):"g";
+  return `<div class="puRes ${lv}" id="puRes"><h3>${esc(t("puResT"))}</h3><p class="puSub">🛢️ <b>${esc(T)}</b> · 🕒 ${esc(o.chad||chadStr(o.at))}</p>
+  ${has?`<div class="puG"><div><span>${esc(t("puExp"))}</span><b id="puE">${esc(fmt(num(o.exp)))}</b></div><div><span>${esc(t("puEnt"))}</span><b id="puN">${esc(fmt(num(o.r)))}</b></div></div>
+  <div class="puD"><span>${esc(t("puDiff"))}</span><b id="puDf">${esc(sgn(num(o.diff)))} L</b></div>
+  <small class="puHow">${esc(tr("puHow",fmt(num(o.last))+" ("+(o.lastSrc==="pu"?t("puLastPu"):t("puLastM"))+", "+chadStr(o.lastAt)+")",fmt(num(o.issued))))}</small>
+  <p class="puMsg" id="puMsg">${esc(t(lv==="g"?"puOkM":lv==="a"?"puAmb":"puRed"))}</p>`
+  :`<div class="puG"><div><span>${esc(t("puEnt"))}</span><b id="puN">${esc(fmt(num(o.r)))}</b></div></div><p class="puMsg" id="puMsg">${esc(t("puFirst"))}</p>`}
+  <button type="button" id="puOk">${esc(t("puOk"))}</button></div>`}
+{const bw=workHTML;workHTML=function(u){if(fv==="pu")return puHTML(u);return bw(u)}}
+{const bb=bindWork;bindWork=function(u){bb(u);if(fv!=="pu")return;
+  const b=$("puBack");if(b)b.onclick=()=>{pu={};navGoBack()};
+  document.querySelectorAll("[data-pu]").forEach(x=>x.onclick=()=>{pu.tk=x.dataset.pu;render();const i=$("puR");if(i&&!pu.r)i.focus()});
+  const chk=()=>{const s=$("puSave");if(s)s.disabled=!puReady();const n=$("puNeed");if(n)n.style.display=puReady()?"none":""};
+  const i=$("puR");if(i)i.oninput=()=>{pu.r=puNum(i.value);chk()};
+  ["puP"].forEach(id=>{const e=$(id);if(e)e.onchange=async()=>{const f=e.files&&e.files[0];if(!f)return;try{pu.p=await phSmall(f)}catch(er){console.warn(er)}render()}});
+  const s=$("puSave");if(s)s.onclick=()=>{if(puSave(me()))navGoBack()}}}
+/* Home tile (everyone who may use the work screens, staff included), right after 📐 Stock take (else after the work tile) */
+const puTile=()=>`<button type="button" class="tile puTile" data-fv="pu" id="hPu"><b>🔢</b>${esc(t("puTile"))}</button>`;
+{const bv=viewHTML;viewHTML=function(u){let h=bv(u);if(u&&workOk(u)&&h.indexOf('id="hHero"')>=0&&h.indexOf('id="hPu"')<0&&puTanks().length){
+    const m=h.match(/<button\b[^>]*id="hStk"[^>]*>[\s\S]*?<\/button>/)||h.match(/<button\b[^>]*data-tab="work"[^>]*>[\s\S]*?<\/button>/);
+    if(m)h=h.replace(m[0],m[0]+puTile());else{const i=h.indexOf('<div class="tiles">'),j=i<0?-1:h.indexOf("</div>",i);if(j>=0)h=h.slice(0,j)+puTile()+h.slice(j)}}
+  /* result card on the screen we came back to, until OK */
+  if(puShow&&!(tab==="work"&&fv==="pu"))h=puResHTML(puShow)+h;return h}}
+{const bm=bindMain;bindMain=function(u){bm(u);const b=$("hPu");if(b)b.onclick=()=>{pu={};puShow=null;fv="pu";tab="work";render();scrollTo(0,0)};const k=$("puOk");if(k)k.onclick=()=>{puShow=null;render()}}}
+{const bb=bindWork;bindWork=function(u){bb(u);const k=$("puOk");if(k)k.onclick=()=>{puShow=null;render()}}}
+NAV.sel.push("#puBack");
+NAV.dirty.push(()=>tab==="work"&&fv==="pu"&&!!(pu.r||pu.p));
+NAV.clear.push(()=>{pu={}});
+{const st=document.createElement("style");st.textContent="#puBox .puTk{display:flex;gap:8px;flex-wrap:wrap}#puBox .puTk button{flex:1 1 45%;min-height:72px;font-size:22px;margin:0}#puBox label.fl{font-size:19px;margin-top:12px;display:block;font-weight:700}"+
+ "#puBox input.big2{display:block;width:100%;box-sizing:border-box;min-height:70px;font-size:34px;text-align:center}#puBox .pbtn{min-height:110px}#puBox .puWhen{font-size:18px;margin:12px 0 6px}#puSave{min-height:72px;font-size:22px;margin-top:8px}"+
+ ".puRes{margin:0 0 12px;padding:12px;border-radius:14px;border:4px solid #16a34a;background:#f0fdf4;text-align:center}.puRes h3{margin:0 0 4px;font-size:22px}.puRes .puSub{margin:0 0 8px;font-size:17px}"+
+ ".puG{display:flex;gap:8px}.puG>div{flex:1;background:#fff;border-radius:10px;padding:6px}.puRes span{display:block;font-size:18px}.puG b{font-size:30px}.puD{background:#fff;border-radius:10px;padding:6px;margin-top:8px}.puD b{font-size:44px}"+
+ ".puRes.g .puD b{color:#16a34a}.puRes.a{border-color:#d97706;background:#fffbeb}.puRes.a .puD b{color:#d97706}.puRes.r{border-color:#dc2626;background:#fee2e2}.puRes.r .puD b{color:#dc2626}"+
+ ".puRes .puHow{display:block;color:#555;font-size:15px;margin-top:6px}.puRes .puMsg{font-size:19px;font-weight:800;margin:8px 0}.puRes #puOk{min-height:60px;font-size:22px;margin:0}";document.head.appendChild(st)}
+Object.assign(window.TMC.fuel,{puExpect:puExpect,puSave:puSave,puLevel:puLevel,chadStr:chadStr,puState:()=>pu,puSet:o=>{pu=Object.assign({},o||{})},puShown:()=>puShow});
+/* v38 SAMPLE LIVE CAMERA – PUMP READING + STOCK TAKE ONLY (Johan, 10 Nov 2026): the 🔢 Pump reading and 📐 Stock take photos come from the LIVE back camera inside the app –
+   never the gallery. Every other photo spot stays exactly as v37 (Take photo + Choose from phone). The Pump reading photo button holds a small
+   marker (<i data-cam>) instead of a file input; tapping the button opens a
+   full-screen camera view (getUserMedia, facingMode environment) with big 📷 Take photo, then 🔄 Retake / ✅ Use, and a grey ← Back.
+   Use hands the frame (JPEG) to the spot's existing handler, so the photo is shrunk / compressed exactly like before (phSmall, vehicle 320 px).
+   The camera stream stops on Use, Back, leaving the screen and when the app goes to the background. Camera blocked / missing → a plain big
+   message (allow the camera) with 🔄 Try again – no file picker fallback. Needs HTTPS (GitHub Pages is) or localhost. ---- */
+Object.assign(T.en,{camTake:"📷 Take photo",camRe:"🔄 Retake",camUse:"✅ Use photo",camWait:"Starting the camera…",camBlk:"📷 The camera is blocked",
+ camBlkH:"Photos must be taken with the camera. Tap Allow when the phone asks, or turn on the Camera for this app / browser in the phone settings. Then tap Try again.",camTry:"🔄 Try again"});
+Object.assign(T.fr,{camTake:"📷 Prendre la photo",camRe:"🔄 Refaire",camUse:"✅ Utiliser la photo",camWait:"Démarrage de la caméra…",camBlk:"📷 La caméra est bloquée",
+ camBlkH:"Les photos doivent être prises avec la caméra. Touchez Autoriser quand le téléphone demande, ou activez la Caméra pour cette app / ce navigateur dans les réglages du téléphone. Puis touchez Réessayer.",camTry:"🔄 Réessayer"});
+if(T.ar)Object.assign(T.ar,{camTake:"📷 التقاط الصورة",camRe:"🔄 إعادة",camUse:"✅ استخدام الصورة",camWait:"جارٍ تشغيل الكاميرا…",camBlk:"📷 الكاميرا محظورة",
+ camBlkH:"يجب التقاط الصور بالكاميرا. اضغط «سماح» عندما يسأل الهاتف، أو فعّل الكاميرا لهذا التطبيق / المتصفح في إعدادات الهاتف. ثم اضغط «حاول مرة أخرى».",camTry:"🔄 حاول مرة أخرى"});
+const CAM={key:"",stream:null,blob:null,url:"",busy:0};
+function camStop(){if(CAM.stream){try{CAM.stream.getTracks().forEach(x=>x.stop())}catch(e){}}CAM.stream=null;const v=$("camV");if(v)v.srcObject=null}
+function camClose(){camStop();if(CAM.url)try{URL.revokeObjectURL(CAM.url)}catch(e){}CAM.url="";CAM.blob=null;CAM.key="";const o=$("camOv");if(o)o.remove();document.documentElement.classList.remove("camOn")}
+function camMode(m){const o=$("camOv");if(o)o.dataset.mode=m}
+function camDeliver(key,file){const el=document.querySelector(`[data-cam="${String(key).replace(/"/g,"")}"]`);if(!el||!file)return false;
+  try{Object.defineProperty(el,"files",{value:[file],configurable:true})}catch(e){return false}el.dispatchEvent(new Event("change"));return true}
+async function camStart(){const o=$("camOv");if(!o)return;camStop();camMode("wait");
+  if(!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)){camMode("blk");return}
+  try{const s=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:"environment"},width:{ideal:1920},height:{ideal:1080}}});
+    if(!$("camOv")||o!==$("camOv")){s.getTracks().forEach(x=>x.stop());return}
+    CAM.stream=s;const v=$("camV");v.srcObject=s;try{await v.play()}catch(e){}camMode("live")}
+  catch(e){console.warn("camera",e&&e.name);camMode("blk")}}
+function camOpen(key){camClose();CAM.key=key;document.documentElement.classList.add("camOn");
+  const o=document.createElement("div");o.id="camOv";o.className="camOv";o.dataset.mode="wait";
+  o.innerHTML=`<button type="button" class="sec camBack" id="camBack">${esc(t("navBack"))}</button>
+  <div class="camStage"><video id="camV" autoplay playsinline muted></video><img id="camImg" alt=""><p class="camWait" id="camWait">${esc(t("camWait"))}</p>
+  <div class="camBlk" id="camBlk"><h2>${esc(t("camBlk"))}</h2><p>${esc(t("camBlkH"))}</p><button type="button" id="camTry">${esc(t("camTry"))}</button></div></div>
+  <div class="camBar"><button type="button" id="camTake">${esc(t("camTake"))}</button><button type="button" class="sec" id="camRe">${esc(t("camRe"))}</button><button type="button" class="camOk" id="camUse">${esc(t("camUse"))}</button></div>`;
+  document.body.appendChild(o);
+  $("camBack").onclick=camClose;$("camTry").onclick=camStart;
+  $("camTake").onclick=()=>{const v=$("camV");if(!CAM.stream||!v||!v.videoWidth)return;const c=document.createElement("canvas");c.width=v.videoWidth;c.height=v.videoHeight;c.getContext("2d").drawImage(v,0,0,c.width,c.height);
+    c.toBlob(b=>{if(!b||!$("camOv"))return;CAM.blob=b;if(CAM.url)URL.revokeObjectURL(CAM.url);CAM.url=URL.createObjectURL(b);$("camImg").src=CAM.url;camMode("shot");try{v.pause()}catch(e){}},"image/jpeg",0.92)};
+  $("camRe").onclick=()=>{CAM.blob=null;const v=$("camV");if(CAM.stream&&v){try{v.play()}catch(e){}camMode("live")}else camStart()};
+  $("camUse").onclick=()=>{const b=CAM.blob,k=CAM.key;if(!b)return;const f=new File([b],"camera-"+Date.now()+".jpg",{type:"image/jpeg"});camClose();camDeliver(k,f)};
+  camStart()}
+/* tap on any photo button (label holding a camera marker) → live camera, never a file picker */
+document.addEventListener("click",e=>{const l=e.target&&e.target.closest&&e.target.closest("label");const m=l&&l.querySelector("[data-cam]");if(!m)return;e.preventDefault();e.stopPropagation();camOpen(m.dataset.cam)},true);
+/* stop the camera when the app goes to the background or the page closes; start it again when back (unless a photo is waiting for Use) */
+document.addEventListener("visibilitychange",()=>{if(!$("camOv"))return;if(document.hidden)camStop();else if(!CAM.blob)camStart()});
+addEventListener("pagehide",camClose);addEventListener("popstate",camClose);
+/* leaving the screen (any redraw that changes screen) closes the camera */
+{const r0=render;let k0="";render=function(){const k=typeof navKey==="function"?navKey():"";const r=r0.apply(this,arguments);if($("camOv")&&k0&&k!==k0)camClose();k0=k;return r};window.TMC.render=render}
+{const st=document.createElement("style");st.textContent="html.camOn,html.camOn body{overflow:hidden}.camOv{position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column}"+
+ ".camOv .camBack{margin:8px;min-height:60px;font-size:22px;font-weight:800;background:#e5e7eb;color:#1f2937;border:0;border-radius:14px;width:auto;flex:0 0 auto}"+
+ ".camStage{position:relative;flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}.camStage video,.camStage img{width:100%;height:100%;object-fit:cover;display:none}"+
+ ".camWait{color:#fff;font-size:22px;display:none}.camBlk{display:none;background:#fff;border-radius:16px;margin:16px;padding:18px;text-align:center;border:4px solid #dc2626}.camBlk h2{color:#b91c1c;font-size:26px;margin:0 0 10px}.camBlk p{font-size:19px;line-height:1.4;margin:0 0 14px}.camBlk button{min-height:72px;font-size:24px;margin:0}"+
+ ".camBar{flex:0 0 auto;display:flex;gap:10px;padding:10px 10px 18px}.camBar button{flex:1;min-height:84px;font-size:24px;font-weight:800;border-radius:16px;margin:0;display:none}.camBar .camOk{background:#16a34a;color:#fff}.camBar .sec{background:#e5e7eb;color:#1f2937}"+
+ ".camOv[data-mode=wait] .camWait,.camOv[data-mode=blk] .camBlk{display:block}.camOv[data-mode=live] video{display:block}.camOv[data-mode=live] #camTake{display:block}"+
+ ".camOv[data-mode=shot] img{display:block}.camOv[data-mode=shot] #camRe,.camOv[data-mode=shot] #camUse{display:block}";document.head.appendChild(st)}
+Object.assign(window.TMC,{camOpen:camOpen,camClose:camClose,camLive:()=>!!(CAM.stream&&CAM.stream.getTracks().some(x=>x.readyState==="live")),camState:()=>{const o=$("camOv");return o?o.dataset.mode:""}});
+/* automated tests only (navigator.webdriver): hand a fixture JPEG to a photo spot through the same Use path. Never available to staff. */
+if(navigator.webdriver)window.TMC.camUse=(sel,b64)=>{const k=String(sel).replace(/^#/,"");const bin=atob(b64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+  return camDeliver(k,new File([u],"camera-test.jpg",{type:"image/jpeg"}))};
+/* v38 (Johan 10 Nov 05:43): 📐 Stock take photo = live camera only too (same camera view, no gallery). The v31 stock take code stays
+   untouched; its screen HTML is wrapped here: the file input becomes the camera marker and the "Choose from phone" button is dropped. */
+{const bs=stkHTML;stkHTML=function(u){return bs(u).replace('<input type="file" id="stkP" accept="image/*" capture="environment">','<i class="camIn" id="stkP" data-cam="stkP" hidden></i>').replace(/<label class="pbtn pgal"[^>]*>[^<]*<input type="file" id="stkPG" accept="image\/\*"><\/label>/,"")}}
+/* v38 LIVE CAMERA (pump reading + stock take) END */
+/* Fuel v38 SAMPLE PUMP READING END */
 render();
 if(syncOn())syncNow();else if(sUrl())api({action:"status",name:"-"}).catch(()=>{});  // probe so "Not connected" shows on a fresh phone too
 })();
