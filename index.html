@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 39,
+ "VER": 40,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=39">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=39">
+<link rel="icon" href="icons/favicon-32.png?v=40">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=40">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -192,7 +192,7 @@ header{padding:12px 14px}header .t{font-weight:700;min-width:0;overflow:hidden;t
 .updW,.ncW{border-width:1px}
 main>.bar button{font-size:18px;font-weight:600;border-radius:10px;padding:10px}
 #updW,#ncW{font-size:17px}
-#updGo{position:fixed;inset:0;z-index:99999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:18px}#updGo img{width:96px;height:96px;border-radius:20px}#updGo b{font-size:30px;line-height:1.25;color:#0f172a}#updGo span{font-size:20px;color:#475569}#updGo i{width:64px;height:64px;border:7px solid #e2e8f0;border-top-color:#0f766e;border-radius:50%;animation:updSp 1s linear infinite}@keyframes updSp{to{transform:rotate(360deg)}}
+#updGo{position:fixed;inset:0;z-index:99999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:18px}#updGo img{width:96px;height:96px;border-radius:20px}#updGo b{font-size:30px;line-height:1.25;color:#0f172a}#updGo span{font-size:20px;color:#475569}#updGo i{width:64px;height:64px;border:7px solid #e2e8f0;border-top-color:#0f766e;border-radius:50%;animation:updSp 1s linear infinite}@keyframes updSp{to{transform:rotate(360deg)}}#updGo.updBar{inset:auto 0 auto 0;top:0;height:auto;padding:6px 10px;gap:8px;flex-direction:row;background:#fef3c7;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.2)}#updGo.updBar img,#updGo.updBar i{display:none}#updGo.updBar b{font-size:17px}#updGo.updBar span{font-size:14px}
 .navBack{display:block!important;width:100%!important;min-height:58px!important;margin:6px 0 12px!important;padding:12px 16px!important;font-size:20px!important;font-weight:700!important;text-align:center!important;background:#e5e7eb!important;color:#1f2937!important;border:0!important;border-radius:14px!important;box-shadow:none!important}@media print{.navBack{display:none!important}}.navAsk .card h2{font-size:24px}.navAsk .card button{min-height:60px;font-size:22px}
 </style></head><body>
 <div id="app"></div>
@@ -307,8 +307,8 @@ function permLab(p){return p[lang]||p.en}
 /* VER 6 base ADMIN FIX RULE (phone): role + token decide, never the team code alone. See tmc-base tests/admin_fix_test_spec.md. */
 function canFix(){const m=me();if(!(m&&m.admin))return false;return !!(sTok()||!sCode())}
 const FREE_K={u:1,rp:1};// u = own user record, rp = report rows the app rebuilds itself
-function put(kind,id,data){if(window.TMC&&TMC.updLock&&TMC.updLock()){toast(t("updGo"));return false}const k=kind+":"+id;if(kind==="u"&&R[k]&&!R[k].del&&R[k].data&&R[k].data.admin&&isMain(R[k].data)&&!(data&&data.admin)){toast(t("dscDem"));return false}/* v21: the main Admin can never be demoted */if(!FREE_K[kind]&&R[k]&&!R[k].del&&!(R[k].loc&&dirty[k])&&!canFix()){alert(t("fixOnly"));return false}if(!FREE_K[kind]&&!R[k]&&!canKind(kind,"add")){alert(t("noAccess"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0),loc=R[k]?(R[k].loc&&dirty[k]?1:0):1;R[k]={kind:kind,id:String(id),u:u,del:0,data:data};if(loc&&!canFix())R[k].loc=1;dirty[k]=1;saveR();syncSoon();return true}
-function remove(kind,id){if(window.TMC&&TMC.updLock&&TMC.updLock()){toast(t("updGo"));return false}const k=kind+":"+id;if(kind==="u")return false;if(!FREE_K[kind]&&!canFix()){alert(t("fixOnly"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:1,data:null};dirty[k]=1;saveR();syncSoon();return true}
+function put(kind,id,data){if(window.TMC&&TMC.updLock&&TMC.updLock()&&TMC.updSave)TMC.updSave();  /* v40: during an update the record still goes into the phone queue (sent by the NEW version after the reload) */const k=kind+":"+id;if(kind==="u"&&R[k]&&!R[k].del&&R[k].data&&R[k].data.admin&&isMain(R[k].data)&&!(data&&data.admin)){toast(t("dscDem"));return false}/* v21: the main Admin can never be demoted */if(!FREE_K[kind]&&R[k]&&!R[k].del&&!(R[k].loc&&dirty[k])&&!canFix()){alert(t("fixOnly"));return false}if(!FREE_K[kind]&&!R[k]&&!canKind(kind,"add")){alert(t("noAccess"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0),loc=R[k]?(R[k].loc&&dirty[k]?1:0):1;R[k]={kind:kind,id:String(id),u:u,del:0,data:data};if(loc&&!canFix())R[k].loc=1;dirty[k]=1;saveR();syncSoon();return true}
+function remove(kind,id){if(window.TMC&&TMC.updLock&&TMC.updLock()&&TMC.updSave)TMC.updSave();  /* v40: during an update the record still goes into the phone queue (sent by the NEW version after the reload) */const k=kind+":"+id;if(kind==="u")return false;if(!FREE_K[kind]&&!canFix()){alert(t("fixOnly"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:1,data:null};dirty[k]=1;saveR();syncSoon();return true}
 /* fix(): Admin changes one field; old value, Admin name and time are kept in data._fix (audit column) and the server "Fix log" tab. */
 function fix(kind,id,field,val){if(!canFix())return false;const k=kind+":"+id,r=R[k];if(!r||r.del)return false;const d=Object.assign({},r.data),old=d[field];if(String(old)===String(val))return true;
   d._fix=(Array.isArray(d._fix)?d._fix:[]).concat([{f:field,old:old,by:me().name,at:new Date().toISOString()}]);d[field]=val;return put(kind,id,d)!==false}
@@ -326,7 +326,9 @@ const sTok=()=>L.get("tok")||"";
 const tokMode=()=>!!(sUrl()&&!sCode());           // VER 4: no code → name+PIN session token
 const syncOn=()=>!!(sUrl()&&(sCode()||sTok()));
 let netBad=false;                                   // true only when the server can't be reached or rejects us
-function api(body){return fetch(sUrl(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({device:dev},body))})
+// v40 (Johan 14 Nov: screens "hang about a minute"): every server call gets a time limit (AbortController) – 10 s, photo upload 90 s (background only)
+function tmo(ms){if(typeof AbortController==="undefined")return undefined;const c=new AbortController();setTimeout(()=>{try{c.abort()}catch(e){}},ms);return c.signal}
+function api(body,ms){return fetch(sUrl(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({device:dev},body)),signal:tmo(ms||10000)})
   .then(r=>r.json()).then(j=>{netBad=false;paintSync();return j},e=>{netBad=true;paintSync();throw e})}
 window.TMC.api=api;
 const pending=()=>Object.keys(dirty).length;
@@ -345,7 +347,7 @@ function syncNow(){
   const keys=Object.keys(dirty),sent={};
   const changes=keys.map(k=>{const r=R[k];sent[k]=r.u;return {kind:r.kind,id:r.id,u:r.u,del:r.del,data:r.data}});
   sState="busy";paintSync();
-  busy=fetch(sUrl(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"sync",code:sTok()?undefined:(sCode()||undefined),token:sTok()||undefined,device:dev,since:+(L.get("since")||0),changes:changes})})
+  busy=fetch(sUrl(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"sync",code:sTok()?undefined:(sCode()||undefined),token:sTok()||undefined,device:dev,since:+(L.get("since")||0),changes:changes}),signal:tmo(Math.min(60000,10000*Math.pow(2,Math.min(fails,3))))})  // v40: 10 s, longer after each time-out (big first sync on a slow line)
   .then(r=>r.json()).then(j=>{
     if(j&&!j.ok&&(j.error==="bad_token"||j.error==="not_active")){const hadTok=!!sTok();L.del("tok");if(sCode()&&hadTok){relogNo=0;syncSoon(300)}else if(tokMode()&&hadTok)syncSoon(300)}  // VER 7 base: re-check now (a removed user is signed out at once)
     if(!j||!j.ok)throw new Error(j&&j.error||"sync");
@@ -388,7 +390,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=39" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=40" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -401,7 +403,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=39" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=40" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -424,7 +426,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=39" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(nameBad(L.get("lastName"))?"":(L.get("lastName")||""))}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=40" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(nameBad(L.get("lastName"))?"":(L.get("lastName")||""))}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -519,7 +521,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=39" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=40" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -558,7 +560,7 @@ function phPump(){if(phBusy||!syncOn()||!navigator.onLine)return Promise.resolve
   return phQ.all().then(q=>{q.sort((a,b)=>String(a.at).localeCompare(String(b.at)));
     const go=q.slice(0,2);   // small batches: 2 photos, then a pause
     return go.reduce((p,o)=>p.then(()=>{if(phOld(o.at)||phRec(o.id)){delete phLocal[o.id];return phQ.del(o.id)}
-      return api({action:"photo",token:sTok()||undefined,code:sTok()?undefined:(sCode()||undefined),id:o.id,d:o.d,at:o.at,ref:o.ref}).then(j=>{
+      return api({action:"photo",token:sTok()||undefined,code:sTok()?undefined:(sCode()||undefined),id:o.id,d:o.d,at:o.at,ref:o.ref},90000).then(j=>{
         if(j&&j.ok){sent++;delete phLocal[o.id];return phQ.del(o.id)}                         // only now the phone copy goes
         if(j&&/^(bad_photo|bad_id|too_big)$/.test(j.error||"")){delete phLocal[o.id];return phQ.del(o.id)}
         throw new Error(j&&j.error||"photo")})}),Promise.resolve()).then(()=>q.length-go.length)})
@@ -809,9 +811,9 @@ function isoWeek(ms){const d=new Date(ms);d.setHours(0,0,0,0);d.setDate(d.getDat
 function reports(){
   const V={};vehs().forEach(v=>V[v.id]=v);const F=fills(),byV={},byD={},byW={};
   const prevOf={};
-  F.forEach(f=>{const v=V[f.vid]||{},h=isH(v),l=num(f.litres)||0,nw=(f.warn||[]).length,p=prevOf[f.vid];
+  F.forEach(f=>{const v=fVof(f,V),h=isH(v),l=num(f.litres)||0,nw=(f.warn||[]).length,p=prevOf[f.vid];
     let d=0,lu=0;if(p){const dd=num(f.meter)-num(p.meter);if(dd>0){d=dd;lu=l}}prevOf[f.vid]=f;
-    const a=byV[f.vid]||(byV[f.vid]={vehicle:(v.fleet||"?")+" "+(v.model||""),unit:h?"h":"km",fills:0,litres:0,dist:0,lu:0,warnings:0});
+    const a=byV[f.vid]||(byV[f.vid]={vehicle:v.out?(f.fleet||oLbl(f)):(v.fleet||"?")+" "+(v.model||""),unit:h?"h":"km",fills:0,litres:0,dist:0,lu:0,warnings:0});
     a.fills++;a.litres+=l;a.dist+=d;a.lu+=lu;a.warnings+=nw;
     const b=byD[f.by]||(byD[f.by]={driver:f.by,fills:0,litres:0,km:0,hours:0,warnings:0});b.fills++;b.litres+=l;b[h?"hours":"km"]+=d;b.warnings+=nw;
     const wk=isoWeek(f.at),c=byW[wk]||(byW[wk]={week:wk,fills:0,litres:0,km:0,hours:0,warnings:0});c.fills++;c.litres+=l;c[h?"hours":"km"]+=d;c.warnings+=nw;});
@@ -849,7 +851,7 @@ const SEED_V=[
 // v9: extra columns from Johan's Vehicles / Generator sheets (model code, engine no., location, correct VIN). Only fills blanks / old seed VIN.
 const SEED_X={B052052:{mdl:"V8",loc:"Production"},"0450":{mdl:"ZRT700",loc:"GZ"},ZTH4018:{mdl:"ZTH4018",vin:"215080000S000077",loc:"GZ"},D327778:{loc:"GZ"},
  C310111:{mdl:"XC740K",eng:"30D2G1P00274",vin:"XUGOSRO7VRCB10111",loc:"GZ"},Z403013:{mdl:"426",loc:"GZ"},"1E33608":{mdl:"J6P-350",loc:"GZ"},"1I22938":{mdl:"J6P-350",vin:"LFNDRXPS2S1F22938",loc:"GZ"},
- KA00514:{mdl:"XE335C",loc:"GZ"},KA00507:{mdl:"XE335C",loc:"GZ"},KA04687:{mdl:"XE215i - KLc",loc:"GZ",ty:"pecker"},"Terex 1":{loc:"Terex"},"Terex 2":{loc:"Terex"},
+ KA00514:{mdl:"XE335C",loc:"GZ"},KA00507:{mdl:"XE335C",loc:"GZ"},KA04687:{mdl:"XE215i - KLc",loc:"GZ",ty:"excavator"},"Terex 1":{loc:"Terex"},"Terex 2":{loc:"Terex"},
  "938324H":{mdl:"P22 22KW",vin:"GV8340",eng:"U938324H",loc:"Workshop"},"094847K":{mdl:"Pi 150P 150KW",vin:"PP82576",eng:"U094847K",loc:"Mobile Crusher"},
  "094772K":{mdl:"Pi 150P 150KW",vin:"PP82576",eng:"U094772K",loc:"Spare"},"094768K":{mdl:"Pi 150P 150KW",vin:"PP82576",eng:"U094768K",loc:"Spare"},
  "6.5KW":{mdl:"6.5KW",loc:"Diesel N/A"},"LND10000T-G":{mdl:"10KW",eng:"LND10000T-G",loc:"Workshop"},"LND10000T-T":{mdl:"10KW",eng:"LND10000T-T",loc:"Terex"}};
@@ -980,7 +982,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=39" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=40" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -1120,6 +1122,10 @@ function tkTable(rows){return `<table class="rp tkr"><tr><th>🛢️</th><th cla
 // (3) − last saved TO reading). Gap = FROM moved vs TO moved: green within the pump meter tolerance (2 L), amber up to 20 L, red above
 // (amber / red = saved as Check later). (1) is only compared with the app's balance after the move – a warning, never a stock correction.
 // Record kind "tx" as v19 (m1/m2 = FROM meter last/after, tm1/tm2 = TO meter last/after, litres), so v38 phones and the live server read it unchanged.
+// v40 (Johan test 11 Nov 2026 20:18): a Bowser / tank being FILLED does not move its own pump meter (it only counts fuel pumped OUT), so the TO meter
+// reading and the FROM/TO gap are gone. Litres moved = FROM pump meter now − last saved FROM reading only. Readings: ① FROM pump meter after (required),
+// ② tank gauge AFTER (optional; warn only when typed and more than 10 % off the app balance). Photo 1 = FROM pump meter (required), photo 2 = TO gauge
+// (optional). No Check later from a move. Record: no tm1/tm2 (mtk = FROM) → TO running meter unchanged on v39 phones, v40 phones and the live server.
 const xfTk=id=>id?tkById(id):null;
 const xfDef=()=>{if(xf.from&&!xfTk(xf.from))xf.from="";if(xf.to&&(!xfTk(xf.to)||xf.to===xf.from))xf.to=""};
 const xfMeterTk=()=>xfTk(xf.from)||null;
@@ -1127,27 +1133,25 @@ const XF_AMBER=20,xr2=x=>Math.round(x*100)/100,xfT3=(k,a,b,c)=>t(k).replace("%a"
 const xfLevel=d=>d==null||!isFinite(d)?"":Math.abs(d)<=pmTol()+1e-9?"g":Math.abs(d)<=XF_AMBER?"a":"r";
 function xfCalc(){const F=xfTk(xf.from),T=xfTk(xf.to),o={F:F,T:T,l:NaN,dF:NaN,dT:NaN,gap:NaN,lv:"",calc:NaN,left:NaN};if(!F||!T||xf.from===xf.to)return o;const at=Date.now();
   o.lf=pumpAt(F.id,at);o.lt=pumpAt(T.id,at);o.bal=xr2(tankBalance(F.id));
-  if(o.lf&&hasNum(xf.r2))o.dF=xr2(num(xf.r2)-o.lf.m);if(o.lt&&hasNum(xf.r3))o.dT=xr2(num(xf.r3)-o.lt.m);
-  o.l=o.lf?o.dF:o.lt?o.dT:NaN;
-  if(isFinite(o.dF)&&isFinite(o.dT)){o.gap=xr2(o.dT-o.dF);o.lv=xfLevel(o.gap)}
-  if(isFinite(o.l)){o.calc=xr2(o.bal-o.l);if(hasNum(xf.r1))o.left=xr2(num(xf.r1)-o.calc)}
+  if(o.lf&&hasNum(xf.r2))o.dF=xr2(num(xf.r2)-o.lf.m);
+  o.l=o.lf?o.dF:NaN;  // v40: FROM pump meter difference only
+  if(isFinite(o.l)){o.calc=xr2(o.bal-o.l);if(hasNum(xf.r1)){o.left=xr2(num(xf.r1)-o.calc);o.leftBad=xfLeftBad(num(xf.r1),o.calc)}}
   return o}
+const xfLeftBad=(typed,app)=>Math.abs(typed-app)>Math.max(Math.abs(app)*0.1,pmTol())+1e-9;  // v40: more than 10 % off (never under the 2 L meter tolerance)
 const xfLit=()=>xfCalc().l;
 function xfWarn(){const W=[],c=xfCalc(),F=c.F,T=c.T;if(!F||!T||xf.from===xf.to)return W;
   if(isFinite(c.dF)&&c.dF<0)W.push({k:"wXfBack",a:fmt(num(xf.r2)),b:fmt(c.lf.m)});
-  if(isFinite(c.dT)&&c.dT<0)W.push({k:"wXfBackT",a:fmt(num(xf.r3)),b:fmt(c.lt.m)});
   if(W.length)return W;const l=c.l;
   if(isFinite(l)&&l>0){tankWarn(F.id,-l).filter(w=>w.k==="wNeg").forEach(w=>W.push(w));tankWarn(T.id,l).filter(w=>w.k==="wOver").forEach(w=>W.push(w));
-    if(c.lv==="a"||c.lv==="r")W.push({k:"wXfGap",a:fmt(c.dF),b:fmt(c.dT)});
-    if(isFinite(c.left)&&Math.abs(c.left)>pmTol()+1e-9)W.push({k:"wXfLeft",a:fmt(num(xf.r1)),b:fmt(c.calc)})}
+    if(c.leftBad)W.push({k:"wXfLeft",a:fmt(num(xf.r1)),b:fmt(c.calc)})}
   return W}
-const xfBack=()=>xfWarn().some(w=>w.k==="wXfBack"||w.k==="wXfBackT");
-const xfOk=()=>{const c=xfCalc();return !!(c.F&&c.T&&xf.from!==xf.to&&hasNum(xf.r1)&&num(xf.r1)>=0&&hasNum(xf.r2)&&num(xf.r2)>=0&&hasNum(xf.r3)&&num(xf.r3)>=0&&isFinite(c.l)&&c.l>0&&!xfBack()&&xf.p&&xf.p2)};
+const xfBack=()=>xfWarn().some(w=>w.k==="wXfBack");
+const xfOk=()=>{const c=xfCalc();return !!(c.F&&c.T&&xf.from!==xf.to&&(!String(xf.r1||"").trim()||hasNum(xf.r1)&&num(xf.r1)>=0)&&hasNum(xf.r2)&&num(xf.r2)>=0&&isFinite(c.l)&&c.l>0&&!xfBack()&&xf.p)};
 function xfLitHTML(){const c=xfCalc(),l=c.l,bad=isFinite(l)&&l<0||xfBack();
-  const how=(lab,last,now,d)=>last&&hasNum(now)?`<small>${esc(xfT3("xfHow",lab,fmt(last.m),fmt(num(now))))} = <b class="xfD">${esc(isFinite(d)?(d>0?"+":"")+fmt(d):"—")} L</b></small>`:"";
-  const none=c.F&&c.T&&!c.lf&&!c.lt;
-  return `<div id="xfRes"><div id="xfLit" class="xfLit${bad?" bad":""}"><span>${esc(t("xfLit"))}</span><b>${isFinite(l)?esc(fmt(l))+" L":"— L"}</b>${how(tkN(c.F),c.lf,xf.r2,c.dF)}${how(tkN(c.T),c.lt,xf.r3,c.dT)}${none?`<small class="flag" id="xfNoLast">${esc(t("xfNoLast"))}</small>`:""}</div>
-  ${c.lv?`<div id="xfGap" class="xfGap ${c.lv}" data-lv="${c.lv}"><span>${esc(t("xfGapT"))}</span><b>${esc((c.gap>0?"+":"")+fmt(c.gap))} L</b><p>${esc(t(c.lv==="g"?"xfGapG":c.lv==="a"?"xfGapA":"xfGapR"))}</p></div>`:""}</div>`}
+  const how=(lab,last,now,d)=>last&&hasNum(now)?`<small>${esc(xfT3("xfHow",lab,fmt(last.m),fmt(num(now))))} = <b class="xfD"><bdi>${esc(isFinite(d)?(d>0?"+":"")+fmt(d):"—")}</bdi> L</b></small>`:"";
+  const none=c.F&&c.T&&!c.lf;
+  return `<div id="xfRes"><div id="xfLit" class="xfLit${bad?" bad":""}"><span>${esc(t("xfLit"))}</span><b>${isFinite(l)?esc(fmt(l))+" L":"— L"}</b>${how(tkN(c.F),c.lf,xf.r2,c.dF)}${none?`<small class="flag" id="xfNoLast">${esc(t("xfNoLast"))}</small>`:""}</div>
+  ${isFinite(c.calc)?`<p class="hint xfExp" id="xfExp">${esc(tr("xfExp",tkN(c.F),fmt(c.calc)))}</p>`:""}</div>`}
 function refreshXf(){const b=$("xfSave");if(b)b.disabled=!xfOk();const w=$("xfWarn");if(w)w.innerHTML=warnBox(xfWarn()).replace('id="fuWarn"','');const L=$("xfRes");if(L)L.outerHTML=xfLitHTML();const n=$("xfNeed");if(n)n.style.display=xfOk()?"none":""}
 const xfSeg=(attr,cur,dis)=>`<div class="seg tks xfs">${tanks().map(x=>`<button type="button" class="sec${x.id===cur?" on":""}" ${attr}="${esc(x.id)}"${x.id===dis?" disabled":""}>${x.mobile?"🚚":"🛢️"} ${esc(tkN(x))}</button>`).join("")}</div>`;
 function xfBoxHTML(){const F=xfTk(xf.from),T=xfTk(xf.to),at=Date.now();
@@ -1155,29 +1159,27 @@ function xfBoxHTML(){const F=xfTk(xf.from),T=xfTk(xf.to),at=Date.now();
   const rd=(id,k,lab,tk,hint)=>`<label class="fl xfl" for="${id}">${esc(tr(lab,tkN(tk),""))}</label><input id="${id}" class="num big2" type="text" inputmode="decimal" autocomplete="off" value="${esc(xf[k]||"")}">${hint}`;
   const ph=(k,cam,gal,lab,tk)=>`<label class="fl xfl">${esc(tr(lab,tkN(tk),""))}</label><label class="pbtn${xf[k]?" ok":""}" id="${cam}L" style="min-height:70px;margin-top:8px">${xf[k]?`<img src="${esc(xf[k])}" alt="" style="height:70px"> ${esc(t("rePh"))}`:esc(t("phCam"))}<input type="file" id="${cam}" accept="image/*" capture="environment"></label><label class="pbtn pgal" style="min-height:60px;margin-top:8px">${esc(t("phGal"))}<input type="file" id="${gal}" accept="image/*"></label>`;
   return `<div class="box" id="xfBox"><h3>${esc(t("xfT"))}</h3><label class="fl">${esc(t("xfFrom"))}</label>${xfSeg("data-xfr",xf.from,"")}<label class="fl">${esc(t("xfTo"))}</label>${xfSeg("data-xto",xf.to,xf.from)}
-   ${F&&T?`<div id="xfRd">${rd("xfL1","r1","xfL1",F,`<p class="hint xfLast">${esc(tr("xfLastBal",tkN(F),fmt(xr2(tankBalance(F.id)))))}</p>`)}${rd("xfL2","r2","xfL2",F,last(F))}${rd("xfL3","r3","xfL3",T,last(T))}${xfLitHTML()}</div>
+   ${F&&T?`<div id="xfRd">${rd("xfL2","r2","xfL2",F,last(F))}${xfLitHTML()}${rd("xfL1","r1","xfL1",F,`<p class="hint xfLast">${esc(tr("xfLastBal",tkN(F),fmt(xr2(tankBalance(F.id)))))}</p>`)}</div>
    <div id="xfPh">${ph("p","xfP","xfPG","xfPh1",F)}${ph("p2","xfQ","xfQG","xfPh2",T)}</div>
    <label class="fl" for="xfN">${esc(t("delNote"))}</label><input id="xfN" type="text" value="${esc(xf.n||"")}">
    <p class="hint" id="xfNeed"${xfOk()?' style="display:none"':""}>${esc(t("xfNeed"))}</p>`:`<p class="hint" id="xfPick">${esc(t("xfPick"))}</p>`}
    <div id="xfWarn">${warnBox(xfWarn()).replace('id="fuWarn"','')}</div><button type="button" id="xfSave" ${xfOk()?"":"disabled"} style="min-height:72px;font-size:22px">${esc(t("xfSave"))}</button></div>`}
 // v39: result card on the tank screen after a save (until OK): litres moved, both meters, gap colour, balances now, litres left typed vs the app
 let xfShow=null;
-function xfDoneHTML(){const o=xfShow;if(!o)return "";const F=tkById(o.from),T=tkById(o.to),lv=o.gapLv||"";
+function xfDoneHTML(){const o=xfShow;if(!o)return "";const F=tkById(o.from),T=tkById(o.to),lv="",lb=hasNum(o.left)&&hasNum(o.leftApp)&&xfLeftBad(num(o.left),num(o.leftApp));
   return `<div class="xfDone ${lv||"g"}" id="xfDone"><h3>${esc(t("xfDoneT"))}</h3><p class="xfSub">${F&&F.mobile?"🚚":"🛢️"} <b>${esc(tkN(F))}</b> → ${T&&T.mobile?"🚚":"🛢️"} <b>${esc(tkN(T))}</b>${o.chad?` · 🕒 ${esc(o.chad)}`:""}</p>
   <div class="xfDL"><span>${esc(t("xfLit"))}</span><b id="xfDLit">${esc(fmt(num(o.litres)))} L</b></div>
   <table class="rp" id="xfDTab"><tr><th></th><th class="r">${esc(t("xfDMov"))}</th><th class="r">${esc(t("xfDBal"))}</th></tr>
   <tr data-xfd="from"><td>${esc(tkN(F))}</td><td class="r">${hasNum(o.dF)?esc(fmt(num(o.dF))):"—"}</td><td class="r">${esc(fmt(xr2(tankBalance(o.from))))} L</td></tr>
-  <tr data-xfd="to"><td>${esc(tkN(T))}</td><td class="r">${hasNum(o.dT)?esc(fmt(num(o.dT))):"—"}</td><td class="r">${esc(fmt(xr2(tankBalance(o.to))))} L</td></tr></table>
+  <tr data-xfd="to"><td>${esc(tkN(T))}</td><td class="r">—</td><td class="r">${esc(fmt(xr2(tankBalance(o.to))))} L</td></tr></table>
   ${lv?`<p class="xfDMsg" id="xfDGap">${esc(t("xfGapT"))}: <b>${esc((num(o.gap)>0?"+":"")+fmt(num(o.gap)))} L</b> – ${esc(t(lv==="g"?"xfGapG":lv==="a"?"xfGapA":"xfGapR"))}</p>`:""}
-  ${hasNum(o.left)?`<p class="xfDMsg${hasNum(o.leftApp)&&Math.abs(num(o.left)-num(o.leftApp))>pmTol()+1e-9?" flag":""}" id="xfDLeft">${esc(xfT3("xfDLeft",tkN(F),fmt(num(o.left)),hasNum(o.leftApp)?fmt(num(o.leftApp)):"—"))}</p>`:""}
+  ${hasNum(o.left)?`<p class="xfDMsg${lb?" flag":""}" id="xfDLeft">${esc(lb?tr("wXfLeft",fmt(num(o.left)),fmt(num(o.leftApp))):xfT3("xfDLeft",tkN(F),fmt(num(o.left)),hasNum(o.leftApp)?fmt(num(o.leftApp)):"—"))}</p>`:""}
   <button type="button" id="xfOkB">${esc(t("puOk"))}</button></div>`}
-function xfSaveNow(u){u=u||me();if(!u||!xfOk())return null;const at=Date.now(),id="tx"+at,c=xfCalc(),W=xfWarn(),l=c.l,m2=num(xf.r2),tm2=num(xf.r3);
-  const o={id:id,v:39,from:xf.from,to:xf.to,litres:l,m1:c.lf?c.lf.m:xr2(m2-l),m2:m2,mtk:xf.from,tm1:c.lt?c.lt.m:xr2(tm2-l),tm2:tm2,
-    left:num(xf.r1),leftApp:c.calc,dF:isFinite(c.dF)?c.dF:null,dT:isFinite(c.dT)?c.dT:null,gap:isFinite(c.gap)?c.gap:null,gapLv:c.lv||"",
+function xfSaveNow(u){u=u||me();if(!u||!xfOk())return null;const at=Date.now(),id="tx"+at,c=xfCalc(),W=xfWarn(),l=c.l,m2=num(xf.r2);
+  const o={id:id,v:40,from:xf.from,to:xf.to,litres:l,m1:c.lf.m,m2:m2,mtk:xf.from,
+    left:hasNum(xf.r1)?num(xf.r1):null,leftApp:c.calc,dF:c.dF,
     note:clean(xf.n||""),at:at,date:new Date(at).toISOString(),chad:new Date(at+36e5).toISOString().slice(0,16).replace("T"," "),by:u.name,
-    p:phKeep(xf.p,"transfer FROM"),p2:phKeep(xf.p2,"transfer TO"),warn:W.map(w=>w.k)};
-  if(!c.lf)o.m1x=1;if(!c.lt)o.tm1x=1;  // no earlier reading on that tank: "last" worked out from the other meter
-  if(c.lv==="a"||c.lv==="r")Object.assign(o,{chk:1,chkOk:0,chkWhy:"wXfGap",pmExp:xr2(o.tm1+l)});
+    p:phKeep(xf.p,"transfer FROM"),p2:xf.p2?phKeep(xf.p2,"transfer TO"):"",warn:W.map(w=>w.k)};  // v40: no tm1/tm2, no Check later
   if(put("tx",id,o)===false)return null;xfShow=o;tkv=xf.to;xf={};return id}
 function refreshDl(){const w=$("dlWarn");if(w)w.innerHTML=num(dl.l)>0?warnBox(tankWarn(dl.tk||"main",num(dl.l))).replace('id="fuWarn"',''):""}
 function tankHTML(u,fl){const T=tanks(),V={};vehs().forEach(v=>V[v.id]=v);xfDef();if(!tkById(tkv))tkv="main";const cur=tkById(tkv),M=tankMoves(tkv),mB=tkById("main");
@@ -1191,7 +1193,7 @@ function tankHTML(u,fl){const T=tanks(),V={};vehs().forEach(v=>V[v.id]=v);xfDef(
   ${T.length>1?xfBoxHTML():""}
   <div class="box"><h3>${esc(t("moves"))}</h3>${T.length>1?tkSeg("data-tkv",tkv,T):""}${M.length?`<div class="mv hint"><span class="n"></span><span class="q">${esc(t("inL"))}/${esc(t("outL"))}</span><span class="q">${esc(t("bal"))}</span></div>`+M.slice().reverse().slice(0,60).map(m=>{const d=m.d,v=V[d.vid];
     const lab=m.kind==="sc"?"⚖️ "+esc(t("scLab"))+": "+esc(d.reason||"")+` <span class="hint">${esc(fmt(num(d.old)))}→${esc(fmt(num(d.new)))}</span>`:m.kind==="d"?"🛢️ "+esc(d.note||t("inL"))+(d.fb?` <span class="hint">#${esc(d.fb)}</span>`:""):m.kind==="tx"?esc(m.q>=0?t("xfIn").replace("%a",tkN(tkById(d.from||"main"))):t("xfOut").replace("%a",tkN(tkById(d.to))))+(hasNum(d.tm1)?` <span class="hint">🔢 ${m.q>=0?esc(fmt(num(d.tm1)))+"→"+(hasNum(d.tm2)?esc(fmt(num(d.tm2))):"—"):esc(fmt(num(d.m1)))+"→"+esc(fmt(num(d.m2)))}</span>`+(d.chk?` <span class="ckb">${esc(t("ckMark"))}</span>`:""):isFinite(num(d.m1))?` <span class="hint">🔢 ${esc(fmt(num(d.m1)))}→${esc(fmt(num(d.m2)))}</span>`:""):"⛽ "+esc(v?v.fleet:"?")+(isFinite(num(d.bm))&&d.bm!=null?` <span class="hint">🔢 ${esc(fmt(num(d.bm)))}</span>`:"");
-    return `<div class="mv"><span class="n">${esc(new Date(m.at).toLocaleString(lang,{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"}))}<br><b>${lab}</b> <span class="hint">${esc(d.by||"")}</span>${(d.warn||[]).length?` <span class="flag">⚠️${d.warn.length}</span>`:""}${m.over?` <span class="flag">${esc(t("wOver").split(" ")[0])}</span>`:""}${m.neg?` <span class="flag">🔻</span>`:""}</span>
+    return `<div class="mv"><span class="n">${esc(new Date(m.at).toLocaleString(lang,{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"}))}<br><b>${lab.replace(/→/g,"→<wbr>")}</b> <span class="hint">${esc(d.by||"")}</span>${(d.warn||[]).length?` <span class="flag">⚠️${d.warn.length}</span>`:""}${m.over?` <span class="flag">${esc(t("wOver").split(" ")[0])}</span>`:""}${m.neg?` <span class="flag">🔻</span>`:""}</span>
     <span class="q ${m.q>=0?"in":"out"}">${m.q>=0?"+":""}${esc(fmt(m.q))}</span><span class="q${m.neg?" flag":""}">${esc(fmt(m.bal))}</span>${u.admin?`<button type="button" class="sm sec" data-rm="${m.kind}:${esc(d.id)}">${esc(t("del"))}</button>`:""}</div>`}).join(""):`<p class="hint">${esc(t("noMoves"))}</p>`}</div>
   ${u.admin?`<div class="box" id="tkAdm"><h3>${esc(t("tkT"))}</h3>${T.map(x=>`<div class="urow"><span class="n">${x.mobile?"🚚":"🛢️"} ${esc(tkN(x))}<br><small class="hint">${x.site?"📍 "+esc(x.site)+" · ":""}${num(x.cap)>0?esc(fmt(num(x.cap)))+" L":"—"}${x.meter?" · 🔢 "+esc(t("tkMeter")):""}</small></span><button type="button" class="sm sec" data-tke="${esc(x.id)}">${esc(t("tkEdit"))}</button></div>`).join("")}<button type="button" id="tkNew">${esc(t("tkAdd"))}</button></div>`:""}`}
 function tankEditHTML(u){if(!u.admin||!te){fv="tank";return tankHTML(u,"")}const x=te,yn=(a,v)=>`<div class="seg"><button type="button" class="sec${v?" on":""}" data-${a}="1">${esc(t("tkYes"))}</button><button type="button" class="sec${v?"":" on"}" data-${a}="0">${esc(t("tkNo"))}</button></div>`;
@@ -1236,7 +1238,7 @@ function importHTML(u){if(!u||!u.admin)return "";const d=impDone();
   return `<div class="box" id="impBox"><h2>${esc(t("impT"))}</h2><p class="hint">${esc(t("impH"))}</p>${impMsg?`<p class="ok" id="impMsg">${esc(impMsg)}</p>`:""}${d?`<p class="ok" id="impOk">${esc(t("impAlready"))}</p>`:`<button type="button" id="impGo" style="min-height:72px;font-size:24px">${esc(t("impGo"))}</button>`}</div>`}
 const baseView9=viewHTML;viewHTML=function(u){const h=baseView9(u);return tab==="settings"?h+importHTML(u):h};
 const baseBind9=bindMain;bindMain=function(u){baseBind9(u);const b=document.getElementById("impGo");if(b)b.onclick=async()=>{if(!confirm(t("impQ")))return;b.disabled=true;
-  try{const J=await (await fetch("./import/"+IMP_ID+".json",{cache:"no-store"})).json();const r=importHistory(J,me());impMsg=r.ok?tr("impDone",r.fills,r.daily):r.error==="already"?t("impAlready"):t("impErr")}catch(e){impMsg=t("impErr")}render()}};
+  try{const J=await (await fetch("./import/"+IMP_ID+".json",{cache:"no-store",signal:tmo(30000)})).json();const r=importHistory(J,me());impMsg=r.ok?tr("impDone",r.fills,r.daily):r.error==="already"?t("impAlready"):t("impErr")}catch(e){impMsg=t("impErr")}render()}};
 Object.assign(window.TMC.fuel,{importHistory:importHistory,impDone:impDone,IMP_ID:IMP_ID});
 
 // v9: gaps = a fill-up whose start reading is not the previous fill-up's reading for that vehicle (a filling seems missing). Shown on Admin Reports.
@@ -1289,7 +1291,7 @@ function clearCheck(kind,id,u){u=u||me();if(!u||!u.admin)return {ok:false,error:
   put(kind,id,Object.assign({},d,{chk:0,chkOk:1,chkBy:u.name,chkAt:new Date().toISOString()}));const eid="e"+Date.now()+Math.random().toString(36).slice(2,5);
   put("ed",eid,{id:eid,kind:kind,rid:id,nid:id,vid:d.vid,fleet:(vehs().find(x=>x.id===d.vid)||{}).fleet||"",what:"cleared Check later",old:{chk:d.chkWhy||"Check later"},new:{chk:"cleared"},by:u.name,at:Date.now(),date:new Date().toISOString()});pushReports();return {ok:true}}
 let er=null,edK="f";
-const vName=vid=>{const v=vehs().find(x=>x.id===vid)||{};return (v.fleet||"?")+" "+(v.model||"")};
+const vName=vid=>{if(isOutV(vid)){const f=oLastOf(vid);return oLbl(f||{vid:vid})}const v=vehs().find(x=>x.id===vid)||{};return (v.fleet||"?")+" "+(v.model||"")};  // v40: outside vehicle → "Outside: ID (reg)"
 function ckRow(o,btn){const v=vehs().find(x=>x.id===o.vid)||{};return `<div class="mv ck" data-ck="${esc(o.kind+":"+o.id)}"><span class="n">${esc(o.day)} · <b>${esc(vName(o.vid))}</b><br>${o.kind==="f"?"⛽":"📏"} ${esc((isH(v)?"Hs ":"Km ")+fmt(o.meter))} <span class="ckb">${esc(t("ckMark"))}</span> <small>${esc(tr(o.why.k,"",fmt(num(o.why.b))).trim())}</small></span>${btn?`<button type="button" class="sm ebtn" data-ed="${esc(o.kind+":"+o.id)}">✏️</button>`:""}</div>`}
 function ckBoxHTML(btn){const L=checkList();return `<div class="box" id="ckBox"><h3>${esc(t("ckT"))} (${L.length})</h3>${L.length?L.map(o=>ckRow(o,btn)).join(""):`<p class="hint">${esc(t("ckNone"))}</p>`}</div>`}
 function edListHTML(){const C={};checkList().forEach(o=>C[o.kind+":"+o.id]=1);
@@ -1365,9 +1367,9 @@ viewHTML=(function(prev){return function(u){return tab==="home"?baseView(u):prev
   return fuelTiles(u)+h.replace(/<div class="tiles" style="margin-bottom:10px">[\s\S]*?<\/div>/,"")}}
 /* report rows for a date range [a,b] (YYYY-MM-DD, inclusive). Distance = meter moved since the vehicle's previous fill-up (any date). */
 function rp14(a,b){const V={};vehs().forEach(v=>V[v.id]=v);const prev={},byV={},byD={},byW={};
-  fills().forEach(f=>{const v=V[f.vid]||{},h=isH(v),l=num(f.litres)||0,p=prev[f.vid];let d=0,lu=0;if(p){const dd=num(f.meter)-num(p.meter);if(dd>0){d=dd;lu=l}}prev[f.vid]=f;
+  fills().forEach(f=>{const v=fVof(f,V),h=isH(v),l=num(f.litres)||0,p=prev[f.vid];let d=0,lu=0;if(p){const dd=num(f.meter)-num(p.meter);if(dd>0){d=dd;lu=l}}prev[f.vid]=f;
     const k=dayKey(f.at);if(k<a||k>b)return;
-    const A=byV[f.vid]||(byV[f.vid]={veh:v.fleet||"?",unit:h?"h":"km",fills:0,l:0,dist:0,lu:0});A.fills++;A.l+=l;A.dist+=d;A.lu+=lu;
+    const A=byV[f.vid]||(byV[f.vid]={veh:v.out?oLbl(f):v.fleet||"?",unit:h?"h":"km",fills:0,l:0,dist:0,lu:0});A.fills++;A.l+=l;A.dist+=d;A.lu+=lu;
     const B=byD[f.by]||(byD[f.by]={drv:f.by||"?",fills:0,l:0,km:0,h:0});B.fills++;B.l+=l;B[h?"h":"km"]+=d;
     const w=isoWeek(f.at),W=byW[w]||(byW[w]={wk:w,fills:0,l:0,km:0,h:0});W.fills++;W.l+=l;W[h?"h":"km"]+=d});
   const R=o=>Object.keys(o).map(k=>{const x=o[k];["l","dist","km","h"].forEach(q=>{if(q in x)x[q]=r1(x[q])});return x});
@@ -1515,6 +1517,7 @@ function paintUpd(){const w=$("updW");if(!w)return;w.style.display=updReady?"blo
 function updScreen(on){let o=$("updGo");if(!on){if(o)o.remove();return}if(!o){o=document.createElement("div");o.id="updGo";o.setAttribute("role","alert");document.body.appendChild(o)}
   o.innerHTML=`<img src="icons/icon-192.png" alt=""><i></i><b>${esc(t("updGo"))}</b><span>${esc(t("updGo2"))}</span>`}
 function updOn(){if(updLock)return;updLock=true;updT0=Date.now();try{const a=document.activeElement;if(a&&a.blur)a.blur()}catch(e){}updScreen(1);
+  setTimeout(()=>{const o=$("updGo");if(updLock&&o)o.classList.add("updBar")},8000);   // v40: never block the screen for more than 8 s – then a small bar, taps work, Save still waits for the update
   setTimeout(()=>{if(updLock&&!(reg&&reg.waiting)&&Date.now()-updT0>=45000)updOff()},45000)}   // download stuck: let staff work, retry next open
 function updOff(){updLock=false;updScreen(0)}
 function applyUpdate(){updOn();if(reg&&reg.waiting)reg.waiting.postMessage("skip");else location.reload();setTimeout(()=>location.reload(),8000)}
@@ -1748,9 +1751,9 @@ let rq={p:"",k:dayKey(Date.now()),vid:""};
 const rqSet=()=>{if(!rq.p)return;const R0=periodRange(rq.p,rq.k);rp.p="pick";rp.from=R0.a;rp.to=R0.b};
 const rqF=()=>fills().filter(f=>!rq.vid||f.vid===rq.vid);
 rp14=function(a,b){const V={};vehs().forEach(v=>V[v.id]=v);const prev={},byV={},byD={},byW={};
-  rqF().forEach(f=>{const v=V[f.vid]||{},h=isH(v),l=num(f.litres)||0,p=prev[f.vid];let d=0,lu=0;if(p){const dd=num(f.meter)-num(p.meter);if(dd>0){d=dd;lu=l}}prev[f.vid]=f;
+  rqF().forEach(f=>{const v=fVof(f,V),h=isH(v),l=num(f.litres)||0,p=prev[f.vid];let d=0,lu=0;if(p){const dd=num(f.meter)-num(p.meter);if(dd>0){d=dd;lu=l}}prev[f.vid]=f;
     const k=dayKey(f.at);if(k<a||k>b)return;
-    const A=byV[f.vid]||(byV[f.vid]={veh:v.fleet||"?",unit:h?"h":"km",fills:0,l:0,dist:0,lu:0});A.fills++;A.l+=l;A.dist+=d;A.lu+=lu;
+    const A=byV[f.vid]||(byV[f.vid]={veh:v.out?oLbl(f):v.fleet||"?",unit:h?"h":"km",fills:0,l:0,dist:0,lu:0});A.fills++;A.l+=l;A.dist+=d;A.lu+=lu;
     const B=byD[f.by]||(byD[f.by]={drv:f.by||"?",fills:0,l:0,km:0,h:0});B.fills++;B.l+=l;B[h?"h":"km"]+=d;
     const w=isoWeek(f.at),W=byW[w]||(byW[w]={wk:w,fills:0,l:0,km:0,h:0});W.fills++;W.l+=l;W[h?"h":"km"]+=d});
   const RR=o=>Object.keys(o).map(k=>{const x=o[k];["l","dist","km","h"].forEach(q=>{if(q in x)x[q]=r1(x[q])});return x});
@@ -1844,11 +1847,29 @@ Object.assign(T.ar,{xfL1:"① %a – اللترات المتبقية بعد ال
  ".xfGap,.xfDone{margin:8px 0;padding:10px;border-radius:14px;border:4px solid #16a34a;background:#f0fdf4;text-align:center}.xfGap span{display:block;font-size:17px}.xfGap b{display:block;font-size:36px;color:#16a34a}.xfGap p{margin:4px 0 0;font-size:17px;font-weight:800}"+
  ".xfGap.a,.xfDone.a{border-color:#d97706;background:#fffbeb}.xfGap.a b{color:#d97706}.xfGap.r,.xfDone.r{border-color:#dc2626;background:#fee2e2}.xfGap.r b{color:#dc2626}"+
  ".xfDone h3{margin:0 0 4px;font-size:22px}.xfDone .xfSub{margin:0 0 6px;font-size:17px}.xfDL span{display:block;font-size:17px}.xfDL b{display:block;font-size:40px;color:#c2410c}.xfDone table{width:100%;margin:6px 0}.xfDone .xfDMsg{font-size:17px;margin:6px 0}#xfOkB{min-height:60px;font-size:22px;margin:4px 0 0}";document.head.appendChild(st)}
-Object.assign(window.TMC.fuel,{xfCalc:xfCalc,xfLevel:xfLevel,xfSaveNow:xfSaveNow,xfShown:()=>xfShow,xfSet:o=>{xf=Object.assign(xf,o||{})}});
+/* v40 Move fuel words (EN / FR / AR) */
+Object.assign(T.en,{xfL1:"② %a – Tank gauge AFTER (what is still in the tank) – optional",xfL2:"① %a – pump meter AFTER the transfer",
+ xfPh1:"📷 Photo 1: %a – pump meter (needed)",xfPh2:"📷 Photo 2: %a – tank gauge (optional)",xfExp:"The app expects about %b L still in %a.",
+ xfNeed:"Type the pump meter and add photo 1. Then Save.",xfNoLast:"No earlier pump meter reading for this FROM tank – litres can't be worked out yet.",
+ wXfLeft:"🛢️ The tank gauge says %a L, but the app expected about %b L. Please check.",xfDLeft:"%a: tank gauge %b L · app about %c L",
+ x40Ok:"✅ Mark as OK",x40Old:"Old TO meter gap – not used any more (a tank being filled does not move its own meter). Litres and stock are right."});
+Object.assign(T.fr,{xfL1:"② %a – Jauge de la cuve APRÈS (ce qui reste dans la cuve) – facultatif",xfL2:"① %a – compteur pompe APRÈS le transfert",
+ xfPh1:"📷 Photo 1 : %a – compteur pompe (obligatoire)",xfPh2:"📷 Photo 2 : %a – jauge de la cuve (facultatif)",xfExp:"L'app compte environ %b L restants dans %a.",
+ xfNeed:"Tapez le compteur pompe et ajoutez la photo 1. Puis Enregistrer.",xfNoLast:"Pas encore d'index compteur pour cette cuve de départ – les litres ne peuvent pas être calculés.",
+ wXfLeft:"🛢️ La jauge indique %a L, mais l'app attendait environ %b L. Vérifiez, s'il vous plaît.",xfDLeft:"%a : jauge %b L · app environ %c L",
+ x40Ok:"✅ Marquer OK",x40Old:"Ancien écart du compteur ARRIVÉE – plus utilisé (une cuve qu'on remplit ne fait pas bouger son propre compteur). Les litres et le stock sont justes."});
+Object.assign(T.ar,{xfL1:"② %a – مقياس الخزان بعد النقل (ما بقي في الخزان) – اختياري",xfL2:"① %a – عداد المضخة بعد النقل",
+ xfPh1:"📷 الصورة 1: %a – عداد المضخة (مطلوبة)",xfPh2:"📷 الصورة 2: %a – مقياس الخزان (اختيارية)",xfExp:"يتوقع التطبيق أن يبقى حوالي %b لتر في %a.",
+ xfNeed:"اكتب عداد المضخة وأضف الصورة 1. ثم احفظ.",xfNoLast:"لا توجد قراءة سابقة لعداد خزان المصدر – لا يمكن حساب اللترات بعد.",
+ wXfLeft:"🛢️ مقياس الخزان يبين %a لتر، لكن التطبيق كان يتوقع حوالي %b لتر. يرجى التحقق.",xfDLeft:"%a: المقياس %b لتر · التطبيق حوالي %c لتر",
+ x40Ok:"✅ تأكيد أنه سليم",x40Old:"فرق قديم في عداد الوجهة – لم يعد يُستعمل (الخزان الذي يُملأ لا يحرك عداده). اللترات والمخزون صحيحة."});
+{const st=document.createElement("style");st.textContent="#ckBox .mv.ck button.x40Ok{width:auto;flex:none;min-height:56px;padding:8px 14px;font-size:18px;font-weight:800;margin:0;white-space:normal}#ckBox .x40Old{display:block;color:#475569}#ckBox .mv.ck[data-ck^=\"tx:\"]{flex-wrap:wrap;gap:6px}#ckBox .mv.ck[data-ck^=\"tx:\"]>.n{flex:1 1 100%}#xfBox .xfExp{font-weight:700;margin:4px 0 0}";document.head.appendChild(st)}
+Object.assign(window.TMC.fuel,{xfCalc:xfCalc,xfLevel:xfLevel,xfLeftBad:xfLeftBad,xfSaveNow:xfSaveNow,xfShown:()=>xfShow,xfSet:o=>{xf=Object.assign(xf,o||{})}});
 {const st=document.createElement("style");st.textContent="#xfBox h3{font-size:24px}#xfBox .xfs button{min-height:68px;font-size:20px;flex:1 1 45%}#xfBox .xfs button:disabled{opacity:.3;text-decoration:line-through}#xfBox label.xfl{font-size:19px;margin-top:12px;display:block}#xfBox input.big2{display:block;width:100%;box-sizing:border-box;min-height:66px;font-size:30px}.xfLit{margin:12px 0;padding:12px;border-radius:14px;background:#fff7ed;border:4px solid #f97316;text-align:center}.xfLit span{display:block;font-size:18px}.xfLit b{display:block;font-size:46px;color:#c2410c}.xfLit.bad{border-color:#dc2626;background:#fee2e2}.xfLit.bad b{color:#dc2626}";document.head.appendChild(st)}
 {const bc=checkList;checkList=function(){const L=bc();all("tx").forEach(d=>{if(d.chk&&!d.chkOk)L.push({kind:"tx",id:d.id,vid:"",day:dayKey(d.at),meter:num(d.tm2),why:{k:"ckXf",b:hasNum(d.pmExp)?fmt(num(d.pmExp)):""}})});return L.sort((a,b)=>a.day<b.day?-1:a.day>b.day?1:0)}}
 {const br=ckRow;ckRow=function(o,btn){if(o.kind!=="tx")return br(o,btn);const d=recOf("tx",o.id)||{};
-  return `<div class="mv ck" data-ck="${esc("tx:"+o.id)}"><span class="n">${esc(o.day)} · <b>🔁 ${esc(tkN(tkById(d.from||"main")))} → ${esc(tkN(tkById(d.to)))}</b> ${esc(fmt(num(d.litres)))} L<br>🔢 ${esc(fmt(num(d.tm1)))}→${hasNum(d.tm2)?esc(fmt(num(d.tm2))):"—"} <span class="ckb">${esc(t("ckMark"))}</span> <small>${esc(tr("ckXf","",o.why.b))}</small></span>${btn?`<button type="button" class="sm sec" data-ckx="${esc(o.id)}">✅</button>`:""}</div>`}}
+  const old=d.chkWhy==="wXfGap";  // v40: a v39 move flagged only for the FROM/TO meter gap – that gap is ignored now
+  return `<div class="mv ck" data-ck="${esc("tx:"+o.id)}"><span class="n">${esc(o.day)} · <b>🔁 ${esc(tkN(tkById(d.from||"main")))} → ${esc(tkN(tkById(d.to)))}</b> ${esc(fmt(num(d.litres)))} L<br>${old?`🔢 ${esc(tkN(tkById(d.from||"main")))} ${esc(fmt(num(d.m1)))}→${esc(fmt(num(d.m2)))} <span class="ckb">${esc(t("ckMark"))}</span> <small class="x40Old">${esc(t("x40Old"))}</small>`:`🔢 ${esc(fmt(num(d.tm1)))}→${hasNum(d.tm2)?esc(fmt(num(d.tm2))):"—"} <span class="ckb">${esc(t("ckMark"))}</span> <small>${esc(tr("ckXf","",o.why.b))}</small>`}</span>${btn?`<button type="button" class="sec x40Ok" data-ckx="${esc(o.id)}">${esc(t("x40Ok"))}</button>`:""}</div>`}}
 {const bb=bindWork;bindWork=function(u){bb(u);document.querySelectorAll("[data-ckx]").forEach(b=>b.onclick=()=>{const r=clearCheck("tx",b.dataset.ckx,me());if(r.ok){flash=t("sv");render()}})}}
 function xfRows(a,b){return all("tx").filter(x=>{const k=dayKey(x.at);return (!a||k>=a)&&(!b||k<=b)}).sort((p,q)=>p.at-q.at).map(x=>({day:dayKey(x.at),from:tkN(tkById(x.from||"main")),to:tkN(tkById(x.to)),l:num(x.litres),
   fm:hasNum(x.m1)?fmt(num(x.m1))+" → "+fmt(num(x.m2)):"",tm:hasNum(x.tm1)?fmt(num(x.tm1))+" → "+(hasNum(x.tm2)?fmt(num(x.tm2)):"—"):"",by:x.by||"",ck:x.chk&&!x.chkOk?"⚠️ "+t("ckMark"):""}))}
@@ -1937,7 +1958,7 @@ function x22Data(p,k){const R0=periodRange(p,k),a=R0.a,b=R0.b,td=dayKey(Date.now
   let bal=0,open=0;const log=[];M.forEach(m=>{const d=dayKey(m.at);if(d>b)return;bal+=isFinite(m.q)?m.q:0;if(d<a){open=bal;return}m.bal=r1(bal);log.push(m)});
   const VB={};vehs().forEach(v=>VB[v.id]=v);
   const pmBad=F.filter(f=>(f.warn||[]).some(w=>w==="wPmMis"||w==="wBmBack"||w==="wBmDiff")||(f.chk&&!f.chkOk&&hasNum(f.pmExp))).length;
-  const noPh=F.filter(f=>!f.miss&&!f.imp&&!(f.p1&&f.p2)).length,endMs=new Date(b+"T23:59:59").getTime();
+  const noPh=F.filter(f=>!f.miss&&!f.imp&&!((f.p1||f.out)&&f.p2)).length,endMs=new Date(b+"T23:59:59").getTime();
   const TKS=tankTotals(a,b).map(x=>{const pa=pumpAt(x.id,endMs);return Object.assign({},x,{pump:pa?pa.m:null})});
   // readings to check: Check-later marks + fill-ups / deliveries with warnings
   const chk=[];CK.forEach(o=>{const v=VB[o.vid]||{},d=recOf(o.kind,o.id)||{};chk.push({day:o.day,tm:o.kind==="f"||o.kind==="tx"||o.kind==="stk"?x22hm(d.at):"",name:o.kind==="tx"?"🔁 "+tkN(tkById(d.from||"main"))+" → "+tkN(tkById(d.to)):o.kind==="stk"?"📐 "+tkN(tkById(d.tk))+" · "+fmt(num(d.mm))+" mm":x22Nm(v),fleet:v.fleet||"",meter:o.meter,l:o.kind==="dy"?null:num(d.litres),
@@ -1963,8 +1984,8 @@ function x22Pages(D){const VV=D.veh.filter(r=>r.l>0||r.used>0||r.fills),dash=VV;
     num:[0,0,0,1].concat(D.ocols.map(()=>1),[1,1,1,0,0]),rows:OV.map(r=>[r.name,r.fleet,r.unit,x22n(r.start)].concat(D.ocols.map(c=>{const x=r.at(c);return x?{v:x.v,ck:x.ck}:""}),[x22n(r.end),r.used||"",r1(r.l)||"",r.rate,ckc(r)])),
     foot:[t("x22Tot"),"","",""].concat(D.ocols.map(()=>""),["","",D.diesel,"",""])}]};
   const VB={};vehs().forEach(v=>VB[v.id]=v);
-  const lrow=m=>{const r=m.r;if(m.k==="f"){const v=VB[r.vid]||{},pm=hasNum(r.bm)?num(r.bm):hasNum(r.pr)?num(r.pr):(pumpAt(tkOf(r),r.at)||{}).m,ck=(r.chk&&!r.chkOk)||(r.warn||[]).length;
-      return [dayKey(m.at),x22hm(m.at),x22Nm(v)||r.fleet,v.fleet||r.fleet||"",x22n(num(r.meter)),"",num(r.litres),tkN(tkById(tkOf(r))),x22n(pm),m.bal,r.p1&&r.p2?"✓":r.miss||r.imp?"—":{v:"✗",ck:1},r.by||"",ck?{v:x22W(r.warn).join(" · ")||(r.chkWhy||""),ck:1}:""]}
+  const lrow=m=>{const r=m.r;if(m.k==="f"){const v=fVof(r,VB),pm=hasNum(r.bm)?num(r.bm):hasNum(r.pr)?num(r.pr):(pumpAt(tkOf(r),r.at)||{}).m,ck=(r.chk&&!r.chkOk)||(r.warn||[]).length;
+      return [dayKey(m.at),x22hm(m.at),x22Nm(v)||r.fleet,v.fleet||r.fleet||"",x22n(num(r.meter)),"",num(r.litres),tkN(tkById(tkOf(r))),x22n(pm),m.bal,(r.p1||r.out)&&r.p2?"✓":r.miss||r.imp?"—":{v:"✗",ck:1},r.by||"",ck?{v:x22W(r.warn).join(" · ")||(r.chkWhy||""),ck:1}:""]}
     if(m.k==="d")return [dayKey(m.at),x22hm(m.at),"🛢️ "+t("x22Del")+(r.note?" · "+r.note:""),"","",num(r.litres),"",tkN(tkById(tkOf(r))),x22n(hasNum(r.pr)?num(r.pr):""),m.bal,r.p?"✓":"",r.by||"",(r.warn||[]).length?{v:x22W(r.warn).join(" · "),ck:1}:""];
     if(m.k==="tx")return [dayKey(m.at),x22hm(m.at),"🔁 "+t("x22Mv")+": "+tkN(tkById(r.from||"main"))+" → "+tkN(tkById(r.to))+" "+fmt(num(r.litres))+" L","","","","",tkN(tkById(r.from||"main")),hasNum(r.m2)?num(r.m2):"",m.bal,"",r.by||"",r.chk&&!r.chkOk?{v:t("ckMark"),ck:1}:""];
     return [dayKey(m.at),x22hm(m.at),"⚖️ "+t("x22Sc")+": "+(r.reason||""),"","",m.q>0?m.q:"",m.q<0?-m.q:"",tkN(tkById(r.tk)),"",m.bal,"",r.by||"",""]};
@@ -2756,6 +2777,144 @@ window.TMC.navFit=navFit;
 /* v39 SIGN-UP + POPUPS END */
 render();
 if(syncOn())syncNow();else if(sUrl())api({action:"status",name:"-"}).catch(()=>{});  // probe so "Not connected" shows on a fresh phone too
+/* ==== Fuel v40 OUTSIDE VEHICLE (Johan 14 Nov 2026 02:12): a fill-up for a vehicle that is NOT in the list (visitor, contractor, borrowed).
+   Reg number + VIN (both needed), km OR hours reading, driver/company (optional), litres, tank/bowser, pump photo + pump reading (as normal).
+   Vehicle ID = LAST 7 characters of the VIN (upper case, spaces out). Saved as a normal fill-up record (kind f) with vid "OUT_<ID>", out:1,
+   oid/oreg/ovin/odrv and fleet "Outside: <ID> (<reg>)" → the LIVE Code.gs keeps it as any fill-up (FillUps / Diesel tabs show the fleet text),
+   it never creates a vehicle (v) or Asset, and no real vehicle total can include it (different vid). Same ID again = same reading chain
+   (meter back / too soon / 2nd fill today), but no tank-size / normal-use / service / high-burn checks (they need list data). ==== */
+var OUT_PFX="OUT_";function isOutV(vid){return String(vid||"").indexOf("OUT_")===0}function isOutF(f){return !!(f&&(f.out===1||f.out==="1"||isOutV(f.vid)))}
+const oK=x=>String(x==null?"":x).replace(/\s+/g,"").toUpperCase();
+const oIdOf=vin=>{const c=oK(vin);return c.length>=7?c.slice(-7):""};
+function oLbl(f){return t("outP")+": "+String((f&&f.oid)||(f&&isOutV(f.vid)?String(f.vid).slice(4):"")||"?")+(f&&f.oreg?" ("+f.oreg+")":"")}
+const oFleetTxt=(id,reg)=>"Outside: "+id+" ("+reg+")";  // English on the Sheet (FillUps / Diesel "Fleet no")
+function oLastOf(vid){let p=null;allRaw("f").forEach(f=>{if(f&&f.vid===vid&&(!p||num(f.at)>=num(p.at)))p=f});return p}
+function oPseudo(f,V){return {id:f.vid,mt:f.unit==="h"?"h":"km",fleet:String(f.oid||String(f.vid).slice(4)),model:oLbl(f),out:1}}
+function fVof(f,V){return (V&&V[f.vid])||(isOutF(f)?oPseudo(f):{})}
+// a real fleet vehicle with this ID (fleet no, last 7 of its VIN) or this number plate
+function oFleetHit(id,reg){if(!id&&!reg)return null;const R0=oK(reg);return vehs().find(v=>{const fl=oK(v.fleet),vn=oK(v.vin),pl=oK(v.plate);
+  return !!id&&(fl===id||(fl.length>=7&&fl.slice(-7)===id)||(vn.length>=7&&vn.slice(-7)===id))||(!!R0&&R0.length>=3&&pl===R0)})||null}
+const oCanUse=u=>!!u&&can("fill",u)&&(u.admin||vehOf(u)==="all");  // live Code.gs refuses fills outside a staff member's own vehicle list
+function oState(){const id=oIdOf(fs.ovin),reg=clean(fs.oreg),vinC=oK(fs.ovin);
+  return {id:id,reg:reg,vin:vinC,short:!!vinC&&vinC.length<7,regBad:!!reg&&nameBad(reg),vinBad:!!vinC&&nameBad(fs.ovin),hit:id||reg?oFleetHit(id,reg):null,last:id?oLastOf(OUT_PFX+id):null}}
+function oSync(){const s=oState();fs.vid=s.id?OUT_PFX+s.id:"";return s}
+// warnings: the normal reading checks on this outside ID's own chain + the normal tank / pump checks
+function oWarn(at){at=at||Date.now();const s=oSync();if(!s.id)return [];const P={id:fs.vid,mt:fs.ou==="h"?"h":"km",out:1};
+  const W=hasNum(fs.m)&&num(fs.m)>=0?fuelWarn(P,lastFill(fs.vid,at),{meter:fs.m,litres:fs.l,at:at}).filter(w=>w.k==="wBack"||w.k==="wSoon"):[];
+  const tk=fs.tk;if(!tk||!tkById(tk)||!(num(fs.l)>0))return W;
+  return W.concat(tankWarn(tk,-num(fs.l),null,null,null,at).filter(w=>w.k!=="wBmBack"&&w.k!=="wBmDiff"),pmCheck(tk,fs.bm,fs.l,at))}
+function oOk(){const s=oSync();return !!(s.reg&&!s.regBad&&s.id&&!s.short&&!s.vinBad&&!s.hit&&(fs.ou==="km"||fs.ou==="h")&&hasNum(fs.m)&&num(fs.m)>=0&&num(fs.l)>0&&fs.tk&&tkById(fs.tk)&&hasNum(fs.bm)&&num(fs.bm)>=0&&fs.p2)}
+{const c0=canSave;canSave=function(s){return s&&s.out?(s===fs?oOk():false):c0(s)}}
+{const w0=curWarn;curWarn=function(at){return fs&&fs.out?oWarn(at):w0(at)}}
+{const b0=x28Burn;x28Burn=function(v,e,x){if((v&&v.out)||(e&&isOutF(e)))return null;return b0(v,e,x)}}
+const oIdBox=s=>`<div id="oIdBox" class="oIdBox${s.id&&!s.short?" ok":""}"><span>${esc(t("oId"))}</span><b id="oId">${esc(s.id||"—")}</b></div>
+  <p class="flag oMsg" id="oShort"${s.short?"":" hidden"}>${esc(t("oShort"))}</p><p class="flag oMsg" id="oVinBad"${s.vinBad?"":" hidden"}>${esc(t("oVinBad"))}</p>
+  <div class="flag oMsg" id="oHit"${s.hit?"":" hidden"}>${s.hit?`${esc(tr("oHit",s.id||s.reg,s.hit.fleet+(s.hit.model?" "+s.hit.model:"")))}<button type="button" class="sec oPick" data-vid="${esc(s.hit.id)}">${esc(tr("oPick",s.hit.fleet,""))}</button>`:""}</div>
+  <p class="hint oMsg" id="oKnown">${s.id&&!s.short?esc(s.last?tr("oKnown",fmt(num(s.last.meter))+" "+(s.last.unit==="h"?t("hr"):t("km")),dayKey(s.last.at)):t("oNew")):""}</p>`;
+function outHTML(u){const s=oSync(),hU=fs.ou==="h",inp=(id,k,v,ex)=>`<label class="fl" for="${id}">${esc(t(k))}</label><input id="${id}" type="text" autocomplete="off" ${ex||""} value="${esc(v||"")}">`;
+  return `<button type="button" class="sec" data-fv="pick">${esc(t("back"))}</button>
+  <div class="box oHead"><div class="oIc">${vIcon("car")}</div><div><b style="font-size:24px">🚙 ${esc(t("outT"))}</b><br><span class="hint">${esc(t("outS"))}</span></div></div>
+  <div class="box" id="oVeh">${inp("oReg","oReg",fs.oreg,'autocapitalize="characters" spellcheck="false"')}<p class="flag oMsg" id="oRegBad"${s.regBad?"":" hidden"}>${esc(t("oRegBad"))}</p>
+    ${inp("oVin","oVin",fs.ovin,'autocapitalize="characters" spellcheck="false"')}${oIdBox(s)}
+    ${inp("oDrv","oDrv",fs.odrv,'autocapitalize="words"')}</div>
+  <div class="box" id="oMeter"><label class="fl">${esc(t("mtype"))}</label><div class="seg oUnit"><button type="button" class="sec${fs.ou==="km"?" on":""}" data-ou="km">${esc(t("km"))}</button><button type="button" class="sec${hU?" on":""}" data-ou="h">${esc(t("hr"))}</button></div>
+    <label class="fl" for="fuM">${esc(hU?t("meterH"):t("meterKm"))}</label><input id="fuM" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(fs.m||"")}">
+    <p class="hint" id="oLastM">${esc(t("last"))}: ${s.last&&hasNum(s.last.meter)?esc(fmt(num(s.last.meter))+" "+(s.last.unit==="h"?t("hr"):t("km"))):"—"}</p></div>
+  <div class="box" id="fuStep2"><h3>${esc(t("step2"))}</h3><div><label class="pbtn${fs.p2?" ok":""}" id="fuP2L">${fs.p2?`<img src="${esc(fs.p2)}" alt="">${esc(t("rePh"))}`:esc(t("takePh"))}<input type="file" id="fuP2" accept="image/*" capture="environment"></label><label class="pbtn pgal" style="min-height:60px;margin-top:8px">${esc(t("phGal"))}<input type="file" id="fuP2G" accept="image/*"></label></div>
+    <label class="fl big2" for="fuL">${esc(t("fuLit"))}</label><input id="fuL" class="num big2" type="text" inputmode="decimal" autocomplete="off" value="${esc(fs.l||"")}">
+    ${bmHTML()}</div>
+  ${fromHTML()}${warnBox(curWarn())}<p class="hint" id="fuNeed">${esc(t("oNeed"))}</p><button type="button" id="fuSave" ${canSave(fs)?"":"disabled"} style="min-height:72px;font-size:24px">${esc(t("saveFill"))}</button>`}
+function oRefresh(){const s=oSync(),box=$("oIdBox");if(box){box.className="oIdBox"+(s.id&&!s.short?" ok":"");$("oId").textContent=s.id||"—"}
+  const sh=(id,on)=>{const e=$(id);if(e)e.hidden=!on};sh("oShort",s.short);sh("oVinBad",s.vinBad);sh("oRegBad",s.regBad);
+  const h=$("oHit");if(h){h.hidden=!s.hit;h.innerHTML=s.hit?`${esc(tr("oHit",s.id||s.reg,s.hit.fleet+(s.hit.model?" "+s.hit.model:"")))}<button type="button" class="sec oPick" data-vid="${esc(s.hit.id)}">${esc(tr("oPick",s.hit.fleet,""))}</button>`:"";
+    const b=h.querySelector("[data-vid]");if(b)b.onclick=()=>{fs={vid:b.dataset.vid};fv="fill";render();scrollTo(0,0)}}
+  const k=$("oKnown");if(k)k.textContent=s.id&&!s.short?(s.last?tr("oKnown",fmt(num(s.last.meter))+" "+(s.last.unit==="h"?t("hr"):t("km")),dayKey(s.last.at)):t("oNew")):"";
+  const lm=$("oLastM");if(lm)lm.textContent=t("last")+": "+(s.last&&hasNum(s.last.meter)?fmt(num(s.last.meter))+" "+(s.last.unit==="h"?t("hr"):t("km")):"—");
+  refreshFill()}
+// prefill reg / driver / unit once when a known outside ID is typed
+function oPrefill(){const s=oSync();if(!s.id||!s.last||fs._pre===s.id)return;fs._pre=s.id;const L0=s.last;
+  if(!clean(fs.oreg)&&L0.oreg){fs.oreg=L0.oreg;const e=$("oReg");if(e)e.value=L0.oreg}
+  if(!clean(fs.odrv)&&L0.odrv){fs.odrv=L0.odrv;const e=$("oDrv");if(e)e.value=L0.odrv}
+  if(!fs.ou&&(L0.unit==="h"||L0.unit==="km")){fs.ou=L0.unit;render()}}
+function oSave(u){u=u||me();if(!u||!fs.out||!oOk())return null;const s=oSync(),at=Date.now(),vid=fs.vid,pr=lastFill(vid,at),tk=fs.tk,W=curWarn(at),lm=pumpAt(tk,at),pw=W.find(w=>w.k==="wPmMis"||w.k==="wBmBack");
+  const id="f"+at+Math.random().toString(36).slice(2,5),drv=clean(fs.odrv);
+  const r=put("f",id,{id:id,vid:vid,out:1,oid:s.id,oreg:s.reg,ovin:s.vin,odrv:drv&&!nameBad(drv)?drv:"",fleet:oFleetTxt(s.id,s.reg),meter:num(fs.m),unit:fs.ou==="h"?"h":"km",litres:num(fs.l),at:at,date:new Date(at).toISOString(),by:u.name,
+    p1:"",p2:phKeep(fs.p2,"fill pump outside "+s.id),prev:pr&&hasNum(pr.meter)?num(pr.meter):null,warn:W.map(w=>w.k),flag:W.length?1:0,tk:tk,bm:num(fs.bm),bm0:lm?lm.m:null,
+    ...(pw?{chk:1,chkOk:0,pmExp:pw.e,chkWhy:tr(pw.k,pw.a,pw.b)}:{})});
+  if(r===false)return null;fs={};fv="menu";flash=t("savedFill")+(W.length?"  ⚠️"+W.length:"");pushReports();render();scrollTo(0,0);return id}
+// picker: the big "Outside vehicle" tile (first, full width) on the vehicle picker
+const oTile=()=>`<button type="button" class="vt vOut" data-out="1" id="oTile"><span class="oIc">${vIcon("car")}<i>?</i></span><b>🚙 ${esc(t("outT"))}</b><small>${esc(t("outS"))}</small></button>`;
+{const bw=workHTML;workHTML=function(u){
+  if(fv==="out"){if(!oCanUse(u)){fs={};fv="menu"}else return outHTML(u)}
+  const h=bw(u);if(!(fv==="pick"||fv==="menu")||!oCanUse(u)||h.indexOf('id="oTile"')>=0)return h;
+  const i=h.indexOf('<div class="vgrid">');if(i>=0)return h.slice(0,i)+oTile()+h.slice(i);
+  const j=h.search(/<p class="hint"( id="vaNoV")?>/);return j>=0?h.slice(0,j)+oTile()+h.slice(j):h}}
+{const bb=bindWork;bindWork=function(u){bb(u);
+  const ot=$("oTile");if(ot)ot.onclick=()=>{fs={out:1};fv="out";render();scrollTo(0,0)};
+  if(fv!=="out")return;
+  const inp=(id,k,after)=>{const e=$(id);if(e)e.oninput=()=>{fs[k]=e.value;after?after():refreshFill()}};
+  inp("oReg","oreg",oRefresh);inp("oVin","ovin",()=>{oPrefill();oRefresh()});inp("oDrv","odrv",()=>{});
+  document.querySelectorAll("[data-ou]").forEach(b=>b.onclick=()=>{fs.ou=b.dataset.ou;render()});
+  const hb=document.querySelector("#oHit [data-vid]");if(hb)hb.onclick=()=>{fs={vid:hb.dataset.vid};fv="fill";render();scrollTo(0,0)};
+  const sv=$("fuSave");if(sv)sv.onclick=()=>oSave(u)}}
+// names everywhere: history lists, Check later, pump-meter list, reports
+// Admin edit of an outside fill: keep its own outside ID (never moved onto a fleet vehicle by the vehicle drop-down)
+{const e0=edFormHTML;edFormHTML=function(){const h=e0();if(!er||!isOutV(er.vid))return h;const d=recOf(er.kind,er.id)||{vid:er.vid};
+  return h.replace(/<select id="edVid">[\s\S]*?<\/select>/,`<select id="edVid"><option value="${esc(er.vid)}" selected>${esc(oLbl(d))}</option></select>`)}}
+{const e0=editRec;editRec=function(kind,id,ch,u){const old=recOf(kind,id);if(old&&isOutF(old)&&ch&&ch.vid===old.vid){ch=Object.assign({},ch);delete ch.vid}return e0(kind,id,ch,u)}}
+Object.assign(T.en,{outT:"Outside vehicle",outS:"Not in the list – visitor, contractor, borrowed",outP:"Outside",oReg:"Reg number (number plate)",oVin:"VIN (chassis number)",
+ oId:"Vehicle ID (last 7 of the VIN)",oShort:"⚠️ VIN too short: type at least 7 letters / numbers. Save stays off.",oVinBad:"⚠️ That looks like a link, not a VIN.",oRegBad:"⚠️ Type the number plate (not a link).",
+ oHit:"⚠️ %a is already a fleet vehicle (%b). Pick it from the list instead.",oPick:"🚜 Pick %a",oKnown:"Seen before – last reading %a on %b",oNew:"New outside vehicle",oDrv:"Driver / company (optional)",
+ oNeed:"Type reg number, VIN, km or hours, litres and pump reading, pick the tank, take the pump photo. Then Save."});
+Object.assign(T.fr,{outT:"Véhicule extérieur",outS:"Pas dans la liste – visiteur, sous‑traitant, prêté",outP:"Extérieur",oReg:"Immatriculation (plaque)",oVin:"VIN (numéro de châssis)",
+ oId:"ID du véhicule (7 derniers du VIN)",oShort:"⚠️ VIN trop court : tapez au moins 7 lettres / chiffres. Enregistrer reste bloqué.",oVinBad:"⚠️ Ceci ressemble à un lien, pas à un VIN.",oRegBad:"⚠️ Tapez la plaque (pas un lien).",
+ oHit:"⚠️ %a est déjà un véhicule de la flotte (%b). Choisissez-le dans la liste.",oPick:"🚜 Choisir %a",oKnown:"Déjà venu – dernier relevé %a le %b",oNew:"Nouveau véhicule extérieur",oDrv:"Chauffeur / société (facultatif)",
+ oNeed:"Tapez immatriculation, VIN, km ou heures, litres et compteur pompe, choisissez la cuve, prenez la photo de la pompe. Puis Enregistrer."});
+Object.assign(T.ar,{outT:"مركبة من الخارج",outS:"ليست في القائمة – زائر، مقاول، مستعارة",outP:"خارجية",oReg:"رقم التسجيل (اللوحة)",oVin:"رقم الشاسيه (VIN)",
+ oId:"رقم المركبة (آخر 7 من VIN)",oShort:"⚠️ رقم VIN قصير جداً: اكتب 7 أحرف / أرقام على الأقل. الحفظ مغلق.",oVinBad:"⚠️ هذا يشبه رابطاً وليس رقم VIN.",oRegBad:"⚠️ اكتب رقم اللوحة (وليس رابطاً).",
+ oHit:"⚠️ %a مركبة من الأسطول (%b). اخترها من القائمة.",oPick:"🚜 اختيار %a",oKnown:"سبق تسجيلها – آخر قراءة %a في %b",oNew:"مركبة خارجية جديدة",oDrv:"السائق / الشركة (اختياري)",
+ oNeed:"اكتب رقم التسجيل ورقم VIN والكيلومترات أو الساعات واللترات وعداد المضخة، اختر الخزان، والتقط صورة المضخة. ثم احفظ."});
+{const st=document.createElement("style");st.textContent=".vt.vOut{grid-column:1/-1;width:100%;min-height:120px;flex-direction:row;gap:12px;justify-content:flex-start;text-align:start;border:4px dashed #b45309;background:#fffbeb;margin:0 0 10px;padding:10px 14px;flex-wrap:wrap}.vt.vOut b{font-size:24px}.vt.vOut small{flex:1 1 100%;font-size:17px;color:#475569}.oIc{position:relative;width:96px;flex:none}.vt b{font-size:min(22px,5.4vw)}.mv .n{min-width:0}.oIc i{position:absolute;right:0;top:-6px;background:#b45309;color:#fff;border-radius:50%;width:30px;height:30px;font-style:normal;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:20px}.oHead{display:flex;gap:10px;align-items:center}.oIdBox{margin:10px 0;border:3px solid #cbd5e1;border-radius:14px;padding:10px;text-align:center;background:#f8fafc}.oIdBox.ok{border-color:#16a34a;background:#f0fdf4}.oIdBox span{display:block;font-size:17px;color:#475569}.oIdBox b{display:block;font-size:44px;letter-spacing:4px;font-family:ui-monospace,monospace;direction:ltr;overflow-wrap:anywhere}.oMsg{overflow-wrap:anywhere;word-break:break-word}.oMsg[hidden]{display:none}#oHit .oPick{margin-top:8px;min-height:56px;width:100%}";document.head.appendChild(st)}
+Object.assign(window.TMC.fuel,{editRec:editRec,isOutF:isOutF,oIdOf:oIdOf,oFleetHit:oFleetHit,oSave:oSave,oLbl:oLbl,fsSet:o=>{fs=Object.assign(fs||{},o||{})},fsGet:()=>fs});
+/* ==== Fuel v40 OUTSIDE VEHICLE END ==== */
+/* ==== Fuel v40 STOCK LEVEL (Johan 14 Nov 2026): big "Stock level" button on Home for EVERY user → read-only screen: each active tank / bowser,
+   litres now (the existing tankBalance – no new maths), its last stock change and the last sync, Chad time 24 h. Local data only, opens at once. ==== */
+let slOn=0;
+const slT=ms=>{const n=num(ms);if(!(n>0))return "—";try{return new Date(n).toLocaleString("en-GB",{timeZone:"Africa/Ndjamena",day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:false}).replace(",","")}catch(e){return new Date(n).toISOString().slice(0,16).replace("T"," ")}};
+function slLast(id){let m=0;try{tankMoves(id).forEach(x=>{if(num(x.at)>m)m=num(x.at)})}catch(e){}return m}
+function stockHTML(){const T=tanks();
+  return `<button type="button" class="sec slBack" id="slBack">${esc(t("back"))}</button><div class="box" id="slBox"><h2>🛢️ ${esc(t("slT"))}</h2>
+  ${T.map(x=>{const b=xr2(tankBalance(x.id)),cap=num(x.cap);return `<div class="slRow" data-sl="${esc(x.id)}"><div class="slN">${x.mobile?"🚚":"🛢️"} ${esc(tkN(x))}</div><div class="slL"><b>${esc(fmt(b))}</b> L</div>${cap>0?`<div class="hint">${esc(tr("slCap",fmt(cap),""))}</div>`:""}<div class="hint slAt">${esc(t("slAt"))}: <span dir="ltr">${esc(slT(slLast(x.id)))}</span></div></div>`}).join("")}
+  <p class="hint" id="slSync">${esc(t("slSync"))}: <span dir="ltr">${esc(slT(L.get("lastOk")))}</span> (${esc(t("slTz"))})</p></div>`}
+{const v0=viewHTML;viewHTML=function(u){if(tab!=="home"){slOn=0;return v0(u)}if(slOn)return stockHTML();const h=v0(u),btn=`<button type="button" class="slGo" id="slGo">🛢️ ${esc(t("slT"))}</button>`;
+  const i=h.indexOf('id="hOut"'),j=i>=0?h.indexOf('</button>',i):-1;return j>=0?h.slice(0,j+9)+btn+h.slice(j+9):btn+h}}  // right under the Log out band
+{const b0=bindMain;bindMain=function(u){b0(u);const g=$("slGo");if(g)g.onclick=()=>{slOn=1;render();scrollTo(0,0)};const k=$("slBack");if(k)k.onclick=()=>{slOn=0;render();scrollTo(0,0)};
+  document.querySelectorAll("nav [data-tab]").forEach(b=>b.addEventListener("click",()=>{slOn=0},true))}}
+Object.assign(T.en,{slT:"Stock level",slAt:"Last change",slSync:"Last update from the server",slTz:"Chad time",slCap:"Tank holds %a L"});
+Object.assign(T.fr,{slT:"Niveau du stock",slAt:"Dernier changement",slSync:"Dernière mise à jour du serveur",slTz:"heure du Tchad",slCap:"La cuve contient %a L"});
+Object.assign(T.ar,{slT:"مستوى المخزون",slAt:"آخر تغيير",slSync:"آخر تحديث من الخادم",slTz:"بتوقيت تشاد",slCap:"سعة الخزان %a لتر"});
+{const st=document.createElement("style");st.textContent=".slGo{display:block;width:100%;min-height:84px;font-size:26px;font-weight:800;margin:10px 0;white-space:normal;word-break:normal;overflow-wrap:normal;hyphens:none}.slBack{background:#e2e8f0!important;color:#0f172a!important;border:2px solid #94a3b8!important}#slBox h2{word-break:normal;overflow-wrap:normal}.slRow{border:3px solid #cbd5e1;border-radius:14px;padding:10px 12px;margin:10px 0;background:#fff}.slN{font-size:22px;font-weight:800;word-break:normal;overflow-wrap:normal}.slL{font-size:22px}.slL b{font-size:46px;font-weight:900;direction:ltr;unicode-bidi:isolate}.slAt,#slSync{word-break:normal;overflow-wrap:normal}";document.head.appendChild(st)}
+Object.assign(window.TMC.fuel,{stockOpen:()=>{tab="home";slOn=1;render()}});
+/* ==== Fuel v40 STOCK LEVEL END ==== */
+/* ==== Fuel v40 UPDATE NEVER LOSES TYPING (Johan 14 Nov 2026 03:05): a new version found while a form has unsaved input (or right after a Save)
+   does NOT reload: a small bar stays, taps work, a Save goes into the phone queue (not sent by the old version), and the reload happens only
+   when the user is back on Home with nothing typed – or right after a successful Save. ==== */
+let updWant=0,updSaved=0;
+function updDraft(){try{if(navDirty())return true}catch(e){}
+  const ty=o=>!!o&&typeof o==="object"&&Object.keys(o).some(k=>!/^(from|to|tk|vid|out|ou|_pre|day|dtk|sup|v)$/.test(k)&&o[k]!=null&&o[k]!==""&&o[k]!==0&&!(typeof o[k]==="object"&&!Object.keys(o[k]).length));
+  return ty(fs)||ty(xf)||ty(dl)||ty(dy)||ty(stk)||ty(pu)||!!er||!!ve||!!document.querySelector("#app .modal, .modal.navAsk")}
+function updBarNow(){const o=$("updGo");if(!o)return;o.classList.add("updBar");if(updWant)o.innerHTML=`<b>${esc(t("updWait"))}</b><span>${esc(t("updWait2"))}</span>`}
+const updMayReload=()=>updWant&&!updDraft()&&(updSaved||(tab==="home"&&!slOn));
+{const a0=applyUpdate;applyUpdate=function(){if(updDraft()||!(tab==="home"&&!slOn)&&!updSaved){updWant=1;updOn();updBarNow();return}updWant=0;a0()}}
+{const o0=updOn;updOn=function(){o0();if(updDraft())updBarNow()}}
+{const s0=syncNow;syncNow=function(){if(updLock)return Promise.resolve(false);return s0.apply(this,arguments)};window.TMC.syncNow=syncNow}   // the old version never sends: the new one does after the reload
+window.TMC.updSave=()=>{updSaved=1};
+{const r0=render;render=function(){const x=r0.apply(this,arguments);if(updMayReload())setTimeout(()=>{if(updMayReload()){updWant=0;applyUpdate()}},0);else if(updWant)updBarNow();return x};window.TMC.render=render}
+Object.assign(T.en,{updWait:"🆕 New version ready",updWait2:"It loads when you are back on Home. Your typing is kept."});
+Object.assign(T.fr,{updWait:"🆕 Nouvelle version prête",updWait2:"Elle se charge quand vous revenez à l'Accueil. Ce que vous tapez est gardé."});
+Object.assign(T.ar,{updWait:"🆕 نسخة جديدة جاهزة",updWait2:"تُحمَّل عند عودتك إلى الرئيسية. ما تكتبه محفوظ."});
+Object.assign(window.TMC,{updDraft:updDraft,updWant:()=>updWant});
+/* ==== Fuel v40 UPDATE NEVER LOSES TYPING END ==== */
 })();
 /* SPELLCHECK START — phone spellcheck on every free-text box (names, items, notes).
    Never on PIN / number / sync / code / masked fields. Covers boxes built later too. */
