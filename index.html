@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 40,
+ "VER": 41,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=40">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=40">
+<link rel="icon" href="icons/favicon-32.png?v=41">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=41">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -128,7 +128,7 @@ nav.tabs button .ticon{font-size:28px}nav.tabs button.on{color:var(--c);backgrou
 .box{background:#fff;border-radius:16px;padding:14px;margin:0 0 12px;box-shadow:0 2px 8px #0001}
 .ph{border:4px dashed #f59e0b;background:#fffbeb;text-align:center}
 .bar{display:none;margin:0 0 10px;padding:10px 12px;border-radius:12px;font-weight:700}
-.pendW{background:#fef3c7;border:2px solid #f59e0b;color:#78350f}.updW{background:#dbeafe;border:2px solid #2563eb;color:#1e3a8a}
+.pendW{background:#fef3c7;border:2px solid #f59e0b;color:#78350f}
 .bar small{display:block;font-weight:500;margin-top:4px}
 .urow{display:flex;flex-wrap:wrap;align-items:center;gap:4px;border-bottom:1px solid #e2e8f0;padding:8px 0}.urow .n{flex:1;min-width:140px;font-weight:700}
 .st{font-size:14px;border-radius:8px;padding:2px 8px;background:#e2e8f0}.st.pending{background:#fef3c7}.mainP{display:block;margin:6px 0;padding:10px 12px;border-radius:10px;background:#dbeafe;color:#1e3a8a;font-size:17px;font-weight:600}.st.blocked,.st.rejected{background:#fee2e2}.st.active{background:#dcfce7}
@@ -189,9 +189,9 @@ nav.tabs .tlab{font-size:13px;line-height:1.1;text-align:center;overflow-wrap:an
 header{padding:12px 14px}header .t{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media (max-width:380px){header{padding:8px 10px}header .t{font-size:17px}}
 .bar{margin:0 0 12px;padding:12px;border-radius:14px}
-.updW,.ncW{border-width:1px}
+.ncW{border-width:1px}
 main>.bar button{font-size:18px;font-weight:600;border-radius:10px;padding:10px}
-#updW,#ncW{font-size:17px}
+#ncW{font-size:17px}
 #updGo{position:fixed;inset:0;z-index:99999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:18px}#updGo img{width:96px;height:96px;border-radius:20px}#updGo b{font-size:30px;line-height:1.25;color:#0f172a}#updGo span{font-size:20px;color:#475569}#updGo i{width:64px;height:64px;border:7px solid #e2e8f0;border-top-color:#0f766e;border-radius:50%;animation:updSp 1s linear infinite}@keyframes updSp{to{transform:rotate(360deg)}}#updGo.updBar{inset:auto 0 auto 0;top:0;height:auto;padding:6px 10px;gap:8px;flex-direction:row;background:#fef3c7;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.2)}#updGo.updBar img,#updGo.updBar i{display:none}#updGo.updBar b{font-size:17px}#updGo.updBar span{font-size:14px}
 .navBack{display:block!important;width:100%!important;min-height:58px!important;margin:6px 0 12px!important;padding:12px 16px!important;font-size:20px!important;font-weight:700!important;text-align:center!important;background:#e5e7eb!important;color:#1f2937!important;border:0!important;border-radius:14px!important;box-shadow:none!important}@media print{.navBack{display:none!important}}.navAsk .card h2{font-size:24px}.navAsk .card button{min-height:60px;font-size:22px}
 </style></head><body>
@@ -297,7 +297,7 @@ const saveR=()=>{L.sj("recs",R);L.sj("dirty",dirty)};
 const allRaw=kind=>Object.keys(R).map(k=>R[k]).filter(r=>r.kind===kind&&!r.del).map(r=>r.data);
 /* Fuel v34 (Johan, 2 Nov 2026): a 2nd fill-up for the same vehicle on the same day (x2) waiting for Admin OK is left out of every total, stock and report until approved */
 const x2W=d=>!!(d&&d.x2&&d.x2!=="0"&&!(d.ap===1||d.ap==="1"));
-const all=kind=>kind==="f"?allRaw(kind).filter(d=>!x2W(d)):allRaw(kind);
+const all=kind=>kind==="f"?allRaw(kind).filter(d=>!x2W(d)):kind==="v"?amV(allRaw(kind)):allRaw(kind);
 /* ADMIN FIX RULE: staff may only ADD. Changing/deleting an existing record (not "u") is Admin-only; the server enforces it too. */
 /* PERMISSIONS: the Admin ticks what each person may do (CONFIG.PERMS). Admin = everything. The server checks too. */
 function permsOf(u){return u&&Array.isArray(u.perms)?u.perms:(C.PERM_DEFAULT||[])}
@@ -390,7 +390,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=40" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=41" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -403,8 +403,8 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=40" alt=""><div class="t">${esc(C.SHORT)}</div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
-  <main><div id="ncW" class="bar ncW"></div><div id="updW" class="bar updW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=41" alt=""><div class="t"><span class="tN">${esc(C.SHORT)}</span><span class="hVer" id="hVer" dir="ltr">${esc(appLabel())}</span></div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  <main><div id="ncW" class="bar ncW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
 }
@@ -426,7 +426,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=40" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(nameBad(L.get("lastName"))?"":(L.get("lastName")||""))}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=41" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(nameBad(L.get("lastName"))?"":(L.get("lastName")||""))}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -521,7 +521,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=40" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=41" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -982,7 +982,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=40" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=41" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -1192,9 +1192,9 @@ function tankHTML(u,fl){const T=tanks(),V={};vehs().forEach(v=>V[v.id]=v);xfDef(
    <div id="dlWarn">${num(dl.l)>0?warnBox(tankWarn(dl.tk||"main",num(dl.l))).replace('id="fuWarn"',''):""}</div><button type="button" id="dlSave" ${num(dl.l)>0?"":"disabled"}>${esc(t("saveDel"))}</button></div>
   ${T.length>1?xfBoxHTML():""}
   <div class="box"><h3>${esc(t("moves"))}</h3>${T.length>1?tkSeg("data-tkv",tkv,T):""}${M.length?`<div class="mv hint"><span class="n"></span><span class="q">${esc(t("inL"))}/${esc(t("outL"))}</span><span class="q">${esc(t("bal"))}</span></div>`+M.slice().reverse().slice(0,60).map(m=>{const d=m.d,v=V[d.vid];
-    const lab=m.kind==="sc"?"⚖️ "+esc(t("scLab"))+": "+esc(d.reason||"")+` <span class="hint">${esc(fmt(num(d.old)))}→${esc(fmt(num(d.new)))}</span>`:m.kind==="d"?"🛢️ "+esc(d.note||t("inL"))+(d.fb?` <span class="hint">#${esc(d.fb)}</span>`:""):m.kind==="tx"?esc(m.q>=0?t("xfIn").replace("%a",tkN(tkById(d.from||"main"))):t("xfOut").replace("%a",tkN(tkById(d.to))))+(hasNum(d.tm1)?` <span class="hint">🔢 ${m.q>=0?esc(fmt(num(d.tm1)))+"→"+(hasNum(d.tm2)?esc(fmt(num(d.tm2))):"—"):esc(fmt(num(d.m1)))+"→"+esc(fmt(num(d.m2)))}</span>`+(d.chk?` <span class="ckb">${esc(t("ckMark"))}</span>`:""):isFinite(num(d.m1))?` <span class="hint">🔢 ${esc(fmt(num(d.m1)))}→${esc(fmt(num(d.m2)))}</span>`:""):"⛽ "+esc(v?v.fleet:"?")+(isFinite(num(d.bm))&&d.bm!=null?` <span class="hint">🔢 ${esc(fmt(num(d.bm)))}</span>`:"");
+    const lab=m.kind==="sc"?"⚖️ "+esc(t("scLab"))+": "+esc(d.reason||"")+` <span class="hint">${esc(fmt(num(d.old)))}→${esc(fmt(num(d.new)))}</span>`:m.kind==="d"?(d.grv?grvLab(d):"🛢️ "+esc(d.note||t("inL")))+(d.fb?` <span class="hint">#${esc(d.fb)}</span>`:""):m.kind==="tx"?esc(m.q>=0?t("xfIn").replace("%a",tkN(tkById(d.from||"main"))):t("xfOut").replace("%a",tkN(tkById(d.to))))+(hasNum(d.tm1)?` <span class="hint">🔢 ${m.q>=0?esc(fmt(num(d.tm1)))+"→"+(hasNum(d.tm2)?esc(fmt(num(d.tm2))):"—"):esc(fmt(num(d.m1)))+"→"+esc(fmt(num(d.m2)))}</span>`+(d.chk?` <span class="ckb">${esc(t("ckMark"))}</span>`:""):isFinite(num(d.m1))?` <span class="hint">🔢 ${esc(fmt(num(d.m1)))}→${esc(fmt(num(d.m2)))}</span>`:""):"⛽ "+esc(v?v.fleet:"?")+(isFinite(num(d.bm))&&d.bm!=null?` <span class="hint">🔢 ${esc(fmt(num(d.bm)))}</span>`:"");
     return `<div class="mv"><span class="n">${esc(new Date(m.at).toLocaleString(lang,{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"}))}<br><b>${lab.replace(/→/g,"→<wbr>")}</b> <span class="hint">${esc(d.by||"")}</span>${(d.warn||[]).length?` <span class="flag">⚠️${d.warn.length}</span>`:""}${m.over?` <span class="flag">${esc(t("wOver").split(" ")[0])}</span>`:""}${m.neg?` <span class="flag">🔻</span>`:""}</span>
-    <span class="q ${m.q>=0?"in":"out"}">${m.q>=0?"+":""}${esc(fmt(m.q))}</span><span class="q${m.neg?" flag":""}">${esc(fmt(m.bal))}</span>${u.admin?`<button type="button" class="sm sec" data-rm="${m.kind}:${esc(d.id)}">${esc(t("del"))}</button>`:""}</div>`}).join(""):`<p class="hint">${esc(t("noMoves"))}</p>`}</div>
+    <span class="q ${m.q>=0?"in":"out"}">${m.q>=0?"+":""}${esc(fmt(m.q))}</span><span class="q${m.neg?" flag":""}">${esc(fmt(m.bal))}</span>${u.admin&&!(m.kind==="d"&&d.grv)?`<button type="button" class="sm sec" data-rm="${m.kind}:${esc(d.id)}">${esc(t("del"))}</button>`:""}</div>`}).join(""):`<p class="hint">${esc(t("noMoves"))}</p>`}</div>
   ${u.admin?`<div class="box" id="tkAdm"><h3>${esc(t("tkT"))}</h3>${T.map(x=>`<div class="urow"><span class="n">${x.mobile?"🚚":"🛢️"} ${esc(tkN(x))}<br><small class="hint">${x.site?"📍 "+esc(x.site)+" · ":""}${num(x.cap)>0?esc(fmt(num(x.cap)))+" L":"—"}${x.meter?" · 🔢 "+esc(t("tkMeter")):""}</small></span><button type="button" class="sm sec" data-tke="${esc(x.id)}">${esc(t("tkEdit"))}</button></div>`).join("")}<button type="button" id="tkNew">${esc(t("tkAdd"))}</button></div>`:""}`}
 function tankEditHTML(u){if(!u.admin||!te){fv="tank";return tankHTML(u,"")}const x=te,yn=(a,v)=>`<div class="seg"><button type="button" class="sec${v?" on":""}" data-${a}="1">${esc(t("tkYes"))}</button><button type="button" class="sec${v?"":" on"}" data-${a}="0">${esc(t("tkNo"))}</button></div>`;
   return `<button type="button" class="sec" data-fv="tank">${esc(t("back"))}</button><div class="box" id="tkForm"><h2>${esc(t(x.id?"tkEdit":"tkAdd"))}</h2>
@@ -1513,7 +1513,7 @@ function onData(){const u=me();if(flow&&flow.s==="wait"&&!u){/* stay */}if(!u&&L
    Offline / check fails: nothing happens, the app works normally, it tries again next open. Saved records live in
    localStorage / IndexedDB (Fuel: fuel_ keys, cache tmc-fuel-vNN), so a reload never loses unsynced work. Fuel v35: copied from TMC Base. */
 let reg=null,updReady=false,updLock=false,updT0=0;
-function paintUpd(){const w=$("updW");if(!w)return;w.style.display=updReady?"block":"none";if(updReady){w.innerHTML=`${esc(t("updT"))}<button type="button" id="updB">${esc(t("updB"))}</button>`;$("updB").onclick=applyUpdate}}
+function paintUpd(){}   /* v41: the old blue "A new version is ready / Update now" box is gone – only the small bar under the header stays */
 function updScreen(on){let o=$("updGo");if(!on){if(o)o.remove();return}if(!o){o=document.createElement("div");o.id="updGo";o.setAttribute("role","alert");document.body.appendChild(o)}
   o.innerHTML=`<img src="icons/icon-192.png" alt=""><i></i><b>${esc(t("updGo"))}</b><span>${esc(t("updGo2"))}</span>`}
 function updOn(){if(updLock)return;updLock=true;updT0=Date.now();try{const a=document.activeElement;if(a&&a.blur)a.blur()}catch(e){}updScreen(1);
@@ -2877,25 +2877,19 @@ Object.assign(T.ar,{outT:"مركبة من الخارج",outS:"ليست في ال
 {const st=document.createElement("style");st.textContent=".vt.vOut{grid-column:1/-1;width:100%;min-height:120px;flex-direction:row;gap:12px;justify-content:flex-start;text-align:start;border:4px dashed #b45309;background:#fffbeb;margin:0 0 10px;padding:10px 14px;flex-wrap:wrap}.vt.vOut b{font-size:24px}.vt.vOut small{flex:1 1 100%;font-size:17px;color:#475569}.oIc{position:relative;width:96px;flex:none}.vt b{font-size:min(22px,5.4vw)}.mv .n{min-width:0}.oIc i{position:absolute;right:0;top:-6px;background:#b45309;color:#fff;border-radius:50%;width:30px;height:30px;font-style:normal;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:20px}.oHead{display:flex;gap:10px;align-items:center}.oIdBox{margin:10px 0;border:3px solid #cbd5e1;border-radius:14px;padding:10px;text-align:center;background:#f8fafc}.oIdBox.ok{border-color:#16a34a;background:#f0fdf4}.oIdBox span{display:block;font-size:17px;color:#475569}.oIdBox b{display:block;font-size:44px;letter-spacing:4px;font-family:ui-monospace,monospace;direction:ltr;overflow-wrap:anywhere}.oMsg{overflow-wrap:anywhere;word-break:break-word}.oMsg[hidden]{display:none}#oHit .oPick{margin-top:8px;min-height:56px;width:100%}";document.head.appendChild(st)}
 Object.assign(window.TMC.fuel,{editRec:editRec,isOutF:isOutF,oIdOf:oIdOf,oFleetHit:oFleetHit,oSave:oSave,oLbl:oLbl,fsSet:o=>{fs=Object.assign(fs||{},o||{})},fsGet:()=>fs});
 /* ==== Fuel v40 OUTSIDE VEHICLE END ==== */
-/* ==== Fuel v40 STOCK LEVEL (Johan 14 Nov 2026): big "Stock level" button on Home for EVERY user → read-only screen: each active tank / bowser,
-   litres now (the existing tankBalance – no new maths), its last stock change and the last sync, Chad time 24 h. Local data only, opens at once. ==== */
-let slOn=0;
-const slT=ms=>{const n=num(ms);if(!(n>0))return "—";try{return new Date(n).toLocaleString("en-GB",{timeZone:"Africa/Ndjamena",day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:false}).replace(",","")}catch(e){return new Date(n).toISOString().slice(0,16).replace("T"," ")}};
-function slLast(id){let m=0;try{tankMoves(id).forEach(x=>{if(num(x.at)>m)m=num(x.at)})}catch(e){}return m}
-function stockHTML(){const T=tanks();
-  return `<button type="button" class="sec slBack" id="slBack">${esc(t("back"))}</button><div class="box" id="slBox"><h2>🛢️ ${esc(t("slT"))}</h2>
-  ${T.map(x=>{const b=xr2(tankBalance(x.id)),cap=num(x.cap);return `<div class="slRow" data-sl="${esc(x.id)}"><div class="slN">${x.mobile?"🚚":"🛢️"} ${esc(tkN(x))}</div><div class="slL"><b>${esc(fmt(b))}</b> L</div>${cap>0?`<div class="hint">${esc(tr("slCap",fmt(cap),""))}</div>`:""}<div class="hint slAt">${esc(t("slAt"))}: <span dir="ltr">${esc(slT(slLast(x.id)))}</span></div></div>`}).join("")}
-  <p class="hint" id="slSync">${esc(t("slSync"))}: <span dir="ltr">${esc(slT(L.get("lastOk")))}</span> (${esc(t("slTz"))})</p></div>`}
-{const v0=viewHTML;viewHTML=function(u){if(tab!=="home"){slOn=0;return v0(u)}if(slOn)return stockHTML();const h=v0(u),btn=`<button type="button" class="slGo" id="slGo">🛢️ ${esc(t("slT"))}</button>`;
+/* ==== Fuel v41 STOCK LEVEL SHORTCUT (Johan via TMC Base 14 Nov 2026 05:53): the LOOK of Stock level must not change. The big Home button
+   is only a shortcut to the ORIGINAL Tank stock view (Fuel → 🛢️ Tank stock, as in live v39). The v40 stock-level screen is gone.
+   Shown only to people who could already open that view (anyone who may open the Fuel tab) – no new access. ==== */
+let slOn=0;   // always 0 now (kept for the v40 update rule that reads it)
+{const v0=viewHTML;viewHTML=function(u){const h=v0(u);if(tab!=="home"||!u||!workOk(u))return h;const btn=`<button type="button" class="slGo" id="slGo">🛢️ ${esc(t("slT"))}</button>`;
   const i=h.indexOf('id="hOut"'),j=i>=0?h.indexOf('</button>',i):-1;return j>=0?h.slice(0,j+9)+btn+h.slice(j+9):btn+h}}  // right under the Log out band
-{const b0=bindMain;bindMain=function(u){b0(u);const g=$("slGo");if(g)g.onclick=()=>{slOn=1;render();scrollTo(0,0)};const k=$("slBack");if(k)k.onclick=()=>{slOn=0;render();scrollTo(0,0)};
-  document.querySelectorAll("nav [data-tab]").forEach(b=>b.addEventListener("click",()=>{slOn=0},true))}}
+{const b0=bindMain;bindMain=function(u){b0(u);const g=$("slGo");if(g)g.onclick=()=>{tab="work";fv="tank";render();scrollTo(0,0)}}}
+{const st=document.createElement("style");st.textContent=".slGo{display:block;width:100%;min-height:84px;font-size:26px;font-weight:800;margin:10px 0;white-space:normal;word-break:normal;overflow-wrap:normal;hyphens:none}";document.head.appendChild(st)}
 Object.assign(T.en,{slT:"Stock level",slAt:"Last change",slSync:"Last update from the server",slTz:"Chad time",slCap:"Tank holds %a L"});
 Object.assign(T.fr,{slT:"Niveau du stock",slAt:"Dernier changement",slSync:"Dernière mise à jour du serveur",slTz:"heure du Tchad",slCap:"La cuve contient %a L"});
 Object.assign(T.ar,{slT:"مستوى المخزون",slAt:"آخر تغيير",slSync:"آخر تحديث من الخادم",slTz:"بتوقيت تشاد",slCap:"سعة الخزان %a لتر"});
-{const st=document.createElement("style");st.textContent=".slGo{display:block;width:100%;min-height:84px;font-size:26px;font-weight:800;margin:10px 0;white-space:normal;word-break:normal;overflow-wrap:normal;hyphens:none}.slBack{background:#e2e8f0!important;color:#0f172a!important;border:2px solid #94a3b8!important}#slBox h2{word-break:normal;overflow-wrap:normal}.slRow{border:3px solid #cbd5e1;border-radius:14px;padding:10px 12px;margin:10px 0;background:#fff}.slN{font-size:22px;font-weight:800;word-break:normal;overflow-wrap:normal}.slL{font-size:22px}.slL b{font-size:46px;font-weight:900;direction:ltr;unicode-bidi:isolate}.slAt,#slSync{word-break:normal;overflow-wrap:normal}";document.head.appendChild(st)}
-Object.assign(window.TMC.fuel,{stockOpen:()=>{tab="home";slOn=1;render()}});
-/* ==== Fuel v40 STOCK LEVEL END ==== */
+Object.assign(window.TMC.fuel,{stockOpen:()=>{tab="work";fv="tank";render()}});
+/* ==== Fuel v41 STOCK LEVEL SHORTCUT END ==== */
 /* ==== Fuel v40 UPDATE NEVER LOSES TYPING (Johan 14 Nov 2026 03:05): a new version found while a form has unsaved input (or right after a Save)
    does NOT reload: a small bar stays, taps work, a Save goes into the phone queue (not sent by the old version), and the reload happens only
    when the user is back on Home with nothing typed – or right after a successful Save. ==== */
@@ -2915,6 +2909,70 @@ Object.assign(T.fr,{updWait:"🆕 Nouvelle version prête",updWait2:"Elle se cha
 Object.assign(T.ar,{updWait:"🆕 نسخة جديدة جاهزة",updWait2:"تُحمَّل عند عودتك إلى الرئيسية. ما تكتبه محفوظ."});
 Object.assign(window.TMC,{updDraft:updDraft,updWant:()=>updWant});
 /* ==== Fuel v40 UPDATE NEVER LOSES TYPING END ==== */
+/* ==== Fuel v41 (Johan via TMC Base, 14 Nov 2026 05:42) – ONE update: version label, update bar under the header (old blue box gone),
+   TMC Assets vehicle list (read-only, from Fuel's own server via the normal sync = kind "am"), GRV diesel deliveries (server-written
+   deliveries d:grv_<grvId>, counted like any delivery, never changed on the phone). With no "am" / GRV records the phone works exactly like v40. ==== */
+function appLabel(){return "v1.41.0"}   // TMC version standard: vMAJOR.MINOR.PATCH, same as the sw.js cache tmc-fuel-v1.41.0
+{const st=document.createElement("style");st.textContent="header .t{display:flex;flex-direction:column;justify-content:center;line-height:1.15}header .tN{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}header .hVer{display:block;font-size:10px;line-height:1.2;font-weight:600;color:#333333;white-space:nowrap}"+
+ "#updGo.updBar{top:var(--updTop,0px)!important;z-index:4}body.updBarOn main{padding-top:var(--updH,0px)}"+
+ ".asBox{background:#eef6ff;border:2px solid #60a5fa;border-radius:12px;padding:8px 10px;margin:8px 0}.asBox h3{margin:0 0 6px;font-size:18px}.asRow{display:flex;gap:8px;justify-content:space-between;border-bottom:1px solid #dbeafe;padding:3px 0;font-size:15px}.asRow b{text-align:end;word-break:normal;overflow-wrap:anywhere}"+
+ "input[readonly].asRo{background:#e2e8f0;color:#334155}.typ button:disabled{opacity:.45}.asTag{display:inline-block;margin-top:4px;background:#dbeafe;color:#1e3a8a;border-radius:8px;padding:1px 6px;font-size:13px;font-weight:700}"+
+ ".asNew{background:#fef9c3;border:3px solid #ca8a04}.asNew h3{margin:0 0 6px}.asNew .asNR{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:6px 0;border-top:1px solid #fde68a}.asNew .asNR button{min-height:48px;width:auto;margin:0;padding:6px 12px;font-size:17px;flex:none}";document.head.appendChild(st)}
+/* --- 1/2: the waiting-update bar sits right UNDER the sticky header (name, version, sync dot, clock, language stay visible); main moves down by its height --- */
+function updPos(){const o=$("updGo"),h=document.querySelector("header"),on=!!o&&o.classList.contains("updBar")&&getComputedStyle(o).display!=="none";
+  if(document.body.classList.contains("updBarOn")!==on)document.body.classList.toggle("updBarOn",on);
+  if(on){const b=h?Math.max(0,Math.round(h.getBoundingClientRect().bottom)):0;document.documentElement.style.setProperty("--updTop",b+"px");document.documentElement.style.setProperty("--updH",o.offsetHeight+"px")}}
+try{new MutationObserver(()=>updPos()).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:["class"]});addEventListener("resize",updPos)}catch(e){}
+/* --- 3a: TMC Assets vehicles ("am" records, id = KA). Assets wins for name, type (its picture key), plate, camp, status; Fuel keeps tank, normal use, meters, VIN, photo --- */
+const AS_VEH=["car","tipper","dropside","tanker"];
+const asK=x=>String(x==null?"":x).toUpperCase().replace(/\s+/g,"");
+const asTime=ms=>{const n=num(ms);if(!(n>0))return "";try{return new Date(n).toLocaleString("en-GB",{timeZone:"Africa/Ndjamena",day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",hour12:false}).replace(",","")}catch(e){return new Date(n).toISOString().slice(0,16).replace("T"," ")}};
+const asHas=x=>x!=null&&String(x).trim()!=="";
+function asType(a,v){const p=String(a.pic||"").toLowerCase();if(VTYPES.includes(p))return p;const ty=String(a.type||"").toLowerCase().replace(/[\s_-]+/g,"");
+  if(VTYPES.includes(ty))return ty;if(ty==="vehicle")return v&&AS_VEH.includes(vType(v))?vType(v):"car";return v?vType(v):"car"}
+function asOver(a,v){const o={_as:a};if(asHas(a.name))o.model=String(a.name);o.type=asType(a,v);if(asHas(a.plate))o.plate=String(a.plate);if(asHas(a.camp))o.dept=String(a.camp);if(asHas(a.status))o.astat=String(a.status);return o}
+function amV(V){const A=allRaw("am").filter(a=>a&&asHas(a.id));if(!A.length)return V;const used={};
+  const out=V.map(v=>{const a=A.find(x=>asK(x.id)===asK(v.fleet))||A.find(x=>asHas(x.fuelId)&&x.fuelId===v.id);if(!a)return v;used[asK(a.id)]=1;return Object.assign({},v,asOver(a,v))});
+  A.forEach(a=>{if(used[asK(a.id)]||String(a.state||"").toLowerCase()==="sold")return;const id=/^s_[A-Za-z0-9]+$/.test(String(a.fuelId||""))?String(a.fuelId):sid(a.id);if(out.some(v=>v.id===id))return;
+    const mt=/^km/i.test(String(a.meterUnit||""))?"km":/^h/i.test(String(a.meterUnit||""))?"h":(String(a.type||"").toLowerCase()==="vehicle"?"km":"h");
+    out.push(Object.assign({id:id,fleet:String(a.id),model:String(a.name||a.id),vin:"",plate:"",mt:mt,m0:null,tank:"",exp:"",dept:"",active:true,_asNew:1},asOver(a,null)))});
+  return out}
+const asNeeds=v=>!!v&&!!v._as&&(v._asNew||(v.fromAs&&(!(num(v.tank)>0)||!(num(v.exp)>0))));
+/* phone writes: never store the Assets overlay meta; a vehicle first saved from an Assets entry is marked fromAs. GRV deliveries are read-only on the phone. */
+const grvOf=(kind,id,data)=>kind==="d"&&!!((data&&data.grv)||(R["d:"+id]&&R["d:"+id].data&&R["d:"+id].data.grv));
+{const p0=put;put=function(kind,id,data){if(grvOf(kind,id,data)){toast(t("grvRo"));return false}
+  if(kind==="v"&&data&&typeof data==="object"&&(data._as||data._asNew)){data=Object.assign({},data);if(data._asNew)data.fromAs=1;["_as","_asNew","astat"].forEach(k=>delete data[k])}
+  return p0.apply(this,[kind,id,data].concat([].slice.call(arguments,3)))}}
+{const m0=remove;remove=function(kind,id){if(grvOf(kind,id,null)){toast(t("grvRo"));return false}return m0.apply(this,arguments)}}
+const asVal=(k,x)=>{const s=String(x==null?"":x).trim();if(!s)return "—";const key="asV_"+s.toLowerCase();return T.en[key]?t(key):s};
+function asBox(a){const rows=[["asName",a.name],["asType",a.type],["asPlate",a.plate],["asCamp",a.camp],["asStatus",asVal("s",a.status)],["asMake",a.make],["asModel",a.model],["asYear",a.year],["asCond",asVal("c",a.condition)],["asState",asVal("t",a.state)],["asDrv",a.driver],
+  ["asMeter",asHas(a.meter)?a.meter+" "+(/^km/i.test(String(a.meterUnit||""))?t("km"):t("hr")):""],["asNext",a.nextService],["asLic",a.licenceExpiry],["asUpd",asHas(a.updated)?asTime(Date.parse(a.updated)):""]];
+  return `<div class="asBox" id="asBox"><h3>${esc(t("asT"))}</h3>${rows.map(r=>`<div class="asRow"><span>${esc(t(r[0]))}</span><b dir="auto">${esc(asHas(r[1])?String(r[1]):"—")}</b></div>`).join("")}<p class="hint">${esc(t("asKeep"))}</p></div>`}
+{const w0=workHTML;workHTML=function(u){let h=w0(u);if(fv==="vedit"&&ve&&ve._as){
+    ["veModel","veFleet","vePlate","veDept"].forEach(id=>{h=h.replace(`<input id="${id}" type="text"`,`<input id="${id}" type="text" readonly aria-readonly="true" class="asRo"`)});
+    h=h.replace(/<button type="button" class="([^"]*)" data-vty=/g,'<button type="button" disabled class="$1" data-vty=');
+    const i=h.indexOf("</h2>");if(i>=0)h=h.slice(0,i+5)+(ve._asNew||asNeeds(ve)?`<p class="err" id="asNeedP">${esc(t("asNewS"))}</p>`:"")+asBox(ve._as)+h.slice(i+5)}
+  return h}}
+{const b0=bindWork;bindWork=function(u){b0(u);if(fv==="veh")document.querySelectorAll("[data-ve]").forEach(b=>{const v=vehs().find(x=>x.id===b.dataset.ve);if(v&&v._as&&!b.querySelector(".asTag")){const s=b.querySelector("small");(s||b).insertAdjacentHTML("beforeend",`<br><span class="asTag">${esc(t(asNeeds(v)?"asTagN":"asTag"))}</span>`)}})}}
+/* Home: Admin prompt for new Assets vehicles (tank size + normal use) */
+function asNewHTML(){const N=vehs().filter(asNeeds);if(!N.length)return "";
+  return `<div class="box asNew" id="asNew"><h3>${esc(t("asNewT"))} (${N.length})</h3><p class="hint">${esc(t("asNewS"))}</p>${N.map(v=>`<div class="asNR"><span><b>${esc(v.fleet)}</b> ${esc(v.model||"")}</span><button type="button" data-asfill="${esc(v.id)}">${esc(t("asFill"))}</button></div>`).join("")}</div>`}
+{const b0=bindMain;bindMain=function(u){b0(u);const H=$("hHero");if(H&&tab==="home"&&!slOn&&u&&u.admin&&!$("asNew")){const x=asNewHTML();if(x){H.insertAdjacentHTML("afterend",x);
+    document.querySelectorAll("[data-asfill]").forEach(b=>b.onclick=()=>{const v=vehs().find(y=>y.id===b.dataset.asfill);if(!v)return;ve=Object.assign({},v);tab="work";fv="vedit";render();scrollTo(0,0)})}}}}
+{const r0=render;render=function(){const x=r0.apply(this,arguments);try{updPos()}catch(e){}return x};window.TMC.render=render}
+/* --- 3c: GRV delivery label in Tank stock --- */
+function grvLab(d){return "🛢️ "+esc(t("grvFrom"))+` <b dir="ltr" style="white-space:nowrap">#${esc(d.grv)}</b>`+(asHas(d.supN)?` <span class="hint">${esc(d.supN)}</span>`:"")}
+Object.assign(T.en,{grvFrom:"From GRV",grvRo:"This delivery came from TMC GRV. Change it in GRV.",asT:"🔗 From TMC Assets (read-only)",asKeep:"Tank size, normal use, meters and VIN stay in Fuel.",asNewT:"🆕 New vehicle from TMC Assets",asNewS:"Fill in its tank size and normal use.",asFill:"✏️ Fill in",asTag:"🔗 Assets",asTagN:"🔗 Assets · fill in tank",
+  asName:"Name",asType:"Type",asPlate:"Plate",asCamp:"Camp",asStatus:"Status",asMake:"Make",asModel:"Model",asYear:"Year",asCond:"Condition",asState:"State",asDrv:"Driver",asMeter:"Meter",asNext:"Next service",asLic:"Licence expiry",asUpd:"Updated",
+  asV_good:"Good",asV_repair:"In repair",asV_broken:"Broken",asV_active:"Active",asV_sold:"Sold"});
+Object.assign(T.fr,{grvFrom:"Depuis GRV",grvRo:"Cette livraison vient de TMC GRV. Modifiez-la dans GRV.",asT:"🔗 Depuis TMC Assets (lecture seule)",asKeep:"Taille du réservoir, conso normale, compteurs et VIN restent dans Fuel.",asNewT:"🆕 Nouveau véhicule de TMC Assets",asNewS:"Indiquez la taille du réservoir et la conso normale.",asFill:"✏️ Compléter",asTag:"🔗 Assets",asTagN:"🔗 Assets · réservoir à compléter",
+  asName:"Nom",asType:"Type",asPlate:"Plaque",asCamp:"Camp",asStatus:"État",asMake:"Marque",asModel:"Modèle",asYear:"Année",asCond:"Condition",asState:"Statut",asDrv:"Chauffeur",asMeter:"Compteur",asNext:"Prochain entretien",asLic:"Fin de licence",asUpd:"Mis à jour",
+  asV_good:"Bon",asV_repair:"En réparation",asV_broken:"En panne",asV_active:"Actif",asV_sold:"Vendu"});
+Object.assign(T.ar,{grvFrom:"من GRV",grvRo:"هذا التسليم من TMC GRV. عدّله في GRV.",asT:"🔗 من TMC Assets (للقراءة فقط)",asKeep:"حجم الخزان والاستهلاك العادي والعدادات ورقم الشاسيه تبقى في Fuel.",asNewT:"🆕 مركبة جديدة من TMC Assets",asNewS:"أدخل حجم خزانها واستهلاكها العادي.",asFill:"✏️ إكمال",asTag:"🔗 Assets",asTagN:"🔗 Assets · أكمل الخزان",
+  asName:"الاسم",asType:"النوع",asPlate:"اللوحة",asCamp:"المخيم",asStatus:"الحالة",asMake:"الصانع",asModel:"الطراز",asYear:"السنة",asCond:"الوضع",asState:"الوضعية",asDrv:"السائق",asMeter:"العداد",asNext:"الصيانة القادمة",asLic:"انتهاء الرخصة",asUpd:"آخر تحديث",
+  asV_good:"جيدة",asV_repair:"في الإصلاح",asV_broken:"معطلة",asV_active:"نشطة",asV_sold:"مباعة"});
+Object.assign(window.TMC,{v41:{appLabel:appLabel,amV:amV,asNeeds:asNeeds,updPos:updPos}});
+/* ==== Fuel v41 END ==== */
 })();
 /* SPELLCHECK START — phone spellcheck on every free-text box (names, items, notes).
    Never on PIN / number / sync / code / masked fields. Covers boxes built later too. */
