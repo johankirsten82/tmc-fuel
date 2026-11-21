@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 41,
+ "VER": 42,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=41">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=41">
+<link rel="icon" href="icons/favicon-32.png?v=42">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=42">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -301,13 +301,27 @@ const all=kind=>kind==="f"?allRaw(kind).filter(d=>!x2W(d)):kind==="v"?amV(allRaw
 /* ADMIN FIX RULE: staff may only ADD. Changing/deleting an existing record (not "u") is Admin-only; the server enforces it too. */
 /* PERMISSIONS: the Admin ticks what each person may do (CONFIG.PERMS). Admin = everything. The server checks too. */
 function permsOf(u){return u&&Array.isArray(u.perms)?u.perms:(C.PERM_DEFAULT||[])}
-function can(p,u){u=u||me();return !!u&&(!!u.admin||permsOf(u).indexOf(p)>=0)}
+function can(p,u){u=u||me();return !!u&&(!!u.admin||isDep(u)||permsOf(u).indexOf(p)>=0)}
+/* v1.42.0 DEPUTY ADMIN (Johan 21 Nov 2026): flag deputy:1 on an ACTIVE non-Admin user. Set / cleared only by the MAIN Admin. A Deputy is NOT u.admin:
+   canFix / Check & edit / stock / pump / vehicles / limits / sync settings stay with the Admin. */
+function depFlag(u){return !!u&&(u.deputy===1||u.deputy===true||u.deputy==="1")}
+function isDep(u){return !!u&&!u.admin&&u.status==="active"&&depFlag(u)&&!isMain(u)}
+function canApproveUsers(u){u=u||me();return !!u&&(!!u.admin||isDep(u))}
+function canApproveFills(u){u=u||me();return !!u&&(!!u.admin||isDep(u))}
+function sameExcept(a,b,skip){const c=o=>{const x=Object.assign({},o||{});skip.forEach(k=>delete x[k]);return JSON.stringify(Object.keys(x).sort().map(k=>[k,x[k]]))};return c(a)===c(b)}
+/* user record writes: only the main Admin sets/clears Deputy; a Deputy may only approve a WAITING person (status pending -> active, default ticks) */
+function depUOk(k,data){const m=me();if(!m)return true;const o=R[k]&&!R[k].del?R[k].data:null,od=depFlag(o),nd=depFlag(data);
+  if(od!==nd&&!isMain(m))return false;if(nd&&data&&(data.admin||isMain(data)))return false;
+  if(m.admin||!o||String(o.id)===String(m.id)||!isDep(m))return true;
+  return o.status==="pending"&&!!data&&data.status==="active"&&sameExcept(o,data,["status","perms"])}
+/* fill-up / daily-reading approval by a Deputy: only ap 0 -> 1 (+ apBy / apAt), numbers untouched */
+function depApOk(kind,o,n){return isDep(me())&&(kind==="f"||kind==="dy")&&!!o&&!!n&&!(o.ap===undefined||o.ap===null||o.ap===1||o.ap==="1")&&n.ap===1&&sameExcept(o,n,["ap","apBy","apAt","apWhy"])}
 function canKind(kind,what,u){const k=(C.PERM_KINDS||{})[kind];return !k||!k[what]||can(k[what],u)}
 function permLab(p){return p[lang]||p.en}
 /* VER 6 base ADMIN FIX RULE (phone): role + token decide, never the team code alone. See tmc-base tests/admin_fix_test_spec.md. */
 function canFix(){const m=me();if(!(m&&m.admin))return false;return !!(sTok()||!sCode())}
 const FREE_K={u:1,rp:1};// u = own user record, rp = report rows the app rebuilds itself
-function put(kind,id,data){if(window.TMC&&TMC.updLock&&TMC.updLock()&&TMC.updSave)TMC.updSave();  /* v40: during an update the record still goes into the phone queue (sent by the NEW version after the reload) */const k=kind+":"+id;if(kind==="u"&&R[k]&&!R[k].del&&R[k].data&&R[k].data.admin&&isMain(R[k].data)&&!(data&&data.admin)){toast(t("dscDem"));return false}/* v21: the main Admin can never be demoted */if(!FREE_K[kind]&&R[k]&&!R[k].del&&!(R[k].loc&&dirty[k])&&!canFix()){alert(t("fixOnly"));return false}if(!FREE_K[kind]&&!R[k]&&!canKind(kind,"add")){alert(t("noAccess"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0),loc=R[k]?(R[k].loc&&dirty[k]?1:0):1;R[k]={kind:kind,id:String(id),u:u,del:0,data:data};if(loc&&!canFix())R[k].loc=1;dirty[k]=1;saveR();syncSoon();return true}
+function put(kind,id,data){if(window.TMC&&TMC.updLock&&TMC.updLock()&&TMC.updSave)TMC.updSave();  /* v40: during an update the record still goes into the phone queue (sent by the NEW version after the reload) */const k=kind+":"+id;if(kind==="u"&&R[k]&&!R[k].del&&R[k].data&&R[k].data.admin&&isMain(R[k].data)&&!(data&&data.admin)){toast(t("dscDem"));return false}/* v21: the main Admin can never be demoted */if(kind==="u"&&!depUOk(k,data)){toast(t("depNo"));return false}/* v1.42.0 */if(!FREE_K[kind]&&R[k]&&!R[k].del&&!(R[k].loc&&dirty[k])&&!canFix()&&!depApOk(kind,R[k].data,data)){alert(t("fixOnly"));return false}if(!FREE_K[kind]&&!R[k]&&!canKind(kind,"add")){alert(t("noAccess"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0),loc=R[k]?(R[k].loc&&dirty[k]?1:0):1;R[k]={kind:kind,id:String(id),u:u,del:0,data:data};if(loc&&!canFix())R[k].loc=1;dirty[k]=1;saveR();syncSoon();return true}
 function remove(kind,id){if(window.TMC&&TMC.updLock&&TMC.updLock()&&TMC.updSave)TMC.updSave();  /* v40: during an update the record still goes into the phone queue (sent by the NEW version after the reload) */const k=kind+":"+id;if(kind==="u")return false;if(!FREE_K[kind]&&!canFix()){alert(t("fixOnly"));return false}const u=Math.max(Date.now(),R[k]?R[k].u+1:0);R[k]={kind:kind,id:String(id),u:u,del:1,data:null};dirty[k]=1;saveR();syncSoon();return true}
 /* fix(): Admin changes one field; old value, Admin name and time are kept in data._fix (audit column) and the server "Fix log" tab. */
 function fix(kind,id,field,val){if(!canFix())return false;const k=kind+":"+id,r=R[k];if(!r||r.del)return false;const d=Object.assign({},r.data),old=d[field];if(String(old)===String(val))return true;
@@ -338,14 +352,14 @@ let relog=null,relogNo=0,force={};
 function syncNow(){
   // token phone signed in offline (or token lost): get a new token with this phone's own stored PIN hash
   // VER 6 base: an Admin on a team-code phone also gets its own token (so its fixes count as Admin). If that fails, it keeps syncing by code.
-  const adm=me(),codeAdm=!tokMode()&&sUrl()&&sCode()&&adm&&adm.admin&&adm.pinH&&!relogNo;
+  const adm=me(),codeAdm=!tokMode()&&sUrl()&&sCode()&&adm&&(adm.admin||isDep(adm))&&adm.pinH&&!relogNo;
   if((tokMode()||codeAdm)&&!sTok()){const u=me();if(!u||!u.pinH)return Promise.resolve(false);
     if(!relog)relog=api({action:"login",id:u.id,pinH:u.pinH}).then(j=>{relog=null;if(j&&j.ok){L.set("tok",j.token);return syncNow()}if(codeAdm){relogNo=1;return syncNow()}if(j&&j.error!=="locked"){signOut();render()}return false},()=>{relog=null;if(codeAdm){relogNo=1;return syncNow()}syncSoon(30000);return false});
     return relog}
   if(!syncOn())return Promise.resolve(false);
   if(busy)return busy;
-  const keys=Object.keys(dirty),sent={};
-  const changes=keys.map(k=>{const r=R[k];sent[k]=r.u;return {kind:r.kind,id:r.id,u:r.u,del:r.del,data:r.data}});
+  const keys=Object.keys(dirty),sent={},dS=[];
+  const changes=keys.map(k=>{const r=R[k];sent[k]=r.u;if(isDep(adm)&&((r.kind==="u"&&String(r.id)!==String(adm.id))||((r.kind==="f"||r.kind==="dy")&&r.data&&r.data.apBy===adm.name&&r.data.ap===1)))dS.push(k);return {kind:r.kind,id:r.id,u:r.u,del:r.del,data:r.data}});
   sState="busy";paintSync();
   busy=fetch(sUrl(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"sync",code:sTok()?undefined:(sCode()||undefined),token:sTok()||undefined,device:dev,since:+(L.get("since")||0),changes:changes}),signal:tmo(Math.min(60000,10000*Math.pow(2,Math.min(fails,3))))})  // v40: 10 s, longer after each time-out (big first sync on a slow line)
   .then(r=>r.json()).then(j=>{
@@ -357,8 +371,9 @@ function syncNow(){
       let d=s.data;if(typeof d==="string"){try{d=d?JSON.parse(d):null}catch(e){d=null}}if(s.kind==="u"&&(s.del||!d)&&loc&&!loc.del&&!(s.del&&d&&d.discarded===1))return;if(s.kind==="u"&&d&&!d.pinH&&d.hasPin&&!d.pinReset&&loc&&loc.data&&loc.data.pinH){d.pinH=loc.data.pinH;d.salt=loc.data.salt}R[k]={kind:s.kind,id:String(s.id),u:u,del:s.del?1:0,data:d}});
     L.set("since",String(j.now||Date.now()));L.set("lastOk",String(Date.now()));saveR();fails=0;sState="ok";netBad=false;
     /* VER 6 base: the server refused a fix (admin_only_fix): tell the user and take the server copy back */
-    if(j.refused&&Array.isArray(j.refusedDiscard)&&j.refusedDiscard.length){j.refusedDiscard.forEach(id=>{if(!dirty["u:"+id])force["u:"+id]=1});L.set("since","0");toast(t(j.refusedWhy==="main_admin"?"dscMain":j.refusedWhy==="last_admin"?"dscLast":j.refusedWhy==="self"?"dscSelf":"dscTok"));syncSoon(200)}
+    if(j.refused&&Array.isArray(j.refusedDiscard)&&j.refusedDiscard.length){j.refusedDiscard.forEach(id=>{if(!dirty["u:"+id])force["u:"+id]=1});L.set("since","0");toast(t(j.refusedWhy==="deputy"?"depNo":j.refusedWhy==="main_admin"?"dscMain":j.refusedWhy==="last_admin"?"dscLast":j.refusedWhy==="self"?"dscSelf":"dscTok"));syncSoon(200)}
     else if(j.refused&&j.refusedWhy==="admin_only_fix"){Object.keys(sent).forEach(k=>{if(k.indexOf("u:")!==0&&!dirty[k])force[k]=1});L.set("since","0");toast(t("fixRef"));syncSoon(200)}
+    else if(dS.length&&(!j.dep||j.refusedWhy==="deputy")){dS.forEach(k=>{if(!dirty[k])force[k]=1});L.set("since","0");toast(t("depSrv"));syncSoon(200)}  /* v1.42.0: server without the Deputy update -> take the server copy back */
     return true})
   .catch(e=>{fails++;sState="err";netBad=true;syncSoon(navigator.onLine?Math.min(120000,5000*Math.pow(2,fails-1)):60000);return false})
   .then(ok=>{busy=null;paintSync();if(ok)phSoon(1000);try{onData()}catch(e){console.warn(e)}if(ok&&pending())syncSoon(300);return ok});
@@ -390,7 +405,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=41" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=42" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -402,14 +417,14 @@ function render(){
   const u=me();
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
-  if(tab==="users"&&!u.admin)tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=41" alt=""><div class="t"><span class="tN">${esc(C.SHORT)}</span><span class="hVer" id="hVer" dir="ltr">${esc(appLabel())}</span></div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  if(tab==="users"&&!canApproveUsers(u))tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=42" alt=""><div class="t"><span class="tN">${esc(C.SHORT)}</span><span class="hVer" id="hVer" dir="ltr">${esc(appLabel())}</span></div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
 }
 /* ONE list feeds the bottom tabs AND the Home tiles (same screens, icons, names, order) */
-function tabsOf(u){return [["home","🏠"],...(workOk(u)?[["work","🧩"]]:[]),...(repOk(u)&&REPORTS.length?[["reports","📊"]]:[]),["can","✅"],...(u.admin?[["users","👥",users().filter(x=>x.status==="pending").length]]:[]),["settings","⚙️"]]}
+function tabsOf(u){return [["home","🏠"],...(workOk(u)?[["work","🧩"]]:[]),...(repOk(u)&&REPORTS.length?[["reports","📊"]]:[]),["can","✅"],...(canApproveUsers(u)?[["users","👥",users().filter(x=>x.status==="pending").length]]:[]),["settings","⚙️"]]}
 function repOk(u){u=u||me();return !!u&&(!!u.admin||can("reports",u))}
 function workOk(u){return (C.PERMS||[]).length===0||["view","add","reports","export"].some(p=>can(p,u))}
 function navBtn(k,ic,n){return `<button type="button" data-tab="${k}" class="${tab===k?"on":""}"><span class="ticon">${ic}</span><span class="tlab">${esc(t(k))}</span>${n?`<span class="badge">${n}</span>`:""}</button>`}
@@ -426,7 +441,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=41" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(nameBad(L.get("lastName"))?"":(L.get("lastName")||""))}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=42" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(nameBad(L.get("lastName"))?"":(L.get("lastName")||""))}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -521,7 +536,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=41" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=42" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -716,7 +731,8 @@ select{font:inherit;font-size:22px;width:100%;padding:12px;border:2px solid #334
 .seg{display:flex;gap:8px}.seg button{margin:4px 0}.seg button.on{outline:4px solid #f59e0b}
 label.fl{display:block;font-weight:700;margin-top:8px}`;document.head.appendChild(s)})();
 
-const num=x=>{const v=parseFloat(String(x==null?"":x).replace(",","."));return isFinite(v)?v:NaN};
+function digEn(x){return String(x==null?"":x).replace(/[\u0660-\u0669]/g,d=>String(d.charCodeAt(0)-0x660)).replace(/[\u06F0-\u06F9]/g,d=>String(d.charCodeAt(0)-0x6F0)).replace(/\u066B/g,".").replace(/\u066C/g,"")}  /* v1.42.0: Arabic keyboard digits */
+const num=x=>{const v=parseFloat(digEn(x).replace(",","."));return isFinite(v)?v:NaN};
 const r1=x=>Math.round(x*10)/10;
 const fmt=x=>isFinite(x)?String(r1(x)):"—";
 const tr=(k,a,b)=>t(k).replace("%a",a).replace("%b",b);
@@ -982,7 +998,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=41" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=42" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -1397,26 +1413,26 @@ function permTicks(u){
 let openU=null; // Admin users list: which person is open (list form like Purchases)
 function usersHTML(me_){
   const U=users(),lab={pending:t("pend"),active:t("act"),rejected:t("rej"),blocked:t("blk")};
-  const sum=u=>u.admin?(isMain(u)?"🛡️ ":"")+"⭐ "+t("admin"):((C.PERMS||[]).filter(p=>can(p.id,u)).map(p=>p.icon+" "+permLab(p)).join(" · ")||"—");
+  const sum=u=>u.admin?(isMain(u)?"🛡️ ":"")+"⭐ "+t("admin"):isDep(u)?"🎖️ "+t("depT"):((C.PERMS||[]).filter(p=>can(p.id,u)).map(p=>p.icon+" "+permLab(p)).join(" · ")||"—");
   const ico={pending:"⏳",active:"🟢",rejected:"⛔",blocked:"🚫"};
   const row=u=>{const o=openU===u.id||u.status==="pending";return `<div class="urow ulr" data-uid="${esc(u.id)}" style="display:block;padding:0;border:0"><button type="button" class="uli" data-open="${esc(u.id)}"><span class="ui">${ico[u.status]||"👤"}</span><span class="ut"><span class="n">${esc(u.name)}</span>${nameBad(u.name)?` <span class="badN" data-badn="1">${esc(t("badName"))}</span>`:""} <span class="st ${esc(u.status)}">${esc(lab[u.status]||u.status)}</span><small>${esc(sum(u))}</small>${uMeta(u)}</span><span class="ch">${o?"⌄":"›"}</span></button>${o?`<div class="uopen">${isMain(u)?`<span class="mainP" id="mainP">${esc(t("mainP"))}</span>`:""}<div class="acts">
    ${u.status==="pending"?`<button type="button" class="sm" data-ua="approve" data-id="${esc(u.id)}">${esc(t("approve"))}</button>${isMain(u)?"":`<button type="button" class="sm red" data-ud="reject" data-id="${esc(u.id)}">${esc(t("reject"))}</button>`}`:""}
-   ${u.status==="active"&&u.id!==me_.id&&!isMain(u)?`<button type="button" class="sm red" data-ud="block" data-id="${esc(u.id)}">${esc(t("block"))}</button>`:""}
-   ${(u.status==="blocked"||u.status==="rejected")&&!isMain(u)?`<button type="button" class="sm red" data-ud="${u.status==="blocked"?"block":"reject"}" data-id="${esc(u.id)}">${esc(t("dscOld"))}</button>`:""}
-   ${u.status==="active"&&(u.pinH||u.hasPin)&&u.id!==me_.id?`<button type="button" class="sm sec" data-ua="reset" data-id="${esc(u.id)}">${esc(t("resetPin"))}</button>`:""}</div>${permTicks(u)}</div>`:""}</div>`};
+   ${me_.admin&&u.status==="active"&&u.id!==me_.id&&!isMain(u)?`<button type="button" class="sm red" data-ud="block" data-id="${esc(u.id)}">${esc(t("block"))}</button>`:""}
+   ${me_.admin&&(u.status==="blocked"||u.status==="rejected")&&!isMain(u)?`<button type="button" class="sm red" data-ud="${u.status==="blocked"?"block":"reject"}" data-id="${esc(u.id)}">${esc(t("dscOld"))}</button>`:""}
+   ${me_.admin&&u.status==="active"&&(u.pinH||u.hasPin)&&u.id!==me_.id?`<button type="button" class="sm sec" data-ua="reset" data-id="${esc(u.id)}">${esc(t("resetPin"))}</button>`:""}</div>${depCtl(u,me_)}${me_.admin?permTicks(u):""}</div>`:""}</div>`};
   const pend=U.filter(u=>u.status==="pending"),rest=U.filter(u=>u.status!=="pending").sort((a,b)=>String(a.name).localeCompare(String(b.name)));
   return `<div class="box"><h3>⏳ ${esc(t("pend"))}</h3>${pend.length?pend.map(row).join(""):`<p class="hint">${esc(t("noPend"))}</p>`}</div><div class="box"><h3>👥 ${esc(t("users"))}</h3>${rest.map(row).join("")}</div>`;
 }
 /* VER 20 (= base VER 7, Johan 31 Oct 2026): Block / Reject = REMOVE. The user record is taken off the phone and the Sheet (server checks Admin token,
    never the signed-in Admin, never the last Admin) and its old PIN/token stop working. The person may send a fresh request later (→ Pending). No Unblock. */
-function discardWhy(u){if(isMain(u))return "dscMain";const m=me();if(!m||!m.admin)return "dscTok";if(u.id===m.id)return "dscSelf";
-  if(u.admin&&!users().some(x=>x.id!==u.id&&x.admin&&x.status==="active"))return "dscLast";if(!canFix())return "dscTok";return ""}
+function discardWhy(u){if(isMain(u))return "dscMain";const m=me();if(!m||!(m.admin||(isDep(m)&&u.status==="pending")))return m&&isDep(m)?"depNo":"dscTok";if(u.id===m.id)return "dscSelf";
+  if(u.admin&&!users().some(x=>x.id!==u.id&&x.admin&&x.status==="active"))return "dscLast";if(m.admin?!canFix():!(sTok()||!sCode()))return "dscTok";return ""}
 function discardUser(id){const u=users().find(x=>x.id===id);if(!u)return false;const w=discardWhy(u);if(w){toast(t(w));return false}
   const k="u:"+id;R[k]={kind:"u",id:String(id),u:Math.max(Date.now(),R[k]?R[k].u+1:0),del:1,data:{discarded:1,at:new Date().toISOString()}};dirty[k]=1;saveR();syncSoon();
   if(openU===id)openU=null;toast(t("dscDone").replace("%n",u.name));render();return true}
 window.TMC.discardUser=discardUser;window.TMC.isMain=isMain;window.TMC.discardWhy=discardWhy;window.TMC.setOpenU=id=>{openU=id};
 function discardModal(id,why,again){const u=users().find(x=>x.id===id);if(!u)return;const w=discardWhy(u);
-  if(w==="dscTok"&&!again&&me()&&me().admin&&!sTok()){relogNo=0;return Promise.resolve(syncNow()).then(()=>discardModal(id,why,1),()=>discardModal(id,why,1))}  // Admin token missing: fetch one first
+  if(w==="dscTok"&&!again&&me()&&canApproveUsers(me())&&!sTok()){relogNo=0;return Promise.resolve(syncNow()).then(()=>discardModal(id,why,1),()=>discardModal(id,why,1))}  // Admin token missing: fetch one first
   if(w)return toast(t(w));
   const m=document.createElement("div");m.className="modal";m.id="dscM";
   m.innerHTML=`<div class="card dsc"><h2>${esc(t(why==="reject"?"dscRT":"dscBT").replace("%n",u.name))}</h2><p class="hint" style="font-size:18px">${esc(t("dscH").replace("%n",u.name))}</p><button type="button" class="red" id="dscY">${esc(t("dscY"))}</button><button type="button" class="sec" id="dscN">${esc(t("dscN"))}</button></div>`;
@@ -1425,15 +1441,16 @@ function bindUsers(){
   document.querySelectorAll("[data-ud]").forEach(b=>b.onclick=()=>discardModal(b.dataset.id,b.dataset.ud));
   document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{openU=openU===b.dataset.open?null:b.dataset.open;render()});
   document.querySelectorAll("[data-ua]").forEach(b=>b.onclick=()=>{
-    const u=Object.assign({},users().find(x=>x.id===b.dataset.id));if(!u.id)return;const a=b.dataset.ua;if(isMain(u)&&(a==="reject"||a==="block"))return toast(t("dscMain"));
+    const u=Object.assign({},users().find(x=>x.id===b.dataset.id));if(!u.id)return;const a=b.dataset.ua;if(isMain(u)&&(a==="reject"||a==="block"))return toast(t("dscMain"));const mm=me();if(!mm||!(mm.admin||(isDep(mm)&&a==="approve"&&u.status==="pending")))return toast(t("depNo"));
     if(a==="approve"||a==="unblock")u.status="active";if(a==="reject")u.status="rejected";if(a==="block")u.status="blocked";
     if(a==="reset"){delete u.pinH;delete u.salt;delete u.hasPin;u.pinReset=Date.now()}
     if(a==="approve"&&!Array.isArray(u.perms))u.perms=(C.PERM_DEFAULT||[]).slice();
     put("u",u.id,u);render()});
   document.querySelectorAll("input[data-pp]").forEach(b=>b.onchange=()=>{
-    const u=Object.assign({},users().find(x=>x.id===b.dataset.pu));if(!u.id||u.admin)return;
+    const u=Object.assign({},users().find(x=>x.id===b.dataset.pu));if(!u.id||u.admin||!me()||!me().admin)return;
     const s=new Set(permsOf(u));if(b.checked)s.add(b.dataset.pp);else s.delete(b.dataset.pp);
     u.perms=(C.PERMS||[]).map(p=>p.id).filter(id=>s.has(id));put("u",u.id,u);render()});
+  document.querySelectorAll("input[data-dep]").forEach(b=>b.onchange=()=>{setDeputy(b.dataset.dep,b.checked);render()});  /* v1.42.0 */
 }
 function settingsHTML(u){
   const lo=+(L.get("lastOk")||0);
@@ -1673,7 +1690,7 @@ function kouriOff(){const m=me();if(!m||!m.admin||!canFix())return 0;const r=R["
 
 /* 3) Vehicle assignment on the user record: veh = "all" (or missing) | [vehicle ids]. Admin sees every vehicle. */
 const vehOf=u=>u&&Array.isArray(u.veh)?u.veh:"all";
-function vOk(vid,u){u=u||me();if(!u)return false;if(u.admin)return true;const a=vehOf(u);return a==="all"||a.indexOf(vid)>=0}
+function vOk(vid,u){u=u||me();if(!u)return false;if(u.admin||isDep(u))return true;const a=vehOf(u);return a==="all"||a.indexOf(vid)>=0}
 function myVehs(u){return vehs().filter(v=>v.active!==false&&vOk(v.id,u))}
 function setUserVeh(uid,val){const m=me();if(!m||!m.admin)return false;const u=Object.assign({},users().find(x=>x.id===uid));if(!u.id||u.admin)return false;
   if(val==="all")delete u.veh;else u.veh=Array.from(new Set(val)).filter(id=>vehs().some(v=>v.id===id));return put("u",u.id,u)}
@@ -2447,7 +2464,7 @@ if(T.ar)Object.assign(T.ar,{apHome:"%n بانتظار الموافقة",apT:"✅
  "@media print{.apAlert,.apBan{display:none!important}tr.apRow>td{background:none!important}}";document.head.appendChild(st)}
 const AP_K=["f","dy"];
 const apSt=d=>!d||d.ap===undefined||d.ap===null||d.ap===1||d.ap==="1"?1:0;   // 1 approved (also: no ap = older/imported/Admin) · 0 waiting (no "send back" – Johan 1 Nov)
-const apAdm=u=>!!(u&&u.admin&&!u._view);
+const apAdm=u=>!!(u&&(u.admin||isDep(u))&&!u._view);
 const apDay=(k,d)=>k==="dy"&&d.day?d.day:dayKey(d.at);
 function apList(st){const L=[];AP_K.forEach(k=>allRaw(k).forEach(d=>{if(d&&d.id&&apSt(d)===st)L.push({k:k,d:d})}));return L.sort((p,q)=>(p.d.at||0)-(q.d.at||0))}
 const apWaiting=()=>apList(0);
@@ -2456,7 +2473,7 @@ let apJust=0;
 /* new staff entries wait for approval; Admins' own entries and every older / imported record count as approved */
 {const p0=put;put=function(kind,id,data){try{if(AP_K.indexOf(kind)>=0&&data&&typeof data==="object"&&data.ap===undefined){const r=R[kind+":"+id],u=me();
   if((!r||r.del||!r.data)&&u&&!u.admin){data=Object.assign({},data,{ap:0});apJust=1}}}catch(e){}return p0.apply(this,[kind,id,data].concat([].slice.call(arguments,3)))}}
-function apSet(k,id,st,why,u){u=u||me();if(!apAdm(u)||!canFix())return {ok:false,error:"admin_only"};if(AP_K.indexOf(k)<0)return {ok:false,error:"kind"};
+function apSet(k,id,st,why,u){u=u||me();if(!apAdm(u)||(u.admin?!canFix():!(sTok()||!sCode())))return {ok:false,error:"admin_only"};if(AP_K.indexOf(k)<0)return {ok:false,error:"kind"};
   const d=recOf(k,id);if(!d)return {ok:false,error:"missing"};why=String(why||"").replace(/\s+/g," ").trim().slice(0,160);if(st!==1)return {ok:false,error:"approve_only"};
   const n=Object.assign({},d,{ap:st,apBy:u.name,apAt:new Date().toISOString()});delete n.apWhy;
   put(k,id,n);return {ok:true}}   // numbers unchanged: no report push needed
@@ -2477,7 +2494,7 @@ function apCard(o){const k=o.k,d=o.d,v=apVeh(d),W=x22W(d.warn),ref=k+":"+d.id;
   <div class="apWho">${esc(t("apBy"))} <b>${esc(d.by||"?")}</b>${d.tk&&k==="f"?" · "+esc(d.tk):""}</div>
   <div class="apNums">${apNums(k,d,v)}</div>${apPhs(k,d)}
   ${W.length?`<div class="apWarn">⚠️ ${W.map(esc).join("<br>⚠️ ")}</div>`:""}
-  <div class="apBtns"><button type="button" class="apOk" data-apok="${esc(ref)}">${esc(t("apOk"))}</button><button type="button" class="apFx" data-apfx="${esc(ref)}">${esc(t("apFix"))}</button></div></div>`}
+  <div class="apBtns"><button type="button" class="apOk" data-apok="${esc(ref)}">${esc(t("apOk"))}</button>${me()&&me().admin?`<button type="button" class="apFx" data-apfx="${esc(ref)}">${esc(t("apFix"))}</button>`:""}</div></div>`}
 function apHTML(u){const W=apWaiting(),fl=flash?`<div class="ok2">${esc(flash)}</div>`:"";flash="";
   return `<button type="button" class="sec" data-fv="menu">${esc(t("navBack"))}</button>${fl}<div class="apHead"><h2>${esc(t("apT"))}</h2><span class="apPill" id="apN">${esc(t("apWait").replace("%n",W.length))}</span></div>
   <p class="hint" style="font-size:17px">${esc(t("apH"))}</p><div id="apList">${W.length?W.map(o=>apCard(o)).join(""):`<div class="box"><p>${esc(t("apNone"))}</p></div>`}</div>`}
@@ -2794,7 +2811,7 @@ function fVof(f,V){return (V&&V[f.vid])||(isOutF(f)?oPseudo(f):{})}
 // a real fleet vehicle with this ID (fleet no, last 7 of its VIN) or this number plate
 function oFleetHit(id,reg){if(!id&&!reg)return null;const R0=oK(reg);return vehs().find(v=>{const fl=oK(v.fleet),vn=oK(v.vin),pl=oK(v.plate);
   return !!id&&(fl===id||(fl.length>=7&&fl.slice(-7)===id)||(vn.length>=7&&vn.slice(-7)===id))||(!!R0&&R0.length>=3&&pl===R0)})||null}
-const oCanUse=u=>!!u&&can("fill",u)&&(u.admin||vehOf(u)==="all");  // live Code.gs refuses fills outside a staff member's own vehicle list
+const oCanUse=u=>!!u&&can("fill",u)&&(u.admin||isDep(u)||vehOf(u)==="all");  // live Code.gs refuses fills outside a staff member's own vehicle list
 function oState(){const id=oIdOf(fs.ovin),reg=clean(fs.oreg),vinC=oK(fs.ovin);
   return {id:id,reg:reg,vin:vinC,short:!!vinC&&vinC.length<7,regBad:!!reg&&nameBad(reg),vinBad:!!vinC&&nameBad(fs.ovin),hit:id||reg?oFleetHit(id,reg):null,last:id?oLastOf(OUT_PFX+id):null}}
 function oSync(){const s=oState();fs.vid=s.id?OUT_PFX+s.id:"";return s}
@@ -2912,7 +2929,7 @@ Object.assign(window.TMC,{updDraft:updDraft,updWant:()=>updWant});
 /* ==== Fuel v41 (Johan via TMC Base, 14 Nov 2026 05:42) – ONE update: version label, update bar under the header (old blue box gone),
    TMC Assets vehicle list (read-only, from Fuel's own server via the normal sync = kind "am"), GRV diesel deliveries (server-written
    deliveries d:grv_<grvId>, counted like any delivery, never changed on the phone). With no "am" / GRV records the phone works exactly like v40. ==== */
-function appLabel(){return "v1.41.0"}   // TMC version standard: vMAJOR.MINOR.PATCH, same as the sw.js cache tmc-fuel-v1.41.0
+function appLabel(){return "v1.42.0"}   // TMC version standard: vMAJOR.MINOR.PATCH, same as the sw.js cache tmc-fuel-v1.42.0
 {const st=document.createElement("style");st.textContent="header .t{display:flex;flex-direction:column;justify-content:center;line-height:1.15}header .tN{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}header .hVer{display:block;font-size:10px;line-height:1.2;font-weight:600;color:#333333;white-space:nowrap}"+
  "#updGo.updBar{top:var(--updTop,0px)!important;z-index:4}body.updBarOn main{padding-top:var(--updH,0px)}"+
  ".asBox{background:#eef6ff;border:2px solid #60a5fa;border-radius:12px;padding:8px 10px;margin:8px 0}.asBox h3{margin:0 0 6px;font-size:18px}.asRow{display:flex;gap:8px;justify-content:space-between;border-bottom:1px solid #dbeafe;padding:3px 0;font-size:15px}.asRow b{text-align:end;word-break:normal;overflow-wrap:anywhere}"+
@@ -2973,6 +2990,71 @@ Object.assign(T.ar,{grvFrom:"من GRV",grvRo:"هذا التسليم من TMC GRV
   asV_good:"جيدة",asV_repair:"في الإصلاح",asV_broken:"معطلة",asV_active:"نشطة",asV_sold:"مباعة"});
 Object.assign(window.TMC,{v41:{appLabel:appLabel,amV:amV,asNeeds:asNeeds,updPos:updPos}});
 /* ==== Fuel v41 END ==== */
+/* ==== Fuel v1.42.0 DEPUTY ADMIN (Johan via TMC Base, 21 Nov 2026 06:20: "Deputy admin will be a option to select in user screen") ====
+   Main Admin only: tick "Deputy Admin" on an active non-Admin user's row (Users). Deputy = approve waiting users, approve fill-ups/readings,
+   all reports, all daily work on all vehicles. NOT Admin: no Check & edit, Fix numbers, stock/pump/vehicles/limits, sync settings, block/remove, PIN reset,
+   ticks/vehicle lists, and never Deputy for others. Server side needs the HELD v42 Code.gs (gate/); until then the server refuses and the phone takes its copy back. ==== */
+function depCtl(u,m){if(!isMain(m)||!u||u.status!=="active"||u.admin||isMain(u))return "";const on=depFlag(u);
+  return `<label class="permT depT${on?" on":""}" id="depT_${esc(u.id)}"><span>🎖️ ${esc(t("depT"))}<small> · ${esc(t("depH"))}</small></span><input type="checkbox" data-dep="${esc(u.id)}"${on?" checked":""}></label>`}
+function setDeputy(uid,on){const m=me();if(!isMain(m)){toast(t("depNo"));return false}const u=Object.assign({},users().find(x=>x.id===uid));
+  if(!u.id||u.admin||isMain(u)||u.status!=="active")return false;if(on)u.deputy=1;else delete u.deputy;
+  const ok=put("u",u.id,u)!==false;if(ok)toast(t(on?"depOn":"depOff").replace("%n",u.name));return ok}
+{const st=document.createElement("style");st.textContent=".depT{border:2px solid #7c3aed!important;background:#f5f3ff!important;margin:8px 0}.depT.on{background:#ede9fe!important}.depT small{font-weight:400}";document.head.appendChild(st)}
+Object.assign(T.en,{depT:"Deputy Admin",depH:"can approve new users and fill-ups, see all reports and do all daily work. App updates stay with the main Admin.",depOn:"%n is now Deputy Admin.",depOff:"%n is no longer Deputy Admin.",depNo:"Only the main Admin can do this.",depSrv:"Not saved yet: Deputy approvals work after the next server update. Ask the main Admin."});
+Object.assign(T.fr,{depT:"Admin adjoint",depH:"peut approuver les nouveaux utilisateurs et les pleins, voir tous les rapports et faire tout le travail du jour. Les mises à jour de l'app restent à l'Admin principal.",depOn:"%n est maintenant Admin adjoint.",depOff:"%n n'est plus Admin adjoint.",depNo:"Seul l'Admin principal peut faire ceci.",depSrv:"Pas encore enregistré : les approbations de l'Admin adjoint marchent après la prochaine mise à jour du serveur. Demandez à l'Admin principal."});
+Object.assign(T.ar,{depT:"نائب المسؤول",depH:"يمكنه الموافقة على المستخدمين الجدد والتعبئات، ورؤية كل التقارير والقيام بكل العمل اليومي. تحديثات التطبيق تبقى للمسؤول الرئيسي.",depOn:"%n الآن نائب المسؤول.",depOff:"%n لم يعد نائب المسؤول.",depNo:"فقط المسؤول الرئيسي يمكنه القيام بذلك.",depSrv:"لم يُحفظ بعد: موافقات نائب المسؤول تعمل بعد تحديث الخادم القادم. اسأل المسؤول الرئيسي."});
+Object.assign(window.TMC,{isDep:isDep,canApproveUsers:canApproveUsers,canApproveFills:canApproveFills,setDeputy:setDeputy,depUOk:depUOk,depApOk:depApOk});
+/* ==== Fuel v1.42.0 DEPUTY ADMIN END ==== */
+/* ==== Fuel v1.42.0 PHOTO REQUIRED (Johan via TMC Base, 21 Nov 2026: "No photo it can't be saved not optional by users but required camera or upload from file") ====
+   Save stays grey until every photo on the form is there (plus the numbers it already needed):
+   fill-up (meter + pump photo), outside vehicle (pump photo), daily km/hours (meter photo – was optional), flowbin delivery (photo),
+   Move fuel (photo 1 + photo 2 – photo 2 was optional), pump reading (photo, live camera only – Johan 10 Nov), stock take (dip photo – was optional, live camera only).
+   Fill-up / daily / delivery / Move fuel: 📷 Take photo OR 🖼️ Choose from phone. Under a grey Save a short line says what is still missing.
+   A photo the phone cannot read (e.g. some HEIC files) now says so instead of doing nothing. ==== */
+Object.assign(T.en,{missT:"Still missing: %s",mPhM:"meter photo",mPhP:"pump photo",mPh:"photo",mPh1:"photo 1",mPh2:"photo 2",mKm:"km / hours",mLit:"litres",mPm:"pump reading",mTk:"tank",mRd:"reading",mDip:"dip stick mm",mSup:"supplier name",mVeh:"reg number / VIN",mChk:"check the readings",
+  phBad:"This photo could not be read. Take it again with 📷 Take photo.",dlyPh:"📷 Meter photo (required)",xfPh2:"📷 Photo 2: %a – tank gauge (required)",xfNeed:"Type the pump meter and add both photos. Then Save.",stkPh:"📷 Photo of the dip stick (required)"});
+Object.assign(T.fr,{missT:"Il manque encore : %s",mPhM:"photo du compteur",mPhP:"photo de la pompe",mPh:"photo",mPh1:"photo 1",mPh2:"photo 2",mKm:"km / heures",mLit:"litres",mPm:"compteur pompe",mTk:"cuve",mRd:"relevé",mDip:"mm de la jauge",mSup:"nom du fournisseur",mVeh:"immatriculation / VIN",mChk:"vérifiez les relevés",
+  phBad:"Cette photo n'a pas pu être lue. Reprenez-la avec 📷 Prendre une photo.",dlyPh:"📷 Photo du compteur (obligatoire)",xfPh2:"📷 Photo 2 : %a – jauge de la cuve (obligatoire)",xfNeed:"Tapez le compteur pompe et ajoutez les deux photos. Puis Enregistrer.",stkPh:"📷 Photo de la jauge (obligatoire)"});
+Object.assign(T.ar,{missT:"ما زال ناقصًا: %s",mPhM:"صورة العداد",mPhP:"صورة المضخة",mPh:"صورة",mPh1:"الصورة 1",mPh2:"الصورة 2",mKm:"الكيلومترات / الساعات",mLit:"اللترات",mPm:"عداد المضخة",mTk:"الخزان",mRd:"القراءة",mDip:"مم عصا القياس",mSup:"اسم المورد",mVeh:"رقم التسجيل / VIN",mChk:"تحقق من القراءات",
+  phBad:"تعذّرت قراءة هذه الصورة. التقطها مرة أخرى بزر 📷 التقاط صورة.",dlyPh:"📷 صورة العداد (مطلوبة)",xfPh2:"📷 الصورة 2: %a – مقياس الخزان (مطلوبة)",xfNeed:"اكتب عداد المضخة وأضف الصورتين. ثم احفظ.",stkPh:"📷 صورة عصا القياس (مطلوبة)"});
+const PHR={
+  fuSave:()=>{const M=[],out=!!fs.out;if(out){let s0={};try{s0=oSync()}catch(e){}if(!(s0.reg&&!s0.regBad&&s0.id&&!s0.short&&!s0.vinBad&&!s0.hit))M.push("mVeh")}
+    if(!out&&!fs.p1)M.push("mPhM");if(!(hasNum(fs.m)&&num(fs.m)>=0)||(out&&!(fs.ou==="km"||fs.ou==="h")))M.push("mKm");if(!fs.p2)M.push("mPhP");if(!(num(fs.l)>0))M.push("mLit");
+    if(!(hasNum(fs.bm)&&num(fs.bm)>=0))M.push("mPm");if(!fs.tk||!tkById(fs.tk))M.push("mTk");return {ok:canSave(fs),m:M}},
+  dySave:()=>{const M=[];if(!(hasNum(dy.m)&&num(dy.m)>=0))M.push("mRd");if(!dy.p)M.push("mPhM");return {ok:!M.length,m:M}},
+  dlSave:()=>{const M=[];if(!(num(dl.l)>0))M.push("mLit");if(!dl.p)M.push("mPh");if(dl.sup==="other"&&!clean(dl.n)&&$("fbBox"))M.push("mSup");return {ok:!M.length,m:M}},
+  xfSave:()=>{const M=[],c=xfCalc();if(!c.F||!c.T||xf.from===xf.to)M.push("mTk");else{if(!(hasNum(xf.r2)&&num(xf.r2)>=0))M.push("mPm");else if(!(isFinite(c.l)&&c.l>0))M.push("mLit")}
+    if(!xf.p)M.push("mPh1");if(!xf.p2)M.push("mPh2");const ok=xfOk()&&!!xf.p2;if(!ok&&!M.length)M.push("mChk");return {ok:ok,m:M}},
+  puSave:()=>{const M=[];if(!pu.tk||!tkById(pu.tk))M.push("mTk");if(!(hasNum(pu.r)&&num(pu.r)>=0))M.push("mPm");if(!pu.p)M.push("mPh");const ok=puReady();if(!ok&&!M.length)M.push("mChk");return {ok:ok,m:M}},
+  stkSave:()=>{const M=[];if(!stk.tk)M.push("mTk");else if(!stkMmOk(stk.tk,stk.mm))M.push("mDip");if(!stk.p)M.push("mPh");return {ok:stkMmOk(stk.tk,stk.mm)&&!!stk.p,m:M}}};
+function phReq(id){const f=PHR[id];if(!f)return null;try{return f()}catch(e){return {ok:false,m:[]}}}
+function phReqApply(){Object.keys(PHR).forEach(id=>{const b=$(id);if(!b)return;const r=phReq(id);b.disabled=!r.ok;let h=$(id+"Miss");if(id==="xfSave"){const n=$("xfNeed");if(n)n.style.display=r.ok?"none":""}
+  if(r.ok||!r.m.length){if(h)h.remove();return}
+  const txt=t("missT").replace("%s",r.m.map(k=>t(k)).join(lang==="ar"?"، ":", "));
+  if(!h){h=document.createElement("p");h.id=id+"Miss";h.className="hint flag phMiss";h.setAttribute("role","status");b.insertAdjacentElement("afterend",h)}if(h.textContent!==txt)h.textContent=txt})}
+document.addEventListener("input",()=>{try{phReqApply()}catch(e){}});document.addEventListener("change",()=>{try{phReqApply()}catch(e){}});
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("button[id]");if(!b||!PHR[b.id])return;const r=phReq(b.id);if(r&&!r.ok){e.preventDefault();e.stopImmediatePropagation();phReqApply();return}
+  /* same reading number again (v34 rule): say so BEFORE the photo is queued – otherwise the photo upload redraws the screen and hides the note */
+  if(b.id==="dySave"){const dk=dy.day||dayKey(Date.now()),m=num(dy.m);if(isFinite(m)&&allRaw("dy").some(x=>x&&x.vid===dy.vid&&x.day===dk&&num(x.meter)===m)){e.preventDefault();e.stopImmediatePropagation();dyDupK=dy.vid+"|"+dk+"|"+m;dupShow()}}},true);
+let dyDupK="";function dupShow(){const w=$("dyWarn");if(!dyDupK)return;if(!w||!dy.vid||dy.vid+"|"+(dy.day||dayKey(Date.now()))+"|"+num(dy.m)!==dyDupK){if(!w)dyDupK="";return}if(!$("dyDup"))w.innerHTML=`<p class="flag" id="dyDup">${esc(t("dyDup"))}</p>`}  /* note stays after a background redraw */
+{const r0=render;render=function(){const x=r0.apply(this,arguments);try{phReqApply();dupShow()}catch(e){}return x};window.TMC.render=render}
+{const s0=phSmall;phSmall=function(file){return s0(file).catch(e=>{try{toast(t("phBad"))}catch(x){}throw e})}}
+/* Pump reading + Stock take (Johan 21 Nov via Base: every entry = camera OR a file from the phone): the live camera button stays and a
+   🖼️ Choose from phone button is added next to it (same photo handling: phSmall). Photo still required before Save. */
+const phGalL=id=>`<label class="pbtn pgal" style="min-height:60px;margin-top:8px">${esc(t("phGal"))}<input type="file" id="${id}" accept="image/*"></label>`;
+{const p0=puHTML;puHTML=function(u){return p0(u).replace('<i class="camIn" id="puP" data-cam="puP" hidden></i></label>',m=>m+phGalL("puPG"))}}
+{const s0=stkHTML;stkHTML=function(u){const h=s0(u);return h.indexOf('id="stkPG"')>=0?h:h.replace('<i class="camIn" id="stkP" data-cam="stkP" hidden></i></label>',m=>m+phGalL("stkPG"))}}
+function phGalBind(){[["puPG",d=>{pu.p=d}],["stkPG",d=>{stk.p=d}]].forEach(([id,set])=>{const e=$(id);if(!e||e._g)return;e._g=1;e.onchange=async()=>{const f=e.files&&e.files[0];if(!f)return;
+  try{set(await phSmall(f))}catch(er){console.warn(er)}e.value="";render()}})}
+{const r1=render;render=function(){const x=r1.apply(this,arguments);try{phGalBind()}catch(e){}return x};window.TMC.render=render}
+/* Reject / remove dialog: the name is kept as one piece (<bdi>, no line break inside), so a Latin name in the Arabic sentence keeps
+   the right word order and the "؟" stays at the end of the sentence. Texts are the same EN/FR/AR keys, read when the dialog opens. */
+{const d0=discardModal;discardModal=function(id,why){d0.apply(this,arguments);const m=$("dscM"),u=all("u").find(x=>x.id===id);if(!m||!u)return;
+  const nm=`<bdi class="dscNm">${esc(u.name)}</bdi>`,h=m.querySelector("h2"),p=m.querySelector("p.hint");
+  if(h)h.innerHTML=esc(t(why==="reject"?"dscRT":"dscBT")).replace("%n",nm);if(p)p.innerHTML=esc(t("dscH")).replace("%n",nm)}}
+{const st=document.createElement("style");st.textContent=".dscNm{white-space:nowrap;unicode-bidi:isolate}";document.head.appendChild(st)}
+Object.assign(window.TMC.fuel,{phReq:phReq,num:num,digEn:digEn});
+/* ==== Fuel v1.42.0 PHOTO REQUIRED END ==== */
 })();
 /* SPELLCHECK START — phone spellcheck on every free-text box (names, items, notes).
    Never on PIN / number / sync / code / masked fields. Covers boxes built later too. */
