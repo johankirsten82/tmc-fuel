@@ -181,7 +181,7 @@ header .hLang{width:auto;min-height:56px;min-width:64px;margin:0;padding:0 8px;b
 nav.tabs .tlab{font-size:13px;line-height:1.1;text-align:center;overflow-wrap:anywhere;max-width:100%}
 .rpBar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}.rpBar button{margin:0;padding:6px 4px;font-size:16px}.rpBar button.on{background:var(--rc);color:#fff}
 .rpDates{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px}.rpDates>div{min-width:0}.rpDates input{width:100%;min-width:0;max-width:100%;box-sizing:border-box}.rpDates label{margin:4px 0 0}
-.rpAct{display:grid;grid-template-columns:1fr 1fr;gap:8px}.rpAct button{margin:0}.rpAct .rpBk{grid-column:1/-1}
+.rpAct{display:grid;grid-template-columns:1fr 1fr;gap:8px}.rpAct button{margin:0}
 .rpXls{background:var(--rc)}.rpList button{text-align:start}
 #rpOut .rep{table-layout:fixed;font-size:15px}#rpOut .rep th,#rpOut .rep td{padding:10px 6px;overflow-wrap:anywhere}.rep th{text-align:start}.rep .nm{text-align:end}
 @media print{header,nav.tabs,.bar,.noPr,button{display:none!important}body{background:#fff;padding:0}.box{box-shadow:none}#rpOut .rep th,#rpOut .rep tfoot td,#rpOut .rep tbody tr:nth-child(even) td,.repH{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
@@ -656,7 +656,7 @@ function repScreenHTML(u){
  return `<div class="box noPr" id="rpPick"><div class="rpBar">${[["today","rpToday"],["month","rpMonth"],["pick","rpDates"]].map(([k,l])=>`<button type="button" class="sec${rp.p===k?" on":""}" data-rpp="${k}">${esc(t(l))}</button>`).join("")}</div>
  ${rp.p==="pick"?`<div class="rpDates"><div><label for="rpF">${esc(t("rpFrom"))}</label><input type="date" id="rpF" value="${esc(f)}"></div><div><label for="rpT">${esc(t("rpTo"))}</label><input type="date" id="rpT" value="${esc(to)}"></div></div><button type="button" id="rpGo">${esc(t("rpShow"))}</button>`:""}</div>
  <div class="box" id="rpOut">${repTable(def,D)}</div>
- <div class="rpAct noPr">${canXlsU(u)?`<button type="button" class="rpXls" id="rpXls">${esc(t("rpXls"))}</button>`:""}<button type="button" class="sec" id="rpPrint">${esc(t("rpPrint"))}</button><button type="button" class="sec rpBk" id="rpBack">${esc(t("rpBack"))}</button></div>`}
+ <div class="rpAct noPr">${canXlsU(u)?`<button type="button" class="rpXls" id="rpXls">${esc(t("rpXls"))}</button>`:""}<button type="button" class="sec" id="rpPrint">${esc(t("rpPrint"))}</button></div>`}
 function canXlsU(u){return repOk(u)}
 function bindRep(u){const on=(id,fn)=>{const e=$(id);if(e)e.onclick=fn};
  document.querySelectorAll("[data-rp]").forEach(b=>b.onclick=()=>{rp.id=b.dataset.rp;render()});
@@ -665,7 +665,7 @@ function bindRep(u){const on=(id,fn)=>{const e=$(id);if(e)e.onclick=fn};
  const cur=()=>REPORTS.length===1?REPORTS[0]:REPORTS.find(r=>r.id===rp.id);
  on("rpXls",()=>{const d=cur();if(d)sendXls(repXlsx(d,rpData(d)))});
  on("rpPrint",()=>window.print());
- on("rpBack",()=>{if(REPORTS.length>1&&rp.id){rp.id=null}else tab="home";render()})}
+}
 Object.assign(window.TMC,{addReport:addReport,REPORTS:REPORTS,XL:XL,repXlsx:repXlsx,rpData:rpData,sendXls:sendXls,repOk:repOk,rp:()=>rp});
 /* ==================== APP FEATURES START ====================
    TMC FUEL — diesel fill-ups, tank stock, vehicles, reports.
@@ -1450,7 +1450,7 @@ function bindUsers(){
     const u=Object.assign({},users().find(x=>x.id===b.dataset.pu));if(!u.id||u.admin||!me()||!me().admin)return;
     const s=new Set(permsOf(u));if(b.checked)s.add(b.dataset.pp);else s.delete(b.dataset.pp);
     u.perms=(C.PERMS||[]).map(p=>p.id).filter(id=>s.has(id));put("u",u.id,u);render()});
-  document.querySelectorAll("input[data-dep]").forEach(b=>b.onchange=()=>{setDeputy(b.dataset.dep,b.checked);render()});  /* v1.42.0 */
+  document.querySelectorAll("button[data-dep]").forEach(b=>b.onclick=()=>{const on=b.dataset.on==="1";if(!on){depAsk(()=>{setDeputy(b.dataset.dep,false);render()});return}setDeputy(b.dataset.dep,true);render()});  /* v1.43.1: Deputy Admin toggle; Are you sure? before remove */
 }
 function settingsHTML(u){
   const lo=+(L.get("lastOk")||0);
@@ -2034,7 +2034,7 @@ function x22Screen(u){const D=x22Data(x22.p,x22.k),P=x22Pages(D),pg=P[x22.s]||P.
   <div class="x22Nav"><button type="button" class="sec" id="x22Prev">⬅️</button><b id="x22Lab">${esc(D.label)}</b><button type="button" class="sec" id="x22Next" ${D.b>=td?"disabled":""}>➡️</button></div>
   <div class="x22Tabs">${X22S.map(([id,k])=>`<button type="button" class="sec${pg.id===id?" on":""}" data-x22s="${id}">${esc(t(k))}${id==="chk"&&D.chk.length?" ("+D.chk.length+")":""}</button>`).join("")}</div></div>
   <div class="box x22o" id="rpOut" data-x22="${esc(pg.id)}">${x22PageHTML(pg,D,false)}${pg.id==="dash"&&u&&u.admin?`<div id="x22PriceB" class="noPr"><label class="fl" for="x22PriceI" style="width:100%">${esc(t("x22Price"))}</label><input id="x22PriceI" class="num" type="text" inputmode="decimal" autocomplete="off" value="${esc(String(D.price))}"><button type="button" class="sec" id="x22PriceS">${esc(t("x22PriceS"))}</button></div>`:""}</div>
-  <div class="rpAct noPr"><button type="button" id="x22Print">${esc(t("x22Print"))}</button>${canXlsU(u)?`<button type="button" class="rpXls" id="x22Xls">${esc(t("x22Xls"))}</button>`:""}<button type="button" class="sec rpBk" id="rpBack">${esc(t("rpBack"))}</button></div>`}
+  <div class="rpAct noPr"><button type="button" id="x22Print">${esc(t("x22Print"))}</button>${canXlsU(u)?`<button type="button" class="rpXls" id="x22Xls">${esc(t("x22Xls"))}</button>`:""}</div>`}
 function x22PrintHTML(D){const P=x22Pages(D);return X22S.map(([id])=>x22PageHTML(P[id],D,true)).join("")}
 function x22Print(){const D=x22Data(x22.p,x22.k);let el=$("x22Pr");if(!el){el=document.createElement("div");el.id="x22Pr";document.body.appendChild(el)}
   el.setAttribute("dir",document.documentElement.getAttribute("dir")||"ltr");el.innerHTML=x22PrintHTML(D);document.documentElement.classList.add("x22Prt");
@@ -2154,7 +2154,7 @@ const x24RpDocs=(def,D)=>{const cs=def.cols,f=(c,v)=>c.num&&v!==""&&v!=null&&isF
     foot:cs.map((c,i)=>i===0?tx(def.totalLabel||"rpTot"):c.sum?fmtN(D.tot[c.key],c.d):"")}]}]};
 // ---- buttons: base report screen (Excel · PDF · Print) and the 📗 Excel-tabs report (PDF · Excel · Print)
 {const bs=repScreenHTML;repScreenHTML=function(u){let h=bs(u);const pdf=id=>`<button type="button" class="rpPdf" id="${id}">${esc(t("x24Pdf"))}</button>`;
-  if(h.indexOf('id="x22Bar"')>=0){const m=h.match(/<button type="button" id="x22Print">[^<]*<\/button>/);if(m)h=h.replace(m[0],pdf("x22Pdf")).replace('<button type="button" class="sec rpBk" id="rpBack">',m[0]+'<button type="button" class="sec rpBk" id="rpBack">')}
+  if(h.indexOf('id="x22Bar"')>=0){const m=h.match(/<button type="button" id="x22Print">[^<]*<\/button>/);if(m){h=h.replace(m[0],pdf("x22Pdf"));const x=h.match(/<button type="button" class="rpXls" id="x22Xls">[^<]*<\/button>/);h=x?h.replace(x[0],x[0]+m[0]):h.replace(pdf("x22Pdf"),pdf("x22Pdf")+m[0])}}  /* v1.43.1: leftover #rpBack gone; keep PDF, Excel, Print order */
   else h=h.replace('<button type="button" class="sec" id="rpPrint">',pdf("rpPdf")+'<button type="button" class="sec" id="rpPrint">');return h}}
 {const bb=bindRep;bindRep=function(u){bb(u);const on=(id,fn)=>{const e=$(id);if(e)e.onclick=()=>fn(e)},cur=()=>REPORTS.length===1?REPORTS[0]:REPORTS.find(r=>r.id===rp.id);
   if(!$("rpPdf")&&!$("x22Pdf"))return;x24LoadLogo();
@@ -2396,7 +2396,7 @@ function navAsk(yes){
   document.body.appendChild(m);$("navNo").onclick=()=>m.remove();$("navYes").onclick=()=>{m.remove();yes()};
 }
 function navClear(){const u=me();if(u)document.querySelectorAll("#view [data-draft]").forEach(el=>L.del(dKey(u,el.dataset.draft)));NAV.clear.forEach(f=>{try{f()}catch(e){}});formDirty=0;NAV.sticky=0}
-document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest(".navBack");if(!b)return;if(NAV.pass||!navDirty()){NAV.up=1;return}
+document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest(".navBack");if(!b||b.closest(".camOv"))return;if(NAV.pass||!navDirty()){NAV.up=1;return}
   e.preventDefault();e.stopImmediatePropagation();navAsk(()=>{navClear();NAV.pass=1;try{b.click()}finally{NAV.pass=0}})},true);
 function navAfter(){
   const V=$("view");if(!V||!me())return;
@@ -2719,7 +2719,7 @@ async function camStart(){const o=$("camOv");if(!o)return;camStop();camMode("wai
   catch(e){console.warn("camera",e&&e.name);camMode("blk")}}
 function camOpen(key){camClose();CAM.key=key;document.documentElement.classList.add("camOn");
   const o=document.createElement("div");o.id="camOv";o.className="camOv";o.dataset.mode="wait";
-  o.innerHTML=`<button type="button" class="sec camBack" id="camBack">${esc(t("navBack"))}</button>
+  o.innerHTML=`<button type="button" class="navBack" id="camBack">${esc(t("navBack"))}</button>
   <div class="camStage"><video id="camV" autoplay playsinline muted></video><img id="camImg" alt=""><p class="camWait" id="camWait">${esc(t("camWait"))}</p>
   <div class="camBlk" id="camBlk"><h2>${esc(t("camBlk"))}</h2><p>${esc(t("camBlkH"))}</p><button type="button" id="camTry">${esc(t("camTry"))}</button></div></div>
   <div class="camBar"><button type="button" id="camTake">${esc(t("camTake"))}</button><button type="button" class="sec" id="camRe">${esc(t("camRe"))}</button><button type="button" class="camOk" id="camUse">${esc(t("camUse"))}</button></div>`;
@@ -2738,7 +2738,7 @@ addEventListener("pagehide",camClose);addEventListener("popstate",camClose);
 /* leaving the screen (any redraw that changes screen) closes the camera */
 {const r0=render;let k0="";render=function(){const k=typeof navKey==="function"?navKey():"";const r=r0.apply(this,arguments);if($("camOv")&&k0&&k!==k0)camClose();k0=k;return r};window.TMC.render=render}
 {const st=document.createElement("style");st.textContent="html.camOn,html.camOn body{overflow:hidden}.camOv{position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column}"+
- ".camOv .camBack{margin:8px;min-height:60px;font-size:22px;font-weight:800;background:#e5e7eb;color:#1f2937;border:0;border-radius:14px;width:auto;flex:0 0 auto}"+
+ ".camOv>.navBack{flex:0 0 auto;box-sizing:border-box;margin:6px 12px 12px!important;width:calc(100% - 24px)!important}"+
  ".camStage{position:relative;flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}.camStage video,.camStage img{width:100%;height:100%;object-fit:cover;display:none}"+
  ".camWait{color:#fff;font-size:22px;display:none}.camBlk{display:none;background:#fff;border-radius:16px;margin:16px;padding:18px;text-align:center;border:4px solid #dc2626}.camBlk h2{color:#b91c1c;font-size:26px;margin:0 0 10px}.camBlk p{font-size:19px;line-height:1.4;margin:0 0 14px}.camBlk button{min-height:72px;font-size:24px;margin:0}"+
  ".camBar{flex:0 0 auto;display:flex;gap:10px;padding:10px 10px 18px}.camBar button{flex:1;min-height:84px;font-size:24px;font-weight:800;border-radius:16px;margin:0;display:none}.camBar .camOk{background:#16a34a;color:#fff}.camBar .sec{background:#e5e7eb;color:#1f2937}"+
@@ -2929,7 +2929,7 @@ Object.assign(window.TMC,{updDraft:updDraft,updWant:()=>updWant});
 /* ==== Fuel v41 (Johan via TMC Base, 14 Nov 2026 05:42) – ONE update: version label, update bar under the header (old blue box gone),
    TMC Assets vehicle list (read-only, from Fuel's own server via the normal sync = kind "am"), GRV diesel deliveries (server-written
    deliveries d:grv_<grvId>, counted like any delivery, never changed on the phone). With no "am" / GRV records the phone works exactly like v40. ==== */
-function appLabel(){return "v1.43.0"}   // TMC version standard: vMAJOR.MINOR.PATCH, same as the sw.js cache tmc-fuel-v1.43.0
+function appLabel(){return "v1.43.1"}   // TMC version standard: vMAJOR.MINOR.PATCH, same as the sw.js cache tmc-fuel-v1.43.1
 {const st=document.createElement("style");st.textContent="header .t{display:flex;flex-direction:column;justify-content:center;line-height:1.15}header .tN{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}header .hVer{display:block;font-size:10px;line-height:1.2;font-weight:600;color:#333333;white-space:nowrap}"+
  "#updGo.updBar{top:var(--updTop,0px)!important;z-index:4}body.updBarOn main{padding-top:var(--updH,0px)}"+
  ".asBox{background:#eef6ff;border:2px solid #60a5fa;border-radius:12px;padding:8px 10px;margin:8px 0}.asBox h3{margin:0 0 6px;font-size:18px}.asRow{display:flex;gap:8px;justify-content:space-between;border-bottom:1px solid #dbeafe;padding:3px 0;font-size:15px}.asRow b{text-align:end;word-break:normal;overflow-wrap:anywhere}"+
@@ -2994,16 +2994,18 @@ Object.assign(window.TMC,{v41:{appLabel:appLabel,amV:amV,asNeeds:asNeeds,updPos:
    Main Admin only: tick "Deputy Admin" on an active non-Admin user's row (Users). Deputy = approve waiting users, approve fill-ups/readings,
    all reports, all daily work on all vehicles. NOT Admin: no Check & edit, Fix numbers, stock/pump/vehicles/limits, sync settings, block/remove, PIN reset,
    ticks/vehicle lists, and never Deputy for others. Server side needs the HELD v42 Code.gs (gate/); until then the server refuses and the phone takes its copy back. ==== */
-function depCtl(u,m){if(!isMain(m)||!u||u.status!=="active"||u.admin||isMain(u))return "";const on=depFlag(u);
-  return `<label class="permT depT${on?" on":""}" id="depT_${esc(u.id)}"><span>🎖️ ${esc(t("depT"))}<small> · ${esc(t("depH"))}</small></span><input type="checkbox" data-dep="${esc(u.id)}"${on?" checked":""}></label>`}
+function depCtl(u,m){return isMain(m)&&u&&u.status==="active"&&!u.admin&&!isMain(u)?`<button type="button" class="sm dep${depFlag(u)?" on":""}" data-dep="${esc(u.id)}" data-on="${depFlag(u)?0:1}" id="depB_${esc(u.id)}">${depFlag(u)?"✓ ":""}🎖️ ${esc(t("depT"))}</button>`:""}  /* v1.43.1: main Admin only; one toggle labelled Deputy Admin; several allowed */
 function setDeputy(uid,on){const m=me();if(!isMain(m)){toast(t("depNo"));return false}const u=Object.assign({},users().find(x=>x.id===uid));
-  if(!u.id||u.admin||isMain(u)||u.status!=="active")return false;if(on)u.deputy=1;else delete u.deputy;
+  if(!u.id||u.admin||isMain(u)||u.status!=="active")return false;if(on)u.deputy=1;else delete u.deputy;  /* several Deputy Admins: changing this person never clears another */
   const ok=put("u",u.id,u)!==false;if(ok)toast(t(on?"depOn":"depOff").replace("%n",u.name));return ok}
-{const st=document.createElement("style");st.textContent=".depT{border:2px solid #7c3aed!important;background:#f5f3ff!important;margin:8px 0}.depT.on{background:#ede9fe!important}.depT small{font-weight:400}";document.head.appendChild(st)}
-Object.assign(T.en,{depT:"Deputy Admin",depH:"can approve new users and fill-ups, see all reports and do all daily work. App updates stay with the main Admin.",depOn:"%n is now Deputy Admin.",depOff:"%n is no longer Deputy Admin.",depNo:"Only the main Admin can do this.",depSrv:"Not saved yet: Deputy approvals work after the next server update. Ask the main Admin."});
-Object.assign(T.fr,{depT:"Admin adjoint",depH:"peut approuver les nouveaux utilisateurs et les pleins, voir tous les rapports et faire tout le travail du jour. Les mises à jour de l'app restent à l'Admin principal.",depOn:"%n est maintenant Admin adjoint.",depOff:"%n n'est plus Admin adjoint.",depNo:"Seul l'Admin principal peut faire ceci.",depSrv:"Pas encore enregistré : les approbations de l'Admin adjoint marchent après la prochaine mise à jour du serveur. Demandez à l'Admin principal."});
-Object.assign(T.ar,{depT:"نائب المسؤول",depH:"يمكنه الموافقة على المستخدمين الجدد والتعبئات، ورؤية كل التقارير والقيام بكل العمل اليومي. تحديثات التطبيق تبقى للمسؤول الرئيسي.",depOn:"%n الآن نائب المسؤول.",depOff:"%n لم يعد نائب المسؤول.",depNo:"فقط المسؤول الرئيسي يمكنه القيام بذلك.",depSrv:"لم يُحفظ بعد: موافقات نائب المسؤول تعمل بعد تحديث الخادم القادم. اسأل المسؤول الرئيسي."});
-Object.assign(window.TMC,{isDep:isDep,canApproveUsers:canApproveUsers,canApproveFills:canApproveFills,setDeputy:setDeputy,depUOk:depUOk,depApOk:depApOk});
+function depAsk(yes){const m=document.createElement("div");m.className="modal navAsk";m.id="depAsk";
+  m.innerHTML=`<div class="card"><h2>${esc(t("depSure"))}</h2><button type="button" class="red" id="depYes">${esc(t("navYes"))}</button><button type="button" class="sec" id="depNo">${esc(t("navNo"))}</button></div>`;
+  document.body.appendChild(m);$("depNo").onclick=()=>m.remove();$("depYes").onclick=()=>{m.remove();yes()}}
+{const st=document.createElement("style");st.textContent=".sm.dep{display:block;width:100%;box-sizing:border-box;min-height:56px;font-size:18px;font-weight:800;background:#7c3aed;color:#fff;border:0;border-radius:14px;margin:8px 0;padding:10px 14px}.sm.dep.on{background:#fff;color:#7c3aed;border:2px solid #7c3aed}";document.head.appendChild(st)}
+Object.assign(T.en,{depT:"Deputy Admin",depH:"can approve new users and fill-ups, see all reports and do all daily work. App updates stay with the main Admin.",depSure:"Are you sure?",depOn:"%n is now Deputy Admin.",depOff:"%n is no longer Deputy Admin.",depNo:"Only the main Admin can do this.",depSrv:"Not saved yet: Deputy approvals work after the next server update. Ask the main Admin."});
+Object.assign(T.fr,{depT:"Admin adjoint",depH:"peut approuver les nouveaux utilisateurs et les pleins, voir tous les rapports et faire tout le travail du jour. Les mises à jour de l'app restent à l'Admin principal.",depSure:"Êtes-vous sûr ?",depOn:"%n est maintenant Admin adjoint.",depOff:"%n n'est plus Admin adjoint.",depNo:"Seul l'Admin principal peut faire ceci.",depSrv:"Pas encore enregistré : les approbations de l'Admin adjoint marchent après la prochaine mise à jour du serveur. Demandez à l'Admin principal."});
+Object.assign(T.ar,{depT:"نائب المسؤول",depH:"يمكنه الموافقة على المستخدمين الجدد والتعبئات، ورؤية كل التقارير والقيام بكل العمل اليومي. تحديثات التطبيق تبقى للمسؤول الرئيسي.",depSure:"هل أنت متأكد؟",depOn:"%n الآن نائب المسؤول.",depOff:"%n لم يعد نائب المسؤول.",depNo:"فقط المسؤول الرئيسي يمكنه القيام بذلك.",depSrv:"لم يُحفظ بعد: موافقات نائب المسؤول تعمل بعد تحديث الخادم القادم. اسأل المسؤول الرئيسي."});
+Object.assign(window.TMC,{isDep:isDep,canApproveUsers:canApproveUsers,canApproveFills:canApproveFills,setDeputy:setDeputy,depAsk:depAsk,depUOk:depUOk,depApOk:depApOk});
 /* ==== Fuel v1.42.0 DEPUTY ADMIN END ==== */
 /* ==== Fuel v1.42.0 PHOTO REQUIRED (Johan via TMC Base, 21 Nov 2026: "No photo it can't be saved not optional by users but required camera or upload from file") ====
    Save stays grey until every photo on the form is there (plus the numbers it already needed):
