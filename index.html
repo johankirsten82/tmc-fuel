@@ -584,7 +584,7 @@ const PH_DAYS=60,PH_MAX=800,PH_Q=0.5,PH_AIM=136000;   // 136000 base64 chars ≈
 let phDbP=null;
 function phDb(){return phDbP||(phDbP=new Promise((ok,no)=>{try{const r=indexedDB.open(P+"photos",1);r.onupgradeneeded=()=>r.result.createObjectStore("q",{keyPath:"id"});r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)}catch(e){no(e)}}))}
 function phTx(mode,f){return phDb().then(db=>new Promise((ok,no)=>{const tx=db.transaction("q",mode),s=tx.objectStore("q");let out;const r=f(s);if(r)r.onsuccess=()=>{out=r.result};tx.oncomplete=()=>ok(out);tx.onerror=()=>no(tx.error)}))}
-const phQ={all:()=>phTx("readonly",s=>s.getAll()).then(a=>a||[]),get:id=>phTx("readonly",s=>s.get(id)),put:o=>phTx("readwrite",s=>s.put(o)),del:id=>phTx("readwrite",s=>s.delete(id))};
+const phQ={all:()=>phTx("readonly",s=>s.getAll()).then(a=>(a||[]).filter(o=>!(o&&o.draft))),get:id=>phTx("readonly",s=>s.get(id)),put:o=>phTx("readwrite",s=>s.put(o)),del:id=>phTx("readwrite",s=>s.delete(id))};
 const phOld=at=>Date.now()-(Date.parse(at)||Date.now())>PH_DAYS*864e5;
 const phRec=id=>{const r=R["pl:"+id];return r&&!r.del?r.data:null};
 function phState(id){const d=phRec(id);return d?(d.removed?"removed":"drive"):(phLocal[id]?"phone":"none")}
@@ -2464,6 +2464,7 @@ function navAsk(yes){
 }
 function navClear(){const u=me();if(u)document.querySelectorAll("#view [data-draft]").forEach(el=>L.del(dKey(u,el.dataset.draft)));NAV.clear.forEach(f=>{try{f()}catch(e){}});formDirty=0;NAV.sticky=0}
 document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest(".navBack");if(!b||b.closest(".camOv"))return;if(NAV.pass||!navDirty()){NAV.up=1;return}
+  if(TMC.fuel.fdr&&TMC.fuel.fdr.draftable()){TMC.fuel.fdr.keep();NAV.up=1;return}   /* v1.45.0: a half-done Fill-up / Move fuel / km-hours form is kept as a draft, no "Leave without saving?" */
   e.preventDefault();e.stopImmediatePropagation();navAsk(()=>{navClear();NAV.pass=1;try{b.click()}finally{NAV.pass=0}})},true);
 function navAfter(){
   const V=$("view");if(!V||!me())return;
@@ -2996,7 +2997,7 @@ Object.assign(window.TMC,{updDraft:updDraft,updWant:()=>updWant});
 /* ==== Fuel v41 (Johan via TMC Base, 14 Nov 2026 05:42) – ONE update: version label, update bar under the header (old blue box gone),
    TMC Assets vehicle list (read-only, from Fuel's own server via the normal sync = kind "am"), GRV diesel deliveries (server-written
    deliveries d:grv_<grvId>, counted like any delivery, never changed on the phone). With no "am" / GRV records the phone works exactly like v40. ==== */
-function appLabel(){return "v1.44.0"}   // TMC version standard: vMAJOR.MINOR.PATCH, same as the sw.js cache tmc-fuel-v1.43.1
+function appLabel(){return "v1.45.0"}   // TMC version standard: vMAJOR.MINOR.PATCH, same as the sw.js cache tmc-fuel-v1.45.0
 {const st=document.createElement("style");st.textContent="header .t{display:flex;flex-direction:column;justify-content:center;line-height:1.15}header .tN{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}header .hVer{display:block;font-size:10px;line-height:1.2;font-weight:600;color:#333333;white-space:nowrap}"+
  "#updGo.updBar{top:var(--updTop,0px)!important;z-index:4}body.updBarOn main{padding-top:var(--updH,0px)}"+
  ".asBox{background:#eef6ff;border:2px solid #60a5fa;border-radius:12px;padding:8px 10px;margin:8px 0}.asBox h3{margin:0 0 6px;font-size:18px}.asRow{display:flex;gap:8px;justify-content:space-between;border-bottom:1px solid #dbeafe;padding:3px 0;font-size:15px}.asRow b{text-align:end;word-break:normal;overflow-wrap:anywhere}"+
@@ -3197,6 +3198,156 @@ window.TMC.fuel.openAp=function(){fv="apl";tab="work";render();scrollTo(0,0)};
 
 window.TMC.phCan=function(u){u=u||me();return !!u&&!!(u.admin||isDep(u))};
 /* ==== Fuel v1.43.0 DUP CANCEL + DEPUTY PHOTOS END ==== */
+/* ==== Fuel v1.45.0 DRAFTS (Johan via TMC Base, 28 Nov 2026) — TMC Base VER 16 "form drafts" standard (TB-17), copied ====
+   A Fill-up (also the Outside vehicle one), a Move fuel (transfer) and a km / hours update that is not finished is kept as a DRAFT:
+   every typed value, the picked vehicle / tank, the readings and the photos already taken. It reopens exactly where it was left
+   (same screen, same fields) the next time the user opens that form for the same vehicle, after a Back, a tab change, a log out / log in,
+   or a closed / reloaded app (the app opens straight on the form it was left on). Nobody starts a new one.
+   - Base helpers, copied from tmc-base VER 16: TMC.formDraftGet / Set / Clear / Bind / Collect (formId), TMC.confirmReading(formId),
+     TMC.afterSave(true). Key = APP_ID_form_<namekey>_<formId> through L, i.e. fuel_form_<user>_<formId> (Fuel only, per user). formId: fill_<vehicle>,
+     out, dy_<vehicle>, xf. Text fields carry data-f / data-form so Collect / Bind / confirmReading work on the real form.
+   - Confirming a reading (Enter on it, or its photo) calls confirmReading(formId): it never closes or clears the form.
+     Save (all required parts present) sends the record and calls afterSave(true): the draft (and its photos) is cleared. The Fuel Save handlers
+     already close the form themselves (menu / daily list / Move result card), so Fuel's afterSave does not also navigate back.
+   - Photos: the base keeps text only, so Fuel keeps draft photos in the SAME IndexedDB the app already uses for its photo queue (fuel_photos / store "q")
+     as records marked draft:1 (id fdr_<user>_<formId>_<slot>); the upload queue never sees them (phQ.all skips draft:1) and localStorage stays small.
+   - Another user never sees a draft: keys carry the user, and a log out / user switch empties the in-memory forms.
+   - A draft older than 7 days, or for a vehicle that no longer exists, is dropped. Server and Code.gs are untouched. */
+let formOpen=null;
+function formDraftKey(formId,u){u=u||me();return u?"form_"+NK(u.name)+"_"+formId:null}
+function formDraftGet(formId,u){const k=formDraftKey(formId,u);return k?L.j(k,null):null}
+function formDraftSet(formId,data,u){const k=formDraftKey(formId,u);if(!k)return false;if(data&&typeof data==="object")L.sj(k,data);else L.del(k);return true}
+function formDraftClear(formId,u){const k=formDraftKey(formId,u);if(k)L.del(k)}
+function formDraftCollect(formId,root){const d=Object.assign({},formDraftGet(formId)||{});(root||document).querySelectorAll("[data-f]").forEach(el=>{if(el.type==="checkbox")d[el.dataset.f]=!!el.checked;else d[el.dataset.f]=el.value});return d}
+function formDraftBind(formId,root){root=root||document.querySelector("[data-form='"+formId+"']")||document;const d=formDraftGet(formId);
+  if(d)root.querySelectorAll("[data-f]").forEach(el=>{if(!(el.dataset.f in d))return;if(el.type==="checkbox")el.checked=!!d[el.dataset.f];else if(!el.value)el.value=d[el.dataset.f]==null?"":String(d[el.dataset.f])});
+  const save=()=>formDraftSet(formId,formDraftCollect(formId,root));root.querySelectorAll("[data-f]").forEach(el=>{el.addEventListener("input",save);el.addEventListener("change",save)});return d}
+function confirmReading(formId,field){const root=document.querySelector("[data-form='"+formId+"']");const d=formDraftCollect(formId,root||document);if(field&&root){const el=root.querySelector("[data-f='"+field+"']");if(el)d[field]=el.type==="checkbox"?!!el.checked:el.value}d.confirmed=1;formDraftSet(formId,d);return d}  /* stays open; draft kept */
+Object.assign(window.TMC,{formDraftKey:formDraftKey,formDraftGet:formDraftGet,formDraftSet:formDraftSet,formDraftClear:formDraftClear,formDraftCollect:formDraftCollect,formDraftBind:formDraftBind,confirmReading:confirmReading,formOpen:()=>formOpen});
+Object.assign(T.en,{fdrT:"📝 Unfinished entries",fdrGo:"Continue",fdrNote:"📝 Your unfinished entry was kept. Continue where you left off.",fdrDrop:"🗑️ Discard this draft",fdrDropQ:"Discard this unfinished entry? The typed values and photos will be lost."});
+Object.assign(T.fr,{fdrT:"📝 Saisies non terminées",fdrGo:"Continuer",fdrNote:"📝 Votre saisie non terminée a été gardée. Continuez là où vous vous étiez arrêté.",fdrDrop:"🗑️ Supprimer ce brouillon",fdrDropQ:"Supprimer cette saisie non terminée ? Les valeurs tapées et les photos seront perdues."});
+Object.assign(T.ar,{fdrT:"📝 إدخالات غير مكتملة",fdrGo:"متابعة",fdrNote:"📝 تم الاحتفاظ بإدخالك غير المكتمل. تابع من حيث توقفت.",fdrDrop:"🗑️ حذف هذه المسودة",fdrDropQ:"حذف هذا الإدخال غير المكتمل؟ ستفقد القيم المكتوبة والصور."});
+Object.assign(T.af,{fdrT:"📝 Onvoltooide inskrywings",fdrGo:"Gaan voort",fdrNote:"📝 Jou onvoltooide inskrywing is gehou. Gaan voort waar jy opgehou het.",fdrDrop:"🗑️ Gooi hierdie konsep weg",fdrDropQ:"Gooi hierdie onvoltooide inskrywing weg? Die getikte waardes en foto's gaan verlore."});
+{const FDR_DAYS=7,FDR_PH={fill:["p1","p2"],out:["p1","p2"],dy:["p"],xf:["p","p2"]};
+// data-f names on the real inputs (same names as the state keys) so TMC.formDraftCollect / Bind / confirmReading work on the form
+const FDR_F={fuM:"m",fuL:"l",fuBM:"bm",oReg:"oreg",oVin:"ovin",oDrv:"odrv",dyM:"m",xfL1:"r1",xfL2:"r2",xfN:"n"},FDR_RD=["fuM","fuL","fuBM","dyM","xfL1","xfL2"];
+let fdrUser="",fdrSig={};
+const fdrNKu=u=>NK(u.name),fdrKind=k=>String(k).split("_")[0],fdrPid=(u,k,s)=>"fdr_"+fdrNKu(u)+"_"+k+"_"+s;
+const fdrOld=d=>!d||!!(d._t&&Date.now()-(+d._t)>=FDR_DAYS*864e5);
+const fdrGet=(k,u)=>{const d=formDraftGet(k,u);return d&&typeof d==="object"?d:null};
+function fdrDropK(u,k){try{formDraftClear(k,u);const c=formDraftGet("cur",u);if(c&&c.k===k)formDraftClear("cur",u);
+  (FDR_PH[fdrKind(k)]||[]).forEach(s=>{const sid=fdrPid(u,k,s);delete fdrSig[sid];phQ.del(sid).catch(()=>{})})}catch(e){console.warn(e)}}
+function fdrHas(kind,o){if(!o)return false;
+  if(kind==="dy")return !!(o.p||String(o.m==null?"":o.m)!==String(o._m0==null?"":o._m0)||(o.day&&o.day!==dayKey(Date.now())));
+  const skip=kind==="xf"?{from:1,to:1}:{vid:1,out:1};
+  return Object.keys(o).some(k=>k[0]!=="_"&&k!=="confirmed"&&!skip[k]&&o[k]!==""&&o[k]!=null&&o[k]!==false&&!(Array.isArray(o[k])&&!o[k].length))}
+function fdrCur(){const u=me();if(!u||tab!=="work")return null;
+  if(fv==="fill"&&fs&&fs.vid&&!fs.out)return {k:"fill_"+fs.vid,kind:"fill",o:fs,u:u};
+  if(fv==="out"&&fs&&fs.out)return {k:"out",kind:"out",o:fs,u:u};
+  if(fv==="dent"&&dy&&dy.vid)return {k:"dy_"+dy.vid,kind:"dy",o:dy,u:u};
+  if(fv==="tank"&&xf)return {k:"xf",kind:"xf",o:xf,u:u};
+  return null}
+function fdrPack(o,kind){const s={},ph=FDR_PH[kind];Object.keys(o).forEach(k=>{if(k[0]==="_"&&k!=="_m0")return;if(k==="confirmed"||ph.indexOf(k)>=0)return;const v=o[k];if(v==null||typeof v==="function")return;if(typeof v==="string"&&v.length>4000)return;s[k]=v});return s}
+const fdrRoot=c=>c.kind==="xf"?$("xfBox"):$("view");
+function fdrKeep(){const c=fdrCur();if(!c)return false;const u=c.u;if(fdrUser&&fdrNKu(u)!==fdrUser)return false;   // the screen state belongs to fdrUser: never write it under another user (account switched underneath, other tab)
+ 
+  if(!fdrHas(c.kind,c.o)){if(c.o._seen){fdrDropK(u,c.k);c.o._seen=0;c.o._d=0;c.o._conf=0}return false}
+  c.o._seen=1;const ph={},old=fdrGet(c.k,u)||{};let newPh=false;
+  FDR_PH[c.kind].forEach(s=>{const d=c.o[s],sid=fdrPid(u,c.k,s);
+    if(d){ph[s]=1;if(fdrSig[sid]!==d){if(fdrSig[sid]!==undefined||!(old._ph&&old._ph[s]))newPh=true;fdrSig[sid]=d;phQ.put({id:sid,d:String(d),at:new Date().toISOString(),ref:"draft",draft:1}).catch(e=>console.warn(e))}}
+    else if(c.o._ld&&c.o._ld[s])ph[s]=1;                       // photo still loading from the phone store: keep its flag
+    else if(fdrSig[sid]){delete fdrSig[sid];phQ.del(sid).catch(()=>{})}});
+  const dat=fdrPack(c.o,c.kind);
+  try{const r=fdrRoot(c);if(r){const col=formDraftCollect(c.k,r);Object.keys(FDR_F).forEach(id=>{const e=$(id);if(e&&r.contains(e))dat[FDR_F[id]]=col[FDR_F[id]]})}}catch(e){}   // base Collect: what the user sees in the data-f boxes
+  if(old.confirmed||c.o._conf)dat.confirmed=1;
+  dat._t=Date.now();dat._ph=ph;
+  try{formDraftSet(c.k,dat,u);formDraftSet("cur",{k:c.k},u)}catch(e){console.warn(e)}
+  if(newPh)fdrConfirm(c);
+  return true}
+// a confirmed reading (Enter on it, or its photo) is only recorded; it never closes or clears the form
+function fdrConfirm(c){c=c||fdrCur();if(!c)return;try{c.o._conf=1;const r=fdrRoot(c);const el=r&&FDR_RD.map($).find(e=>e&&r.contains(e)&&e.value);confirmReading(c.k,el?FDR_F[el.id]:undefined)}catch(e){console.warn(e)}}
+function fdrLoadPh(c,d){const o=c.o;Object.keys(d._ph||{}).forEach(s=>{if(FDR_PH[c.kind].indexOf(s)<0||o[s])return;const sid=fdrPid(c.u,c.k,s);o._ld=o._ld||{};o._ld[s]=1;
+  phQ.get(sid).then(r=>{delete o._ld[s];if(r&&r.d&&!o[s]){o[s]=r.d;fdrSig[sid]=r.d;const n=fdrCur();if(n&&n.o===o)render()}}).catch(()=>{delete o._ld[s]})})}
+// a fresh form (new state object) for a vehicle / form that has a stored draft: the draft is put back, in place
+function fdrAuto(){const c=fdrCur();if(!c||c.o._seen)return;
+  if(c.kind==="dy"&&!("_m0" in c.o))c.o._m0=c.o.m==null?"":String(c.o.m);
+  if(fdrHas(c.kind,c.o)){c.o._seen=1;return}
+  const d=fdrGet(c.k,c.u);if(!d)return;if(fdrOld(d)){fdrDropK(c.u,c.k);return}
+  const s=Object.assign({},d);delete s._t;delete s._ph;delete s.confirmed;
+  Object.assign(c.o,s);c.o._seen=1;c.o._d=1;c.o._conf=d.confirmed?1:0;fdrLoadPh(c,d)}
+function fdrList(u){const out=[],pre=P+(formDraftKey("",u)),ks=[];for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);if(key&&key.indexOf(pre)===0)ks.push(key.slice(pre.length))}
+  ks.forEach(k=>{if(k==="cur"||!k)return;const d=fdrGet(k,u);if(!d||fdrOld(d)||!FDR_PH[fdrKind(k)]){if(FDR_PH[fdrKind(k)])fdrDropK(u,k);return}
+    const kind=fdrKind(k),v=d.vid?vehs().find(x=>x.id===d.vid):null;
+    if((kind==="fill"||kind==="dy")&&!v){fdrDropK(u,k);return}
+    out.push({k:k,d:d,kind:kind,lab:kind==="fill"?"⛽ "+t("fill")+" · "+v.fleet:kind==="dy"?"📏 "+t("dly")+" · "+v.fleet:kind==="out"?"🚙 "+t("outT")+(d.ovin&&oIdOf(d.ovin)?" · "+oIdOf(d.ovin):""):t("xfT")})});
+  return out.sort((a,b)=>(b.d._t||0)-(a.d._t||0))}
+function fdrReset(){fs={};dy={};xf={};dl={};dyDupK="";fv="menu";formOpen=null}
+// the app was closed / reloaded (or the user logged in again) on a draft form: open it again
+function fdrBoot(u){const cur=formDraftGet("cur",u);fdrList(u);if(!cur||!cur.k)return false;const d=fdrGet(cur.k,u),kind=fdrKind(cur.k);if(!d)return false;
+  if(kind==="fill"&&d.vid&&vehs().some(v=>v.id===d.vid)){fs={vid:d.vid};fv="fill"}
+  else if(kind==="out"){fs={out:1};fv="out"}
+  else if(kind==="dy"&&d.vid&&vehs().some(v=>v.id===d.vid)){dy={vid:d.vid};fv="dent"}
+  else if(kind==="xf"){xf={};fv="tank"}
+  else return false;
+  tab="work";return true}
+function fdrPre(){const u=me(),nk=u?fdrNKu(u):"";
+  if(nk!==fdrUser){const prev=fdrUser;fdrUser=nk;fdrSig={};if(prev||!nk)fdrReset();if(u)fdrBoot(u)}
+  fdrAuto()}
+const fdrXfDirty=()=>!!(dl&&(dl.p||dl.n||(dl.l!=null&&String(dl.l)!==""&&String(dl.l)!=="1000")));   // the Delivery box on the same screen: its own 1000 L default is not "dirty"
+function fdrDraftable(){const c=fdrCur();return !!c&&(c.kind!=="xf"||!fdrXfDirty())&&fdrHas(c.kind,c.o)}
+function fdrDiscard(k){const u=me();if(!u)return;fdrDropK(u,k);const c=fdrCur(),kind=fdrKind(k);
+  if(kind==="fill"||kind==="out"){if(fs&&((fs.out&&kind==="out")||(!fs.out&&"fill_"+fs.vid===k))){fs={};if(c)fv="menu"}}
+  else if(kind==="dy"){if(dy&&"dy_"+dy.vid===k){dy={};if(c)fv="daily"}}
+  else if(kind==="xf")xf={};
+  formOpen=null;render();scrollTo(0,0)}
+function fdrGo(k){const u=me();if(!u)return;const d=fdrGet(k,u);if(!d)return render();const kind=fdrKind(k);tab="work";
+  if(kind==="fill"){fs={vid:d.vid};fv="fill"}else if(kind==="out"){fs={out:1};fv="out"}else if(kind==="dy"){dy={vid:d.vid};fv="dent"}else{xf={};fv="tank"}
+  render();scrollTo(0,0);if(kind==="xf"){const b=$("xfBox");if(b&&b.scrollIntoView)b.scrollIntoView({block:"start"})}}
+// the open form carries data-form (base) and its text boxes data-f, then TMC.formDraftBind attaches the base save-while-typing
+function fdrMark(c){const V=$("view");if(V){V.removeAttribute("data-form");const xb=$("xfBox");if(xb)xb.removeAttribute("data-form")}
+  if(!c){formOpen=null;return}formOpen=c.k;const r=fdrRoot(c);if(!r)return;r.setAttribute("data-form",c.k);
+  Object.keys(FDR_F).forEach(id=>{const e=$(id);if(e&&r.contains(e))e.setAttribute("data-f",FDR_F[id])})}
+function fdrBind(c){const r=c&&fdrRoot(c);if(r)formDraftBind(c.k,r)}
+function fdrDecorate(c){const V=$("view");if(!V)return;
+  if(c&&c.o._d&&!$("fdrNote")){const h=`<div class="fdrNote" id="fdrNote" role="status"><span>${esc(t("fdrNote"))}</span><button type="button" class="sm sec" id="fdrDropB" data-fdrx="${esc(c.k)}">${esc(t("fdrDrop"))}</button></div>`;
+    if(c.kind==="xf"){const b=$("xfBox"),h3=b&&b.querySelector("h3");if(h3)h3.insertAdjacentHTML("afterend",h);else if(b)b.insertAdjacentHTML("afterbegin",h)}
+    else{const nb=V.querySelector(":scope > .navBack");if(nb)nb.insertAdjacentHTML("afterend",h);else V.insertAdjacentHTML("afterbegin",h)}}
+  const u=me();if(!u||c||$("fdrBox"))return;
+  const onList=tab==="home"||(tab==="work"&&(fv==="menu"||fv==="pick"||fv==="daily"));if(!onList)return;
+  const L0=fdrList(u);if(!L0.length)return;
+  const h=`<div class="box fdrBox" id="fdrBox"><h3>${esc(t("fdrT"))}</h3>${L0.map(o=>`<div class="urow fdrRow" data-fdrk="${esc(o.k)}"><span class="n">${esc(o.lab)}</span><button type="button" class="sm" data-fdrgo="${esc(o.k)}">${esc(t("fdrGo"))}</button><button type="button" class="sm sec" data-fdrx="${esc(o.k)}" aria-label="${esc(t("fdrDrop"))}">🗑️</button></div>`).join("")}</div>`;
+  if(tab==="home"){const hero=V.querySelector(".hhero");if(hero)hero.insertAdjacentHTML("afterend",h);else V.insertAdjacentHTML("afterbegin",h)}
+  else{const nb=V.querySelector(":scope > .navBack");if(nb)nb.insertAdjacentHTML("afterend",h);else V.insertAdjacentHTML("afterbegin",h)}}
+function fdrPost(){const c=fdrCur();
+  fdrMark(c);
+  if(c){fdrKeep();fdrBind(c)}else{const u=me();if(u)formDraftClear("cur",u)}
+  fdrDecorate(c)}
+{const r0=render;render=function(){try{fdrPre()}catch(e){console.warn(e)}const x=r0.apply(this,arguments);try{fdrPost()}catch(e){console.warn(e)}return x};window.TMC.render=render}
+// TMC.afterSave(true) (base VER 12/16): after a good Save the draft is cleared and the form is closed. Fuel's own Save handlers already close the form
+// (menu / daily list / Move result card), so this version clears + marks the save and does not also go Back.
+let fdrIn=null;
+function afterSave(ok){if(ok===false)return false;const h=fdrIn||fdrCur();if(h){fdrDropK(h.u,h.k);h.o._seen=0;h.o._d=0;h.o._conf=0}
+  const u=me();if(u&&formOpen)fdrDropK(u,formOpen);formOpen=null;try{NAV.saved=1;NAV.sticky=0;formDirty=0}catch(e){}return true}
+window.TMC.afterSave=afterSave;
+// the record is put (Fill-up / km-hours / Move save) inside the Save click → afterSave(true) BEFORE the redraw (otherwise the fresh form would pick the draft up again).
+// A refused / blocked Save (nothing put) keeps the draft.
+{const p0=put;put=function(kind){const r=p0.apply(this,arguments);try{if(fdrIn&&r!==false&&(kind==="f"||kind==="dy"||kind==="tx"))afterSave(true)}catch(e){console.warn(e)}return r}}
+{const bb=bindWork;bindWork=function(u){bb(u);
+  ["fuSave","dySave","xfSave"].forEach(id=>{const e=$(id);if(!e||!e.onclick||e._fdr)return;e._fdr=1;const o=e.onclick;
+    e.onclick=function(){const prev=fdrIn;fdrIn=fdrCur();try{return o.apply(this,arguments)}finally{fdrIn=prev}}})}}
+document.addEventListener("click",e=>{const g=e.target&&e.target.closest&&e.target.closest("[data-fdrgo]");if(g){e.preventDefault();fdrGo(g.dataset.fdrgo);return}
+  const x=e.target&&e.target.closest&&e.target.closest("[data-fdrx]");if(x){e.preventDefault();if(confirm(t("fdrDropQ")))fdrDiscard(x.dataset.fdrx)}});
+// every keystroke / pick is kept (text only; a photo is written to the phone store once, when it is taken); Enter on a reading confirms it (form stays open)
+document.addEventListener("input",()=>{try{fdrKeep()}catch(e){}});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target&&FDR_RD.indexOf(e.target.id)>=0){try{fdrKeep();fdrConfirm()}catch(x){}}});
+document.addEventListener("visibilitychange",()=>{if(document.hidden)try{fdrKeep()}catch(e){}});addEventListener("pagehide",()=>{try{fdrKeep()}catch(e){}});
+// log out: the draft stays with its owner, the screen forms are emptied so the next user starts clean
+{const s0=signOut;signOut=function(){try{fdrKeep()}catch(e){}const r=s0.apply(this,arguments);try{fdrUser="";fdrSig={};fdrReset()}catch(e){}return r}}
+{const st=document.createElement("style");st.textContent=".fdrBox{border:3px solid #f59e0b;background:#fffbeb}.fdrBox h3{margin:0 0 6px}.fdrRow{border-bottom:1px solid #fde68a}.fdrNote{display:flex;flex-wrap:wrap;align-items:center;gap:6px;background:#fffbeb;border:3px solid #f59e0b;border-radius:14px;padding:8px 12px;margin:0 0 10px;font-weight:800;font-size:17px}.fdrNote span{flex:1 1 200px;min-width:0;overflow-wrap:anywhere}.fdrNote button.sm{margin:0}";document.head.appendChild(st)}
+Object.assign(window.TMC.fuel,{fdr:{get:k=>fdrGet(k),list:()=>{const u=me();return u?fdrList(u).map(o=>o.k):[]},cur:()=>{const c=fdrCur();return c?c.k:""},keep:fdrKeep,confirm:fdrConfirm,draftable:fdrDraftable,days:FDR_DAYS},dyGet:()=>dy,xfGet:()=>xf});
+try{const u=me();if(u){fdrUser=fdrNKu(u);fdrSig={};fdrBoot(u);render()}/* always redraw once: the first screen was drawn before this block existed (card / note) */}catch(e){console.warn(e)}
+}
+/* ==== Fuel v1.45.0 DRAFTS END ==== */
 })();
 /* SPELLCHECK START — phone spellcheck on every free-text box (names, items, notes).
    Never on PIN / number / sync / code / masked fields. Covers boxes built later too. */
