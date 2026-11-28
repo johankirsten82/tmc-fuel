@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 42,
+ "VER": 43,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=42">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=42">
+<link rel="icon" href="icons/favicon-32.png?v=43">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=43">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -405,7 +405,7 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=42" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=43" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
 function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
@@ -418,7 +418,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!canApproveUsers(u))tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=42" alt=""><div class="t"><span class="tN">${esc(C.SHORT)}</span><span class="hVer" id="hVer" dir="ltr">${esc(appLabel())}</span></div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=43" alt=""><div class="t"><span class="tN">${esc(C.SHORT)}</span><span class="hVer" id="hVer" dir="ltr">${esc(appLabel())}</span></div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -441,7 +441,7 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=42" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(nameBad(L.get("lastName"))?"":(L.get("lastName")||""))}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=43" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(nameBad(L.get("lastName"))?"":(L.get("lastName")||""))}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
 function bindCommon(){
@@ -536,7 +536,7 @@ function viewHTML(u){
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=42" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=43" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -550,7 +550,7 @@ window.TMC.photoHTML=photoHTML;window.TMC.bindPhoto=bindPhoto;window.TMC.shrinkP
    on-phone queue (IndexedDB "<APP_ID>_photos") until the upload worked, then sent to the app's own Drive folder (made by its
    own Code.gs). The server adds a "pl" record (link only) that syncs to every phone; the Sheet shows the Drive link.
    Offline = it waits and retries. Old photos: TMC.phBackfill([{id,d,at,ref}]) sends them in small batches (2 at a time),
-   skipping any older than 2 months. Admin: TMC.phBtn(id) = big "View photo" button. Server deletes photos older than 2 months daily.
+   skipping any older than 2 months. Admin or Deputy: TMC.phBtn(id) = big "View photo" button. Server deletes photos older than 2 months daily.
    TMC.phKeep(dataUrl,ref[,id[,at]]) -> photo id (put that id in your record). TMC.phState(id) -> drive|removed|phone|none. */
 Object.assign(T.en,{phView:"🖼️ View photo",phGone:"Photo removed (older than 2 months)",phWait:"Photo not sent yet (still on the phone)",phClose:"✖ Close",phLoad:"Loading photo…",phNo:"Photo not found."});
 Object.assign(T.fr,{phView:"🖼️ Voir la photo",phGone:"Photo supprimée (plus de 2 mois)",phWait:"Photo pas encore envoyée (encore sur le téléphone)",phClose:"✖ Fermer",phLoad:"Chargement de la photo…",phNo:"Photo introuvable."});
@@ -583,12 +583,12 @@ function phPump(){if(phBusy||!syncOn()||!navigator.onLine)return Promise.resolve
   .catch(e=>{phBusy=false;phFails++;phSoon(Math.min(300000,15000*Math.pow(2,phFails-1)));return sent})}
 phQ.all().then(q=>{q.forEach(o=>phLocal[o.id]=1);if(q.length)phSoon(5000)}).catch(()=>{});
 addEventListener("online",()=>phSoon(1500));
-function phBtn(id){const u=me();if(!id||!u||!u.admin)return "";const s=phState(id);
+function phBtn(id){const u=me();if(!id||!u||!(u.admin||isDep(u)))return "";const s=phState(id);
   if(s==="removed")return `<p class="hint phGone">${esc(t("phGone"))}</p>`;
   return `<button type="button" class="phView" data-phv="${esc(id)}">${esc(t("phView"))}</button>`}
 function phShow(src,msg){let o=document.getElementById("phOv");if(!o){o=document.createElement("div");o.id="phOv";o.className="phOv";document.body.appendChild(o)}
   o.innerHTML=`${src?`<img alt="" src="${esc(src)}">`:`<p class="phMsg">${esc(msg||"")}</p>`}<button type="button" id="phOvX">${esc(t("phClose"))}</button>`;$("phOvX").onclick=()=>o.remove()}
-function phView(id){const u=me();if(!u||!u.admin)return Promise.resolve(false);
+function phView(id){const u=me();if(!u||!(u.admin||isDep(u)))return Promise.resolve(false);
   return phQ.get(id).catch(()=>null).then(o=>{if(o&&o.d){phShow(o.d);return true}const d=phRec(id);
     if(d&&d.removed){phShow("",t("phGone"));return false}if(window.TMC.phLocalGet){const x=window.TMC.phLocalGet(id);if(x){phShow(x);return true}}
     if(!d){phShow("",t("phWait"));return false}phShow("",t("phLoad"));
@@ -998,7 +998,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=42" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=43" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -2454,7 +2454,7 @@ if(T.ar)Object.assign(T.ar,{apHome:"%n بانتظار الموافقة",apT:"✅
  ".apTop{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:19px;font-weight:800;color:#111827}.apWho{color:#4b5563;font-size:16px;margin:2px 0 8px}"+
  ".apNums{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}.apNum{flex:1 1 120px;background:#f3f4f6;border-radius:12px;padding:8px 12px}.apNum small{display:block;color:#6b7280;font-size:14px}.apNum b{font-size:24px;color:#111827}"+
  ".apPhs{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}.apPh{flex:1 1 150px;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:#e5e7eb center/cover no-repeat;color:#1f2937;border:2px dashed #9ca3af;border-radius:14px;font-size:17px;font-weight:700;padding:8px;width:auto;margin:0}"+
- ".apPh.has{border-style:solid;color:#fff;justify-content:flex-end;padding:0;overflow:hidden;min-height:150px}.apPh.has .apPhL{background:rgba(0,0,0,.62);width:100%;padding:5px 6px;display:flex;flex-direction:column;align-items:center}.apPh small{font-weight:400;font-size:13px}.apPh.none{cursor:default}"+
+ ".apPhL{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;width:100%}.apPh small{display:block;font-weight:400;font-size:13px;color:#6b7280;line-height:1.3}.apPh.has{border-style:solid;color:#fff;justify-content:flex-end;padding:0;overflow:hidden;min-height:150px}.apPh.has .apPhL{background:rgba(0,0,0,.62);width:100%;padding:5px 6px}.apPh.has small{color:#d1d5db}.apPh.none{cursor:default}"+
  ".apWarn{background:#fef3c7;border:2px solid #f59e0b;color:#92400e;border-radius:12px;padding:8px 12px;margin:8px 0;font-weight:700}"+
  ".apBtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.apBtns button{flex:1 1 140px;min-height:62px;font-size:20px;font-weight:800;border:0;border-radius:14px;margin:0;width:auto}"+
  ".apBtns .apOk{background:#16a34a;color:#fff}.apBtns .apFx{background:#e5e7eb;color:#1f2937}"+
@@ -2488,7 +2488,7 @@ function apNums(k,d,v){const u=apUnit(k,d,v),c=(l,x)=>`<div class="apNum"><small
   return c(t("apM"),fmt(num(d.meter))+" "+u)}
 function apPhs(k,d){const P=k==="f"?[[d.p1,"apPhM"],[d.p2,"apPhP"]]:[[d.ph,"apPhM"]];
   return `<div class="apPhs">${P.map(p=>p[0]?`<button type="button" class="apPh" data-phv="${esc(p[0])}" data-apth="${esc(p[0])}"><span class="apPhL">${esc(t(p[1]))}<small>${esc(t("apPhTap"))}</small></span></button>`
-    :`<div class="apPh none">${esc(t(p[1]))}<small>${esc(t("apNoPh"))}</small></div>`).join("")}</div>`}
+    :`<div class="apPh none"><span class="apPhL">${esc(t(p[1]))}<small>${esc(t("apNoPh"))}</small></span></div>`).join("")}</div>`}
 function apCard(o){const k=o.k,d=o.d,v=apVeh(d),W=x22W(d.warn),ref=k+":"+d.id;
   return `<div class="apCard" data-apc="${esc(ref)}"><div class="apTop"><span>${k==="f"?"⛽ "+esc(t("apFill")):"⏱️ "+esc(t("apHrs"))} · ${esc(v.fleet||"")}${v.model?" – "+esc(v.model):""}</span><span>${esc(apWhen(k,d))}</span></div>
   <div class="apWho">${esc(t("apBy"))} <b>${esc(d.by||"?")}</b>${d.tk&&k==="f"?" · "+esc(d.tk):""}</div>
@@ -2929,7 +2929,7 @@ Object.assign(window.TMC,{updDraft:updDraft,updWant:()=>updWant});
 /* ==== Fuel v41 (Johan via TMC Base, 14 Nov 2026 05:42) – ONE update: version label, update bar under the header (old blue box gone),
    TMC Assets vehicle list (read-only, from Fuel's own server via the normal sync = kind "am"), GRV diesel deliveries (server-written
    deliveries d:grv_<grvId>, counted like any delivery, never changed on the phone). With no "am" / GRV records the phone works exactly like v40. ==== */
-function appLabel(){return "v1.42.0"}   // TMC version standard: vMAJOR.MINOR.PATCH, same as the sw.js cache tmc-fuel-v1.42.0
+function appLabel(){return "v1.43.0"}   // TMC version standard: vMAJOR.MINOR.PATCH, same as the sw.js cache tmc-fuel-v1.43.0
 {const st=document.createElement("style");st.textContent="header .t{display:flex;flex-direction:column;justify-content:center;line-height:1.15}header .tN{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}header .hVer{display:block;font-size:10px;line-height:1.2;font-weight:600;color:#333333;white-space:nowrap}"+
  "#updGo.updBar{top:var(--updTop,0px)!important;z-index:4}body.updBarOn main{padding-top:var(--updH,0px)}"+
  ".asBox{background:#eef6ff;border:2px solid #60a5fa;border-radius:12px;padding:8px 10px;margin:8px 0}.asBox h3{margin:0 0 6px;font-size:18px}.asRow{display:flex;gap:8px;justify-content:space-between;border-bottom:1px solid #dbeafe;padding:3px 0;font-size:15px}.asRow b{text-align:end;word-break:normal;overflow-wrap:anywhere}"+
@@ -3055,6 +3055,79 @@ function phGalBind(){[["puPG",d=>{pu.p=d}],["stkPG",d=>{stk.p=d}]].forEach(([id,
 {const st=document.createElement("style");st.textContent=".dscNm{white-space:nowrap;unicode-bidi:isolate}";document.head.appendChild(st)}
 Object.assign(window.TMC.fuel,{phReq:phReq,num:num,digEn:digEn});
 /* ==== Fuel v1.42.0 PHOTO REQUIRED END ==== */
+/* ==== Fuel v1.43.0 DUP CANCEL + DEPUTY PHOTOS (Johan via TMC Base, 26–28 Nov 2026) ====
+   1) Same fill-up again (same vehicle, same reading and litres, within 30 min): block Save, show "Already saved". Save cannot be double-tapped.
+   2) Approvals: a red "Possible duplicate" box with photos of both, and big Approve + Cancel (remove). Cancel asks "Are you sure?" then a short reason.
+      The row is marked Deleted (not erased) with who / when / why. Admin-only Cancelled list can undo.
+   3) Deputies may open fill-up and km/hours photos the same way as the Admin (phView / phBtn). Normal staff stay blocked.
+   Main Admin cancel already works on the live server without a Code.gs change. A Deputy cancel + Deputy photoget need the held Code.gs draft. */
+Object.assign(T.en,{fuDup:"⛔ Already saved",fuDupH:"This fill-up is already saved (%t). Not saved again.",apDup:"Possible duplicate of the %t fill-up",apDupThis:"This fill-up",apDupOther:"The %t fill-up",apCx:"❌ Cancel (remove)",apCxQ:"Are you sure? This will be cancelled and taken out of the totals and reports.",apCxWhy:"Short reason",apCxNeed:"Please type a short reason.",apCxGo:"❌ Cancel it",apCxNo:"Go back",apCxDone:"✅ Cancelled. It is no longer in the totals.",cxT:"Cancelled",cxH:"These were cancelled from Approvals. They are not in the totals or reports. Undo puts a waiting one back.",cxNone:"None cancelled.",cxUndo:"↩️ Undo cancel",cxUndone:"✅ Cancel undone – back in Approvals.",cxBy:"Cancelled by",cxAt:"Cancelled",cxWhyL:"Reason"});
+Object.assign(T.fr,{fuDup:"⛔ Déjà enregistré",fuDupH:"Ce plein est déjà enregistré (%t). Pas enregistré à nouveau.",apDup:"Possible doublon du plein de %t",apDupThis:"Ce plein",apDupOther:"Le plein de %t",apCx:"❌ Annuler (retirer)",apCxQ:"Êtes-vous sûr ? Ceci sera annulé et retiré des totaux et des rapports.",apCxWhy:"Raison courte",apCxNeed:"Veuillez écrire une raison courte.",apCxGo:"❌ L'annuler",apCxNo:"Retour",apCxDone:"✅ Annulé. Il n'est plus dans les totaux.",cxT:"Annulés",cxH:"Ces enregistrements ont été annulés depuis Approbations. Ils ne sont pas dans les totaux ni les rapports. Annuler l'annulation le remet en attente.",cxNone:"Aucun annulé.",cxUndo:"↩️ Annuler l'annulation",cxUndone:"✅ Annulation annulée – de retour dans Approbations.",cxBy:"Annulé par",cxAt:"Annulé",cxWhyL:"Raison"});
+if(T.ar)Object.assign(T.ar,{fuDup:"⛔ محفوظ مسبقاً",fuDupH:"هذه التعبئة محفوظة مسبقاً (%t). لم تُحفظ مرة أخرى.",apDup:"تعبئة محتملة مكررة لملء الساعة %t",apDupThis:"هذه التعبئة",apDupOther:"تعبئة الساعة %t",apCx:"❌ إلغاء (إزالة)",apCxQ:"هل أنت متأكد؟ سيتم إلغاء هذا وإزالته من المجاميع والتقارير.",apCxWhy:"سبب قصير",apCxNeed:"يرجى كتابة سبب قصير.",apCxGo:"❌ إلغاؤه",apCxNo:"رجوع",apCxDone:"✅ تم الإلغاء. لم يعد في المجاميع.",cxT:"الملغاة",cxH:"أُلغيت هذه من الموافقات. ليست في المجاميع أو التقارير. التراجع يعيد المنتظر إلى القائمة.",cxNone:"لا يوجد ملغى.",cxUndo:"↩️ التراجع عن الإلغاء",cxUndone:"✅ تم التراجع عن الإلغاء – عاد إلى الموافقات.",cxBy:"ألغاه",cxAt:"أُلغي",cxWhyL:"السبب"});
+const FU_DUP_MS=30*60*1000;
+function fillDupOf(vid,meter,litres,at,id){const m=num(meter),l=num(litres),t0=at||Date.now();if(!vid||!isFinite(m)||!isFinite(l))return null;
+  return allRaw("f").find(f=>f&&f.id!==id&&!f.miss&&f.vid===vid&&isFinite(num(f.meter))&&isFinite(num(f.litres))&&num(f.meter)===m&&num(f.litres)===l&&Math.abs((+f.at||0)-t0)<=FU_DUP_MS)||null}
+function fuDupTm(d){try{return new Date(d.at).toLocaleTimeString(lang==="ar"?"ar":lang,{hour:"2-digit",minute:"2-digit",hour12:false})}catch(e){return ""}}
+function fuDupPaint(){const hit=fs&&fs.vid&&hasNum(fs.m)&&hasNum(fs.l)?fillDupOf(fs.vid,fs.m,fs.l,Date.now()):null;const b=$("fuSave");
+  let box=$("fuDup");if(hit){if(b){b.disabled=true;b.dataset.fuLock="1"}const msg=t("fuDup")+" — "+t("fuDupH").replace("%t",fuDupTm(hit));
+    if(!box){const w=$("fuNeed")||$("fuWarn")||b;if(w){w.insertAdjacentHTML("beforebegin",`<p class="flag" id="fuDup">${esc(msg)}</p>`);box=$("fuDup")}}if(box)box.textContent=msg}
+  else{if(box)box.remove();if(b){delete b.dataset.fuLock}}}
+{const rf=refreshFill;refreshFill=function(){rf.apply(this,arguments);fuDupPaint()}}
+{const bb=bindWork;bindWork=function(u){bb(u);fuDupPaint();const b=$("fuSave");if(!b||!b.onclick)return;const c0=b.onclick;
+  b.onclick=function(){if(b.dataset.fuLock)return;if(!canSave(fs))return;const hit=fillDupOf(fs.vid,fs.m,fs.l,Date.now());if(hit){fuDupPaint();return}
+    b.dataset.fuLock="1";b.disabled=true;return c0.apply(this,arguments)}};}
+{const st=document.createElement("style");st.textContent=".apDup{background:#fef2f2;border:3px solid #dc2626;color:#991b1b;border-radius:12px;padding:10px 14px;margin:8px 0;font-weight:800;font-size:17px}.apDupPh{margin:6px 0 2px;font-weight:800;font-size:16px;color:#991b1b}.apBtns .apCx{background:#dc2626;color:#fff}.cxCard{background:#fff;border:2px solid #e5e7eb;border-radius:16px;padding:14px;margin:12px 0}.cxModal textarea{width:100%;min-height:80px;font-size:18px;box-sizing:border-box}.cxModal .card button{min-height:56px;font-size:19px}";document.head.appendChild(st)}
+function apDupOf(o){return o&&o.k==="f"&&o.d?fillDupOf(o.d.vid,o.d.meter,o.d.litres,o.d.at,o.d.id):null}
+function cxApply(k,id,data,u){u=u||me();if(!apAdm(u)||(u.admin?!canFix():!(sTok()||!sCode())))return {ok:false,error:"admin_only"};if(AP_K.indexOf(k)<0)return {ok:false,error:"kind"};
+  const key=k+":"+id,rec=R[key];if(!rec||rec.del||!rec.data)return {ok:false,error:"missing"};if(apSt(rec.data)===1)return {ok:false,error:"not_waiting"};
+  if(isDep(u)&&!((k==="f"||k==="dy")&&apSt(rec.data)===0))return {ok:false,error:"admin_only"};
+  const uu=Math.max(Date.now(),rec.u+1);R[key]={kind:k,id:String(id),u:uu,del:1,data:data};dirty[key]=1;saveR();syncSoon();try{pushReports()}catch(e){}return {ok:true}}
+function apCancel(k,id,why,u){u=u||me();if(!apAdm(u)||(u.admin?!canFix():!(sTok()||!sCode())))return {ok:false,error:"admin_only"};
+  const d=recOf(k,id);if(!d)return {ok:false,error:"missing"};if(apSt(d)===1)return {ok:false,error:"not_waiting"};
+  why=String(why||"").replace(/\s+/g," ").trim().slice(0,160);if(!why)return {ok:false,error:"need_reason"};
+  return cxApply(k,id,Object.assign({},d,{cx:1,cxBy:u.name,cxAt:new Date().toISOString(),cxWhy:why}),u)}
+function cxList(){return Object.keys(R).map(k=>R[k]).filter(r=>r&&r.del&&r.data&&r.data.cx===1&&AP_K.indexOf(r.kind)>=0).sort((a,b)=>(Date.parse(b.data.cxAt)||0)-(Date.parse(a.data.cxAt)||0))}
+function cxUndo(k,id,u){u=u||me();if(!(u&&u.admin&&canFix()))return {ok:false,error:"admin_only"};
+  const key=k+":"+id,rec=R[key];if(!rec||!rec.del||!rec.data||rec.data.cx!==1)return {ok:false,error:"missing"};
+  const d=Object.assign({},rec.data);delete d.cx;delete d.cxBy;delete d.cxAt;delete d.cxWhy;
+  const uu=Math.max(Date.now(),rec.u+1);R[key]={kind:k,id:String(id),u:uu,del:0,data:d};dirty[key]=1;saveR();syncSoon();try{pushReports()}catch(e){}return {ok:true}}
+function cxModal(ref){const p=String(ref||"").split(":"),k=p[0],id=p.slice(1).join(":"),d=recOf(k,id);if(!d)return;
+  const step1=()=>{const m=document.createElement("div");m.className="modal cxModal";m.id="cxM";
+    m.innerHTML=`<div class="card"><h2>${esc(t("apCx"))}</h2><p class="hint" style="font-size:18px">${esc(t("apCxQ"))}</p><button type="button" class="red" id="cxY">${esc(t("apCxGo"))}</button><button type="button" class="sec" id="cxN">${esc(t("apCxNo"))}</button></div>`;
+    document.body.appendChild(m);const x=()=>m.remove();$("cxN").onclick=x;m.onclick=e=>{if(e.target===m)x()};$("cxY").onclick=()=>{x();step2()}};
+  const step2=()=>{const m=document.createElement("div");m.className="modal cxModal apModal";m.id="cxM2";
+    m.innerHTML=`<div class="card"><h2>${esc(t("apCxWhy"))}</h2><textarea id="cxWhy" maxlength="160" autocomplete="off"></textarea><p class="err" id="cxErr" style="display:none">${esc(t("apCxNeed"))}</p><button type="button" class="red" id="cxY2">${esc(t("apCxGo"))}</button><button type="button" class="sec" id="cxN2">${esc(t("apCxNo"))}</button></div>`;
+    document.body.appendChild(m);const x=()=>m.remove();$("cxN2").onclick=x;m.onclick=e=>{if(e.target===m)x()};$("cxWhy").focus();
+    $("cxY2").onclick=()=>{const why=($("cxWhy").value||"").replace(/\s+/g," ").trim();if(!why){const e=$("cxErr");if(e)e.style.display="block";return}
+      const r=apCancel(k,id,why);if(!r.ok){const e=$("cxErr");if(e){e.style.display="block";e.textContent=r.error==="need_reason"?t("apCxNeed"):r.error}return}
+      x();flash=t("apCxDone");render()}};
+  step1()}
+{const ac=apCard;apCard=function(o){let h=ac(o);const other=apDupOf(o);
+  if(other){const tm=fuDupTm(other),box=`<div class="apDup" data-apdup="1">⛔ ${esc(t("apDup").replace("%t",tm))}</div><div class="apDupPh">${esc(t("apDupThis"))}</div>`;
+    h=h.replace(apPhs(o.k,o.d),box+apPhs(o.k,o.d)+`<div class="apDupPh">${esc(t("apDupOther").replace("%t",tm))}</div>`+apPhs("f",other))}
+  if(h.indexOf('data-apcx=')<0)h=h.replace(/<div class="apBtns">([\s\S]*?)<\/div>\s*<\/div>\s*$/,`<div class="apBtns">$1<button type="button" class="apCx" data-apcx="${esc(o.k+":"+o.d.id)}">${esc(t("apCx"))}</button></div></div>`);
+  return h}}
+{const ab=apBind;apBind=function(){ab();document.querySelectorAll("[data-apcx]").forEach(b=>b.onclick=()=>cxModal(b.dataset.apcx));apThumbs()}}
+function cxHTML(){const L=cxList(),fl=flash?`<div class="ok2">${esc(flash)}</div>`:"";flash="";
+  return `<button type="button" class="sec" data-fv="menu">${esc(t("navBack"))}</button>${fl}<h2>🚫 ${esc(t("cxT"))}</h2><p class="hint" style="font-size:17px">${esc(t("cxH"))}</p><div id="cxList">${L.length?L.map(r=>{const d=r.data,v=apVeh(d);
+    return `<div class="cxCard" data-cx="${esc(r.kind+":"+r.id)}"><div class="apTop"><span>${r.kind==="f"?"⛽ "+esc(t("apFill")):"⏱️ "+esc(t("apHrs"))} · ${esc(v.fleet||"")}</span><span>${esc(d.cxAt?new Date(d.cxAt).toLocaleString(lang==="ar"?"ar":lang,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):"")}</span></div>
+    <div class="apWho">${esc(t("cxBy"))} <b>${esc(d.cxBy||"?")}</b>${d.cxWhy?" · "+esc(t("cxWhyL"))+": "+esc(d.cxWhy):""}</div>
+    <div class="apNums">${apNums(r.kind,d,v)}</div>
+    <div class="apBtns"><button type="button" class="sec" data-cxundo="${esc(r.kind+":"+r.id)}">${esc(t("cxUndo"))}</button></div></div>`}).join(""):`<div class="box"><p>${esc(t("cxNone"))}</p></div>`}</div>`}
+{const wh=workHTML;workHTML=function(u){if(fv==="cxl"){if(!(u&&u.admin))fv="menu";else return cxHTML()}return wh(u)}}
+{const bb=bindWork;bindWork=function(u){bb(u);if(fv==="cxl"&&u&&u.admin)document.querySelectorAll("[data-cxundo]").forEach(b=>b.onclick=()=>{const p=b.dataset.cxundo.split(":");if(cxUndo(p[0],p.slice(1).join(":")).ok){flash=t("cxUndone");render()}})}}
+{const ah=apHTML;apHTML=function(u){let h=ah(u);if(!(u&&u.admin)||h.indexOf('data-fv="cxl"')>=0)return h;
+  return h.replace('<div class="apHead">',`<button type="button" class="sec" data-fv="cxl" id="apCxList">🚫 ${esc(t("cxT"))}</button><div class="apHead">`)}}
+{const el=edListHTML;edListHTML=function(){const h=el.apply(this,arguments);if(h.indexOf('data-fv="cxl"')>=0)return h;
+  const b=`<button type="button" class="sec" data-fv="cxl" id="edCxList">🚫 ${esc(t("cxT"))}</button>`;
+  const i=h.search(/<div class="box"/);return i>=0?h.slice(0,i)+b+h.slice(i):h+b}}
+{const bw=bindWork;bindWork=function(u){bw(u);document.querySelectorAll('[data-fv="cxl"]').forEach(b=>b.onclick=()=>{if(u&&u.admin){fv="cxl";render();scrollTo(0,0)}})}}
+Object.assign(window.TMC.fuel,{fillDupOf:fillDupOf,apCancel:apCancel,cxUndo:cxUndo,cxList:cxList,apDupOf:apDupOf,FU_DUP_MS:FU_DUP_MS});
+window.TMC.fuel.openCx=function(){fv="cxl";tab="work";render();scrollTo(0,0)};
+window.TMC.fuel.openAp=function(){fv="apl";tab="work";render();scrollTo(0,0)};
+
+window.TMC.phCan=function(u){u=u||me();return !!u&&!!(u.admin||isDep(u))};
+/* ==== Fuel v1.43.0 DUP CANCEL + DEPUTY PHOTOS END ==== */
 })();
 /* SPELLCHECK START — phone spellcheck on every free-text box (names, items, notes).
    Never on PIN / number / sync / code / masked fields. Covers boxes built later too. */
