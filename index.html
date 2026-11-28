@@ -24,7 +24,7 @@
  "CACHE_PREFIX": "tmc-fuel",
  "NAME": "TMC Fuel",
  "SHORT": "TMC Fuel",
- "VER": 43,
+ "VER": 44,
  "COLOR": "#b45309",
  "REPORT_COLOR": "#1B7F3B",
  "COLOR_DARK": "#92400e",
@@ -98,8 +98,8 @@
 /*END*/;</script>
 <title>TMC Fuel</title>
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icons/favicon-32.png?v=43">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=43">
+<link rel="icon" href="icons/favicon-32.png?v=44">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=44">
 <meta name="theme-color" content="#b45309">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <style>
@@ -174,6 +174,9 @@ nav.tabs button .ticon{font-size:28px}nav.tabs button.on{color:var(--c);backgrou
 nav.tabs button{padding:0 2px;min-width:0}nav.tabs .tlab{overflow-wrap:break-word;font-size:12.5px}@media(max-width:380px){nav.tabs .tlab{font-size:11.5px}}
 header{min-height:56px;flex-wrap:nowrap}header .hS{display:flex;align-items:center;gap:6px;font-size:14px;white-space:nowrap;direction:ltr}header .dot{border:2px solid #fff}
 header .hLang{width:auto;min-height:56px;min-width:64px;margin:0;padding:0 8px;border:2px solid #fff;border-radius:12px;background:transparent;color:#fff;font-size:17px;font-weight:700}header .hLang option{color:#0f172a}
+.qrCv{display:block;width:min(280px,86vw);height:auto;aspect-ratio:1;margin:10px auto;background:#fff;padding:10px;border-radius:12px;direction:ltr}#shareQrCv,#shareQrUrl{direction:ltr;unicode-bidi:isolate}
+.tmcS .tmcS-lab{display:block!important;width:100%!important;margin:0 0 4px!important;padding:0!important;height:auto!important;min-height:0!important;max-height:none!important;font-size:15px!important;line-height:20px!important;font-weight:700!important;color:#334155!important;text-align:start!important;border:0!important;background:transparent!important;box-shadow:none!important}
+
 @media (max-width:380px){header{gap:6px;padding:8px 10px}header img{width:30px;height:30px}header .t{font-size:17px}}
 .hhero{display:flex;align-items:center;gap:14px}.hhero img{border-radius:14px;flex:none}.hhero h2{margin:0;font-size:21px}#hDate{color:#475569;margin-top:2px}.hhi{font-size:18px;font-weight:700;color:var(--cd);margin-top:2px}
 .loBand{width:100%;min-height:56px;margin:0 0 10px;font-size:18px;font-weight:700}
@@ -196,6 +199,7 @@ main>.bar button{font-size:18px;font-weight:600;border-radius:10px;padding:10px}
 .navBack{display:block!important;width:100%!important;min-height:58px!important;margin:6px 0 12px!important;padding:12px 16px!important;font-size:20px!important;font-weight:700!important;text-align:center!important;background:#e5e7eb!important;color:#1f2937!important;border:0!important;border-radius:14px!important;box-shadow:none!important}@media print{.navBack{display:none!important}}.navAsk .card h2{font-size:24px}.navAsk .card button{min-height:60px;font-size:22px}
 </style></head><body>
 <div id="app"></div>
+<script src="shared/qr.js"></script>
 <script>
 "use strict";
 (function(){
@@ -270,7 +274,12 @@ lang:"اللغة",sync:"المزامنة",syncUrl:"رابط المزامنة",sy
 logoutPend:"⚠️ %n تغيير لم يُرسل بعد. ستبقى على هذا الهاتف وتُرسل لاحقا. تسجيل الخروج على أي حال؟",
 wipe:"🗑️ مسح هذا التطبيق من هذا الهاتف",wipeQ:"حذف بيانات هذا التطبيق من هذا الهاتف؟ التطبيقات الأخرى لا تتأثر.",wipePend:"⚠️ %n تغيير لم يُرسل وسيضيع. الحذف على أي حال؟",
 draft:"تم الاحتفاظ بنصك غير المحفوظ.",ncT:"🔴 غير متصل",ncH:"لا يستطيع التطبيق الوصول إلى الجدول. عملك محفوظ على هذا الهاتف وسيُرسل عند الاتصال.",ncOff:"رابط المزامنة غير موجود في هذا التطبيق. أخبر المسؤول."}};
-let lang=L.get("lang")||((navigator.language||"en").slice(0,2)==="fr"?"fr":(navigator.language||"").slice(0,2)==="ar"?"ar":"en");
+/* v1.44.0: Afrikaans (whole app) + Name/Surname + Share keys */
+T.af={"x45Sh":"Brandstofverslag","hello":"Hallo","reports":"Verslae","rpPick":"Kies 'n verslag","rpToday":"Vandag","rpMonth":"Hierdie maand","rpDates":"Kies datums","rpFrom":"Van","rpTo":"Tot","rpShow":"Wys","rpXls":"📥 Laai Excel af","rpPrint":"🖨️ Druk","rpBack":"⬅ Terug","rpNone":"Niks vir hierdie datums nie.","rpPeriod":"Tydperk","rpDemo":"Notas per persoon","rpDate":"Datum","rpPerson":"Persoon","rpNotes":"Notas","rpChars":"Letters","phTake":"📷 Neem foto","phPick":"🖼️ Kies van foon","phDemo":"Foto (toets)","rpTot":"Totaal","rpItem":"Item","rpQty":"Aantal","name":"Jou naam","nameH":"Tik jou naam","go":"Gaan aan","needName":"Tik asseblief jou naam.","pinT":"Tik jou PIN","pin":"PIN","pinWrong":"Verkeerde PIN. Probeer weer.","pinLock":"Te veel verkeerde PINs. Probeer weer oor %m min.","other":"Gebruik 'n ander naam","setT":"Kies 'n PIN","setH":"4 tot 6 syfers. Jy gebruik dit elke keer.","pin2":"Tik die PIN weer","pinBad":"Gebruik 4 tot 6 syfers.","pinDiff":"Die twee PINs is nie dieselfde nie.","save":"Stoor","setupT":"Eerste Admin opstel","setupH":"Jy is die eerste gebruiker. Kies die Admin PIN.","waitT":"Wag vir die Admin","waitH":"%n, die Admin moet jou eers goedkeur. Vra die Admin, en tik dan Kyk weer.","check":"🔄 Kyk weer","rejT":"Nie goedgekeur nie","rejH":"Die Admin het hierdie naam nie goedgekeur nie. Vra die Admin.","blkT":"Geblok","blkH":"Hierdie naam is geblok. Vra die Admin.","netT":"Internet nodig","netH":"Gaan een keer op die internet sodat die app die gebruikers kan laai.","retry":"🔄 Probeer weer","loading":"Laai…","home":"Tuis","users":"Mense","settings":"Instel","share":"Deel app","syncNow":"🔄 Sync nou","phT":"🧩 DIE APP SE DELE KOM HIER","phH":"Hierdie blad hou net plek. Elke app sit sy eie skerms hier.","exT":"Voorbeeld nota (toets)","exAdd":"Stoor nota","fix":"✏️ Maak reg","fixT":"✏️ Maak 'n fout reg (Admin)","fixSave":"💾 Stoor","fixOnly":"Net die Admin kan iets wat gestoor is regmaak.","fixRef":"⚠️ Jou regmaak is nie gestoor nie. Net die Admin kan iets regmaak. Teken in as die Admin en probeer weer.","fixed":"reggemaak deur","can":"Wat ek mag doen","canH":"Gemerk = mag. Vra die Admin om dit te verander.","canEd":"✅ Mag vir","dupT":"Klaar gevra - wag vir die Admin","dupH":"Hierdie naam het klaar gevra. Wag vir die Admin. As jy goedgekeur is, tik jou naam en PIN om in te gaan.","canAdm":"⭐ Net Admin: ✏️ Maak reg, 👥 Keur mense goed","lkFix":"✏️ Maak reg","lkApp":"👥 Keur mense goed","admOnly":"Net Admin","canAll":"⭐ Admin: jy mag alles doen.","noAccess":"Jy mag dit nie doen nie.","repT":"📊 Verslag","expT":"📤 Stuur uit","exNone":"Nog geen notas nie.","synced":"Sync klaar","syncErr":"Sync probleem","syncOff":"Sync nie opgestel nie","offline":"Geen internet","pwT":"⚠️ %n verandering(e) nog nie na die Sheet gestuur nie","pwOff":"Geen internet nie — dit gaan weg sodra jy weer internet het.","pwDel":"Tik 🔄 Sync nou voor jy die app uitvee of die data skoonmaak, anders gaan hierdie veranderinge verlore.","updT":"🆕 'n Nuwe weergawe is gereed","updB":"⬆️ Opdateer nou","updChk":"Kyk vir nuwe weergawe","updNone":"Jy het die nuutste weergawe.","updGo":"Opdateer… wag asseblief","updGo2":"Moenie die app toemaak nie. Jou gestoorde werk bly bewaar.","ver":"Weergawe","insBtn":"📲 Installeer app","insIos":"Tik Deel ⬆️ en dan Voeg by tuisskerm ➕","shareH":"Skandeer hierdie kode met die ander foon, of stuur die skakel.","shareB":"📤 Stuur skakel","copy":"📋 Kopieer skakel","copied":"Gekopieer","close":"Maak toe","dscBT":"⛔ Blok en verwyder %n?","dscRT":"❌ Keur af en verwyder %n?","dscH":"%n word van die lys afgehaal. Hulle ou PIN werk nie meer nie. Hulle kan later weer 'n versoek stuur.","dscY":"🗑️ Ja, verwyder","dscN":"↩️ Terug","dscOld":"🗑️ Verwyder","dscDone":"%n is verwyder.","dscSelf":"Jy kan nie jouself verwyder nie.","dscLast":"Jy kan nie die laaste Admin verwyder nie.","dscTok":"Teken weer in met jou PIN om mense te verwyder.","goneT":"Nie goedgekeur nie","goneH":"Die Admin het hierdie versoek verwyder. Jy kan 'n nuwe een stuur.","again":"📨 Stuur nuwe versoek","pend":"Wag","act":"Goedgekeur","rej":"Afgekeur","blk":"Geblok","approve":"✅ Keur goed","reject":"❌ Keur af","block":"⛔ Blok","unblock":"↩️ Ontblok","resetPin":"🔑 Nuwe PIN","admin":"Admin","noPend":"Niemand wag nie.","lang":"Taal","sync":"Sync","syncUrl":"Sync skakel","syncCode":"Sync kode","sv":"Gestoor","logout":"🚪 Teken uit","logoutQ":"Teken %n uit?","logoutPend":"⚠️ %n verandering(e) is nog nie gestuur nie. Dit bly op hierdie foon en gaan later weg. Teken tog uit?","wipe":"🗑️ Vee hierdie app op hierdie foon uit","wipeQ":"Vee hierdie app se data op hierdie foon uit? Ander apps bly soos hulle is.","wipePend":"⚠️ %n verandering(e) is NIE gestuur nie en gaan VERLORE. Vee tog uit?","draft":"Jou teks wat nie gestoor was nie, is gehou.","ncT":"🔴 Nie gekoppel nie","ncH":"Die app kan nie by die Sheet kom nie. Jou werk bly op hierdie foon en gaan weg sodra dit koppel.","ncOff":"Die sync skakel is nie in hierdie app nie. Sê vir die Admin.","phView":"🖼️ Kyk foto","phGone":"Foto verwyder (ouer as 2 maande)","phWait":"Foto nog nie gestuur nie (nog op die foon)","phClose":"✖ Maak toe","phLoad":"Foto laai…","phNo":"Foto nie gevind nie.","vType":"Soort","phCam":"📷 Neem foto","phGal":"🖼️ Kies van foon","rep":"Verslae","notes":"Notas","back":"⬅️ Terug","takePh":"📷 Neem foto","bal":"Balans","noMoves":"Nog niks nie.","model":"Model","vnote":"Nota","km":"km","hr":"ure","week":"Week","dlyBy":"Deur","dlyLast":"Laaste lesing","dlyToday":"Vandag","prD":"Dag","prW":"Week","prM":"Maand","prY":"Jaar","prTot":"Totaal","tkName":"Naam","tkYes":"Ja","tkNo":"Nee","tkBalH":"Balans","edDate":"Datum","edVeh":"Voertuig","c14Veh":"Voertuig","c14Unit":"Eenheid","c14Wk":"Week","pmFix":"✏️ Maak reg","pmDone":"✅ Klaar","supQ":"Verskaffer","supO":"Ander","rqM":"Maand","rqVeh":"Voertuig","cDate":"Datum","cXfFrom":"Van","cXfTo":"Tot","cXfBy":"Deur","x22Gen":"Kragopwekker","x22Xls":"📥 Laai Excel af","x22Name":"Naam","x22Unit":"Eenheid","x22Tot":"TOTAAL","x22Date":"Datum","x22Time":"Tyd","x22By":"Deur","x22Note":"Nota","x22SgDate":"Datum","x22SgAdm":"Admin","cStkTm":"Tyd","navBack":"← Terug","navLeave":"Gaan weg sonder om te stoor?","navYes":"Ja","navNo":"Nee","puOk":"OK","camTake":"📷 Neem foto","camTry":"🔄 Probeer weer","grvFrom":"Van GRV","asName":"Naam","asType":"Soort","asStatus":"Status","asMake":"Fabrikaat","asModel":"Model","asYear":"Jaar","asCond":"Toestand","asDrv":"Bestuurder","asV_good":"Goed","asV_repair":"In herstel","asV_broken":"Stuk","asV_active":"In gebruik","depT":"Adjunk-Admin","depOn":"%n is nou Adjunk-Admin.","depOff":"%n is nie meer Adjunk-Admin nie.","depNo":"Net die hoof-Admin kan dit doen.","depSrv":"Nog nie gestoor nie: Adjunk-goedkeurings werk ná die volgende bedienerdatering. Vra die hoof-Admin.","cxT":"Gekanselleer","cxAt":"Gekanselleer","work":"Ingooi","last":"Laaste","dscMain":"Die hoof-Admin kan nooit verwyder of geblokkeer word nie.","dscDem":"Die hoof-Admin bly altyd Admin.","mainP":"🛡️ Hoof-Admin – beskerm (kan nie verwyder of geblokkeer word nie)","phDel":"🗑️ Verwyder foto (gebruik ikoon)","limT":"⚠️ Waarskuwingsgrense","limH":"Verander net as nodig. Leeg = normale waarde.","usePct":"Hoë verbruik: % bo normaal","minGapH":"Te gou: ure sedert laaste ingooi","minKm":"Te gou: km sedert laaste ingooi","minHr":"Te gou: ure geloop sedert laaste ingooi","svcKm":"Diens-waarskuwing: km voor diens","svcHr":"Diens-waarskuwing: ure voor diens","limSave":"✅ Stoor grense","limReset":"↩️ Normale waardes","limOk":"✅ Grense gestoor","limBad":"Gebruik getalle 0 of meer.","fuel":"Brandstof","fill":"Ingooi","tank":"Tenkvoorraad","veh":"Voertuie","pickV":"Tik die voertuig wat jy volmaak","noVeh":"Nog geen voertuie nie. Die Admin moet hulle byvoeg.","stopped":"Gestop","step1":"1. Foto van die km- / uremeter","step2":"2. Foto van die pompskerm","rePh":"📷 Weer","meterKm":"Km op meter","meterH":"Ure op meter","litres":"Liter","needAll":"Neem albei foto's, tik km / ure, LITER en TOTAAL, en kies die tenk. Stoor dan.","saveFill":"✅ Stoor ingooi","savedFill":"✅ Ingooi gestoor","warnT":"⚠️ KYK HIERNA","warnH":"Jy kan steeds stoor. Die Admin sal dit sien.","wTank":"⛽ Meer liter as wat die tenk hou (%a L, tenk %b L)","wBack":"🔙 Meter is LAER as laas keer (%a, laaste %b)","wUse":"🔥 Gebruik te veel brandstof: %a (normaal %b)","wSoon":"⏱️ Te gou na laaste ingooi (%a, %b)","wSvc":"🔧 Diens binnekort: by %b, nou %a","balance":"Diesel in tenk","addDel":"➕ Diesel in tenk afgelewer","delL":"Liter afgelewer","delNote":"Verskaffer / nota","delPh":"📷 Foto van afleweringsbrief (opsioneel)","saveDel":"✅ Stoor aflewering","inL":"In","outL":"Uit","neg":"⚠️ Tenkbalans onder nul. Kyk die aflewerings na.","moves":"Bewegings","del":"🗑️","delQ":"Vee hierdie rekord uit?","addV":"➕ Voeg voertuig by","editV":"Wysig voertuig","fleet":"ID / vlootnr.","plate":"Nommerplaat","vin":"VIN / reeksnr.","mtype":"Meter","tankL":"Tenkgrootte (L)","expU":"Normale verbruik","per100":"L/100 km","perH":"L/uur","dept":"Departement / terrein","vPh":"📷 Voertuigfoto","active":"Werk","svcAt":"Volgende diens by (km / ure)","m0":"Meter nou (begin)","saveV":"✅ Stoor voertuig","needV":"Tik model en ID.","byVeh":"Per voertuig","byDrv":"Ingeskryf deur","byWk":"Per week","fills":"Ingooie","dist":"Afstand / ure","use":"Verbruik","warns":"Waarskuwings","driver":"Ingeskryf deur","noData":"Nog geen ingooie nie.","hAgo":"%n u na laaste","kmAgo":"%n km","hrAgo":"%n u geloop","dlyDate":"Lesingsdatum","dlyNotToday":"Nie vandag nie","dlyHigh":"⚠️ Lesing is hoër as 'n latere dag (%b). Kyk die datum en meter.","dlyLate":"ingeskryf %a","dly":"Daaglikse km / ure","dlyPick":"Tik die voertuig wat vandag gewerk het","dlyRead":"Meterlesing","dlyPh":"📷 Meterfoto (verpligtend)","dlySave":"✅ Stoor lesing","dlySaved":"✅ Lesing gestoor","dlyTab":"📋 Dagtabel","dlyUsed":"Gebruik","dlyNone":"Geen lesings hierdie dag nie.","dlyNot":"Nie gebruik nie: %n","dlyBack":"⚠️ Lesing is laer as voorheen (%b). Kyk die meter.","dlyFill":"van ingooi","prAll":"Alle voertuie","prKmV":"Km-voertuie","prHV":"Ure-voertuie","prL":"Liter ingegooi","prUsed":"Gebruik","prUse":"Verbruik","prExp":"normaal","prF":"Ingooie","prWn":"Waarskuwings","prCsv":"⬇️ Uitvoer / deel (CSV)","prNone":"Niks in hierdie tydperk nie.","prPer":"Tydperkverslag","tkMainN":"Tenk HQ","tkGz1N":"Tenk GZ 1","tkGz2N":"Tenk GZ 2","tkSite":"Terrein","tkBowN":"Bowser 3000 L","fromQ":"Van:","bmRead":"%a pomp-lopende meter (totaal, na ingooi)","tkT":"🛢️ Opgaartenks","tkAdd":"➕ Voeg opgaartenk by","tkEdit":"Wysig opgaartenk","tkCap":"Kapasiteit (L)","tkMeter":"Het sy eie meter","tkMob":"Mobiel (sleepwa)","tkSave":"✅ Stoor tenk","tkNeed":"Tik 'n naam.","into":"In:","xfT":"🔁 Skuif brandstof","xfFrom":"VAN tenk","xfTo":"NA tenk","xfL":"Liter geskuif","xfM1":"%a meter VOOR","xfM2":"%a meter NA","xfPh":"📷 Foto (opsioneel)","xfSave":"✅ Stoor skuif","xfIn":"🔁 van %a","xfOut":"🔁 na %a","tkIn":"In","tkOut":"Uit","tkRep":"🛢️ Tenks: in / uit","tkCapH":"hou","wOver":"🛢️ Meer as wat %a kan hou (%b L)","wNeg":"🔻 %a gaan onder nul (%b L)","wBmBack":"🔙 Tenkmeter het AGTERUIT gegaan (%a, laaste %b)","wBmDiff":"🔢 Meter wys %a L maar %b L getik","impT":"📥 Voer geskiedenis in","impH":"Laai die Oktober-ingooie en km / ure uit jou Excel. Net een keer.","impGo":"📥 Voer geskiedenis in","impDone":"✅ Geskiedenis ingevoer: %a ingooie, %b daaglikse lesings","impAlready":"✅ Geskiedenis reeds ingevoer","impErr":"⚠️ Kon nie die lêer laai nie. Kyk die internet en probeer weer.","impQ":"Voer die Excel-geskiedenis nou in? Dit word net een keer gedoen.","gapT":"🟨 Ingooi wat ontbreek?","gapRow":"%a: %b","gapNone":"Geen gapings gevind nie.","ckT":"🟧 Kyk later","ckNone":"Niks om na te kyk nie.","ckBack":"Laer as voorheen (%b)","ckHigh":"Hoër as 'n latere dag (%b)","ckMark":"Kyk later","edTile":"Kyk & wysig","edT":"✏️ Wysig","edRecent":"Alle rekords","edFills":"⛽ Ingooie","edDaily":"📏 Daagliks","edMeter":"Meterlesing","edStart":"Beginlesing","edLit":"Liter","edTank":"Uit tenk","edSave":"✅ Stoor verandering","edClear":"✔️ Reggemaak – vee merk uit","edSaved":"✅ Verandering gestoor","edCleared":"✅ Merk uitgevee","edLog":"📜 Wysig-log","edBad":"Tik 'n getal en 'n datum (nie in die toekoms nie).","edNoAdm":"Net die Admin kan wysig.","rv14Veh":"Brandstof per voertuig","rv14Drv":"Ingeskryf deur","rv14Wk":"Brandstof per week","rv14Tk":"Tenkvoorraad","rv14Km":"Km / ure per voertuig","c14Fills":"Ingooie","c14L":"Liter","c14Dist":"Km / ure","c14Use":"Verbruik","c14Drv":"Ingeskryf deur","c14Km":"Km","c14H":"Ure","c14Tank":"Tenk","c14In":"In (L)","c14Out":"Uit (L)","c14Bal":"Balans (L)","c14Days":"Dae","c14From":"Begin","c14To":"Einde","c14Used":"Gebruik","pmMissB":"🔍 Ontbrekende ingooi","pmMissT":"🔍 Ontbrekende ingooi?","pmGap":"Ontbrekende liter (gaping)","pmWin":"Tussen","pmAddB":"➕ Voeg ontbrekende ingooi by","pmAddNote":"Deur Admin bygevoeg – ontbrekende ingooi","pmWhen":"Datum en tyd","pmPick":"Kies die voertuig","pmAdded":"✅ Ontbrekende ingooi bygevoeg","pmKept":"🟧 Gehou vir Kyk later","fuLit":"Groot syfers (LITER)","pmBtn":"🔢 Kyk pompmeter","pmT":"🔢 Kyk pompmeter","pmTol":"Toegelate verskil (L)","pmNone":"✅ Geen probleme gevind nie.","pmBack":"Meter het agteruit gegaan (laaste %b)","pmJump":"Lopende meter het %a L gestyg maar pompskerm sê %b L","pmMiss":"Lopende meter ontbreek","pmPrev":"Laaste meter","pmMeter":"Klein lyn (TOTAAL)","pmNoTk":"Geen tenk het sy eie meter nie.","supK":"Kouri","supN":"Watter verskaffer? (nota)","fbT":"🛢️ Aflewering – een flowbin op 'n slag","fbL":"Liter in hierdie flowbin","fbPh":"📷 Foto van hierdie flowbin (verpligtend)","fbNeedP":"Neem eers 'n foto van hierdie flowbin.","fbSave":"✅ Stoor flowbin 1","fbMore":"➕ Nog 'n flowbin (%n)","fbDone":"✅ Klaar – aflewering voltooi","fbTot":"Hierdie aflewering: %n flowbins · %a L","fbSaved":"✅ Flowbin %n gestoor · totaal %a L","fbFin":"✅ Aflewering gestoor: %n flowbins · %a L","fbNeedN":"Tik die verskaffer se naam.","vaT":"🚜 Voertuie vir","vaAll":"Alle voertuie","vaPick":"Net hierdie voertuie","vaNone":"Nog geen voertuie gemerk nie.","vaMine":"🚜 My voertuie","vaNoV":"Geen voertuie is aan jou gegee nie. Vra die Admin.","vaRef":"⚠️ Hierdie voertuig is nie joune nie. Vra die Admin.","rqT":"📅 Tydperk en voertuig","rqD":"Dag","rqW":"Week","rqY":"Jaar","rvPer":"Brandstofverbruik (tydperk)","cNorm":"Normale verbruik","cWarn":"Waarskuwings","scT":"⚖️ Korrigeer tenkvoorraad (Admin)","scTk":"Watter tenk?","scNow":"Nou in die app","scMode":"Hoe?","scAct":"Werklike liter in tenk","scAdj":"+ / − liter","scV":"Liter","scWhy":"Rede (verpligtend)","scSave":"✅ Stoor korreksie","scNeed":"Tik die liter en 'n rede.","scDone":"✅ Voorraad gekorrigeer: %a → %b L","scLab":"Voorraadkorreksie","scLog":"📜 Voorraadkorreksies","scNew":"Nuwe voorraad","pmRead":"Klein lyn (TOTAAL)","pmReadH":"Die klein TOTAAL-lyn onder die groot syfers.","pmLast":"Laaste %a-lesing: %b","pmLast0":"Nog geen vroeëre lesing vir hierdie tenk nie.","pmPickTk":"Kies die tenk hieronder om sy laaste lesing te sien.","tkQ":"3. Uit watter tenk kom die brandstof? (verpligtend)","fuTkNeed":"👇 Tik die tenk waaruit die brandstof gekom het.","wPmMis":"🔢 TOTAAL %a pas nie by laaste TOTAAL + LITER (%b) nie. Gestoor as Kyk later.","ckPm":"🔢 TOTAAL pas nie (verwag %b)","xfPick":"👆 Kies die VAN-tenk en die NA-tenk. Hulle kan nie dieselfde wees nie.","xfR1":"① VAN %a – pompmeter VOOR","xfR2":"② NA %a – pompmeter VOOR","xfR3":"③ VAN %a – pompmeter NA","xfR4":"④ NA %a – pompmeter NA","xfOpt":"(opsioneel)","xfLit":"Liter geskuif","wXfBack":"⛔ VAN-pompmeter NA (%a) is laer as VOOR (%b). Pompmeters tel op – kyk die getalle. Kan nie stoor nie.","wXfR1":"🔢 VAN-pompmeter voor (%a) is nie die laaste lesing van daardie tenk nie (%b).","wXfR2":"🔢 NA-pompmeter voor (%a) is nie die laaste lesing van daardie tenk nie (%b).","wXfMis":"🔢 NA-pompmeter het %a L geskuif maar %b L het die VAN-tenk verlaat. Gestoor as Kyk later.","ckXf":"🔁 NA-pompmeter pas nie (verwag %b)","rvXf":"Brandstof tussen tenks geskuif","cXfFm":"VAN-meter","cXfTm":"NA-meter","cXfCk":"Kyk","xfL1":"② %a – Tenkmeter NA (wat nog in die tenk is) – opsioneel","xfL2":"① %a – pompmeter NA die skuif","xfL3":"③ %a – meter na ingooi","xfPh1":"📷 Foto 1: %a – pompmeter (nodig)","xfPh2":"📷 Foto 2: %a – tenkmeter (verpligtend)","xfLastBal":"Laaste gestoor: %a het %b L","xfHow":"%a: laaste %b → nou %c","xfNeed":"Tik die pompmeter en voeg albei foto's by. Stoor dan.","xfNoLast":"Geen vroeëre pompmeterlesing vir hierdie VAN-tenk nie – liter kan nog nie bereken word nie.","xfGapT":"VAN- teenoor NA-meter","xfGapG":"✅ VAN- en NA-meters stem ooreen","xfGapA":"⚠️ Klein gaping tussen die VAN- en NA-meters – kyk die getalle (Kyk later)","xfGapR":"⛔ Groot gaping tussen die VAN- en NA-meters – die Admin sal kyk (Kyk later)","wXfBackT":"⛔ NA-meter (%a) is laer as sy laaste lesing (%b). Meters tel op – kyk die getalle. Kan nie stoor nie.","wXfGap":"🔢 VAN-meter het %a L geskuif maar NA-meter het %b L geskuif. Gestoor as Kyk later.","wXfLeft":"🛢️ Die tenkmeter sê %a L, maar die app het omtrent %b L verwag. Kyk asseblief.","xfDoneT":"🔁 Skuif gestoor","xfDMov":"Meter geskuif (L)","xfDBal":"Balans nou","xfDLeft":"%a: tenkmeter %b L · app omtrent %c L","xfExp":"Die app verwag omtrent %b L nog in %a.","x40Ok":"✅ Merk as reg","x40Old":"Ou NA-metergaping – word nie meer gebruik nie ('n tenk wat volgemaak word, skuif nie sy eie meter nie). Liter en voorraad is reg.","x22T":"📗 Brandstofverslag (Excel-oortjies)","x22Dash":"Paneelbord","x22Off":"Kantoor","x22Dsl":"Diesel","x22Pet":"Petrol","x22Km":"KM HS","x22Chk":"Lesings om na te kyk & af te teken","x22ChkS":"Om na te kyk","x22Print":"🖨️ Druk / PDF (A4)","x22Price":"Dieselprys (FCFA per liter)","x22PriceS":"✅ Stoor prys","x22Fleet":"Vlootnr.","x22Start":"Begin","x22End":"Einde","x22Used":"Gebruik","x22Dl":"Diesel L","x22Pl":"Petrol L","x22Tl":"Totaal L","x22Rate":"Verbruik","x22Cost":"Koste (FCFA)","x22Stock":"Brandstof in die tenks (einde van tydperk)","x22Pump":"Pompmeter (einde van tydperk)","x22Top":"Top 5 gebruikers (liter)","x22NoPh":"Ingooie sonder albei foto's","x22PmBad":"Pompmeter pas nie","x22ChkN":"Lesings om na te kyk","x22Sum":"Opsomming","x22Meter":"Km / ure","x22Lit":"Liter","x22In":"In L","x22Out":"Uit L","x22Tank":"Tenk","x22PmR":"Pompmeter","x22TkL":"Alle tenks L","x22Ph":"Foto's","x22Open":"Beginvoorraad","x22Close":"Eindvoorraad","x22Del":"Aflewering","x22Mv":"Skuif","x22Sc":"Voorraadkorreksie","x22NoPet":"Petrol word nog nie in die app aangeteken nie, so daar is geen petrolrye nie.","x22None":"Niks in hierdie tydperk nie.","x22Why":"Hoekom","x22Flag":"Merk","x22SgBy":"Nagegaan deur (naam)","x22SgSig":"Handtekening","x22SgClerk":"Brandstofklerk","x22SgSite":"Terreinbestuurder","x22Made":"Deur die app gemaak","x22Days":"Dae","x22Grid":"Laaste lesing van elke dag","x22GridY":"Laaste lesing van elke maand","x22GridW":"Lesing aan die einde van elke week","x22Ok":"✅ Geen lesings om na te kyk in hierdie tydperk nie.","x22All":"Alle tenks","x22Kind":"Wat","x22Fill":"Ingooi","x22w_wTank":"Meer as wat die tenk hou","x22w_wBack":"Meter laer as voorheen","x22w_wUse":"Gebruik te veel","x22w_wSoon":"Te gou na laaste ingooi","x22w_wSvc":"Diens nodig","x22w_wOver":"Tenk te vol","x22w_wNeg":"Tenk onder nul","x22w_wBmBack":"Pompmeter het teruggegaan","x22w_wBmDiff":"Pompmeter verskil","x22w_wPmMis":"Pompmeter pas nie","x24Pdf":"📄 Laai PDF af","x25Fix":"🔧 Maak reg","x26W":"⚠️ Dieselfde as LITER? Tik die klein TOTAAL-lyn.","x26Ck":"LITER = TOTAAL (verkeerd getik?)","x27M":"meter","x27P":"pomp","x27E":"⚠️ TOTAAL behoort omtrent %a te wees. Kyk dit na.","x27Ck":"TOTAAL behoort omtrent %a te wees","wBurn":"⚠️ Gebruik meer as normaal (%a L/u, normaal %b). Kyk dit na.","ckBurn":"🔥 Hoë verbruik %b L/u","burnPct":"Hoë verbruik: % bo normaal L/u","x28Col":"L/u","x22w_wBurn":"Hoë verbruik","x29Done":"Diens nagegaan","stkT":"📐 Voorraadopname – tenkvlak","stkTile":"Voorraad tel","stkPick":"① Kies die tenk","stkMm":"② Vlak in die tenk (mm) – lees die peilstok","stkCnt":"Liter in die tenk (getel)","stkBal":"App-balans","stkDiff":"Verskil","stkRaw":"Tabel %a L − 5 % = %b L","stkBig":"⚠️ Groot verskil (meer as %a L). Die Admin sal dit nagaan.","stkOk":"✅ Naby die app-balans.","stkSave":"✅ Stoor voorraadopname","stkPh":"📷 Foto van die peilstok (verpligtend)","stkBad":"Tik die vlak in mm (0 tot %a).","stkDone":"✅ Voorraadopname gestoor","stkLast":"Laaste voorraadopnames","stkNoTk":"Geen tenk het nog 'n tabel nie.","ckStk":"📐 Voorraadopname verskil van die app: %b","rvStk":"📐 Voorraadopnames","cStkMm":"Vlak (mm)","cStkL":"Getel (L)","cStkBal":"App-balans (L)","cStkDiff":"Verskil (L)","apHome":"%n wag vir goedkeuring","apT":"✅ Keur brandstof & ure goed","apH":"Kyk of die foto by die getalle pas, en keur dan goed.","apWait":"%n wag","apNone":"Niks wag vir goedkeuring nie. 👍","apOk":"✔ Keur goed","apFix":"Maak getalle reg","apFill":"Ingooi","apHrs":"Lesing","apBy":"deur","apL":"Liter","apM":"Meter","apPm":"Pompmeter","apNoPh":"Geen foto","apPhM":"📷 Meterfoto","apPhP":"📷 Pompfoto","apPhTap":"tik om oop te maak","apDone":"Goedgekeur ✔","apFxDone":"Reggemaak en goedgekeur ✔","apNot":"⏳ %n nog nie goedgekeur nie (ligoranje) – steeds in die totale getel","apWaitS":"⏳ Wag vir goedkeuring","x2Saved":"✅ Gestoor. 2de ingooi vandag vir hierdie voertuig – wag vir Admin se OK. Word nie getel tot goedgekeur nie.","x2Tag":"2de ingooi vandag – word nie getel tot goedgekeur nie","dyDup":"⛔ Hierdie lesing is reeds vandag vir hierdie voertuig gestoor. Nie weer gestoor nie.","x35W":"⏳ wag vir Admin – word nie getel nie","puTile":"Pomplesing","puT":"🔢 Pomplesing (TOTAAL)","puPick":"① Watter pomp / tenk?","puRead":"② Pomp se TOTAAL-lesing","puReadH":"Die groot TOTAAL-teller op die pomp – nie die liter van 'n ingooi nie.","puPh":"③ 📷 Foto van die pomp se TOTAAL","puWhen":"🕒 Datum en tyd (Tsjad):","puSave":"✅ Stoor pomplesing","puNeed":"Kies die tenk, tik die TOTAAL en neem die foto. Stoor dan.","puResT":"🔢 Pomplesing gestoor","puExp":"Verwag","puEnt":"Ingetik","puDiff":"Verskil","puHow":"Laaste lesing %a + %b L sedertdien gepomp","puFirst":"Eerste lesing vir hierdie tenk – nog niks om mee te vergelyk nie.","puOkM":"✅ Pas","puAmb":"⚠️ Klein verskil – kyk die getal","puRed":"⛔ Groot verskil – die Admin sal kyk","puLastPu":"pomplesing","puLastM":"pompmeter","camRe":"🔄 Neem weer","camUse":"✅ Gebruik foto","camWait":"Kamera begin…","camBlk":"📷 Die kamera is geblokkeer","camBlkH":"Foto's moet met die kamera geneem word. Tik Laat toe as die foon vra, of skakel die Kamera vir hierdie app / blaaier aan in die foon se instellings. Tik dan Probeer weer.","nameUrl":"Dit is 'n webskakel, nie 'n naam nie. Tik jou eie naam en van.","badName":"⚠️ Ongeldige naam ('n webskakel)","chadT":"(Tsjad)","outT":"Buite-voertuig","outS":"Nie in die lys nie – besoeker, kontrakteur, geleen","outP":"Buite","oReg":"Registrasienommer (nommerplaat)","oVin":"VIN (onderstelnommer)","oId":"Voertuig-ID (laaste 7 van die VIN)","oShort":"⚠️ VIN te kort: tik ten minste 7 letters / syfers. Stoor bly af.","oVinBad":"⚠️ Dit lyk soos 'n skakel, nie 'n VIN nie.","oRegBad":"⚠️ Tik die nommerplaat (nie 'n skakel nie).","oHit":"⚠️ %a is reeds 'n vlootvoertuig (%b). Kies dit eerder uit die lys.","oPick":"🚜 Kies %a","oKnown":"Al voorheen gesien – laaste lesing %a op %b","oNew":"Nuwe buite-voertuig","oDrv":"Bestuurder / maatskappy (opsioneel)","oNeed":"Tik registrasienommer, VIN, km of ure, liter en pomplesing, kies die tenk, neem die pompfoto. Stoor dan.","slT":"Voorraadvlak","slAt":"Laaste verandering","slSync":"Laaste opdatering van die bediener","slTz":"Tsjad-tyd","slCap":"Tenk hou %a L","updWait":"🆕 Nuwe weergawe gereed","updWait2":"Dit laai as jy terug op Tuis is. Wat jy getik het, bly.","grvRo":"Hierdie aflewering kom van TMC GRV. Verander dit in GRV.","asT":"🔗 Van TMC Assets (net lees)","asKeep":"Tenkgrootte, normale verbruik, meters en VIN bly in Fuel.","asNewT":"🆕 Nuwe voertuig van TMC Assets","asNewS":"Vul sy tenkgrootte en normale verbruik in.","asFill":"✏️ Vul in","asTag":"🔗 Assets","asTagN":"🔗 Assets · vul tenk in","asPlate":"Nommerplaat","asCamp":"Kamp","asState":"Toestand","asMeter":"Meter","asNext":"Volgende diens","asLic":"Lisensie verval","asUpd":"Bygewerk","asV_sold":"Verkoop","depH":"kan nuwe gebruikers en ingooie goedkeur, alle verslae sien en alle daaglikse werk doen. App-opdaterings bly by die hoof-Admin.","depSure":"Is jy seker?","missT":"Ontbreek nog: %s","mPhM":"meterfoto","mPhP":"pompfoto","mPh":"foto","mPh1":"foto 1","mPh2":"foto 2","mKm":"km / ure","mLit":"liter","mPm":"pomplesing","mTk":"tenk","mRd":"lesing","mDip":"peilstok mm","mSup":"verskaffer se naam","mVeh":"registrasienommer / VIN","mChk":"kyk die lesings na","phBad":"Hierdie foto kon nie gelees word nie. Neem dit weer met 📷 Neem foto.","fuDup":"⛔ Reeds gestoor","fuDupH":"Hierdie ingooi is reeds gestoor (%t). Nie weer gestoor nie.","apDup":"Moontlike duplikaat van die %t-ingooi","apDupThis":"Hierdie ingooi","apDupOther":"Die %t-ingooi","apCx":"❌ Kanselleer (verwyder)","apCxQ":"Is jy seker? Dit word gekanselleer en uit die totale en verslae gehaal.","apCxWhy":"Kort rede","apCxNeed":"Tik asseblief 'n kort rede.","apCxGo":"❌ Kanselleer dit","apCxNo":"Gaan terug","apCxDone":"✅ Gekanselleer. Dit is nie meer in die totale nie.","cxH":"Hierdie is uit Goedkeurings gekanselleer. Hulle is nie in die totale of verslae nie. Ontdoen sit 'n wagtende een terug.","cxNone":"Niks gekanselleer nie.","cxUndo":"↩️ Ontdoen kansellering","cxUndone":"✅ Kansellering ontdoen – terug in Goedkeurings.","cxBy":"Gekanselleer deur","cxWhyL":"Rede","given":"Naam","givenH":"Tik jou naam","sur":"Van","surH":"Tik jou van","needSur":"Tik asseblief jou van","shareWa":"💬 Stuur op WhatsApp","shareQr":"📷 Wys QR-kode","shareMsg":"Hier is die app:"};
+Object.assign(T.en,{"x45Sh":"Fuel report","given":"Name","givenH":"Type your name","sur":"Surname","surH":"Type your surname","needSur":"Please type your surname","shareWa":"💬 Send on WhatsApp","shareQr":"📷 Show QR code","shareMsg":"Here is the app:"});
+Object.assign(T.fr,{"x45Sh":"Rapport carburant","given":"Prénom","givenH":"Écrivez votre prénom","sur":"Nom","surH":"Écrivez votre nom","needSur":"Écrivez votre nom de famille","shareWa":"💬 Envoyer sur WhatsApp","shareQr":"📷 Voir le code QR","shareMsg":"Voici l'application :"});
+Object.assign(T.ar,{"x45Sh":"تقرير الوقود","given":"الاسم","givenH":"اكتب اسمك","sur":"اسم العائلة","surH":"اكتب اسم العائلة","needSur":"من فضلك اكتب اسم العائلة","shareWa":"💬 إرسال عبر واتساب","shareQr":"📷 عرض رمز QR","shareMsg":"هذا هو التطبيق:"});
+let lang=L.get("lang")||((navigator.language||"en").slice(0,2)==="fr"?"fr":(navigator.language||"").slice(0,2)==="ar"?"ar":(navigator.language||"").slice(0,2)==="af"?"af":"en");
 if(!T[lang])lang="en";
 const t=k=>(T[lang]&&T[lang][k]!=null)?T[lang][k]:(T.en[k]!=null?T.en[k]:k);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -317,7 +326,8 @@ function depUOk(k,data){const m=me();if(!m)return true;const o=R[k]&&!R[k].del?R
 /* fill-up / daily-reading approval by a Deputy: only ap 0 -> 1 (+ apBy / apAt), numbers untouched */
 function depApOk(kind,o,n){return isDep(me())&&(kind==="f"||kind==="dy")&&!!o&&!!n&&!(o.ap===undefined||o.ap===null||o.ap===1||o.ap==="1")&&n.ap===1&&sameExcept(o,n,["ap","apBy","apAt","apWhy"])}
 function canKind(kind,what,u){const k=(C.PERM_KINDS||{})[kind];return !k||!k[what]||can(k[what],u)}
-function permLab(p){return p[lang]||p.en}
+const PERM_AF={fill:"Ingooi",daily:"Daaglikse km/ure",dl:"Tenk-aflewerings",xf:"Oordragte",rep:"Sien verslae"};  // v1.44.0: AF without touching CONFIG
+function permLab(p){return p[lang]||(lang==="af"&&PERM_AF[p.id])||p.en}
 /* VER 6 base ADMIN FIX RULE (phone): role + token decide, never the team code alone. See tmc-base tests/admin_fix_test_spec.md. */
 function canFix(){const m=me();if(!(m&&m.admin))return false;return !!(sTok()||!sCode())}
 const FREE_K={u:1,rp:1};// u = own user record, rp = report rows the app rebuilds itself
@@ -405,8 +415,8 @@ function clearFail(k){const F=L.j("pinFail",{});delete F[k];L.sj("pinFail",F)}
 
 /* ---------------- Screens ---------------- */
 let tab="home",flow=null; // flow = sign-in sub-screen
-function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=43" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
-function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select></div>`}
+function card(inner){return `<div class="full"><div class="signin"><div class="card"><img class="logo" src="icons/icon-192.png?v=44" alt="">${inner}${insHTML()}</div><div id="ncW" class="bar ncW ncBox"></div></div></div>`}
+function langBtns(){return `<div class="langs"><select id="langSel" aria-label="Language">${["en","fr","ar","af"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":l==="af"?"Afrikaans":"العربية"}</option>`).join("")}</select></div>`}
 function pinInput(id,ph){return `<div class="pw"><input id="${id}" name="${C.APP_ID}-${id}-${Math.random().toString(36).slice(2,7)}" class="msk" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-form-type="other" placeholder="${esc(ph)}"><button type="button" class="eye" data-eye="${id}">👁</button></div>`}
 /* Redraw guard (base VER 7): once the user types or ticks in a form, a background sync does not redraw (and wipe) it.
    The new data shows on the next render() (Save, Back, tab change). Fields marked data-nodirty and the language picker don't count. */
@@ -418,7 +428,7 @@ function render(){
   if(!u){A.innerHTML=signinHTML();bindSignin();return}
   flow=null;
   if(tab==="users"&&!canApproveUsers(u))tab="home";if(tab==="work"&&!workOk(u))tab="home";if(tab==="reports"&&!(repOk(u)&&REPORTS.length))tab="home";
-  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=43" alt=""><div class="t"><span class="tN">${esc(C.SHORT)}</span><span class="hVer" id="hVer" dir="ltr">${esc(appLabel())}</span></div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
+  A.innerHTML=`<header id="hBand"><img src="icons/icon-192.png?v=44" alt=""><div class="t"><span class="tN">${esc(C.SHORT)}</span><span class="hVer" id="hVer" dir="ltr">${esc(appLabel())}</span></div><span class="hS" id="hS"><span id="sDot" class="dot"></span><span id="sTime" class="sTime"></span></span><select id="hLang" class="hLang" aria-label="Language">${["en","fr","ar","af"].map(l=>`<option value="${l}"${l===lang?" selected":""}>${l.toUpperCase()}</option>`).join("")}</select></header>
   <main><div id="ncW" class="bar ncW"></div><div id="pendW" class="bar pendW"></div><div id="view">${viewHTML(u)}</div></main>
   <nav class="tabs">${tabsOf(u).map(x=>navBtn(...x)).join("")}</nav>`;
   bindMain(u);paintSync();paintUpd();
@@ -441,9 +451,16 @@ function signinHTML(){
   if(f.s==="rej")return card(`<h2>❌ ${esc(t("rejT"))}</h2><p class="hint">${esc(t("rejH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="blk")return card(`<h2>⛔ ${esc(t("blkT"))}</h2><p class="hint">${esc(t("blkH"))}</p><button type="button" class="sec" id="fOther">${esc(t("other"))}</button>`);
   if(f.s==="gone")return card(`<h2 id="goneT">❌ ${esc(t("goneT"))}</h2><p class="hint" style="font-size:18px">${esc(t("goneH"))}</p><button type="button" id="fAgain" style="min-height:60px">${esc(t("again"))}</button><button type="button" class="sec" id="fOther" style="min-height:60px">${esc(t("other"))}</button>`);
-  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=43" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":"العربية"}</option>`).join("")}</select><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("nameH"))}" value="${esc(nameBad(L.get("lastName"))?"":(L.get("lastName")||""))}"><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert"></div></div></div>`;
+  return `<div class="full tmcS" style="--tmcS-c:${esc(C.COLOR)};--tmcS-cd:${esc(C.COLOR_DARK)}"><div class="signin"><div class="card"><img class="tmcS-logo logo" src="icons/icon-192.png?v=44" width="84" height="84" alt=""><h2 class="tmcS-t">${esc(C.NAME)}</h2><select id="langSel" class="tmcS-lang" aria-label="Language">${["en","fr","ar","af"].map(l=>`<option value="${l}"${l===lang?" selected":""}>🌐 ${l==="en"?"English":l==="fr"?"Français":l==="af"?"Afrikaans":"العربية"}</option>`).join("")}</select><label class="tmcS-lab" for="fName">${esc(t("given"))}</label><input id="fName" class="tmcS-name" name="${C.APP_ID}-who" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("givenH"))}" value="${esc(nameBad(L.get("lastName"))?"":lastGiven())}" aria-label="${esc(t("given"))}" required><label class="tmcS-lab" for="fSur">${esc(t("sur"))}</label><input id="fSur" class="tmcS-name tmcS-sur" name="${C.APP_ID}-sur" type="text" autocomplete="off" autocapitalize="words" spellcheck="true" autocorrect="on" data-lpignore="true" data-1p-ignore="true" placeholder="${esc(t("surH"))}" value="${esc(nameBad(L.get("lastName"))?"":lastSur())}" aria-label="${esc(t("sur"))}" required><p class="err tmcS-err" id="fErr"></p><button type="button" id="fName2" class="tmcS-go">${esc(t("go"))}</button>${insHTML()}</div><div id="ncW" class="bar ncW ncBox" role="alert" style="display:none"></div></div></div>`;
 }
 function err(m){const e=$("fErr");if(e){e.textContent=m;e.style.display="block"}}
+/* v1.44.0 Name + Surname (base VER 17): new users type Name and Surname; saved as "Name Surname". Old one-word names still sign in. */
+function joinName(g,s){return clean(clean(g)+" "+clean(s))}
+function splitLast(n){n=clean(n);if(!n)return{g:"",s:""};const i=n.lastIndexOf(" ");return i<0?{g:n,s:""}:{g:clean(n.slice(0,i)),s:clean(n.slice(i+1))}}
+function lastGiven(){const v=L.get("lastGiven");return v!=null&&v!==""?v:splitLast(L.get("lastName")||"").g}
+function lastSur(){const v=L.get("lastSur");return v!=null?v:splitLast(L.get("lastName")||"").s}
+function isOneWord(n){n=clean(n);return !!n&&!/\s/.test(n)}
+window.TMC.joinName=joinName;window.TMC.splitLast=splitLast;
 function bindCommon(){
   document.querySelectorAll("#langSel").forEach(b=>b.onchange=()=>{lang=b.value;L.set("lang",lang);render()});
   document.querySelectorAll("[data-eye]").forEach(b=>b.onclick=()=>{const i=$(b.dataset.eye);i.classList.toggle("shw")});
@@ -453,8 +470,10 @@ function bindSignin(){
   bindCommon();
   const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
   on("fOther",()=>{flow=null;render()});
-  on("fName2",()=>startName($("fName").value));
-  const n=$("fName");if(n)n.onkeydown=e=>{if(e.key==="Enter")startName(n.value)};
+  on("fName2",()=>startFromBoxes());
+  const n=$("fName"),su=$("fSur");
+  if(n)n.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();if(su&&!clean(su.value))su.focus();else startFromBoxes()}};
+  if(su)su.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();startFromBoxes()}};
   on("fRetry",()=>startName(flow.name));
   on("fCheck",()=>{if(tokMode())return srvLookup(flow.name,false);const nm=flow.name;syncNow().then(()=>{const K=NK(nm);if(!users().some(u=>NK(u.name)===K)){flow={s:"gone",name:nm};return render()}lookup(nm)})});  // VER 7 base: request removed → offer a fresh one
   on("fAgain",()=>startName(flow.name));
@@ -462,26 +481,29 @@ function bindSignin(){
   const p=$("fPin");if(p){p.focus();p.onkeydown=e=>{if(e.key==="Enter")(flow.s==="pin"?checkPin:setPin)()}}
 }
 /* VER 4 token flow: ask the script who this name is (works on a fresh phone with no code) */
-async function startName(raw){
+function startFromBoxes(){const g=clean(($("fName")||{}).value),s=clean(($("fSur")||{}).value);if(!g)return err(t("needName"));if(!s){L.set("lastGiven",g);L.set("lastSur","");L.set("lastName",g);return startName(g,{needSurIfNew:true})}const name=joinName(g,s);L.set("lastGiven",g);L.set("lastSur",s);L.set("lastName",name);return startName(name)}
+function needSurBack(){flow=null;render();return err(t("needSur"))}
+async function startName(raw,opt){
   const name=clean(raw);if(!name)return err(t("needName"));
-  L.set("lastName",name);
-  if(tokMode())return srvLookup(name,true);
+  const needSur=!!(opt&&opt.needSurIfNew);
+  if(!needSur)L.set("lastName",name);
+  if(tokMode())return srvLookup(name,!needSur,{needSurIfNew:needSur});
   // fresh phone / reinstall: pull everything from the Sheet BEFORE matching the name
   if(syncOn()&&!(+(L.get("since")||0)>0)){flow={s:"loading",name:name};render();await syncNow();
     if(!(+(L.get("since")||0)>0)&&!users().length){flow={s:"net",name:name};render();return}}
-  lookup(name);
+  lookup(name,false,needSur);
 }
-async function srvLookup(name,reg){
+async function srvLookup(name,reg,opt){
   flow={s:"loading",name:name};render();
   let j;try{j=await api({action:"status",name:name});if(j&&j.ok&&j.state==="none"&&reg)j=await api({action:"register",name:name})}catch(e){j=null}
-  if(!j||!j.ok){if(users().length)return lookup(name,true);flow={s:"net",name:name};return render()}
+  if(!j||!j.ok){if(users().length)return lookup(name,true,opt&&opt.needSurIfNew);flow={s:"net",name:name};return render()}
   const st=j.state;
   if(st==="active"){const u=users().find(x=>x.id===j.id)||{id:j.id,name:j.name};flow={s:j.hasPin?"pin":"set",u:Object.assign({},u,{name:j.name,salt:j.salt||u.salt}),name:name,srv:1};return render()}
   if(st==="setup"){flow={s:"set",setup:true,u:{id:"",name:C.ADMIN_NAME},name:name,srv:1};return render()}
   if(st==="blocked"){flow={s:"blk",name:name};return render()}
   if(st==="rejected"){flow={s:"rej",name:name};return render()}
   if(st==="dup"||(st==="pending"&&j.other)){flow={s:"dup",name:name,srv:1};return render()}  // ONE request per name per app
-  if(st==="none"&&!reg){flow={s:"gone",name:name};return render()}  // VER 7 base: the Admin removed this request
+  if(st==="none"&&!reg){if(opt&&opt.needSurIfNew)return needSurBack();flow={s:"gone",name:name};return render()}  // VER 7 base: the Admin removed this request
   flow={s:"wait",name:name,srv:1};render();
 }
 async function gotToken(j,u){
@@ -491,7 +513,7 @@ async function gotToken(j,u){
   if(!me_.pinH&&u&&u.pinH){me_.pinH=u.pinH;me_.salt=u.salt;saveR()}
   L.set("uid",me_.id);L.set("uok",me_.id+":"+me_.pinH);tab="home";flow=null;render();
 }
-function lookup(name,localOnly){
+function lookup(name,localOnly,needSur){
   if(tokMode()&&!localOnly)return srvLookup(name,true);
   const K=NK(name),all_=users().filter(u=>NK(u.name)===K),ok=all_.filter(approved);
   if(ok.length===1){if(!ok[0].pinH&&ok[0].hasPin&&!tokMode()&&navigator.onLine&&!localOnly)return srvLookup(name,true);if((tokMode()||ok[0].hasPin)&&!ok[0].pinH){flow={s:"net",name:name};return render()}  // token phones only hold their own PIN hash
@@ -501,6 +523,7 @@ function lookup(name,localOnly){
     if(all_.some(u=>u.status==="rejected")){flow={s:"rej",name:name};return render()}
     if(!hasAdmin()&&K===ADMIN_KEY){flow={s:"set",setup:true,u:{id:"u"+Date.now(),name:C.ADMIN_NAME,status:"active",admin:1,dev:dev,at:new Date().toISOString()},name:name};return render()}
   }
+  if(needSur&&isOneWord(name)&&K!==ADMIN_KEY&&!users().some(u=>NK(u.name)===K))return needSurBack();  // v1.44.0: brand-new one-word name → ask for the surname
   // no single approved match (none, or 2+ sharing the key): a normal approval request
   if(tokMode()){flow={s:"net",name:name};return render()}  // token phones register on the server only
   const own=users().find(u=>u.status==="pending"&&NK(u.name)===K&&(ok.length<2||(u.dev===dev&&clean(u.name).toLowerCase()===name.toLowerCase())));
@@ -532,11 +555,13 @@ async function setPin(){
 function viewHTML(u){
   if(tab==="work")return workHTML(u);
   if(tab==="users")return usersHTML(u);
+  if(tab==="settings"&&shareQr)return shareQrHTML();
+  if(tab==="settings"&&syncScr)return syncHTML(u);
   if(tab==="settings")return settingsHTML(u);
   if(tab==="can")return canHTML(u);
   if(tab==="reports")return repScreenHTML(u);
   const np=users().filter(x=>x.status==="pending").length;
-  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=43" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(lang==="ar"?"ar-TD":lang==="fr"?"fr-FR":"en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
+  return `<div class="box hhero" id="hHero"><img src="icons/icon-192.png?v=44" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><div id="hDate">${esc(new Date().toLocaleDateString(dLoc(),{weekday:"long",day:"numeric",month:"long",year:"numeric"}))}</div><div class="hhi" id="hHello">👋 ${esc(t("hello"))}, ${esc(u.name)}</div></div></div><button type="button" class="sec loBand" id="hOut">${esc(t("logout"))}</button>
   <div class="tiles">${tabsOf(u).filter(x=>x[0]!=="home").map(([k,ic,n])=>`<button type="button" class="tile" data-tab="${k}"${k==="can"?' id="hCan"':""}><b>${ic}</b>${esc(t(k))}${n?` (${n})`:""}</button>`).join("")}</div>`;
 }
 /* ---- PHOTO: every photo field = 2 big buttons (camera OR phone gallery), same handler ----
@@ -998,7 +1023,7 @@ function bindWork(u){
   bindFix();
 }
 // Home gets the big fuel buttons on top; Work tab opens the fuel menu.
-const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=43" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
+const baseView=viewHTML;viewHTML=function(u){return tab==="home"?`<div class="card hhero"><img src="icons/icon-192.png?v=44" alt="" width="64" height="64"><div><h2>${esc(C.NAME)}</h2><small class="hint">${esc(u.name)}</small></div></div>`+fuelTiles(u)+baseView(u).replace(/<button type="button" class="tile" data-tab="work">.*?<\/button>/,""):baseView(u)};
 const baseBind=bindMain;bindMain=function(u){baseBind(u);document.querySelectorAll("[data-fv]").forEach(b=>b.onclick=()=>{fv=b.dataset.fv;if(fv==="pick")fs={};tab="work";render();scrollTo(0,0)});
   document.querySelectorAll("nav [data-tab=work]").forEach(b=>{const o=b.onclick;b.onclick=()=>{fv="menu";o()}})};
 // Admin Settings: warning limits box (synced to all phones).
@@ -1393,7 +1418,7 @@ function rp14(a,b){const V={};vehs().forEach(v=>V[v.id]=v);const prev={},byV={},
     drv:R(byD).sort((p,q)=>q.l-p.l),wk:R(byW).sort((p,q)=>p.wk.localeCompare(q.wk))}}
 function kmhs14(a,b){return vehs().map(v=>{const L=dayReadings(v.id).filter(r=>r.day>=a&&r.day<=b);if(!L.length)return null;
   const used=L.reduce((s,r)=>s+(isFinite(r.used)&&r.used>0?r.used:0),0);return {veh:v.fleet||"?",unit:isH(v)?t("c14H"):t("c14Km"),days:L.length,from:L[0].prev!=null?L[0].prev:"",to:L[L.length-1].meter,used:r1(used)}}).filter(Boolean)}
-const TT=k=>({en:T.en[k],fr:T.fr[k],ar:T.ar[k]});
+const TT=k=>({en:T.en[k],fr:T.fr[k],ar:T.ar[k],af:T.af[k]});
 addReport({id:"veh",title:TT("rv14Veh"),cols:[{key:"veh",label:"c14Veh"},{key:"unit",label:"c14Unit"},{key:"fills",label:"c14Fills",num:true,sum:true},{key:"l",label:"c14L",num:true,d:1,sum:true},{key:"dist",label:"c14Dist",num:true,d:1,sum:true},{key:"use",label:"c14Use"}],rows:(a,b)=>rp14(a,b).veh});
 addReport({id:"drv",title:TT("rv14Drv"),cols:[{key:"drv",label:"c14Drv"},{key:"fills",label:"c14Fills",num:true,sum:true},{key:"l",label:"c14L",num:true,d:1,sum:true},{key:"km",label:"c14Km",num:true,d:1,sum:true},{key:"h",label:"c14H",num:true,d:1,sum:true}],rows:(a,b)=>rp14(a,b).drv});
 addReport({id:"wk",title:TT("rv14Wk"),cols:[{key:"wk",label:"c14Wk"},{key:"fills",label:"c14Fills",num:true,sum:true},{key:"l",label:"c14L",num:true,d:1,sum:true},{key:"km",label:"c14Km",num:true,d:1,sum:true},{key:"h",label:"c14H",num:true,d:1,sum:true}],rows:(a,b)=>rp14(a,b).wk});
@@ -1452,22 +1477,28 @@ function bindUsers(){
     u.perms=(C.PERMS||[]).map(p=>p.id).filter(id=>s.has(id));put("u",u.id,u);render()});
   document.querySelectorAll("button[data-dep]").forEach(b=>b.onclick=()=>{const on=b.dataset.on==="1";if(!on){depAsk(()=>{setDeputy(b.dataset.dep,false);render()});return}setDeputy(b.dataset.dep,true);render()});  /* v1.43.1: Deputy Admin toggle; Are you sure? before remove */
 }
-function settingsHTML(u){
+let shareQr=0,syncScr=0;  // v1.44.0: Settings → own Share app / Sync screens
+function syncHTML(u){
   const lo=+(L.get("lastOk")||0);
-  return `<div class="box"><h3>🌐 ${esc(t("lang"))}</h3>${langBtns()}</div>
-  <div class="box"><h3>🔄 ${esc(t("sync"))}</h3><p class="hint" id="sLine"></p><p class="hint">${esc(t("last"))}: ${lo?esc(new Date(lo).toLocaleDateString(dLoc(),{day:"numeric",month:"short",year:"numeric"})+" "+hm(new Date(lo))):"—"}</p><button type="button" id="hSync">${esc(t("syncNow"))}</button>
+  return `<div class="box" id="syncScrBox"><h3>🔄 ${esc(t("sync"))}</h3><p class="hint" id="sLine"></p><p class="hint">${esc(t("last"))}: ${lo?esc(new Date(lo).toLocaleDateString(dLoc(),{day:"numeric",month:"short",year:"numeric"})+" "+hm(new Date(lo))):"—"}</p><button type="button" id="hSync">${esc(t("syncNow"))}</button>
   ${u.admin?`<label class="hint">${esc(t("syncUrl"))}</label><div class="pw"><input id="sUrl" class="msk" type="text" autocomplete="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" name="${C.APP_ID}-su" value="${esc(sUrl())}"><button type="button" class="eye" data-eye="sUrl">👁</button></div>
   <label class="hint">${esc(t("syncCode"))}</label><div class="pw"><input id="sCode" class="msk" type="text" autocomplete="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" name="${C.APP_ID}-sc" value="${esc(sCode())}"><button type="button" class="eye" data-eye="sCode">👁</button></div>
-  <button type="button" class="sec" id="sSave">${esc(t("save"))}</button>`:""}</div>
-  <div class="box"><h3>ℹ️ ${esc(t("ver"))} ${C.VER}</h3><button type="button" class="sec" id="uChk">${esc(t("updChk"))}</button><p class="hint" id="uMsg"></p></div>
-  <div class="box"><button type="button" class="sec" id="hShare">📤 ${esc(t("share"))}</button>${insHTML()}<button type="button" class="sec loBand" id="sOut">${esc(t("logout"))}</button><button type="button" class="sec" id="sWipe">${esc(t("wipe"))}</button></div>`;
+  <button type="button" class="sec" id="sSave">${esc(t("save"))}</button>`:""}</div>`;
 }
+function settingsHTML(u){
+  return `<div class="box"><h3>🌐 ${esc(t("lang"))}</h3>${langBtns()}</div>
+  <div class="box" id="syncBox"><button type="button" id="hOpenSync">🔄 ${esc(t("sync"))}</button></div>
+  <div class="box"><h3>ℹ️ ${esc(t("ver"))} ${C.VER}</h3><button type="button" class="sec" id="uChk">${esc(t("updChk"))}</button><p class="hint" id="uMsg"></p></div>
+  <div class="box" id="shareBox"><button type="button" id="hShare">📤 ${esc(t("share"))}</button></div>
+  <div class="box">${insHTML()}<button type="button" class="sec loBand" id="sOut">${esc(t("logout"))}</button><button type="button" class="sec" id="sWipe">${esc(t("wipe"))}</button></div>`;
+}
+
 function bindMain(u){
   {const hl=$("hLang");if(hl)hl.onchange=()=>{lang=hl.value;L.set("lang",lang);render()}}
   bindCommon();
-  document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render()});
+  document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{tab=b.dataset.tab;shareQr=0;syncScr=0;render()});
   const on=(id,f)=>{const e=$(id);if(e)e.onclick=f};
-  on("hSync",()=>syncNow());on("hShare",shareModal);
+  on("hSync",()=>syncNow());on("hOpenSync",openSyncScr);on("hShare",openShareQr);on("hWa",shareViaWhatsApp);if(shareQr)drawShareQr();
   on("sSave",()=>{relogNo=0;L.set("syurl",$("sUrl").value.trim());L.set("sycode",$("sCode").value.trim());L.del("since");syncNow().then(render)});
   on("uChk",()=>checkUpdate(true));
   on("sOut",logout);on("hOut",logout);on("sWipe",wipe);
@@ -1564,6 +1595,39 @@ function insHTML(){if(standalone())return "";if(bip)return `<button type="button
 function bindIns(){document.querySelectorAll(".insB").forEach(b=>b.onclick=async()=>{if(!bip)return;bip.prompt();try{await bip.userChoice}catch(e){}bip=null;render()})}
 
 /* ---------------- Share app + QR ---------------- */
+/* v1.44.0 SHARE APP (base VER 16): Share screen = big grey Back, QR already showing (bundled shared/qr.js, offline),
+   scan line + link, then Send on WhatsApp (falls back to the phone share sheet). Link = this app's own address. */
+function appShareUrl(){try{return new URL("./",location.href).href}catch(e){return String(location.href||"").split("#")[0]}}
+function shareText(){return t("shareMsg")+" "+appShareUrl()}
+function shareCopy(text){try{navigator.clipboard.writeText(text).then(()=>toast(t("copied")))}catch(e){toast(text)}}
+function shareSheet(url,text){
+  if(navigator.share)return navigator.share({title:C.NAME,text:t("shareMsg"),url:url}).catch(e=>{if(!e||e.name!=="AbortError")shareCopy(text)});
+  shareCopy(text);
+}
+function shareViaWhatsApp(){
+  const url=appShareUrl(),text=shareText(),wa="whatsapp://send?text="+encodeURIComponent(text);
+  window.TMC._lastShare={type:"whatsapp",href:wa,url:url,text:text};
+  if(typeof window.TMC._waOpen==="function"){if(window.TMC._waOpen(wa,text,url))return;shareSheet(url,text);return}
+  let left=false;
+  const mark=()=>{if(document.hidden)left=true};
+  document.addEventListener("visibilitychange",mark);
+  try{const a=document.createElement("a");a.href=wa;a.rel="noopener";a.style.display="none";document.body.appendChild(a);a.click();a.remove()}catch(e){}
+  setTimeout(()=>{document.removeEventListener("visibilitychange",mark);if(!left&&!document.hidden)shareSheet(url,text)},900);
+}
+function shareQrHTML(){
+  const url=appShareUrl();
+  return `<div class="box" id="shareQrBox"><canvas id="shareQrCv" class="qrCv" width="280" height="280" aria-label="QR"></canvas><p class="hint">${esc(t("shareH"))}</p><p id="shareQrUrl" style="word-break:break-all"><b>${esc(url)}</b></p><button type="button" id="hWa">${esc(t("shareWa"))}</button></div>`;
+}
+function drawShareQr(){
+  const cv=$("shareQrCv"),url=appShareUrl(),out=$("shareQrUrl");
+  if(out)out.querySelector("b")&& (out.querySelector("b").textContent=url);
+  if(!cv)return;
+  if(window.TMCQR&&typeof TMCQR.draw==="function"){TMCQR.draw(cv,url);return}
+  cv.style.display="none";
+}
+function openShareQr(){shareQr=1;syncScr=0;render();scrollTo(0,0)}
+function openSyncScr(){syncScr=1;shareQr=0;render();scrollTo(0,0)}
+window.TMC.appShareUrl=appShareUrl;window.TMC.shareViaWhatsApp=shareViaWhatsApp;window.TMC.openShareQr=openShareQr;window.TMC.openSyncScr=openSyncScr;
 function shareModal(){
   const url=C.SHARE_URL||new URL("./",location.href).href;
   const m=document.createElement("div");m.className="modal";
@@ -2048,7 +2112,7 @@ function x22Xlsx(D){const P=x22Pages(D),R=[],plain=c=>{const o=c&&typeof c==="ob
       if(tb.foot)R.push(tb.foot.map(c=>{const v=plain(c).v;return typeof v==="number"&&isFinite(v)?{v:r1(v),d:Number.isInteger(r1(v))?0:1,s:"t"}:{v:v==null?"":String(v),s:"t"}}))});
     if(pg.sign)["x22SgClerk","x22SgSite","x22SgAdm"].forEach(k=>R.push([{v:t(k),s:"bold"},t("x22SgBy")+": ____________",t("x22SgSig")+": ____________",t("x22SgDate")+": ________"]));R.push([])});
   const nm=(C.SHORT+" fuel report "+(D.a===D.b?D.a:D.a+" to "+D.b)).replace(/[\\\/:*?"<>|]/g," ");
-  return {name:nm+".xlsx",blob:XL.book("Fuel report",R,[24,14,12,12,12,12,12,14,12,12,10,14,26],C.REPORT_COLOR)}}
+  return {name:nm+".xlsx",blob:XL.book(t("x45Sh"),R,[24,14,12,12,12,12,12,14,12,12,10,14,26],C.REPORT_COLOR)}}
 function x22DashRows(a,b){const R0={a:a||"0000-01-01",b:b||"9999-12-31"},price=x22Price();
   return x22Vs().map(v=>{const P=vehPeriod(v,R0.a,R0.b);return {veh:x22Nm(v),fleet:v.fleet||"",l:P.litres,used:P.used,cost:Math.round(P.litres*price)}}).filter(r=>r.l>0||r.used>0)}
 addReport({id:"xl",title:TT("x22T"),cols:[{key:"veh",label:"x22Name"},{key:"fleet",label:"x22Fleet"},{key:"l",label:"x22Dl",num:true,d:1,sum:true},{key:"used",label:"x22Used",num:true,d:1,sum:true},{key:"cost",label:"x22Cost",num:true,sum:true}],rows:(a,b)=>x22DashRows(a,b)});
@@ -2382,6 +2446,9 @@ Object.assign(T.fr,{navBack:"← Retour",navLeave:"Quitter sans enregistrer ?",n
 if(T.ar)Object.assign(T.ar,{navBack:"→ رجوع",navLeave:"المغادرة بدون حفظ؟",navYes:"نعم",navNo:"لا"});
 const NAV={st:[],last:"",up:0,skip:0,pass:0,sticky:0,saved:0,keys:[],sets:[],ups:[],sel:[],dirty:[],clear:[]};
 NAV.ups.push(()=>{if(tab==="reports"&&typeof rp!=="undefined"&&rp.id&&REPORTS.length>1){rp.id=null;return true}return false});
+NAV.ups.push(()=>{if(shareQr){shareQr=0;return true}if(syncScr){syncScr=0;return true}return false});
+NAV.keys.push(o=>{if(shareQr)o.qr=1;if(syncScr)o.sy=1;return o});
+NAV.sets.push(o=>{shareQr=o.qr?1:0;syncScr=o.sy?1:0});
 function navKey(){let o={t:tab};NAV.keys.forEach(f=>{o=f(o)||o});return JSON.stringify(o)}
 function navTyped(){return [...document.querySelectorAll("#view input,#view textarea")].some(el=>{const ty=(el.type||"").toLowerCase();if(el.disabled||el.readOnly||/^(button|submit|reset|hidden|checkbox|radio|range|color)$/.test(ty))return false;if(ty==="file")return !!(el.files&&el.files.length);const v=(el.value||"").trim();if(!v)return false;return /^(date|time|datetime-local|month|week)$/.test(ty)?el.value!==el.defaultValue:true})}
 function navDirty(){return NAV.dirty.some(f=>{try{return !!f()}catch(e){return false}})||((!!formDirty||!!NAV.sticky)&&navTyped())}
@@ -2764,7 +2831,7 @@ function uMeta(u){if(!u||u.admin&&u.status!=="pending")return "";const at=Date.p
 Object.assign(T.en,{nameUrl:"That is a web link, not a name. Type your own first name and surname.",badName:"⚠️ Invalid name (a web link)",chadT:"(Chad)"});
 Object.assign(T.fr,{nameUrl:"C'est un lien internet, pas un nom. Tapez votre prénom et votre nom.",badName:"⚠️ Nom invalide (un lien internet)",chadT:"(Tchad)"});
 Object.assign(T.ar,{nameUrl:"هذا رابط إنترنت وليس اسمًا. اكتب اسمك الأول واسم العائلة.",badName:"⚠️ اسم غير صالح (رابط إنترنت)",chadT:"(تشاد)"});
-{const s0=startName;startName=function(raw){const n=clean(raw);if(!n)return err(t("needName"));if(nameBad(n)){if(nameBad(L.get("lastName")))L.del("lastName");const i=$("fName");if(i){i.value="";i.focus()}return err(t("nameUrl"))}return s0.call(this,n)}}
+{const s0=startName;startName=function(raw,opt){const n=clean(raw);if(!n)return err(t("needName"));if(nameBad(n)){if(nameBad(L.get("lastName")))L.del("lastName");L.del("lastGiven");L.del("lastSur");const i=$("fName"),i2=$("fSur");if(i2)i2.value="";if(i){i.value="";i.focus()}return err(t("nameUrl"))}return s0.call(this,n,opt)}}
 window.TMC.nameBad=nameBad;
 /* v39 POPUPS: long unbroken text (a link-like name) stays inside every popup card – 360 px phone and laptop width (base modal CSS, same fix for TMC Base) */
 {const st=document.createElement("style");st.textContent=".modal .card{box-sizing:border-box;min-width:0;max-width:min(440px,100%);max-height:calc(100vh - 32px);overflow-y:auto}"+
@@ -2779,7 +2846,7 @@ if(navigator.webdriver)window.TMC.popupTest={share:()=>shareModal(),nav:()=>navA
    "Rapport/s", "Utilisate/urs", "Réglage/s", "المستخد/مون" at 360 px. Now: wrap only between words; if a word is still too wide the font
    shrinks (13 → 11 px, never smaller); if it still does not fit, a shorter menu-only label is used (NAV_SHORT). Same idea as TMC Base's tab fit. */
 {const st=document.createElement("style");st.textContent="nav.tabs .tlab{overflow-wrap:normal!important;word-break:normal!important;hyphens:none!important;-webkit-hyphens:none!important;white-space:normal;max-width:100%}";document.head.appendChild(st)}
-const NAV_SHORT={fr:{users:"Équipe",reports:"Rapp.",settings:"Régl."},ar:{users:"الفريق",settings:"الضبط"},en:{settings:"Setup",reports:"Report"}};
+const NAV_SHORT={fr:{users:"Équipe",reports:"Rapp.",settings:"Régl."},ar:{users:"الفريق",settings:"الضبط"},en:{settings:"Setup",reports:"Report"},af:{reports:"Verslag"}};
 function navWordsFit(l){const w=l.clientWidth+0.5;let okk=true;l.childNodes.forEach(n=>{if(n.nodeType!==3)return;const re=/\S+/g;let m;
   while((m=re.exec(n.data))){const r=document.createRange();r.setStart(n,m.index);r.setEnd(n,m.index+m[0].length);
     const rs=[...r.getClientRects()].filter(x=>x.width>0.5);if(new Set(rs.map(x=>Math.round(x.top))).size>1||rs.reduce((a,x)=>a+x.width,0)>w)okk=false}});return okk}
@@ -2929,7 +2996,7 @@ Object.assign(window.TMC,{updDraft:updDraft,updWant:()=>updWant});
 /* ==== Fuel v41 (Johan via TMC Base, 14 Nov 2026 05:42) – ONE update: version label, update bar under the header (old blue box gone),
    TMC Assets vehicle list (read-only, from Fuel's own server via the normal sync = kind "am"), GRV diesel deliveries (server-written
    deliveries d:grv_<grvId>, counted like any delivery, never changed on the phone). With no "am" / GRV records the phone works exactly like v40. ==== */
-function appLabel(){return "v1.43.1"}   // TMC version standard: vMAJOR.MINOR.PATCH, same as the sw.js cache tmc-fuel-v1.43.1
+function appLabel(){return "v1.44.0"}   // TMC version standard: vMAJOR.MINOR.PATCH, same as the sw.js cache tmc-fuel-v1.43.1
 {const st=document.createElement("style");st.textContent="header .t{display:flex;flex-direction:column;justify-content:center;line-height:1.15}header .tN{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}header .hVer{display:block;font-size:10px;line-height:1.2;font-weight:600;color:#333333;white-space:nowrap}"+
  "#updGo.updBar{top:var(--updTop,0px)!important;z-index:4}body.updBarOn main{padding-top:var(--updH,0px)}"+
  ".asBox{background:#eef6ff;border:2px solid #60a5fa;border-radius:12px;padding:8px 10px;margin:8px 0}.asBox h3{margin:0 0 6px;font-size:18px}.asRow{display:flex;gap:8px;justify-content:space-between;border-bottom:1px solid #dbeafe;padding:3px 0;font-size:15px}.asRow b{text-align:end;word-break:normal;overflow-wrap:anywhere}"+
